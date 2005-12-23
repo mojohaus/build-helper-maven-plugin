@@ -63,7 +63,7 @@ public class AddTestSourceMojo
     public void execute()
         throws MojoExecutionException
     {
-		this.project.addCompileSourceRoot( this.directory.getAbsolutePath() );
+		this.project.addTestCompileSourceRoot( this.directory.getAbsolutePath() );
         
         
         this.getLog().info( "Test Source directory: " + this.directory + " added." );
