@@ -1,0 +1,66 @@
+ ------
+ Maven 2 dependency Plugin
+ ------
+
+How to use
+
+ Brief examples on how to use the build-helper-maven-plugin's goals.
+ 
+* <add-source>
+
+
+-------------------
+<project>
+
+  ...
+  <build>
+   <plugins>
+     <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+                <directory>somewhere</directory>
+            </configuration>
+          </execution>
+        </exections>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+-------------------
+
+* <add-test-source>
+
+-------------------
+
+<project>
+
+  ...
+  <build>
+   <plugins>
+     <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>add-test-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+                <directory>somewhere</directory>
+            </configuration>
+          </execution>
+        </exections>
+      </plugin>
+    </plugins>
+  </build>
+</project>
