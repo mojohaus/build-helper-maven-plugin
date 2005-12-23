@@ -1,0 +1,51 @@
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>mojo</artifactId>
+    <version>5</version>
+  </parent>
+
+  <name>Maven Build Helper Plugin</name>
+  
+  <artifactId>build-helper-maven-plugin</artifactId>
+  
+  <version>1.0-alpha-1-SNAPSHOT</version>
+  
+  <packaging>maven-plugin</packaging>
+  
+  <inceptionYear>2005</inceptionYear>
+  
+  <developers>
+    <developer>
+      <name>Dan Tran</name>
+      <email>dantran@gmail.com</email>
+      <roles>
+        <role>Developer</role>
+      </roles>
+      <timezone>5</timezone>
+    </developer>
+  </developers>
+    
+  <dependencies>
+
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-project</artifactId>
+      <version>2.0</version>
+    </dependency>    
+
+  </dependencies>
+  
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </reporting>  
+
+</project>
