@@ -48,28 +48,5 @@
     </plugins>
   </reporting>  
 
-  <distributionManagement>
-    <snapshotRepository>
-      <id>snapshots</id>
-      <name>Maven Central Plugins Development Repository</name>
-      <url>scpexe://repo1.maven.org/home/projects/maven/repository-staging/snapshots/maven2</url>
-    </snapshotRepository>
-    <repository>
-      <id>repo1</id>
-      <name>Maven Central Plugins Repository</name>
-      <url>scpexe://repo1.maven.org/home/projects/maven/repository-staging/to-ibiblio/maven2</url>
-    </repository>
-  </distributionManagement>
   
-  <build>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-         <artifactId>wagon-ssh-external</artifactId>
-         <version>1.0-alpha-5</version>
-      </extension>
-    </extensions>
-  </build>
-  
-
 </project>
