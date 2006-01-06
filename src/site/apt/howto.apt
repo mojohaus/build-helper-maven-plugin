@@ -73,6 +73,8 @@ How to use
   </build>
 </project>
 
+-------------------
+
 * <attach-artifact>
 
   Typically run after antrun:run to attach antrun's build outputs to the project
