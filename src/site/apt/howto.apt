@@ -76,7 +76,7 @@ How to use
 * <attach-artifact>
 
   Typically run after antrun:run to attach antrun's build outputs to the project
-  for install and deploy
+  for install and deploy.
 
 -------------------
 
@@ -88,7 +88,7 @@ How to use
    
      <plugin>
        <!-- add antrun configuration here -->
-     </plugin
+     </plugin>
         
      <plugin>
         <groupId>org.codehaus.mojo</groupId>
