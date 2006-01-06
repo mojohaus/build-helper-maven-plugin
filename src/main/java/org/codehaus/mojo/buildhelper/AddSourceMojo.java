@@ -47,10 +47,18 @@ public class AddSourceMojo
     /**
      * Additional source directory
      * @parameter 
-     * @required
+     * @deprecated Please use sources instead
      */
   
     private File directory;
+    
+    /**
+     * Additional source directories
+     * @parameter 
+     * 
+     */
+  
+    private File [] sources;    
 
     /**
      * @parameter expression="${project}"
@@ -63,10 +71,23 @@ public class AddSourceMojo
     public void execute()
         throws MojoExecutionException
     {
-		this.project.addCompileSourceRoot( this.directory.getAbsolutePath() );
+        if ( this.directory != null )
+        {
+            this.project.addCompileSourceRoot( this.directory.getAbsolutePath() );
+            
+            this.getLog().info( "Source directory: " + this.directory + " added." );
+        }
         
+        if ( this.sources != null )
+        {
+            for ( int i = 0; i < sources.length; ++i )
+            {
+                this.project.addCompileSourceRoot( this.sources[i].getAbsolutePath() );
+                
+                this.getLog().info( "Source directory: " + this.sources[i] + " added." );              
+            }
+        }
         
-        this.getLog().info( "Source directory: " + this.directory + " added." );
 
     }
 }

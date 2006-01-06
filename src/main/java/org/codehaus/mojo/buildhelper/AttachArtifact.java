@@ -24,41 +24,38 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
 */
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.project.MavenProjectHelper;
 
-
-import java.io.File;
 
 /**
- * Add test source directories to POM
- * @goal add-test-source
- * @phase generate-sources
+ * Attach additional artifacts to install and deploy
+ * @goal attach-artifacts
+ * @phase package
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id:$
  */
 
 
-public class AddTestSourceMojo
+public class AttachArtifact
     extends AbstractMojo
 {
-
+    
     /**
-     * Additional test source directory
+     * Additional source directories
      * @parameter 
-     * @deprecated Please use sources instead
+     * @required
      */
   
-    private File directory;
+    private Artifact [] artifacts;    
 
-    /**
-     * Additional test source directories
-     * @parameter 
-     * 
-     */
-  
-    private File [] sources;       
     /**
      * @parameter expression="${project}"
      * @required
@@ -66,26 +63,46 @@ public class AddTestSourceMojo
      */
     private MavenProject project;
 
+    /**
+     * Maven ProjectHelper
+     *
+     * @component
+     */
+    private MavenProjectHelper projectHelper;    
 
     public void execute()
-        throws MojoExecutionException
+        throws MojoExecutionException, MojoFailureException
     {
-        if ( this.directory != null )
+
+        this.validateArtifacts();
+        
+        for ( int i = 0 ; i < this.artifacts.length; ++ i )
         {
-            this.project.addTestCompileSourceRoot( this.directory.getAbsolutePath() );
-            
-            this.getLog().info( "Test Source directory: " + this.directory + " added." );
+            projectHelper.attachArtifact( this.project, 
+                                          this.artifacts[i].getType(), 
+                                          this.artifacts[i].getClassifier(), 
+                                          this.artifacts[i].getFile() );
         }
         
-        if ( this.sources != null )
+    }
+    
+    private void validateArtifacts()
+        throws MojoFailureException
+    {
+        // check unique of types and classifiers
+        Set extensionClassifiers = new HashSet();
+        for ( int i = 0; i < this.artifacts.length; ++i )
         {
-            for ( int i = 0; i < sources.length; ++i )
+            Artifact artifact = this.artifacts[i];
+            
+            String extensionClassifier = artifact.getType() + ":" + artifact.getClassifier();
+            
+            if ( !extensionClassifiers.add( extensionClassifier  ) )
             {
-                this.project.addTestCompileSourceRoot( this.sources[i].getAbsolutePath() );
-                
-                this.getLog().info( "Test Source directory: " + this.sources[i] + " added." );              
+                throw new MojoFailureException( "The artifact with same type and classifier: " + 
+                                                extensionClassifier + " is used more than once." );
             }
-        }       
 
+        }             
     }
 }
