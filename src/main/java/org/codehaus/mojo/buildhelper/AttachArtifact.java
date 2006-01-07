@@ -25,7 +25,6 @@ package org.codehaus.mojo.buildhelper;
 */
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.maven.plugin.AbstractMojo;
@@ -37,7 +36,7 @@ import org.apache.maven.project.MavenProjectHelper;
 
 /**
  * Attach additional artifacts to install and deploy
- * @goal attach-artifacts
+ * @goal attach-artifact
  * @phase package
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id:$
