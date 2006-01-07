@@ -48,7 +48,7 @@ public class AttachArtifact
 {
     
     /**
-     * Additional source directories
+     * Attach an array of artifact to the project
      * @parameter 
      * @required
      */
@@ -64,8 +64,8 @@ public class AttachArtifact
 
     /**
      * Maven ProjectHelper
-     *
      * @component
+     * @readonly
      */
     private MavenProjectHelper projectHelper;    
 

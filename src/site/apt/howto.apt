@@ -100,7 +100,7 @@ How to use
             <id>attach-artifacts</id>
             <phase>package</phase>
             <goals>
-              <goal>add-test-source</goal>
+              <goal>attach-artifact</goal>
             </goals>
             <configuration>
                 <artifacts>
