@@ -45,16 +45,9 @@ public class AddTestSourceMojo
 {
 
     /**
-     * Additional test source directory
-     * @parameter 
-     * @deprecated Please use sources instead
-     */
-  
-    private File directory;
-
-    /**
      * Additional test source directories
      * @parameter 
+     * @required
      * 
      */
   
@@ -69,23 +62,12 @@ public class AddTestSourceMojo
 
     public void execute()
         throws MojoExecutionException
-    {
-        if ( this.directory != null )
+    {        
+        for ( int i = 0; i < sources.length; ++i )
         {
-            this.project.addTestCompileSourceRoot( this.directory.getAbsolutePath() );
-            
-            this.getLog().info( "Test Source directory: " + this.directory + " added." );
-        }
-        
-        if ( this.sources != null )
-        {
-            for ( int i = 0; i < sources.length; ++i )
-            {
-                this.project.addTestCompileSourceRoot( this.sources[i].getAbsolutePath() );
+            this.project.addTestCompileSourceRoot( this.sources[i].getAbsolutePath() );
                 
-                this.getLog().info( "Test Source directory: " + this.sources[i] + " added." );              
-            }
-        }       
-
+            this.getLog().info( "Test Source directory: " + this.sources[i] + " added." );              
+        }
     }
 }

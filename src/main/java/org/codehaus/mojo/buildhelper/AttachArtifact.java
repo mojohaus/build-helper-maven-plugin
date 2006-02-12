@@ -35,7 +35,7 @@ import org.apache.maven.project.MavenProjectHelper;
 
 
 /**
- * Attach additional artifacts to install and deploy
+ * Attach additional artifacts to be installed and deployed
  * @goal attach-artifact
  * @phase package
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>

@@ -32,7 +32,7 @@
          <item name="Maven" href="http://maven.apache.org/maven2"/>
       </links>
 
-    <menu name="Overview">
+    <menu name="Build Helper">
       <item name="Overview" href="index.html"/>
       <item name="How to Use" href="howto.html"/>
     </menu>

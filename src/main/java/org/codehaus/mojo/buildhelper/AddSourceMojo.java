@@ -32,7 +32,7 @@ import org.apache.maven.project.MavenProject;
 import java.io.File;
 
 /**
- * Add a source directory to POM
+ * Add more source directories to POM
  * @goal add-source
  * @phase generate-sources
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
@@ -43,18 +43,11 @@ import java.io.File;
 public class AddSourceMojo
     extends AbstractMojo
 {
-
-    /**
-     * Additional source directory
-     * @parameter 
-     * @deprecated Please use sources instead
-     */
-  
-    private File directory;
     
     /**
      * Additional source directories
      * @parameter 
+     * @required
      * 
      */
   
@@ -70,24 +63,12 @@ public class AddSourceMojo
 
     public void execute()
         throws MojoExecutionException
-    {
-        if ( this.directory != null )
+    {        
+        for ( int i = 0; i < sources.length; ++i )
         {
-            this.project.addCompileSourceRoot( this.directory.getAbsolutePath() );
-            
-            this.getLog().info( "Source directory: " + this.directory + " added." );
-        }
-        
-        if ( this.sources != null )
-        {
-            for ( int i = 0; i < sources.length; ++i )
-            {
-                this.project.addCompileSourceRoot( this.sources[i].getAbsolutePath() );
+            this.project.addCompileSourceRoot( this.sources[i].getAbsolutePath() );
                 
-                this.getLog().info( "Source directory: " + this.sources[i] + " added." );              
-            }
+            this.getLog().info( "Source directory: " + this.sources[i] + " added." );              
         }
-        
-
     }
 }
