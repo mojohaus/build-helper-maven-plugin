@@ -3,9 +3,9 @@
   <modelVersion>4.0.0</modelVersion>
   
   <parent>
-    <artifactId>mojo-sandbox</artifactId>
+    <artifactId>mojo</artifactId>
     <groupId>org.codehaus.mojo</groupId>
-    <version>2-SNAPSHOT</version>
+    <version>7</version>
   </parent>
 
   <name>Maven Build Helper Plugin</name>
@@ -36,13 +36,6 @@
       <artifactId>maven-project</artifactId>
       <version>2.0.2</version>
     </dependency>    
-    
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-plugin-api</artifactId>
-      <version>2.0.2</version>
-    </dependency>
-    
 
   </dependencies>
   
