@@ -8,7 +8,7 @@
   <artifactId>build-helper-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
   <name>Maven Build Helper Plugin</name>
-  <version>1.0</version>
+  <version>1.1-SNAPSHOT</version>
   <inceptionYear>2005</inceptionYear>
   <developers>
     <developer>
