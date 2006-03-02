@@ -34,7 +34,7 @@ How to use
               </sources>
             </configuration>
           </execution>
-        </exections>
+        </executions>
       </plugin>
     </plugins>
   </build>
@@ -67,7 +67,7 @@ How to use
               </sources>
             </configuration>
           </execution>
-        </exections>
+        </executions>
       </plugin>
     </plugins>
   </build>
@@ -113,7 +113,7 @@ How to use
                 </artifacts>
             </configuration>
           </execution>
-        </exections>
+        </executions>
       </plugin>
     </plugins>
   </build>
