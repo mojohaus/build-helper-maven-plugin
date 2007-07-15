@@ -1,0 +1,38 @@
+ ------
+ Introduction
+ ------
+ Dennis Lundberg
+ ------
+ 2007-07-15
+ ------
+
+~~ Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+~~ you may not use this file except in compliance with the License.
+~~ You may obtain a copy of the License at
+~~
+~~     http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+
+
+Maven Build Helper Plugin
+
+~~  Plugin introduction, description, and other relevant information.
+
+* Goals Overview
+
+~~  General Information about the goals.
+
+  * {{{add-source-mojo.html}build-helper:add-source}}	Add more source directories to POM
+
+  * {{{add-test-source-mojo.html}build-helper:add-test-source}}	Add test source directories to POM
+
+  * {{{attach-artifact-mojo.html}build-helper:attach-artifact}}	Attach additional artifacts to be installed and deployed
+
+* Usage
+
+  Instructions on how to use the Build Helper Plugin can be found {{{usage.html}here}}.
