@@ -19,7 +19,7 @@
 ~~ limitations under the License.
 
 
-Maven Build Helper Plugin
+Build Helper Maven Plugin
 
 ~~  Plugin introduction, description, and other relevant information.
 
@@ -27,12 +27,12 @@ Maven Build Helper Plugin
 
 ~~  General Information about the goals.
 
-  * {{{add-source-mojo.html}build-helper:add-source}}	Add more source directories to POM
+  * {{{add-source-mojo.html}build-helper:add-source}} Add more source directories to POM
 
-  * {{{add-test-source-mojo.html}build-helper:add-test-source}}	Add test source directories to POM
+  * {{{add-test-source-mojo.html}build-helper:add-test-source}} Add test source directories to POM
 
-  * {{{attach-artifact-mojo.html}build-helper:attach-artifact}}	Attach additional artifacts to be installed and deployed
+  * {{{attach-artifact-mojo.html}build-helper:attach-artifact}} Attach additional artifacts to be installed and deployed
 
 * Usage
 
-  Instructions on how to use the Build Helper Plugin can be found {{{usage.html}here}}.
+  Instructions on how to use the Build Helper Maven Plugin can be found {{{usage.html}here}}.

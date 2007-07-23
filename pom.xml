@@ -10,7 +10,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>build-helper-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
-  <name>Maven Build Helper Plugin</name>
+  <name>Build Helper Maven Plugin</name>
   <version>1.1-SNAPSHOT</version>
   <prerequisites>
     <maven>2.0.2</maven>
