@@ -117,7 +117,7 @@ Usage
                 <artifact>
                   <file>some file</file>
                   <type>extension of your file </type>
-                  <classifier>optional<classifier>
+                  <classifier>optional</classifier>
                 </artifact>
                 ...
               </artifacts>
