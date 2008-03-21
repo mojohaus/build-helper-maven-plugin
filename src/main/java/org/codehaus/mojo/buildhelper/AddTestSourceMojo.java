@@ -34,7 +34,7 @@ import java.io.File;
  * Add test source directories to the POM.
  *
  * @goal add-test-source
- * @phase generate-sources
+ * @phase generate-test-sources
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
  */
