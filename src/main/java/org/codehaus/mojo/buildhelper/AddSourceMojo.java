@@ -22,7 +22,7 @@ package org.codehaus.mojo.buildhelper;
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
-*/
+ */
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -36,7 +36,7 @@ import java.io.File;
  * @goal add-source
  * @phase generate-sources
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
- * @version $Id:$
+ * @version $Id$
  */
 
 

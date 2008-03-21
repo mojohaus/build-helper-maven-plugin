@@ -51,4 +51,17 @@
       <artifactId>maven-plugin-api</artifactId>
     </dependency>
   </dependencies>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <configLocation>http://svn.apache.org/repos/asf/maven/plugins/trunk/maven-checkstyle-plugin/src/main/resources/config/maven_checks.xml</configLocation>
+          <headerLocation>header.txt</headerLocation>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>

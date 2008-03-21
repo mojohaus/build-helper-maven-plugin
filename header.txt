@@ -1,0 +1,26 @@
+^package 
+^\s*$
+^/\*\s*$
+^ \* The MIT License\s*$
+^ \*\s*$
+^ \* Copyright \(c\) \d{4}(-\d{4}){0,1}, The Codehaus\s*$
+^ \*\s*$
+^ \* Permission is hereby granted, free of charge, to any person obtaining a copy of\s*$
+^ \* this software and associated documentation files \(the "Software"\), to deal in\s*$
+^ \* the Software without restriction, including without limitation the rights to\s*$
+^ \* use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies\s*$
+^ \* of the Software, and to permit persons to whom the Software is furnished to do\s*$
+^ \* so, subject to the following conditions:\s*$
+^ \*\s*$
+^ \* The above copyright notice and this permission notice shall be included in all\s*$
+^ \* copies or substantial portions of the Software\.\s*$
+^ \*\s*$
+^ \* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\s*$
+^ \* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\s*$
+^ \* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\s*$
+^ \* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\s*$
+^ \* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\s*$
+^ \* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\s*$
+^ \* SOFTWARE\.\s*$
+^ \*/\s*$
+^\s*$

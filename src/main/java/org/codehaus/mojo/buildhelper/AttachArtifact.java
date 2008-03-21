@@ -22,7 +22,7 @@ package org.codehaus.mojo.buildhelper;
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
-*/
+ */
 
 import java.util.HashSet;
 import java.util.Set;
@@ -39,7 +39,7 @@ import org.apache.maven.project.MavenProjectHelper;
  * @goal attach-artifact
  * @phase package
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
- * @version $Id:$
+ * @version $Id$
  */
 
 
@@ -98,8 +98,8 @@ public class AttachArtifact
             
             if ( !extensionClassifiers.add( extensionClassifier  ) )
             {
-                throw new MojoFailureException( "The artifact with same type and classifier: " + 
-                                                extensionClassifier + " is used more than once." );
+                throw new MojoFailureException( "The artifact with same type and classifier: " 
+                                                + extensionClassifier + " is used more than once." );
             }
 
         }             
