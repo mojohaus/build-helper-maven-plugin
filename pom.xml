@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <artifactId>mojo</artifactId>
     <groupId>org.codehaus.mojo</groupId>
@@ -15,11 +13,14 @@
   <prerequisites>
     <maven>2.0.2</maven>
   </prerequisites>
+
   <issueManagement>
     <system>JIRA</system>
     <url>http://jira.codehaus.org/browse/MBUILDHELPER</url>
   </issueManagement>
+
   <inceptionYear>2005</inceptionYear>
+
   <developers>
     <developer>
       <name>Dan Tran</name>
@@ -30,6 +31,15 @@
       <timezone>5</timezone>
     </developer>
   </developers>
+
+  <licenses>
+    <license>
+      <name>The MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
