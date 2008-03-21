@@ -28,30 +28,26 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 
-
 import java.io.File;
 
 /**
- * Add more source directories to POM
+ * Add more source directories to the POM.
+ *
  * @goal add-source
  * @phase generate-sources
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
  */
-
-
 public class AddSourceMojo
     extends AbstractMojo
 {
-    
     /**
-     * Additional source directories
+     * Additional source directories.
+     *
      * @parameter 
      * @required
-     * 
      */
-  
-    private File [] sources;    
+    private File [] sources;
 
     /**
      * @parameter expression="${project}"

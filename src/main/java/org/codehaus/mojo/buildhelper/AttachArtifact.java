@@ -24,36 +24,33 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * Attach additional artifacts to be installed and deployed
+ * Attach additional artifacts to be installed and deployed.
+ *
  * @goal attach-artifact
  * @phase package
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
  */
-
-
 public class AttachArtifact
     extends AbstractMojo
 {
-    
     /**
-     * Attach an array of artifact to the project
+     * Attach an array of artifacts to the project.
+     *
      * @parameter 
      * @required
      */
-  
-    private Artifact [] artifacts;    
+    private Artifact [] artifacts;
 
     /**
      * @parameter expression="${project}"
@@ -63,7 +60,8 @@ public class AttachArtifact
     private MavenProject project;
 
     /**
-     * Maven ProjectHelper
+     * Maven ProjectHelper.
+     * 
      * @component
      * @readonly
      */
