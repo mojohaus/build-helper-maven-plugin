@@ -142,3 +142,29 @@ Usage
   </build>
 </project>
 -------------------
+
+* Remove previously installed project artifacts
+
+  Mainly use to remove previously installed large project artifacts in local repository before install phase starts.
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>remove-old-installers</id>
+            <goals>
+              <goal>remove-project-artifact</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+-------------------
