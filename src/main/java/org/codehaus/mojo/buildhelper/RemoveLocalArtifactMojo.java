@@ -38,7 +38,7 @@ import org.codehaus.plexus.util.FileUtils;
  * @goal remove-project-artifact
  * @phase package
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
- * @version $Id: $
+ * @version $Id$
  */
 public class RemoveLocalArtifactMojo
     extends AbstractMojo
