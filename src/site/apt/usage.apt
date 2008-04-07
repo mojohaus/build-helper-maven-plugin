@@ -143,9 +143,9 @@ Usage
 </project>
 -------------------
 
-* Remove previously installed project artifacts
+* Remove project's artifacts from local repository
 
-  Mainly use to remove previously installed large project artifacts in local repository before install phase starts.
+  Mainly used to remove previously installed large project artifacts in local repository before install phase starts.
 
 -------------------
 <project>

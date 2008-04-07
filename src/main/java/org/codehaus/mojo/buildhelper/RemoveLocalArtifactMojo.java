@@ -32,8 +32,8 @@ import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.FileUtils;
 
 /**
- * Remove previously installed project artifacts. Useful to keep only one copy of large local snapshot 
- * ( ie installers ) for disk space optimization purpose. 
+ * Remove project's artifacts from local repository. Useful to keep only one copy of large local snapshot, 
+ * for example: installer, for disk space optimization purpose. 
  *
  * @goal remove-project-artifact
  * @phase package

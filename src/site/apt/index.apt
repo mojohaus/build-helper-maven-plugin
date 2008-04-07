@@ -43,7 +43,7 @@ Build Helper Maven Plugin
 
   * {{{attach-artifact-mojo.html}build-helper:attach-artifact}} Attach additional artifacts to be installed and deployed.
 
-  * {{{remove-project-artifact-mojo.html}build-helper:remove-project-artifact}} Remove previously installed project artifacts.
+  * {{{remove-project-artifact-mojo.html}build-helper:remove-project-artifact}} Remove project's artifacts from local repository.
 
 * Usage
 
