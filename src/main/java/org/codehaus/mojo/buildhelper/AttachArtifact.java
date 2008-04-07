@@ -40,6 +40,7 @@ import java.util.Set;
  * @phase package
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
+ * @since 1.0
  */
 public class AttachArtifact
     extends AbstractMojo

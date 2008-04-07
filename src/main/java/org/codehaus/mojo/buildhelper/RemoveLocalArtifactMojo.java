@@ -39,6 +39,7 @@ import org.codehaus.plexus.util.FileUtils;
  * @phase package
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
+ * @since 1.1
  */
 public class RemoveLocalArtifactMojo
     extends AbstractMojo

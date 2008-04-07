@@ -37,6 +37,7 @@ import java.io.File;
  * @phase generate-test-sources
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
+ * @since 1.0
  */
 public class AddTestSourceMojo
     extends AbstractMojo
