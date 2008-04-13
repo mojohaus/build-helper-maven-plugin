@@ -46,6 +46,7 @@ Usage
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.1</version>
         <executions>
           <execution>
             <id>add-source</id>
@@ -80,6 +81,7 @@ Usage
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.1</version>
         <executions>
           <execution>
             <id>add-test-source</id>
@@ -118,6 +120,7 @@ Usage
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.1</version>
         <executions>
           <execution>
             <id>attach-artifacts</id>
@@ -155,6 +158,7 @@ Usage
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.1</version>
         <executions>
           <execution>
             <id>remove-old-installers</id>
