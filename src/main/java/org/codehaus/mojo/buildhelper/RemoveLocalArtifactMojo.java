@@ -69,12 +69,13 @@ public class RemoveLocalArtifactMojo
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
-        File localArtifactDirectory = new File( localRepository.getBasedir(), project.getGroupId().replace( '.', '/' )
-            + "/" + project.getArtifactId() );
+        File localArtifactFile = new File( localRepository.getBasedir(), localRepository.pathOf( project.getArtifact() ) );
 
-        if ( !removeAll )
+        File localArtifactDirectory = localArtifactFile.getParentFile();
+
+        if ( removeAll )
         {
-            localArtifactDirectory = new File( localArtifactDirectory, project.getArtifactId() + "-" + project.getVersion() );
+            localArtifactDirectory = localArtifactDirectory.getParentFile();
         }
 
         try
