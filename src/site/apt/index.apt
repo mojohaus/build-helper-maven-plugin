@@ -33,6 +33,8 @@ Build Helper Maven Plugin
 
 ~~  Plugin introduction, description, and other relevant information.
 
+  * This plugin contains various small independent goals to assist with Maven build lifecycle.
+
 * Goals Overview
 
 ~~  General Information about the goals.
