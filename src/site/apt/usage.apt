@@ -149,6 +149,10 @@ Usage
 * Remove project's artifacts from local repository
 
   Mainly used to remove previously installed large project artifacts in local repository before install phase starts.
+  The below example removes all project's artifacts including all versions from its local repository
+  at the implicit <package> phase. To remove only the current version, remove <removeAll> configuration
+  element or set it to <false>.
+  
 
 -------------------
 <project>
@@ -165,6 +169,9 @@ Usage
             <goals>
               <goal>remove-project-artifact</goal>
             </goals>
+            <configuration>
+              <removeAll>true</removeAll>
+            </configuration>
           </execution>
         </executions>
       </plugin>
