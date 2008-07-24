@@ -33,11 +33,11 @@ import org.apache.maven.project.MavenProject;
  * Reserve a list of random and not in used network ports and place them 
  * in a configurable project properties. 
  * 
- * @goal reserve-network-ports
+ * @goal reserve-network-port
  * @phase process-test-classes
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id: ReserveListnerPortMojo.java 6754 2008-04-13 15:14:04Z dantran $
- * @since 1.1
+ * @since 1.2
  */
 public class ReserveListenerPortMojo
     extends AbstractMojo
@@ -47,6 +47,7 @@ public class ReserveListenerPortMojo
      * A List to property names to be placed in maven project
      * @parameter 
      * @required
+     * @since 1.2
      * 
      */
     private String [] names = new String[0];
@@ -55,6 +56,7 @@ public class ReserveListenerPortMojo
      * @parameter expression="${project}"
      * @required
      * @readonly
+     * @since 1.2
      */
     private MavenProject project;
 
@@ -81,7 +83,7 @@ public class ReserveListenerPortMojo
         }
         catch ( IOException e )
         {
-            throw new MojoExecutionException( "Error getting an avaiable port from system", e );
+            throw new MojoExecutionException( "Error getting an available port from system", e );
         }
 
         return unusedPort;

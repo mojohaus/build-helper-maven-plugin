@@ -179,3 +179,83 @@ Usage
   </build>
 </project>
 -------------------
+
+
+* Reserve a list of random and unused network ports
+
+  Use this plugin to as reserve a set of next available unused network ports to be placed in a given property
+  set, so that they can be passed in other plugin configurations.  
+  
+  The example below shows how one can pass in random ports to selenium server' port and tomcat http port. 
+  Useful for running multiple tests concurrently.
+  
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.2</version>
+        <executions>
+          <execution>
+            <id>reserve-network-port</id>
+            <goals>
+              <goal>reserve-network-port</goal>
+            </goals>
+            <phase>process-resources</phase>
+            <configuration>
+              <names>
+                <name>selenium.server.port</name>
+                <name>tomcat.http.port</name>
+              </names>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>selenium-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>start-selenium</id>
+            <phase>test</phase>
+            <goals>
+              <goal>start-server</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <port>${selenium.server.port}</port>
+          [...]
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>tomcat-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>run-tomcat</id>
+            <phase>test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <port>${tomcat.http.port}</port>
+          [...]
+        </configuration>
+      </plugin>
+      
+      [...]
+      
+    </plugins>
+  </build>
+</project>
+-------------------
+

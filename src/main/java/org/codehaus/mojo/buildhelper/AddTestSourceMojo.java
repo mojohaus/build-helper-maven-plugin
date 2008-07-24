@@ -47,6 +47,8 @@ public class AddTestSourceMojo
      *
      * @parameter 
      * @required
+     * @since 1.0
+     * 
      */
     private File [] sources;
 
@@ -54,6 +56,7 @@ public class AddTestSourceMojo
      * @parameter expression="${project}"
      * @required
      * @readonly
+     * @since 1.0
      */
     private MavenProject project;
 

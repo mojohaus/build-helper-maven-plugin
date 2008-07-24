@@ -49,6 +49,8 @@ public class RemoveLocalArtifactMojo
      * When true, remove all built artifacts including all versions.
      * When false, remove all built artifacts of this project version.
      * @parameter default-value="true"
+     * @since 1.1
+     * 
      */
     private boolean removeAll = true;
 
@@ -56,6 +58,7 @@ public class RemoveLocalArtifactMojo
      * @parameter expression="${project}"
      * @required
      * @readonly
+     * @since 1.1
      */
     private MavenProject project;
 
@@ -63,6 +66,7 @@ public class RemoveLocalArtifactMojo
      * @parameter default-value="${localRepository}"
      * @required
      * @readonly
+     * @since 1.1
      */
     private ArtifactRepository localRepository;
 
