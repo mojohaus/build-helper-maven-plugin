@@ -47,7 +47,7 @@ Build Helper Maven Plugin
 
   * {{{remove-project-artifact-mojo.html}build-helper:remove-project-artifact}} Remove project's artifacts from local repository.
 
-  * {{{reserve-port-mojo.html}build-helper:reserve-network-port}} Reserve a list of random and used network ports.
+  * {{{reserve-port-mojo.html}build-helper:reserve-network-port}} Reserve a list of random and unused network ports.
 
 * Usage
 
