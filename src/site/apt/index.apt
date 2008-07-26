@@ -52,3 +52,8 @@ Build Helper Maven Plugin
 * Usage
 
   Instructions on how to use the Build Helper Maven Plugin can be found on the {{{usage.html}usage page}}.
+
+
+* Examples
+
+  * {{{http://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin/src/it/reserve-ports/pom.xml} Reserve network port}}
