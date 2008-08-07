@@ -27,11 +27,11 @@
               <goal>reserve-network-port</goal>
             </goals>
             <configuration>
-              <names>
-                <name>port1</name>
-                <name>port2</name>
-                <name>port3</name>
-              </names>                
+              <portNames>
+                <portName>port1</portName>
+                <portName>port2</portName>
+                <portName>port3</portName>
+              </portNames>                
             </configuration>
           </execution>
         </executions>

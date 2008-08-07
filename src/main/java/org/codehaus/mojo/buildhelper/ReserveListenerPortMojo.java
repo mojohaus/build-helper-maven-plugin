@@ -21,13 +21,18 @@ package org.codehaus.mojo.buildhelper;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.ServerSocket;
+import java.util.Properties;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
+import org.codehaus.plexus.util.IOUtil;
 
 /**
  * Reserve a list of random and not in used network ports and place them
@@ -50,7 +55,15 @@ public class ReserveListenerPortMojo
      * @since 1.2
      *
      */
-    private String [] names = new String[0];
+    private String [] portNames = new String[0];
+    
+    /**
+     * Output file to write the generated properties to.
+     * if not given, they are written to maven project
+     * @parameter
+     * @since 1.2
+     */
+    private File outputFile;
 
     /**
      * @parameter expression="${project}"
@@ -64,11 +77,36 @@ public class ReserveListenerPortMojo
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
-        for ( int i = 0 ; i < names.length; ++i )
+        Properties properties = project.getProperties();
+        
+        if ( outputFile != null )
+        {
+            properties = new Properties();
+        }
+        
+        for ( int i = 0 ; i < portNames.length; ++i )
         {
             String unusedPort = Integer.toString( getNextAvailablePort()  );
-            project.getProperties().put( names[i], unusedPort );
-            this.getLog().info( "Reserved port " + unusedPort + " for " + names[i] );
+            properties.put( portNames[i], unusedPort );
+            this.getLog().info( "Reserved port " + unusedPort + " for " + portNames[i] );
+        }
+        
+        if ( outputFile != null )
+        {
+            OutputStream os = null;
+            try
+            {
+                os = new FileOutputStream( outputFile );
+                properties.store( os, null );
+            }
+            catch ( Exception e )
+            {
+                throw new MojoExecutionException( e.getMessage() );
+            }
+            finally
+            {
+                IOUtil.close( os );
+            }
         }
     }
 

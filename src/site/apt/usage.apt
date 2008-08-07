@@ -207,10 +207,10 @@ Usage
             </goals>
             <phase>process-resources</phase>
             <configuration>
-              <names>
-                <name>selenium.server.port</name>
-                <name>tomcat.http.port</name>
-              </names>
+              <portNames>
+                <portName>selenium.server.port</portName>
+                <portName>tomcat.http.port</portName>
+              </portNames>
             </configuration>
           </execution>
         </executions>
