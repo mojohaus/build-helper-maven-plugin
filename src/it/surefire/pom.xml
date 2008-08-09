@@ -60,6 +60,7 @@
             <!-- but env can see this -->
             <environmentVariables>
               <port1>${port1}</port1>
+              <targetDir>${project.build.directory}</targetDir>
             </environmentVariables>
           </configuration>
     </plugin>
