@@ -14,7 +14,7 @@
   <description>This plugin contains various small independent goals to assist with Maven build lifecycle</description>
   
   <prerequisites>
-    <maven>2.0.2</maven>
+    <maven>2.0.6</maven>
   </prerequisites>
 
   <issueManagement>
@@ -23,6 +23,12 @@
   </issueManagement>
 
   <inceptionYear>2005</inceptionYear>
+
+  <scm>
+    <connection>scm:svn:http://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin</developerConnection>
+    <url>http://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin</url>
+  </scm>
 
   <developers>
     <developer>
