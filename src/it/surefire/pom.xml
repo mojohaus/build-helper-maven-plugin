@@ -49,7 +49,7 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>        
           <configuration>
-            <!-- surefire cant see this system property -->
+            <!-- surefire cant see this system property, will be fixed in surefire 2.5 see SUREFIRE-511 -->
             <systemProperties>
               <property>
                 <name>port1</name>
@@ -69,12 +69,12 @@
     
   </build>
   
-  <!-- default port values, will not be overwritten so DONOT set them 
   <properties>
+     <!-- default port values, will not be overwritten so DONOT set them 
      <port1>1</port1>
      <port2>2</port2>
      <port3>3</port3>
+     -->
   </properties>
-  -->
   
 </project>
