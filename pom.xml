@@ -14,7 +14,7 @@
   <description>This plugin contains various small independent goals to assist with Maven build lifecycle</description>
   
   <prerequisites>
-    <maven>2.0.6</maven>
+    <maven>2.0.2</maven>
   </prerequisites>
 
   <issueManagement>
@@ -68,7 +68,7 @@
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
-      <version>1.5.5</version>
+      <version>1.1</version>
     </dependency>
   </dependencies>
 
