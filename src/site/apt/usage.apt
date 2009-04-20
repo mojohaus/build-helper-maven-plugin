@@ -46,7 +46,7 @@ Usage
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.1</version>
+        <version>1.3</version>
         <executions>
           <execution>
             <id>add-source</id>
@@ -81,7 +81,7 @@ Usage
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.1</version>
+        <version>1.3</version>
         <executions>
           <execution>
             <id>add-test-source</id>
@@ -120,7 +120,7 @@ Usage
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.1</version>
+        <version>1.3</version>
         <executions>
           <execution>
             <id>attach-artifacts</id>
@@ -146,13 +146,53 @@ Usage
 </project>
 -------------------
 
+* Set the current version of maven in a property
+
+  This can be used to keep track of what version of maven was used to build a particular artifact.
+  For example, the following pom sets the property and then uses the property to save the maven version
+  to the project jar's manifest.
+  
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.3</version>
+        <executions>
+          <execution>
+            <id>maven-version</id>
+            <goals>
+              <goal>maven-version</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Maven-Version>${maven.version}</Maven-Version>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+-------------------
+
 * Remove project's artifacts from local repository
 
   Mainly used to remove previously installed large project artifacts in local repository before install phase starts.
   The below example removes all project's artifacts including all versions from its local repository
   at the implicit <package> phase. To remove only the current version, remove <removeAll> configuration
   element or set it to <false>.
-  
 
 -------------------
 <project>
@@ -162,7 +202,7 @@ Usage
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.1</version>
+        <version>1.3</version>
         <executions>
           <execution>
             <id>remove-old-installers</id>
@@ -180,7 +220,6 @@ Usage
 </project>
 -------------------
 
-
 * Reserve a list of random and unused network ports
 
   Use this plugin to as reserve a set of next available unused network ports to be placed in a given property
@@ -188,7 +227,6 @@ Usage
   
   The example below shows how one can pass in random ports to selenium server' port and tomcat http port. 
   Useful for running multiple tests concurrently.
-  
 
 -------------------
 <project>

@@ -45,6 +45,8 @@ Build Helper Maven Plugin
 
   * {{{attach-artifact-mojo.html}build-helper:attach-artifact}} Attach additional artifacts to be installed and deployed.
 
+  * {{{maven-version-mojo.html}build-helper:maven-version}} Set a property containing the current version of maven.
+  
   * {{{remove-project-artifact-mojo.html}build-helper:remove-project-artifact}} Remove project's artifacts from local repository.
 
   * {{{reserve-network-port-mojo.html}build-helper:reserve-network-port}} Reserve a list of random and unused network ports.
