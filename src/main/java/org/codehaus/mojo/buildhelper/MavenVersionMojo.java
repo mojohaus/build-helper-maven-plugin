@@ -38,8 +38,6 @@ public class MavenVersionMojo
     extends AbstractMojo
 {
 
-    private final static String VERSION_PROPERTY = "maven.version";
-
     /**
      * The Maven project.
      * 
@@ -50,10 +48,23 @@ public class MavenVersionMojo
     private MavenProject project;
 
     /**
+     * The RuntimeInforamtion for the current instance of maven.
+     * 
      * @component
      */
     private RuntimeInformation runtime;
 
+    
+    /**
+     * The name of the property in which to store the version of maven.
+     * 
+     * @parameter default-value="maven.version"
+     */
+    private String versionProperty;
+    
+    /**
+     * Main plugin execution.
+     */
     public void execute()
         throws MojoExecutionException
     {
@@ -63,7 +74,7 @@ public class MavenVersionMojo
 
         if ( project != null )
         {
-            project.getProperties().put( VERSION_PROPERTY, mavenVersion.toString() );
+            project.getProperties().put( versionProperty, mavenVersion.toString() );
         }
     }
 
