@@ -20,6 +20,7 @@ package org.codehaus.mojo.buildhelper;
  */
 
 import org.apache.maven.artifact.versioning.ArtifactVersion;
+import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
@@ -48,9 +49,10 @@ import java.util.Properties;
  * This version is simply the original version string with the first instance of '-' replaced by '.'
  * For example, 1.0.2-beta-1 will be converted to 1.0.2.beta-1
  * 
+ * @author pgier
+ * @version $Id$
  * @goal parse-version
  * @phase validate
- * @author pgier
  * @since 1.3
  * 
  */
@@ -66,14 +68,6 @@ public class ParseVersionMojo
      * @readonly
      */
     private MavenProject project;
-
-    /**
-     * The ArtifactVersion object to parse the version string
-     * 
-     * @component ArtifactVersion
-     * @readonly true
-     */
-    private ArtifactVersion artifactVersion;
 
     /**
      * The version string to parse.
@@ -95,7 +89,8 @@ public class ParseVersionMojo
     public void execute()
         throws MojoExecutionException
     {
-        artifactVersion.parseVersion( versionString );
+        
+        ArtifactVersion artifactVersion = new DefaultArtifactVersion( versionString );
 
         Properties props = project.getProperties();
 
@@ -107,7 +102,7 @@ public class ParseVersionMojo
         props.setProperty( propertyPrefix + ".buildNumber", Integer.toString( artifactVersion.getBuildNumber() ) );
 
         // Replace the first instance of "-" to create an osgi compatible version string.
-        StringUtils.replace( versionString, '-', '.', 1 );
-        props.setProperty( propertyPrefix + "osgiVersion", versionString.replace( '-', '.' ) );
+        String osgiVersion = StringUtils.replaceOnce( versionString, '-', '.' );
+        props.setProperty( propertyPrefix + ".osgiVersion", osgiVersion );
     }
 }
