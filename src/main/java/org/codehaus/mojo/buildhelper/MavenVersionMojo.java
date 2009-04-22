@@ -32,7 +32,6 @@ import org.apache.maven.project.MavenProject;
  * @phase validate
  * @author pgier
  * @since 1.3
- * 
  */
 public class MavenVersionMojo
     extends AbstractMojo
@@ -54,14 +53,13 @@ public class MavenVersionMojo
      */
     private RuntimeInformation runtime;
 
-    
     /**
      * The name of the property in which to store the version of maven.
      * 
      * @parameter default-value="maven.version"
      */
     private String versionProperty;
-    
+
     /**
      * Main plugin execution.
      */
