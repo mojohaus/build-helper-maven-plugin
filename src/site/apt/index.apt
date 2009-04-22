@@ -47,6 +47,8 @@ Build Helper Maven Plugin
 
   * {{{maven-version-mojo.html}build-helper:maven-version}} Set a property containing the current version of maven.
   
+  * {{{parse-version-mojo.html}build-helper:parse-version}} Set properties containing the parsed components of a version string.
+
   * {{{remove-project-artifact-mojo.html}build-helper:remove-project-artifact}} Remove project's artifacts from local repository.
 
   * {{{reserve-network-port-mojo.html}build-helper:reserve-network-port}} Reserve a list of random and unused network ports.

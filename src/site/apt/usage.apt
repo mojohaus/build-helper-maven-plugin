@@ -184,8 +184,62 @@ Usage
       </plugin>
     </plugins>
   </build>
+  ...
 </project>
 -------------------
+
+* Access the parsed components of a project version.
+
+  The parse-versions mojo can be used to access the component parts of a version string.  For example,
+  the major version or the qualifier by themselves.  After executing the following plugin configuration
+  will parse the version of the current project and set several properties.
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.3</version>
+        <executions>
+          <execution>
+            <id>parse-version</id>
+            <goals>
+              <goal>parse-version</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  ...
+</project>
+-------------------
+
+  After the goal executes (by default during the validate phase) the following
+  properties will contain the components of the current project version.
+  
+-------------------  
+  parsedVersion.majorVersion
+  parsedVersion.minorVersion
+  parsedVersion.incrementalVersion
+  parsedVersion.qualifier
+  parsedVersion.buildNumber
+-------------------
+
+  The property prefix "parsedVersion" can be configured using the propertyPrefix mojo parameter.
+  Note that the behaviour of the parsing is determined by org.apache.maven.artifact.versioning.DefaultArtifactVersion
+
+  An osgi compatible version will also be created and made available through the property:
+
+-------------------
+  parsedVersion.osgiVersion
+-------------------
+  
+  This property contains the original version string with the first instance of '-' replaced by '.'
+  For example, 1.0.2-beta-1 will be converted to 1.0.2.beta-1
 
 * Remove project's artifacts from local repository
 
