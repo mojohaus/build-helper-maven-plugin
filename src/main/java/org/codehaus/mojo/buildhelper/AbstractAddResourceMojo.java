@@ -45,14 +45,6 @@ public abstract class AbstractAddResourceMojo
                 resources[i].setDirectory( resourceDir.getAbsolutePath() );
             }
             
-            // Check targetPath for relative path 
-            File targetPath = new File( resources[i].getTargetPath() );
-            if ( ! targetPath.isAbsolute() )
-            {
-                targetPath = new File( project.getBasedir(), resources[i].getTargetPath() );
-                resources[i].setDirectory( targetPath.getAbsolutePath() );
-            }
-            
             addResource ( resources[i] );
         }
     }
