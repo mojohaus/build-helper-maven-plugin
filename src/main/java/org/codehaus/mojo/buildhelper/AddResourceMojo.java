@@ -25,9 +25,6 @@ package org.codehaus.mojo.buildhelper;
  */
 
 import org.apache.maven.model.Resource;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.project.MavenProject;
 
 /**
  * Add more resource directories to the POM.
@@ -39,34 +36,13 @@ import org.apache.maven.project.MavenProject;
  * @since 1.3
  */
 public class AddResourceMojo
-    extends AbstractMojo
+    extends AbstractAddResourceMojo
 {
-    /**
-     * Additional source directories.
-     *
-     * @parameter 
-     * @required
-     */
-    private Resource [] resources;
 
-    /**
-     * The maven project
-     * 
-     * @parameter expression="${project}"
-     * @required
-     * @readonly
-     */
-    private MavenProject project;
-
-
-    public void execute()
-        throws MojoExecutionException
-    {        
-        for ( int i = 0; i < resources.length; ++i )
-        {
-            this.project.addResource( resources[i] );
-                
-            this.getLog().debug( "Resource: " + this.resources[i].getDirectory() + " added." );              
-        }
+    public void addResource( Resource resource )
+    {
+        getProject().addResource( resource );
+        
+        this.getLog().debug( "Added resource: " + resource.getDirectory() );              
     }
 }
