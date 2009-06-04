@@ -103,6 +103,45 @@ Usage
 </project>
 -------------------
 
+* Add more resource directories to your project
+
+  This example.
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.3</version>
+        <executions>
+          <execution>
+            <id>add-resource</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <resources>
+                <resource>
+                  <directory>src/my-resources</directory>
+                  <targetPath>my-resources</targetPath>
+                  <excludes>
+                    <exclude>**junk**</exclude>
+                  </excludes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+-------------------
+
 * Attach additional artifacts to your project
 
   Typically run after <<<antrun:run>>> to attach antrun's build outputs to the

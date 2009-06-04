@@ -43,6 +43,10 @@ Build Helper Maven Plugin
 
   * {{{add-test-source-mojo.html}build-helper:add-test-source}} Add test source directories to the POM.
 
+  * {{{add-resource-mojo.html}build-helper:add-resource}} Add more resource directories to the POM.
+
+  * {{{add-test-resource-mojo.html}build-helper:add-test-resource}} Add test resource directories to the POM.
+
   * {{{attach-artifact-mojo.html}build-helper:attach-artifact}} Attach additional artifacts to be installed and deployed.
 
   * {{{maven-version-mojo.html}build-helper:maven-version}} Set a property containing the current version of maven.
