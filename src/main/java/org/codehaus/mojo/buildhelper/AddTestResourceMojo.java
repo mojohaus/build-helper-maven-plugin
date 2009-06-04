@@ -33,7 +33,7 @@ import org.apache.maven.project.MavenProject;
  * Add more test resource directories to the POM.
  *
  * @goal add-test-resource
- * @phase generate-resources
+ * @phase generate-test-resources
  * @author Paul Gier
  * @version $Id$
  * @since 1.3
@@ -46,15 +46,15 @@ public class AddTestResourceMojo
      *
      * @parameter 
      * @required
-     * @since 1.0
      */
     private Resource [] resources;
 
     /**
+     * The maven project
+     * 
      * @parameter expression="${project}"
      * @required
      * @readonly
-     * @since 1.0
      */
     private MavenProject project;
 

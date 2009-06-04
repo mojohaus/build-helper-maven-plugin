@@ -46,15 +46,15 @@ public class AddResourceMojo
      *
      * @parameter 
      * @required
-     * @since 1.0
      */
     private Resource [] resources;
 
     /**
+     * The maven project
+     * 
      * @parameter expression="${project}"
      * @required
      * @readonly
-     * @since 1.0
      */
     private MavenProject project;
 
