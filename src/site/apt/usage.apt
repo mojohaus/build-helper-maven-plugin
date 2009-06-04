@@ -105,7 +105,9 @@ Usage
 
 * Add more resource directories to your project
 
-  This example.
+  This example shows how to add additional resource directories to your project.
+  Another goal called <<<add-test-resource>>> can be used in a similar way to 
+  add test resources to the project.
 
 -------------------
 <project>
@@ -129,7 +131,7 @@ Usage
                   <directory>src/my-resources</directory>
                   <targetPath>my-resources</targetPath>
                   <excludes>
-                    <exclude>**junk**</exclude>
+                    <exclude>**/junk/**</exclude>
                   </excludes>
                 </resource>
               </resources>
@@ -229,7 +231,7 @@ Usage
 
 * Access the parsed components of a project version.
 
-  The parse-versions mojo can be used to access the component parts of a version string.  For example,
+  The <<<parse-versions>>> mojo can be used to access the component parts of a version string.  For example,
   the major version or the qualifier by themselves.  After executing the following plugin configuration
   will parse the version of the current project and set several properties.
 
@@ -268,7 +270,7 @@ Usage
   parsedVersion.buildNumber
 -------------------
 
-  The property prefix "parsedVersion" can be configured using the propertyPrefix mojo parameter.
+  The property prefix "parsedVersion" can be configured using the <<<propertyPrefix>>> mojo parameter.
   Note that the behaviour of the parsing is determined by org.apache.maven.artifact.versioning.DefaultArtifactVersion
 
   An osgi compatible version will also be created and made available through the property:
