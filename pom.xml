@@ -9,7 +9,7 @@
   <artifactId>build-helper-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
   <name>Build Helper Maven Plugin</name>
-  <version>1.3-SNAPSHOT</version>
+  <version>1.3</version>
   
   <description>This plugin contains various small independent goals to assist with Maven build lifecycle</description>
   
@@ -25,9 +25,9 @@
   <inceptionYear>2005</inceptionYear>
 
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin</developerConnection>
-    <url>http://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin</url>
+    <connection>scm:svn:http://svn.codehaus.org/mojo/tags/build-helper-maven-plugin-1.3</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/tags/build-helper-maven-plugin-1.3</developerConnection>
+    <url>http://svn.codehaus.org/mojo/tags/build-helper-maven-plugin-1.3</url>
   </scm>
 
   <developers>
