@@ -97,19 +97,39 @@ public class ParseVersionMojo
         throws MojoExecutionException
     {
         
-        ArtifactVersion artifactVersion = new DefaultArtifactVersion( versionString );
-
-        Properties props = project.getProperties();
-
+        parseVersion (versionString, project.getProperties() );
+        
+    }
+    
+    /**
+     * Parse a version String and add the components to a properties object.
+     * 
+     * @param version
+     * @param props
+     */
+    public void parseVersion( String version, Properties props) 
+    {
+        ArtifactVersion artifactVersion = new DefaultArtifactVersion( version );
+        
         props.setProperty( propertyPrefix + ".majorVersion", Integer.toString( artifactVersion.getMajorVersion() ) );
         props.setProperty( propertyPrefix + ".minorVersion", Integer.toString( artifactVersion.getMinorVersion() ) );
         props.setProperty( propertyPrefix + ".incrementalVersion",
                            Integer.toString( artifactVersion.getIncrementalVersion() ) );
-        props.setProperty( propertyPrefix + ".qualifier", artifactVersion.getQualifier() );
+        String qualifier = artifactVersion.getQualifier();
+        if (qualifier == null)
+        {
+            qualifier = "";
+        }
+        props.setProperty( propertyPrefix + ".qualifier", qualifier );
         props.setProperty( propertyPrefix + ".buildNumber", Integer.toString( artifactVersion.getBuildNumber() ) );
 
         // Replace the first instance of "-" to create an osgi compatible version string.
-        String osgiVersion = StringUtils.replaceOnce( versionString, '-', '.' );
+        String osgiVersion = StringUtils.replaceOnce( version, '-', '.' );
         props.setProperty( propertyPrefix + ".osgiVersion", osgiVersion );
+    }
+    
+    public void setPropertyPrefix( String prefix )
+    {
+        this.propertyPrefix = prefix;
     }
 }
