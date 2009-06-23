@@ -111,25 +111,55 @@ public class ParseVersionMojo
     {
         ArtifactVersion artifactVersion = new DefaultArtifactVersion( version );
         
+        if ( artifactVersion.getQualifier() != null && artifactVersion.getQualifier().equals( version ) )
+        {
+            // This means the version parsing failed, so try osgi format.
+            artifactVersion = new OsgiArtifactVersion( version );
+        }
         props.setProperty( propertyPrefix + ".majorVersion", Integer.toString( artifactVersion.getMajorVersion() ) );
         props.setProperty( propertyPrefix + ".minorVersion", Integer.toString( artifactVersion.getMinorVersion() ) );
         props.setProperty( propertyPrefix + ".incrementalVersion",
                            Integer.toString( artifactVersion.getIncrementalVersion() ) );
+        
         String qualifier = artifactVersion.getQualifier();
         if (qualifier == null)
         {
             qualifier = "";
         }
         props.setProperty( propertyPrefix + ".qualifier", qualifier );
+        
         props.setProperty( propertyPrefix + ".buildNumber", Integer.toString( artifactVersion.getBuildNumber() ) );
 
         // Replace the first instance of "-" to create an osgi compatible version string.
-        String osgiVersion = StringUtils.replaceOnce( version, '-', '.' );
+        String osgiVersion = getOsgiVersion( artifactVersion );
         props.setProperty( propertyPrefix + ".osgiVersion", osgiVersion );
     }
     
     public void setPropertyPrefix( String prefix )
     {
         this.propertyPrefix = prefix;
+    }
+    
+    /**
+     * Make an osgi compatible version String from an ArtifactVersion
+     * @param version
+     * @return
+     */
+    public String getOsgiVersion( ArtifactVersion version )
+    {
+        if ( version.toString().equals( version.getQualifier() ))
+        {
+            return version.toString();
+        }
+        
+        StringBuffer osgiVersion = new StringBuffer();
+        osgiVersion.append( version.getMajorVersion() );
+        osgiVersion.append( "." + version.getMinorVersion() );
+        osgiVersion.append( "." + version.getIncrementalVersion() );
+        if ( version.getQualifier() != null )
+        {
+            osgiVersion.append( "." + version.getQualifier() );
+        }
+        return osgiVersion.toString();
     }
 }

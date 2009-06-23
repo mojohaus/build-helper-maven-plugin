@@ -36,6 +36,7 @@ public class ParseVersionTest extends TestCase
         mojo.setPropertyPrefix( "parsed" );
         Properties props = new Properties();
         
+        // Test a junk version string
         mojo.parseVersion( "junk", props );
         
         assertEquals( "0", props.getProperty( "parsed.majorVersion" ) );
@@ -45,6 +46,7 @@ public class ParseVersionTest extends TestCase
         assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
         assertEquals( "junk", props.getProperty( "parsed.osgiVersion" ) );
         
+        // Test a basic maven version string
         mojo.parseVersion( "1.0.0", props );
         
         assertEquals( "1", props.getProperty( "parsed.majorVersion" ) );
@@ -54,6 +56,7 @@ public class ParseVersionTest extends TestCase
         assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
         assertEquals( "1.0.0", props.getProperty( "parsed.osgiVersion" ) );
         
+        // Test a version string with qualifier
         mojo.parseVersion( "2.3.4-beta-5", props );
         
         assertEquals( "2", props.getProperty( "parsed.majorVersion" ) );
@@ -62,6 +65,16 @@ public class ParseVersionTest extends TestCase
         assertEquals( "beta-5", props.getProperty( "parsed.qualifier" ) );
         assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
         assertEquals( "2.3.4.beta-5", props.getProperty( "parsed.osgiVersion" ) );
+        
+        // Test an osgi version string
+        mojo.parseVersion( "2.3.4.beta_5", props );
+        
+        assertEquals( "2", props.getProperty( "parsed.majorVersion" ) );
+        assertEquals( "3", props.getProperty( "parsed.minorVersion" ) );
+        assertEquals( "4", props.getProperty( "parsed.incrementalVersion" ) );
+        assertEquals( "beta_5", props.getProperty( "parsed.qualifier" ) );
+        assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
+        assertEquals( "2.3.4.beta_5", props.getProperty( "parsed.osgiVersion" ) );
         
     }
 }
