@@ -156,9 +156,17 @@ public class ParseVersionMojo
         osgiVersion.append( version.getMajorVersion() );
         osgiVersion.append( "." + version.getMinorVersion() );
         osgiVersion.append( "." + version.getIncrementalVersion() );
+        if ( version.getQualifier() != null || version.getBuildNumber() != 0 )
+        {
+            osgiVersion.append( "." );
+        }
         if ( version.getQualifier() != null )
         {
-            osgiVersion.append( "." + version.getQualifier() );
+            osgiVersion.append( version.getQualifier() );
+        }
+        if ( version.getBuildNumber() != 0 )
+        {
+            osgiVersion.append( version.getBuildNumber() );
         }
         return osgiVersion.toString();
     }

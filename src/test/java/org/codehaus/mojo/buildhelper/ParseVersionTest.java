@@ -76,5 +76,25 @@ public class ParseVersionTest extends TestCase
         assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
         assertEquals( "2.3.4.beta_5", props.getProperty( "parsed.osgiVersion" ) );
         
+        // Test a snapshot version string
+        mojo.parseVersion( "1.2.3-SNAPSHOT", props );
+        
+        assertEquals( "1", props.getProperty( "parsed.majorVersion" ) );
+        assertEquals( "2", props.getProperty( "parsed.minorVersion" ) );
+        assertEquals( "3", props.getProperty( "parsed.incrementalVersion" ) );
+        assertEquals( "SNAPSHOT", props.getProperty( "parsed.qualifier" ) );
+        assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
+        assertEquals( "1.2.3.SNAPSHOT", props.getProperty( "parsed.osgiVersion" ) );
+        
+        // Test a snapshot version string
+        mojo.parseVersion( "1.2.3-4", props );
+        
+        assertEquals( "1", props.getProperty( "parsed.majorVersion" ) );
+        assertEquals( "2", props.getProperty( "parsed.minorVersion" ) );
+        assertEquals( "3", props.getProperty( "parsed.incrementalVersion" ) );
+        assertEquals( "", props.getProperty( "parsed.qualifier" ) );
+        assertEquals( "4", props.getProperty( "parsed.buildNumber" ) );
+        assertEquals( "1.2.3.4", props.getProperty( "parsed.osgiVersion" ) );
+        
     }
 }
