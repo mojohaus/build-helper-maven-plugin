@@ -34,9 +34,9 @@ import org.codehaus.plexus.util.StringUtils;
 import java.util.Properties;
 
 /**
- * Parse a version string and set properties containing the component parts of the version.  This mojo sets the 
+ * Parse a version string and set properties containing the component parts of the version.  This mojo sets the
  * following properties:
- * 
+ *
  * <pre>
  *   [propertyPrefix].majorVersion
  *   [propertyPrefix].minorVersion
@@ -46,20 +46,20 @@ import java.util.Properties;
  * </pre>
  * Where the propertyPrefix is the string set in the mojo parameter.  Note that the behaviour of the
  * parsing is determined by org.apache.maven.artifact.versioning.DefaultArtifactVersion
- * 
+ *
  * An osgi compatible version will also be created and made available through the property:
  * <pre>
  *   [propertyPrefix].osgiVersion
  * </pre>
  * This version is simply the original version string with the first instance of '-' replaced by '.'
  * For example, 1.0.2-beta-1 will be converted to 1.0.2.beta-1
- * 
+ *
  * @author pgier
  * @version $Id$
  * @goal parse-version
  * @phase validate
  * @since 1.3
- * 
+ *
  */
 public class ParseVersionMojo
     extends AbstractMojo
@@ -67,7 +67,7 @@ public class ParseVersionMojo
 
     /**
      * The Maven project.
-     * 
+     *
      * @parameter expression="${project}"
      * @required
      * @readonly
@@ -76,70 +76,71 @@ public class ParseVersionMojo
 
     /**
      * The version string to parse.
-     * 
+     *
      * @parameter default-value="${project.version}"
      */
     private String versionString;
 
     /**
      * Prefix string to use for the set of version properties.
-     * 
+     *
      * @parameter default-value="parsedVersion"
      */
     private String propertyPrefix;
 
     /**
      * Execute the mojo. This sets the version properties on the project.
-     * 
+     *
      * @throws MojoExecutionException if the plugin execution fails.
      */
     public void execute()
         throws MojoExecutionException
     {
-        
+
         parseVersion (versionString, project.getProperties() );
-        
+
     }
-    
+
     /**
      * Parse a version String and add the components to a properties object.
-     * 
+     *
      * @param version
      * @param props
      */
-    public void parseVersion( String version, Properties props) 
+    public void parseVersion( String version, Properties props)
     {
         ArtifactVersion artifactVersion = new DefaultArtifactVersion( version );
-        
+
         if ( artifactVersion.getQualifier() != null && artifactVersion.getQualifier().equals( version ) )
         {
             // This means the version parsing failed, so try osgi format.
+            getLog().debug("The version is not in the regular format, will try OSGi format instead");
             artifactVersion = new OsgiArtifactVersion( version );
         }
         props.setProperty( propertyPrefix + ".majorVersion", Integer.toString( artifactVersion.getMajorVersion() ) );
         props.setProperty( propertyPrefix + ".minorVersion", Integer.toString( artifactVersion.getMinorVersion() ) );
         props.setProperty( propertyPrefix + ".incrementalVersion",
                            Integer.toString( artifactVersion.getIncrementalVersion() ) );
-        
+
         String qualifier = artifactVersion.getQualifier();
         if (qualifier == null)
         {
             qualifier = "";
         }
         props.setProperty( propertyPrefix + ".qualifier", qualifier );
-        
+
         props.setProperty( propertyPrefix + ".buildNumber", Integer.toString( artifactVersion.getBuildNumber() ) );
 
         // Replace the first instance of "-" to create an osgi compatible version string.
         String osgiVersion = getOsgiVersion( artifactVersion );
         props.setProperty( propertyPrefix + ".osgiVersion", osgiVersion );
     }
-    
+
     public void setPropertyPrefix( String prefix )
     {
         this.propertyPrefix = prefix;
     }
-    
+
     /**
      * Make an osgi compatible version String from an ArtifactVersion
      * @param version
@@ -151,7 +152,7 @@ public class ParseVersionMojo
         {
             return version.toString();
         }
-        
+
         StringBuffer osgiVersion = new StringBuffer();
         osgiVersion.append( version.getMajorVersion() );
         osgiVersion.append( "." + version.getMinorVersion() );
