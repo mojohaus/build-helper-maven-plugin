@@ -32,7 +32,7 @@
 Usage
 
   Brief examples on how to use the build-helper-maven-plugin's goals.
- 
+
 * Add more source directories to your project
 
   Use this example to add more source directories to your project, since
@@ -46,7 +46,7 @@ Usage
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.3</version>
+        <version>${project.version}</version>
         <executions>
           <execution>
             <id>add-source</id>
@@ -81,7 +81,7 @@ Usage
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.3</version>
+        <version>${project.version}</version>
         <executions>
           <execution>
             <id>add-test-source</id>
@@ -106,7 +106,7 @@ Usage
 * Add more resource directories to your project
 
   This example shows how to add additional resource directories to your project.
-  Another goal called <<<add-test-resource>>> can be used in a similar way to 
+  Another goal called <<<add-test-resource>>> can be used in a similar way to
   add test resources to the project.
 
 -------------------
@@ -117,7 +117,7 @@ Usage
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.3</version>
+        <version>${project.version}</version>
         <executions>
           <execution>
             <id>add-resource</id>
@@ -161,7 +161,7 @@ Usage
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.3</version>
+        <version>${project.version}</version>
         <executions>
           <execution>
             <id>attach-artifacts</id>
@@ -192,7 +192,7 @@ Usage
   This can be used to keep track of what version of maven was used to build a particular artifact.
   For example, the following pom sets the property and then uses the property to save the maven version
   to the project jar's manifest.
-  
+
 -------------------
 <project>
   ...
@@ -201,7 +201,7 @@ Usage
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.3</version>
+        <version>${project.version}</version>
         <executions>
           <execution>
             <id>maven-version</id>
@@ -243,7 +243,7 @@ Usage
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.3</version>
+        <version>${project.version}</version>
         <executions>
           <execution>
             <id>parse-version</id>
@@ -261,8 +261,8 @@ Usage
 
   After the goal executes (by default during the validate phase) the following
   properties will contain the components of the current project version.
-  
--------------------  
+
+-------------------
   parsedVersion.majorVersion
   parsedVersion.minorVersion
   parsedVersion.incrementalVersion
@@ -278,7 +278,7 @@ Usage
 -------------------
   parsedVersion.osgiVersion
 -------------------
-  
+
   This property contains the original version string with the first instance of '-' replaced by '.'
   For example, 1.0.2-beta-1 will be converted to 1.0.2.beta-1
 
@@ -297,7 +297,7 @@ Usage
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.3</version>
+        <version>${project.version}</version>
         <executions>
           <execution>
             <id>remove-old-installers</id>
@@ -318,9 +318,9 @@ Usage
 * Reserve a list of random and unused network ports
 
   Use this plugin to as reserve a set of next available unused network ports to be placed in a given property
-  set, so that they can be passed in other plugin configurations.  
-  
-  The example below shows how one can pass in random ports to selenium server' port and tomcat http port. 
+  set, so that they can be passed in other plugin configurations.
+
+  The example below shows how one can pass in random ports to selenium server' port and tomcat http port.
   Useful for running multiple tests concurrently.
 
 -------------------
@@ -331,7 +331,7 @@ Usage
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.2</version>
+        <version>${project.version}</version>
         <executions>
           <execution>
             <id>reserve-network-port</id>
@@ -348,7 +348,7 @@ Usage
           </execution>
         </executions>
       </plugin>
-      
+
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>selenium-maven-plugin</artifactId>
@@ -384,9 +384,9 @@ Usage
           [...]
         </configuration>
       </plugin>
-      
+
       [...]
-      
+
     </plugins>
   </build>
 </project>
