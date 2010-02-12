@@ -52,11 +52,12 @@ public class RemoveLocalArtifactMojo
     /**
      * When true, remove all built artifacts including all versions.
      * When false, remove all built artifacts of this project version.
-     * @parameter default-value="true"
+     *
+     * @parameter default-value="true" expression="${buildhelper.removeAll}"
      * @since 1.1
-     * 
+     *
      */
-    private boolean removeAll = true;
+    private boolean removeAll;
 
     /**
      * @parameter expression="${project}"
