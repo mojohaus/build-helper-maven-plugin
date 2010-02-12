@@ -24,6 +24,7 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
+import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -48,10 +49,29 @@ public class AttachArtifact
     /**
      * Attach an array of artifacts to the project.
      *
-     * @parameter 
+     * @parameter
      * @required
      */
     private Artifact [] artifacts;
+
+    /**
+     * This project's base directory.
+     *
+     * @parameter expression="${basedir}"
+     * @required
+     * @since 1.5
+     */
+    private String basedir;
+
+    /**
+     * The Maven Session.
+     *
+     * @parameter expression="${session}"
+     * @readonly
+     * @required
+     * @since 1.5
+     */
+    private MavenSession mavenSession;
 
     /**
      * @parameter expression="${project}"
@@ -62,28 +82,68 @@ public class AttachArtifact
 
     /**
      * Maven ProjectHelper.
-     * 
+     *
      * @component
      * @readonly
      */
-    private MavenProjectHelper projectHelper;    
+    private MavenProjectHelper projectHelper;
+
+    /**
+     * This will cause the execution to be run only at the top of a given module
+     * tree. That is, run in the project contained in the same folder where the
+     * mvn execution was launched.
+     *
+     * @parameter expression="${buildhelper.runOnlyAtExecutionRoot}" default-value="false"
+     * @since 1.5
+     */
+    private boolean runOnlyAtExecutionRoot;
 
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
 
-        this.validateArtifacts();
-        
-        for ( int i = 0 ; i < this.artifacts.length; ++ i )
+        // Run only at the execution root
+        if ( runOnlyAtExecutionRoot && !isThisTheExecutionRoot() )
         {
-            projectHelper.attachArtifact( this.project, 
-                                          this.artifacts[i].getType(), 
-                                          this.artifacts[i].getClassifier(), 
-                                          this.artifacts[i].getFile() );
+            getLog().info( "Skip attaching artifacts in this project because it's not the Execution Root" );
         }
-        
+        else
+        {
+            this.validateArtifacts();
+
+            for ( int i = 0 ; i < this.artifacts.length; ++ i )
+            {
+                projectHelper.attachArtifact( this.project,
+                                              this.artifacts[i].getType(),
+                                              this.artifacts[i].getClassifier(),
+                                              this.artifacts[i].getFile() );
+            }
+        }
+
     }
-    
+
+    /**
+     * Returns <code>true</code> if the current project is located at the
+     * Execution Root Directory (where mvn was launched).
+     *
+     * @return <code>true</code> if the current project is at the Execution Root
+     */
+    private boolean isThisTheExecutionRoot()
+    {
+        getLog().debug( "Root Folder:" + mavenSession.getExecutionRootDirectory() );
+        getLog().debug( "Current Folder:" + basedir );
+        boolean result = mavenSession.getExecutionRootDirectory().equalsIgnoreCase( basedir.toString() );
+        if ( result )
+        {
+            getLog().debug( "This is the execution root." );
+        }
+        else
+        {
+            getLog().debug( "This is NOT the execution root." );
+        }
+        return result;
+    }
+
     private void validateArtifacts()
         throws MojoFailureException
     {
@@ -92,15 +152,15 @@ public class AttachArtifact
         for ( int i = 0; i < this.artifacts.length; ++i )
         {
             Artifact artifact = this.artifacts[i];
-            
+
             String extensionClassifier = artifact.getType() + ":" + artifact.getClassifier();
-            
+
             if ( !extensionClassifiers.add( extensionClassifier  ) )
             {
-                throw new MojoFailureException( "The artifact with same type and classifier: " 
+                throw new MojoFailureException( "The artifact with same type and classifier: "
                                                 + extensionClassifier + " is used more than once." );
             }
 
-        }             
+        }
     }
 }
