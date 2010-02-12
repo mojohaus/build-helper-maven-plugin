@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.codehaus.mojo</groupId>
     <artifactId>mojo-parent</artifactId>
-    <version>21</version>
+    <version>23</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>build-helper-maven-plugin</artifactId>
@@ -88,7 +88,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
-          <configLocation>http://svn.apache.org/repos/asf/maven/plugins/trunk/maven-checkstyle-plugin/src/main/resources/config/maven_checks.xml</configLocation>
+          <configLocation>config/maven_checks.xml</configLocation>
           <headerLocation>header.txt</headerLocation>
         </configuration>
       </plugin>
