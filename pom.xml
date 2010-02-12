@@ -10,9 +10,9 @@
   <packaging>maven-plugin</packaging>
   <name>Build Helper Maven Plugin</name>
   <version>1.5-SNAPSHOT</version>
-  
+
   <description>This plugin contains various small independent goals to assist with Maven build lifecycle</description>
-  
+
   <prerequisites>
     <maven>2.0.2</maven>
   </prerequisites>
@@ -106,8 +106,8 @@
         <configuration>
           <issueLinkTemplate>http://jira.codehaus.org/browse/%ISSUE%</issueLinkTemplate>
           <onlyCurrentVersion>true</onlyCurrentVersion>
-          <resolutionIds>Closed</resolutionIds>
-          <statusIds>Resolved, Closed</statusIds>
+          <resolutionIds>Fixed</resolutionIds>
+          <statusIds>Resolved,Closed</statusIds>
           <typeIds>Bug, New Feature, Improvement, Wish</typeIds>
         </configuration>
       </plugin>
