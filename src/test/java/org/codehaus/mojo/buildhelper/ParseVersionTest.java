@@ -35,66 +35,76 @@ public class ParseVersionTest extends TestCase
         ParseVersionMojo mojo = new ParseVersionMojo();
         mojo.setPropertyPrefix( "parsed" );
         Properties props = new Properties();
-        
+
         // Test a junk version string
         mojo.parseVersion( "junk", props );
-        
+
         assertEquals( "0", props.getProperty( "parsed.majorVersion" ) );
         assertEquals( "0", props.getProperty( "parsed.minorVersion" ) );
         assertEquals( "0", props.getProperty( "parsed.incrementalVersion" ) );
         assertEquals( "junk", props.getProperty( "parsed.qualifier" ) );
         assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
         assertEquals( "junk", props.getProperty( "parsed.osgiVersion" ) );
-        
+
         // Test a basic maven version string
         mojo.parseVersion( "1.0.0", props );
-        
+
         assertEquals( "1", props.getProperty( "parsed.majorVersion" ) );
         assertEquals( "0", props.getProperty( "parsed.minorVersion" ) );
         assertEquals( "0", props.getProperty( "parsed.incrementalVersion" ) );
         assertEquals( "",  props.getProperty( "parsed.qualifier" ) );
         assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
         assertEquals( "1.0.0", props.getProperty( "parsed.osgiVersion" ) );
-        
+
         // Test a version string with qualifier
         mojo.parseVersion( "2.3.4-beta-5", props );
-        
+
         assertEquals( "2", props.getProperty( "parsed.majorVersion" ) );
         assertEquals( "3", props.getProperty( "parsed.minorVersion" ) );
         assertEquals( "4", props.getProperty( "parsed.incrementalVersion" ) );
         assertEquals( "beta-5", props.getProperty( "parsed.qualifier" ) );
         assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
         assertEquals( "2.3.4.beta-5", props.getProperty( "parsed.osgiVersion" ) );
-        
+
         // Test an osgi version string
         mojo.parseVersion( "2.3.4.beta_5", props );
-        
+
         assertEquals( "2", props.getProperty( "parsed.majorVersion" ) );
         assertEquals( "3", props.getProperty( "parsed.minorVersion" ) );
         assertEquals( "4", props.getProperty( "parsed.incrementalVersion" ) );
         assertEquals( "beta_5", props.getProperty( "parsed.qualifier" ) );
         assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
         assertEquals( "2.3.4.beta_5", props.getProperty( "parsed.osgiVersion" ) );
-        
+
         // Test a snapshot version string
         mojo.parseVersion( "1.2.3-SNAPSHOT", props );
-        
+
         assertEquals( "1", props.getProperty( "parsed.majorVersion" ) );
         assertEquals( "2", props.getProperty( "parsed.minorVersion" ) );
         assertEquals( "3", props.getProperty( "parsed.incrementalVersion" ) );
         assertEquals( "SNAPSHOT", props.getProperty( "parsed.qualifier" ) );
         assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
         assertEquals( "1.2.3.SNAPSHOT", props.getProperty( "parsed.osgiVersion" ) );
-        
+
+        // Test a snapshot version string
+        mojo.parseVersion( "2.0.17-SNAPSHOT", props );
+
+        assertEquals( "2", props.getProperty( "parsed.majorVersion" ) );
+        assertEquals( "0", props.getProperty( "parsed.minorVersion" ) );
+        assertEquals( "17", props.getProperty( "parsed.incrementalVersion" ) );
+        assertEquals( "SNAPSHOT", props.getProperty( "parsed.qualifier" ) );
+        assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
+        assertEquals( "2.0.17.SNAPSHOT", props.getProperty( "parsed.osgiVersion" ) );
+
         // Test a version string with a build number
         mojo.parseVersion( "1.2.3-4", props );
-        
+
         assertEquals( "1", props.getProperty( "parsed.majorVersion" ) );
         assertEquals( "2", props.getProperty( "parsed.minorVersion" ) );
         assertEquals( "3", props.getProperty( "parsed.incrementalVersion" ) );
         assertEquals( "", props.getProperty( "parsed.qualifier" ) );
         assertEquals( "4", props.getProperty( "parsed.buildNumber" ) );
         assertEquals( "1.2.3.4", props.getProperty( "parsed.osgiVersion" ) );
-        
+
     }
 }
