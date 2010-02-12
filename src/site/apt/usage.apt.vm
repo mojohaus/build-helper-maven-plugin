@@ -2,8 +2,9 @@
  Usage
  ------
  Dan Tran
+ Dennis Lundberg
  ------
- 2006-04-05
+ 2010-02-12
  ------
 
 ~~ The MIT License
@@ -31,7 +32,7 @@
 
 Usage
 
-  Brief examples on how to use the build-helper-maven-plugin's goals.
+  Brief examples on how to use the Build Helper Maven Plugin's goals.
 
 * Add more source directories to your project
 
@@ -85,7 +86,7 @@ Usage
         <executions>
           <execution>
             <id>add-test-source</id>
-            <phase>generate-sources</phase>
+            <phase>generate-test-sources</phase>
             <goals>
               <goal>add-test-source</goal>
             </goals>
@@ -121,9 +122,9 @@ Usage
         <executions>
           <execution>
             <id>add-resource</id>
-            <phase>generate-sources</phase>
+            <phase>generate-resources</phase>
             <goals>
-              <goal>add-test-source</goal>
+              <goal>add-resource</goal>
             </goals>
             <configuration>
               <resources>
@@ -146,8 +147,8 @@ Usage
 
 * Attach additional artifacts to your project
 
-  Typically run after <<<antrun:run>>> to attach antrun's build outputs to the
-  project for install and deploy.
+  Typically run after <<<antrun:run>>>, or another plugin, that produces files
+  that you want to attach to the project for install and deploy.
 
 -------------------
 <project>
@@ -155,7 +156,7 @@ Usage
   <build>
     <plugins>
       <plugin>
-        <!-- add antrun configuration here -->
+        <!-- add configuration for antrun or another plugin here -->
       </plugin>
       ...
       <plugin>
@@ -187,11 +188,11 @@ Usage
 </project>
 -------------------
 
-* Set the current version of maven in a property
+* Set the current version of Maven in a property
 
-  This can be used to keep track of what version of maven was used to build a particular artifact.
-  For example, the following pom sets the property and then uses the property to save the maven version
-  to the project jar's manifest.
+  This can be used to keep track of what version of Maven was used to build a particular artifact.
+  For example, the following POM sets the property and then uses the property to save the Maven version
+  to the project JAR's manifest.
 
 -------------------
 <project>
@@ -229,10 +230,10 @@ Usage
 </project>
 -------------------
 
-* Access the parsed components of a project version.
+* Access the parsed components of a project version
 
-  The <<<parse-versions>>> mojo can be used to access the component parts of a version string.  For example,
-  the major version or the qualifier by themselves.  After executing the following plugin configuration
+  The <<<parse-versions>>> goal can be used to access the component parts of a version string.  For example,
+  the major version or the qualifier by themselves.  Executing the following plugin configuration
   will parse the version of the current project and set several properties.
 
 -------------------
@@ -259,35 +260,36 @@ Usage
 </project>
 -------------------
 
-  After the goal executes (by default during the validate phase) the following
+  After the goal executes (by default during the <<<validate>>> phase) the following
   properties will contain the components of the current project version.
 
 -------------------
-  parsedVersion.majorVersion
-  parsedVersion.minorVersion
-  parsedVersion.incrementalVersion
-  parsedVersion.qualifier
-  parsedVersion.buildNumber
+parsedVersion.majorVersion
+parsedVersion.minorVersion
+parsedVersion.incrementalVersion
+parsedVersion.qualifier
+parsedVersion.buildNumber
 -------------------
 
-  The property prefix "parsedVersion" can be configured using the <<<propertyPrefix>>> mojo parameter.
-  Note that the behaviour of the parsing is determined by org.apache.maven.artifact.versioning.DefaultArtifactVersion
+  The property prefix "parsedVersion" can be configured using the <<<propertyPrefix>>> parameter.
 
-  An osgi compatible version will also be created and made available through the property:
+  <<Note:>> the behaviour of the parsing is determined by <<<org.apache.maven.artifact.versioning.DefaultArtifactVersion>>>.
+
+  An OSGi compatible version will also be created and made available through the property:
 
 -------------------
-  parsedVersion.osgiVersion
+parsedVersion.osgiVersion
 -------------------
 
   This property contains the original version string with the first instance of '-' replaced by '.'
-  For example, 1.0.2-beta-1 will be converted to 1.0.2.beta-1
+  For example, <<<1.0.2-beta-1>>> will be converted to <<<1.0.2.beta-1>>>.
 
-* Remove project's artifacts from local repository
+* Remove a project's artifacts from local repository
 
-  Mainly used to remove previously installed large project artifacts in local repository before install phase starts.
-  The below example removes all project's artifacts including all versions from its local repository
-  at the implicit <package> phase. To remove only the current version, remove <removeAll> configuration
-  element or set it to <false>.
+  Mainly used to remove previously installed large project artifacts in the local repository before the <<<install>>> phase starts.
+  The example below removes all the project's artifacts including all versions from the local repository
+  at the implicit <<<package>>> phase. To remove only the current version, set the \<<<<removeAll\>>>> configuration
+  element to <<<false>>>.
 
 -------------------
 <project>
@@ -317,10 +319,10 @@ Usage
 
 * Reserve a list of random and unused network ports
 
-  Use this plugin to as reserve a set of next available unused network ports to be placed in a given property
-  set, so that they can be passed in other plugin configurations.
+  Use this plugin to reserve a set of available unused network ports to be placed in a given property
+  set, so that they can be inserted into other plugin configurations.
 
-  The example below shows how one can pass in random ports to selenium server' port and tomcat http port.
+  The example below shows how one can pass in random ports to Selenium server port and Tomcat http port.
   Useful for running multiple tests concurrently.
 
 -------------------
@@ -391,4 +393,3 @@ Usage
   </build>
 </project>
 -------------------
-
