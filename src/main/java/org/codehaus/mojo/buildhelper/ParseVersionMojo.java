@@ -122,6 +122,11 @@ public class ParseVersionMojo
         props.setProperty( propertyPrefix + ".incrementalVersion",
                            Integer.toString( artifactVersion.getIncrementalVersion() ) );
 
+        props.setProperty( propertyPrefix + ".nextMajorVersion", Integer.toString( artifactVersion.getMajorVersion() + 1 ) );
+        props.setProperty( propertyPrefix + ".nextMinorVersion", Integer.toString( artifactVersion.getMinorVersion() + 1 ) );
+        props.setProperty( propertyPrefix + ".nextIncrementalVersion",
+                           Integer.toString( artifactVersion.getIncrementalVersion() + 1 ) );
+
         String qualifier = artifactVersion.getQualifier();
         if (qualifier == null)
         {
