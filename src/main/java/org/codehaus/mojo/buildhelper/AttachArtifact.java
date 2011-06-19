@@ -148,7 +148,7 @@ public class AttachArtifact
         throws MojoFailureException
     {
         // check unique of types and classifiers
-        Set extensionClassifiers = new HashSet();
+        Set<String> extensionClassifiers = new HashSet<String>();
         for ( int i = 0; i < this.artifacts.length; ++i )
         {
             Artifact artifact = this.artifacts[i];

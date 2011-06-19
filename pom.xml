@@ -120,6 +120,7 @@
   </reporting>
 
   <properties>
-    <mavenVersion>2.0.2</mavenVersion>
+    <mavenVersion>2.0.6</mavenVersion>  <!-- due to MNG-2892 -->
+    <mojo.java.target>1.5</mojo.java.target>
   </properties>
 </project>
