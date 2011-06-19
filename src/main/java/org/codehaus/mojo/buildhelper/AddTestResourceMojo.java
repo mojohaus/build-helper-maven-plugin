@@ -25,7 +25,6 @@ package org.codehaus.mojo.buildhelper;
  */
 
 import org.apache.maven.model.Resource;
-import org.apache.maven.project.MavenProject;
 
 /**
  * Add more test resource directories to the POM.
