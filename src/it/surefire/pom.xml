@@ -48,7 +48,7 @@
       
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId> 
-        <version>2.5-SNAPSHOT</version>
+        <version>2.9</version>
           <configuration>
             <!-- surefire cant see this system property, will be fixed in surefire 2.5 see SUREFIRE-511 -->
             <systemProperties>
