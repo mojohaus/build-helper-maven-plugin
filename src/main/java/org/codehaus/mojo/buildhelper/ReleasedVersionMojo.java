@@ -49,6 +49,7 @@ import org.apache.maven.project.MavenProject;
  * 
  * @author Robert Scholte
  * @goal released-version
+ * @phase validate
  * @since 1.6
  */
 public class ReleasedVersionMojo
