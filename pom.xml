@@ -1,35 +1,28 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>org.codehaus.mojo</groupId>
     <artifactId>mojo-parent</artifactId>
     <version>28</version>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
+
   <artifactId>build-helper-maven-plugin</artifactId>
-  <packaging>maven-plugin</packaging>
-  <name>Build Helper Maven Plugin</name>
   <version>1.6-SNAPSHOT</version>
+  <packaging>maven-plugin</packaging>
 
+  <name>Build Helper Maven Plugin</name>
   <description>This plugin contains various small independent goals to assist with Maven build lifecycle</description>
-
-  <prerequisites>
-    <maven>${mavenVersion}</maven>
-  </prerequisites>
-
-  <issueManagement>
-    <system>JIRA</system>
-    <url>http://jira.codehaus.org/browse/MBUILDHELPER</url>
-  </issueManagement>
-
   <inceptionYear>2005</inceptionYear>
-
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin</developerConnection>
-    <url>http://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin</url>
-  </scm>
-
+  <licenses>
+    <license>
+      <name>The MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses> 
+  
   <developers>
     <developer>
       <name>Dan Tran</name>
@@ -39,15 +32,34 @@
       </roles>
       <timezone>5</timezone>
     </developer>
+    <developer>
+      <id>rfscholte</id>
+      <name>Robert Scholte</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
   </developers>
+  
+  <prerequisites>
+    <maven>${mavenVersion}</maven>
+  </prerequisites>
 
-  <licenses>
-    <license>
-      <name>The MIT License</name>
-      <url>http://www.opensource.org/licenses/mit-license.php</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
+  <scm>
+    <connection>scm:svn:http://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin</developerConnection>
+    <url>http://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin</url>
+  </scm>
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://jira.codehaus.org/browse/MBUILDHELPER</url>
+  </issueManagement>
+
+  <properties>
+    <mavenVersion>2.0.6</mavenVersion>  <!-- due to MNG-2892 -->
+    <mojo.java.target>1.5</mojo.java.target>
+  </properties>
 
   <dependencies>
     <dependency>
@@ -119,8 +131,4 @@
     </plugins>
   </reporting>
 
-  <properties>
-    <mavenVersion>2.0.6</mavenVersion>  <!-- due to MNG-2892 -->
-    <mojo.java.target>1.5</mojo.java.target>
-  </properties>
 </project>
