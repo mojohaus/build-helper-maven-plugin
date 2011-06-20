@@ -37,6 +37,7 @@ import org.apache.maven.project.MavenProject;
  * @phase validate
  * @author pgier
  * @since 1.3
+ * @threadSafe
  */
 public class MavenVersionMojo
     extends AbstractMojo

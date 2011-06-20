@@ -51,6 +51,7 @@ import org.apache.maven.project.MavenProject;
  * @goal released-version
  * @phase validate
  * @since 1.6
+ * @threadSafe
  */
 public class ReleasedVersionMojo
     extends AbstractMojo

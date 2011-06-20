@@ -34,6 +34,7 @@ import org.apache.maven.model.Resource;
  * @author Paul Gier
  * @version $Id$
  * @since 1.3
+ * @threadSafe
  */
 public class AddTestResourceMojo
     extends AbstractAddResourceMojo

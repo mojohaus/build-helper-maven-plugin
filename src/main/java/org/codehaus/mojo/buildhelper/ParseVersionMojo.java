@@ -58,7 +58,7 @@ import java.util.Properties;
  * @goal parse-version
  * @phase validate
  * @since 1.3
- *
+ * @threadSafe
  */
 public class ParseVersionMojo
     extends AbstractMojo

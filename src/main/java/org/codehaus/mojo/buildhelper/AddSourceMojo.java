@@ -38,6 +38,7 @@ import java.io.File;
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
  * @since 1.0
+ * @threadSafe
  */
 public class AddSourceMojo
     extends AbstractMojo
