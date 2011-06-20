@@ -60,6 +60,15 @@ public class RemoveLocalArtifactMojo
     private boolean removeAll;
 
     /**
+     * Indicates whether the build will continue even if there are removal errors.
+     *
+     * @parameter default-value="true" expression="${buildhelper.removeCritical}"
+     * @since 1.6
+     *
+     */
+    private boolean failOnError;
+
+    /**
      * @parameter expression="${project}"
      * @required
      * @readonly
@@ -91,13 +100,23 @@ public class RemoveLocalArtifactMojo
         try
         {
             FileUtils.deleteDirectory( localArtifactDirectory );
+
+            if( getLog().isInfoEnabled() )
+            {
+                getLog().info( localArtifactDirectory.getAbsolutePath() + " removed." );
+            }
         }
         catch ( IOException e )
         {
-            throw new MojoFailureException( "Cannot delete " + localArtifactDirectory );
+            final String failureMessage = "Cannot delete " + localArtifactDirectory;
+            if ( failOnError )
+            {
+                throw new MojoFailureException( failureMessage );
+            }
+            else
+            {
+                getLog().warn( failureMessage );
+            }
         }
-
-        this.getLog().info( localArtifactDirectory.getAbsolutePath() + " removed." );
-
     }
 }
