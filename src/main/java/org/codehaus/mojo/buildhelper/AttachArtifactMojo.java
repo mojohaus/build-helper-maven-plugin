@@ -43,7 +43,7 @@ import java.util.Set;
  * @version $Id$
  * @since 1.0
  */
-public class AttachArtifact
+public class AttachArtifactMojo
     extends AbstractMojo
 {
     /**
