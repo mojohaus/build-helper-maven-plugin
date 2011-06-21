@@ -44,6 +44,9 @@ import org.apache.maven.project.MavenProject;
  * 
  * <pre>
  *   [propertyPrefix].version
+ *   [propertyPrefix].majorVersion
+ *   [propertyPrefix].minorVersion
+ *   [propertyPrefix].incrementalVersion   
  * </pre>
  * 
  * Where the propertyPrefix is the string set in the mojo parameter.
@@ -113,8 +116,8 @@ public class ReleasedVersionMojo
         try
         {
             ArtifactVersion releasedVersion = null;
-            List<ArtifactVersion> versions =
-                artifactMetadataSource.retrieveAvailableVersions( artifact, localRepository, remoteArtifactRepositories );
+            List<ArtifactVersion> versions = artifactMetadataSource
+                .retrieveAvailableVersions( artifact, localRepository, remoteArtifactRepositories );
             for ( ArtifactVersion version : versions )
             {
                 if ( !ArtifactUtils.isSnapshot( version.toString() )
@@ -143,9 +146,12 @@ public class ReleasedVersionMojo
                     getLog().debug( propertyPrefix + ".version = " + releasedVersionValue );
                 }
                 Properties props = project.getProperties(); 
-                props.setProperty( propertyPrefix + ".version", releasedVersionValue );
-                props.setProperty( propertyPrefix + ".majorVersion", Integer.toString( releasedVersion.getMajorVersion() ) );
-                props.setProperty( propertyPrefix + ".minorVersion", Integer.toString( releasedVersion.getMinorVersion() ) );
+                props.setProperty( propertyPrefix + ".version", 
+                                   releasedVersionValue );
+                props.setProperty( propertyPrefix + ".majorVersion", 
+                                   Integer.toString( releasedVersion.getMajorVersion() ) );
+                props.setProperty( propertyPrefix + ".minorVersion", 
+                                   Integer.toString( releasedVersion.getMinorVersion() ) );
                 props.setProperty( propertyPrefix + ".incrementalVersion",
                                    Integer.toString( releasedVersion.getIncrementalVersion() ) );
 
