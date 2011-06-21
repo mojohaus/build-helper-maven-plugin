@@ -3,6 +3,7 @@
  ------
  Dan Tran
  Dennis Lundberg
+ Robert Scholte
  ------
  2010-02-12
  ------
@@ -232,7 +233,7 @@ Usage
 
 * Access the parsed components of a project version
 
-  The <<<parse-versions>>> goal can be used to access the component parts of a version string.  For example,
+  The <<<parse-version>>> goal can be used to access the component parts of a version string. For example,
   the major version or the qualifier by themselves.  Executing the following plugin configuration
   will parse the version of the current project and set several properties.
 
@@ -283,6 +284,50 @@ parsedVersion.osgiVersion
 
   This property contains the original version string with the first instance of '-' replaced by '.'
   For example, <<<1.0.2-beta-1>>> will be converted to <<<1.0.2.beta-1>>>.
+  
+* Resolve the latest released version of a project
+
+  The <<<released-version>>> goal can be used to resolve the latest released version of a project. 
+  Executing the following plugin configuration makes the latest released version of the current project available.
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <executions>
+          <execution>
+            <id>released-version</id>
+            <goals>
+              <goal>released-version</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  ...
+</project>
+-------------------
+
+  After the goal executes (by default during the <<<validate>>> phase) the following
+  property will be available.
+
+-------------------
+releasedVersion.version
+releasedVersion.majorVersion
+releasedVersion.minorVersion
+releasedVersion.incrementalVersion
+-------------------
+
+  The property prefix "releasedVersion" can be configured using the <<<propertyPrefix>>> parameter.
+  This property can become very handy if you want to provide links to download the latest version.
+  If you have to do a <<<site-deploy>>> during snapshot-development, the $\{project.version\} is useless.
+  
 
 * Remove a project's artifacts from local repository
 
