@@ -86,11 +86,11 @@ public class ReserveListenerPortMojo
             properties = new Properties();
         }
         
-        for ( int i = 0 ; i < portNames.length; ++i )
+        for ( String portName : portNames )
         {
             String unusedPort = Integer.toString( getNextAvailablePort()  );
-            properties.put( portNames[i], unusedPort );
-            this.getLog().info( "Reserved port " + unusedPort + " for " + portNames[i] );
+            properties.put( portName, unusedPort );
+            this.getLog().info( "Reserved port " + unusedPort + " for " + portName );
         }
         
         if ( outputFile != null )

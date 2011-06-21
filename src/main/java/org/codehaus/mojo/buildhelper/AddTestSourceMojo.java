@@ -24,11 +24,10 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.project.MavenProject;
-
 import java.io.File;
+
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.project.MavenProject;
 
 /**
  * Add test source directories to the POM.
@@ -64,11 +63,11 @@ public class AddTestSourceMojo
 
     public void execute()
     {        
-        for ( int i = 0; i < sources.length; ++i )
+        for ( File source : sources )
         {
-            this.project.addTestCompileSourceRoot( this.sources[i].getAbsolutePath() );
+            this.project.addTestCompileSourceRoot( source.getAbsolutePath() );
                 
-            this.getLog().info( "Test Source directory: " + this.sources[i] + " added." );              
+            this.getLog().info( "Test Source directory: " + source + " added." );              
         }
     }
 }

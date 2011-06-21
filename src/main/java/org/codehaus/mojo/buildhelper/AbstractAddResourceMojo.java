@@ -58,19 +58,18 @@ public abstract class AbstractAddResourceMojo
      */
     public void execute()
     {        
-        for ( int i = 0; i < resources.length; ++i )
+        for ( Resource resource : resources )
         {
-            
             // Check for relative paths in the resource configuration.
             // http://maven.apache.org/plugin-developers/common-bugs.html#Resolving_Relative_Paths
-            File resourceDir = new File( resources[i].getDirectory() );
+            File resourceDir = new File( resource.getDirectory() );
             if ( ! resourceDir.isAbsolute() )
             {
-                resourceDir = new File( project.getBasedir(), resources[i].getDirectory() );
-                resources[i].setDirectory( resourceDir.getAbsolutePath() );
+                resourceDir = new File( project.getBasedir(), resource.getDirectory() );
+                resource.setDirectory( resourceDir.getAbsolutePath() );
             }
             
-            addResource ( resources[i] );
+            addResource ( resource );
         }
     }
     

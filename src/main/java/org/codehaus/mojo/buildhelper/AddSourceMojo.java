@@ -24,11 +24,10 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.project.MavenProject;
-
 import java.io.File;
+
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.project.MavenProject;
 
 /**
  * Add more source directories to the POM.
@@ -63,11 +62,11 @@ public class AddSourceMojo
 
     public void execute()
     {        
-        for ( int i = 0; i < sources.length; ++i )
+        for ( File source : sources )
         {
-            this.project.addCompileSourceRoot( this.sources[i].getAbsolutePath() );
+            this.project.addCompileSourceRoot( source.getAbsolutePath() );
                 
-            this.getLog().info( "Source directory: " + this.sources[i] + " added." );              
+            this.getLog().info( "Source directory: " + source + " added." );              
         }
     }
 }

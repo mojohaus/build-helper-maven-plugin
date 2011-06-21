@@ -126,12 +126,12 @@ public class AttachArtifact
         {
             this.validateArtifacts();
 
-            for ( int i = 0 ; i < this.artifacts.length; ++ i )
+            for ( Artifact artifact : artifacts )
             {
                 projectHelper.attachArtifact( this.project,
-                                              this.artifacts[i].getType(),
-                                              this.artifacts[i].getClassifier(),
-                                              this.artifacts[i].getFile() );
+                                              artifact.getType(),
+                                              artifact.getClassifier(),
+                                              artifact.getFile() );
             }
         }
 
@@ -164,10 +164,8 @@ public class AttachArtifact
     {
         // check unique of types and classifiers
         Set<String> extensionClassifiers = new HashSet<String>();
-        for ( int i = 0; i < this.artifacts.length; ++i )
+        for ( Artifact artifact : artifacts )
         {
-            Artifact artifact = this.artifacts[i];
-
             String extensionClassifier = artifact.getType() + ":" + artifact.getClassifier();
 
             if ( !extensionClassifiers.add( extensionClassifier  ) )
