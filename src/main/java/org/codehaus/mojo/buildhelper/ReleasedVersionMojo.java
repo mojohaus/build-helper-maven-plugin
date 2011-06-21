@@ -25,6 +25,7 @@ package org.codehaus.mojo.buildhelper;
  */
 
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.maven.artifact.ArtifactUtils;
 import org.apache.maven.artifact.factory.ArtifactFactory;
@@ -141,7 +142,13 @@ public class ReleasedVersionMojo
                 {
                     getLog().debug( propertyPrefix + ".version = " + releasedVersionValue );
                 }
-                project.getProperties().put( propertyPrefix + ".version", releasedVersionValue );
+                Properties props = project.getProperties(); 
+                props.setProperty( propertyPrefix + ".version", releasedVersionValue );
+                props.setProperty( propertyPrefix + ".majorVersion", Integer.toString( releasedVersion.getMajorVersion() ) );
+                props.setProperty( propertyPrefix + ".minorVersion", Integer.toString( releasedVersion.getMinorVersion() ) );
+                props.setProperty( propertyPrefix + ".incrementalVersion",
+                                   Integer.toString( releasedVersion.getIncrementalVersion() ) );
+
             }
 
         }
