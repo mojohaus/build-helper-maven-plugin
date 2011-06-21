@@ -73,14 +73,14 @@ public class OsgiArtifactVersion
             {
                 if ( otherVersion.qualifier != null )
                 {
-                    if ( qualifier.length() > otherVersion.qualifier.length() &&
-                        qualifier.startsWith( otherVersion.qualifier ) )
+                    if ( qualifier.length() > otherVersion.qualifier.length() 
+                                    && qualifier.startsWith( otherVersion.qualifier ) )
                     {
                         // here, the longer one that otherwise match is considered older
                         result = -1;
                     }
-                    else if ( qualifier.length() < otherVersion.qualifier.length() &&
-                        otherVersion.qualifier.startsWith( qualifier ) )
+                    else if ( qualifier.length() < otherVersion.qualifier.length() 
+                                    && otherVersion.qualifier.startsWith( qualifier ) )
                     {
                         // here, the longer one that otherwise match is considered older
                         result = 1;

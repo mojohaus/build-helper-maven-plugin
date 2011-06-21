@@ -34,8 +34,6 @@ import org.apache.maven.artifact.metadata.ArtifactMetadataSource;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 
 /**
@@ -109,7 +107,6 @@ public class ReleasedVersionMojo
 
     @SuppressWarnings( "unchecked" )
     public void execute()
-        throws MojoExecutionException, MojoFailureException
     {
         org.apache.maven.artifact.Artifact artifact =
             artifactFactory.createArtifact( project.getGroupId(), project.getArtifactId(), "", "", "" );

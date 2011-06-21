@@ -27,7 +27,6 @@ package org.codehaus.mojo.buildhelper;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.execution.RuntimeInformation;
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 
 /**
@@ -69,10 +68,8 @@ public class MavenVersionMojo
     /**
      * Main plugin execution
      * 
-     * @throws MojoExecutionException if the plugin execution fails.
      */
     public void execute()
-        throws MojoExecutionException
     {
         ArtifactVersion mavenVersion = runtime.getApplicationVersion();
 

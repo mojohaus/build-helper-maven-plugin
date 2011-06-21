@@ -93,18 +93,15 @@ public class ParseVersionMojo
      * @throws MojoExecutionException if the plugin execution fails.
      */
     public void execute()
-        throws MojoExecutionException
     {
-
         parseVersion (versionString, project.getProperties() );
-
     }
 
     /**
      * Parse a version String and add the components to a properties object.
      *
-     * @param version
-     * @param props
+     * @param version the version to parse
+     * @param props the target for the new properties
      */
     public void parseVersion( String version, Properties props)
     {
@@ -116,13 +113,17 @@ public class ParseVersionMojo
             getLog().debug("The version is not in the regular format, will try OSGi format instead");
             artifactVersion = new OsgiArtifactVersion( version );
         }
-        props.setProperty( propertyPrefix + ".majorVersion", Integer.toString( artifactVersion.getMajorVersion() ) );
-        props.setProperty( propertyPrefix + ".minorVersion", Integer.toString( artifactVersion.getMinorVersion() ) );
+        props.setProperty( propertyPrefix + ".majorVersion", 
+                           Integer.toString( artifactVersion.getMajorVersion() ) );
+        props.setProperty( propertyPrefix + ".minorVersion", 
+                           Integer.toString( artifactVersion.getMinorVersion() ) );
         props.setProperty( propertyPrefix + ".incrementalVersion",
                            Integer.toString( artifactVersion.getIncrementalVersion() ) );
 
-        props.setProperty( propertyPrefix + ".nextMajorVersion", Integer.toString( artifactVersion.getMajorVersion() + 1 ) );
-        props.setProperty( propertyPrefix + ".nextMinorVersion", Integer.toString( artifactVersion.getMinorVersion() + 1 ) );
+        props.setProperty( propertyPrefix + ".nextMajorVersion", 
+                           Integer.toString( artifactVersion.getMajorVersion() + 1 ) );
+        props.setProperty( propertyPrefix + ".nextMinorVersion", 
+                           Integer.toString( artifactVersion.getMinorVersion() + 1 ) );
         props.setProperty( propertyPrefix + ".nextIncrementalVersion",
                            Integer.toString( artifactVersion.getIncrementalVersion() + 1 ) );
 

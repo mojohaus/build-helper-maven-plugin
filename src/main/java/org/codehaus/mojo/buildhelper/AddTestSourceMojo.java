@@ -63,7 +63,6 @@ public class AddTestSourceMojo
 
 
     public void execute()
-        throws MojoExecutionException
     {        
         for ( int i = 0; i < sources.length; ++i )
         {
