@@ -98,10 +98,25 @@ public class AttachArtifact
      */
     private boolean runOnlyAtExecutionRoot;
 
+    /**
+     * This allows to skip the attach execution in case it is known that the corresponding file does not exists.
+     * For exemple, when the previous ant-run task is skipped with a unless.
+     * 
+     * @parameter expression="${buildhelper.skipAttach}" default-value="false"
+     * @since 1.6
+     */
+    private boolean skipAttach;
+    
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
 
+        if ( skipAttach )
+        {
+            getLog().info( "Skip attaching artifacts" );
+            return;
+        }
+        
         // Run only at the execution root
         if ( runOnlyAtExecutionRoot && !isThisTheExecutionRoot() )
         {
