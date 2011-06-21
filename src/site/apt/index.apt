@@ -39,29 +39,29 @@ Build Helper Maven Plugin
 
 ~~  General Information about the goals.
 
-  * {{{add-source-mojo.html}build-helper:add-source}} Add more source directories to the POM.
+  * {{{./add-source-mojo.html}build-helper:add-source}} Add more source directories to the POM.
 
-  * {{{add-test-source-mojo.html}build-helper:add-test-source}} Add test source directories to the POM.
+  * {{{./add-test-source-mojo.html}build-helper:add-test-source}} Add test source directories to the POM.
 
-  * {{{add-resource-mojo.html}build-helper:add-resource}} Add more resource directories to the POM.
+  * {{{./add-resource-mojo.html}build-helper:add-resource}} Add more resource directories to the POM.
 
-  * {{{add-test-resource-mojo.html}build-helper:add-test-resource}} Add test resource directories to the POM.
+  * {{{./add-test-resource-mojo.html}build-helper:add-test-resource}} Add test resource directories to the POM.
 
-  * {{{attach-artifact-mojo.html}build-helper:attach-artifact}} Attach additional artifacts to be installed and deployed.
+  * {{{./attach-artifact-mojo.html}build-helper:attach-artifact}} Attach additional artifacts to be installed and deployed.
 
-  * {{{maven-version-mojo.html}build-helper:maven-version}} Set a property containing the current version of maven.
+  * {{{./maven-version-mojo.html}build-helper:maven-version}} Set a property containing the current version of maven.
   
-  * {{{parse-version-mojo.html}build-helper:parse-version}} Set properties containing the parsed components of a version string.
+  * {{{./parse-version-mojo.html}build-helper:parse-version}} Set properties containing the parsed components of a version string.
 
-  * {{{released-version-mojo.html}build-helper:released-version}} Resolve the latest released version of this project.
+  * {{{./released-version-mojo.html}build-helper:released-version}} Resolve the latest released version of this project.
 
-  * {{{remove-project-artifact-mojo.html}build-helper:remove-project-artifact}} Remove project's artifacts from local repository.
+  * {{{./remove-project-artifact-mojo.html}build-helper:remove-project-artifact}} Remove project's artifacts from local repository.
 
-  * {{{reserve-network-port-mojo.html}build-helper:reserve-network-port}} Reserve a list of random and unused network ports.
+  * {{{./reserve-network-port-mojo.html}build-helper:reserve-network-port}} Reserve a list of random and unused network ports.
 
 * Usage
 
-  Instructions on how to use the Build Helper Maven Plugin can be found on the {{{usage.html}usage page}}.
+  Instructions on how to use the Build Helper Maven Plugin can be found on the {{{./usage.html}usage page}}.
 
 
 * Examples
