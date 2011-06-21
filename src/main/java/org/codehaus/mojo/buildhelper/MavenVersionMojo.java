@@ -73,7 +73,10 @@ public class MavenVersionMojo
     {
         ArtifactVersion mavenVersion = runtime.getApplicationVersion();
 
-        getLog().debug( "Retrieved maven version: " + mavenVersion.toString() );
+        if( getLog().isDebugEnabled() )
+        {
+            getLog().debug( "Retrieved maven version: " + mavenVersion.toString() );
+        }
 
         if ( project != null )
         {

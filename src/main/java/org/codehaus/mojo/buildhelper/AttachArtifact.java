@@ -145,16 +145,23 @@ public class AttachArtifact
      */
     private boolean isThisTheExecutionRoot()
     {
-        getLog().debug( "Root Folder:" + mavenSession.getExecutionRootDirectory() );
-        getLog().debug( "Current Folder:" + basedir );
-        boolean result = mavenSession.getExecutionRootDirectory().equalsIgnoreCase( basedir.toString() );
-        if ( result )
+        if( getLog().isDebugEnabled() )
         {
-            getLog().debug( "This is the execution root." );
+            getLog().debug( "Root Folder:" + mavenSession.getExecutionRootDirectory() );
+            getLog().debug( "Current Folder:" + basedir );
+            
         }
-        else
+        boolean result = mavenSession.getExecutionRootDirectory().equalsIgnoreCase( basedir.toString() );
+        if( getLog().isDebugEnabled() )
         {
-            getLog().debug( "This is NOT the execution root." );
+            if ( result )
+            {
+                getLog().debug( "This is the execution root." );
+            }
+            else
+            {
+                getLog().debug( "This is NOT the execution root." );
+            }
         }
         return result;
     }

@@ -66,8 +66,10 @@ public class AddTestSourceMojo
         for ( File source : sources )
         {
             this.project.addTestCompileSourceRoot( source.getAbsolutePath() );
-                
-            this.getLog().info( "Test Source directory: " + source + " added." );              
+            if( getLog().isInfoEnabled() )
+            {
+                getLog().info( "Test Source directory: " + source + " added." );              
+            }
         }
     }
 }

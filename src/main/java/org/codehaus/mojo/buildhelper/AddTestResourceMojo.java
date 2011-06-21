@@ -43,7 +43,9 @@ public class AddTestResourceMojo
     public void addResource( Resource resource )
     {
         getProject().addTestResource( resource );
-        
-        this.getLog().debug( "Added test resource: " + resource.getDirectory() );              
+        if( getLog().isDebugEnabled() )
+        {
+            getLog().debug( "Added test resource: " + resource.getDirectory() );              
+        }
     }
 }

@@ -65,8 +65,10 @@ public class AddSourceMojo
         for ( File source : sources )
         {
             this.project.addCompileSourceRoot( source.getAbsolutePath() );
-                
-            this.getLog().info( "Source directory: " + source + " added." );              
+            if( getLog().isInfoEnabled() )
+            {
+                getLog().info( "Source directory: " + source + " added." );              
+            }
         }
     }
 }
