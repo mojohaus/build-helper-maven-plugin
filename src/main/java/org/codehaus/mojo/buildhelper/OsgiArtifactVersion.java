@@ -31,6 +31,8 @@ import org.apache.maven.artifact.versioning.ArtifactVersion;
 /**
  * Default implementation of artifact versioning.
  *
+ * @author Robert Scholte
+ * @version $Id$
  */
 public class OsgiArtifactVersion
     implements ArtifactVersion
@@ -45,11 +47,17 @@ public class OsgiArtifactVersion
 
     private String qualifier;
 
+    /**
+     * <p>Constructor for OsgiArtifactVersion.</p>
+     *
+     * @param version a {@link java.lang.String} object.
+     */
     public OsgiArtifactVersion( String version )
     {
         parseVersion( version );
     }
 
+    /** {@inheritDoc} */
     public int compareTo( Object o )
     {
         OsgiArtifactVersion otherVersion = (OsgiArtifactVersion) o;
@@ -125,31 +133,57 @@ public class OsgiArtifactVersion
         }
     }
 
+    /**
+     * <p>Getter for the field <code>majorVersion</code>.</p>
+     *
+     * @return a int.
+     */
     public int getMajorVersion()
     {
         return majorVersion != null ? majorVersion.intValue() : 0;
     }
 
+    /**
+     * <p>Getter for the field <code>minorVersion</code>.</p>
+     *
+     * @return a int.
+     */
     public int getMinorVersion()
     {
         return minorVersion != null ? minorVersion.intValue() : 0;
     }
 
+    /**
+     * <p>Getter for the field <code>incrementalVersion</code>.</p>
+     *
+     * @return a int.
+     */
     public int getIncrementalVersion()
     {
         return incrementalVersion != null ? incrementalVersion.intValue() : 0;
     }
 
+    /**
+     * <p>Getter for the field <code>buildNumber</code>.</p>
+     *
+     * @return a int.
+     */
     public int getBuildNumber()
     {
         return buildNumber != null ? buildNumber.intValue() : 0;
     }
 
+    /**
+     * <p>Getter for the field <code>qualifier</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getQualifier()
     {
         return qualifier;
     }
 
+    /** {@inheritDoc} */
     public void parseVersion( String version )
     {
         boolean fallback = false;
@@ -204,6 +238,11 @@ public class OsgiArtifactVersion
         return Integer.valueOf( s );
     }
 
+    /**
+     * <p>toString</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String toString()
     {
         StringBuffer buf = new StringBuffer();

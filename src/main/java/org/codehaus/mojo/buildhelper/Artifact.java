@@ -27,8 +27,10 @@ package org.codehaus.mojo.buildhelper;
 import java.io.File;
 
 /**
- * @author dtran
+ * <p>Artifact class.</p>
  *
+ * @author dtran
+ * @version $Id$
  */
 public class Artifact
 {
@@ -38,31 +40,61 @@ public class Artifact
     
     private String classifier;
     
+    /**
+     * <p>Setter for the field <code>file</code>.</p>
+     *
+     * @param localFile a {@link java.io.File} object.
+     */
     public void setFile( File localFile )
     {
         this.file = localFile;
     }
     
+    /**
+     * <p>Getter for the field <code>file</code>.</p>
+     *
+     * @return a {@link java.io.File} object.
+     */
     public File getFile ()
     {
         return this.file;
     }
 
+    /**
+     * <p>Setter for the field <code>type</code>.</p>
+     *
+     * @param type a {@link java.lang.String} object.
+     */
     public void setType( String type )
     {
         this.type = type;
     }
     
+    /**
+     * <p>Getter for the field <code>type</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getType ()
     {
         return this.type;
     }    
     
+    /**
+     * <p>Setter for the field <code>classifier</code>.</p>
+     *
+     * @param classifier a {@link java.lang.String} object.
+     */
     public void setClassifier( String classifier )
     {
         this.classifier = classifier;
     }
     
+    /**
+     * <p>Getter for the field <code>classifier</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getClassifier ()
     {
         return this.classifier;
