@@ -438,3 +438,44 @@ releasedVersion.incrementalVersion
   </build>
 </project>
 -------------------
+
+* Set a property by applying a regex replacement to a value
+
+  The <<<regex-property>>> goal can be used to set a property to a value after regex replacement has been applied.
+  For example, executing the following plugin configuration set the <<<human.version>>> property.
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <executions>
+          <execution>
+            <id>regex-property</id>
+            <goals>
+              <goal>regex-property</goal>
+            </goals>
+            <configuration>
+              <name>human.version</name>
+              <value>$\{project.version}</value>
+              <regex>-SNAPSHOT</regex>
+              <replacement> pre-release development version</replacement>
+              <failIfNoMatch>false</failIfNoMatch>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  ...
+</project>
+-------------------
+
+  After the goal executes (by default during the <<<validate>>> phase) the <<<human.version>>> property would have
+  the value <<<1.0>>> if the <<<project.version>>> was <<<1.0>>> but if the project version was <<<1.0-SNAPSHOT>>>
+  then it would have the value <<<1.0 pre-release development version>>>.
+

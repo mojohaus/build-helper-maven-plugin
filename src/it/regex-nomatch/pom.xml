@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>build-helper-maven-plugin-regex-nomatch-it</artifactId>
+  <version>1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>Regex NoMatch</name>
+  <description>
+    Tests that failOfNoMatch will fail if no match
+  </description>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>test.properties</exclude>
+        </excludes>
+        <filtering>false</filtering>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>test.properties</include>
+        </includes>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>@project.groupId@</groupId>
+        <artifactId>@project.artifactId@</artifactId>
+        <version>@project.version@</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>regex-property</goal>
+            </goals>
+            <configuration>
+              <name>build.version</name>
+              <value>${project.version}</value>
+              <regex>NOT HERE</regex>
+              <replacement>Substitute</replacement>
+              <failIfNoMatch>true</failIfNoMatch>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
