@@ -442,7 +442,7 @@ releasedVersion.incrementalVersion
 * Set a property by applying a regex replacement to a value
 
   The <<<regex-property>>> goal can be used to set a property to a value after regex replacement has been applied.
-  For example, executing the following plugin configuration set the <<<human.version>>> property.
+  For example, executing the following plugin configuration to set the <<<human.version>>> property.
 
 -------------------
 <project>
@@ -478,4 +478,50 @@ releasedVersion.incrementalVersion
   After the goal executes (by default during the <<<validate>>> phase) the <<<human.version>>> property would have
   the value <<<1.0>>> if the <<<project.version>>> was <<<1.0>>> but if the project version was <<<1.0-SNAPSHOT>>>
   then it would have the value <<<1.0 pre-release development version>>>.
+
+* Set a property based on the current time and date
+
+  The <<<timestamp-property>>> goal can be used to set a property to a value based on the current time and date (with
+  an optional offset applied). For example, executing the following plugin configuration to set the
+  <<<next.year>>> property to next year.
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <executions>
+          <execution>
+            <id>timestamp-property</id>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <configuration>
+              <name>next.year</name>
+              <pattern>yyyy</pattern>
+              <units>year</units>
+              <offset>+1</offset>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  ...
+</project>
+-------------------
+
+  After the goal executes (by default during the <<<validate>>> phase) the <<<next.year>>> property will have the
+  value of next year.
+
+  The <<<pattern>>> parameter accepts any valid <<<java.text.SimpleDateFormat>>> format string.
+
+  The <<<units>>> will accept any of: <<<millisecond>>>, <<<second>>>, <<<minute>>>, <<<hour>>>, <<<day>>>, <<<week>>>,
+  <<<month>>> and <<<year>>>. The <<<offset>>> parameter takes integer values only and defaults to <<<0>>>.
+
+  The <<<locale>>> and <<<timeZone>>> parameters can be further used to control the build-time behaviour.
 

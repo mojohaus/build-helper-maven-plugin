@@ -1,0 +1,66 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>localdomain.localhost</groupId>
+  <artifactId>timestamp-jenkins</artifactId>
+  <version>1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>Timestamp Jenkins</name>
+  <description>
+    Tests that a jenkins style timestamp can be set
+  </description>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>test.properties</exclude>
+        </excludes>
+        <filtering>false</filtering>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>test.properties</include>
+        </includes>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>@project.groupId@</groupId>
+        <artifactId>@project.artifactId@</artifactId>
+        <version>@project.version@</version>
+        <executions>
+          <execution>
+            <id>timestamp</id>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <configuration>
+              <name>timestamp</name>
+              <locale>en_US</locale>
+              <pattern>hh:mm dd-MM-yyyy</pattern>
+            </configuration>
+          </execution>
+          <execution>
+            <id>version</id>
+            <goals>
+              <goal>regex-property</goal>
+            </goals>
+            <configuration>
+              <name>build.version</name>
+              <value>${project.version}</value>
+              <regex>-SNAPSHOT</regex>
+              <replacement>-RC (${timestamp} private)</replacement>
+              <failIfNoMatch>false</failIfNoMatch>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
