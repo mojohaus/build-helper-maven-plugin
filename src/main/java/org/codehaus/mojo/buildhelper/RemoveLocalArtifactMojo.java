@@ -61,7 +61,7 @@ public class RemoveLocalArtifactMojo
     /**
      * Indicates whether the build will continue even if there are removal errors.
      *
-     * @parameter default-value="true" expression="${buildhelper.removeCritical}"
+     * @parameter default-value="true" expression="${buildhelper.failOnError}"
      * @since 1.6
      *
      */
