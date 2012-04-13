@@ -28,7 +28,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 
 /**
- * Retrieve curretn host IP address and place it under a configurable project property
+ * Retrieve current host IP address and place it under a configurable project property
  * 
  * @goal local-ip
  * @phase process-test-classes
