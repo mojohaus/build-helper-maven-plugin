@@ -59,6 +59,8 @@ Build Helper Maven Plugin
 
   * {{{./reserve-network-port-mojo.html}build-helper:reserve-network-port}} Reserve a list of random and unused network ports.
 
+  * {{{./local-ip-mojo.html}build-helper:local-ip}} Retrieve current host IP address.
+
 * Usage
 
   Instructions on how to use the Build Helper Maven Plugin can be found on the {{{./usage.html}usage page}}.

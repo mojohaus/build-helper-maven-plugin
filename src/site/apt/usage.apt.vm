@@ -525,3 +525,34 @@ releasedVersion.incrementalVersion
 
   The <<<locale>>> and <<<timeZone>>> parameters can be further used to control the build-time behaviour.
 
+* Retrieve current host IP address
+
+  The <<<local-ip>>> goal can be used to load current host address
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <executions>
+          <execution>
+            <id>get-local-ip</id>
+            <goals>
+              <goal>local-ip</goal>
+            </goals>
+            <configuration>
+              <!-- if not given, 'local.ip' name is used -->
+              <localIpProperty>my.local.ip</localIpProperty>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  ...
+</project>
+-------------------
