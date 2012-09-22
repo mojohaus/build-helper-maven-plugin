@@ -45,7 +45,7 @@ import java.util.Set;
  * @version $Id$
  * @since 1.0
  */
-@Mojo( name = "attach-artifact", defaultPhase = LifecyclePhase.PACKAGE /*, threadSafe = true ? TODO investigate MBUILDHELPER-43 */ )
+@Mojo( name = "attach-artifact", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true )
 public class AttachArtifactMojo
     extends AbstractMojo
 {

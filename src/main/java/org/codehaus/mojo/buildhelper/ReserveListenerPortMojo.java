@@ -41,14 +41,14 @@ import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.IOUtil;
 
 /**
- * Reserve a list of random and not in used network ports and place them
+ * Reserve a list of random and not in use network ports and place them
  * in a configurable project properties.
  *
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id: ReserveListnerPortMojo.java 6754 2008-04-13 15:14:04Z dantran $
  * @since 1.2
  */
-@Mojo( name = "reserve-network-port", defaultPhase = LifecyclePhase.PROCESS_TEST_CLASSES /*, threadSafe = true ? TODO investigate MBUILDHELPER-43 */ )
+@Mojo( name = "reserve-network-port", defaultPhase = LifecyclePhase.PROCESS_TEST_CLASSES, threadSafe = true )
 public class ReserveListenerPortMojo
     extends AbstractMojo
 {

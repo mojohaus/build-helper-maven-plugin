@@ -43,7 +43,7 @@ import java.util.regex.PatternSyntaxException;
  * @author Stephen Connolly
  * @since 1.7
  */
-@Mojo( name = "regex-property", defaultPhase = LifecyclePhase.VALIDATE /*, threadSafe = true ? TODO investigate MBUILDHELPER-43 */ )
+@Mojo( name = "regex-property", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
 public class RegexPropertyMojo
     extends AbstractMojo
 {

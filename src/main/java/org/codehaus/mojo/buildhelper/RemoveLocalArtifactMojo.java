@@ -46,7 +46,7 @@ import org.codehaus.plexus.util.FileUtils;
  * @version $Id$
  * @since 1.1
  */
-@Mojo( name = "remove-project-artifact", defaultPhase = LifecyclePhase.PACKAGE /*, threadSafe = true ? TODO investigate MBUILDHELPER-43 */ )
+@Mojo( name = "remove-project-artifact", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true )
 public class RemoveLocalArtifactMojo
     extends AbstractMojo
 {

@@ -37,7 +37,7 @@ import org.apache.maven.project.MavenProject;
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @since 1.8
  */
-@Mojo( name = "local-ip", defaultPhase = LifecyclePhase.PROCESS_TEST_CLASSES /*, threadSafe = true ? TODO investigate MBUILDHELPER-43 */ )
+@Mojo( name = "local-ip", defaultPhase = LifecyclePhase.PROCESS_TEST_CLASSES, threadSafe = true )
 public class LocalIpMojo
     extends AbstractMojo
 {
@@ -59,6 +59,7 @@ public class LocalIpMojo
         try
         {
             properties.put( this.localIpProperty, InetAddress.getLocalHost().getHostAddress() );
+
             this.getLog().info( "Current host address - " + this.localIpProperty + "="
                                     + properties.getProperty( this.localIpProperty ) );
         }

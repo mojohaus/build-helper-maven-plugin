@@ -48,7 +48,7 @@ import java.util.TimeZone;
  * @description Sets a property to the current time
  * @since 1.7
  */
-@Mojo( name = "timestamp-property", defaultPhase = LifecyclePhase.VALIDATE /*, threadSafe = true ? TODO investigate MBUILDHELPER-43 */ )
+@Mojo( name = "timestamp-property", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
 public class TimestampPropertyMojo
     extends AbstractMojo
 {
