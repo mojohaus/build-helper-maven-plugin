@@ -33,6 +33,10 @@ import java.util.Properties;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.IOUtil;
 
@@ -40,39 +44,36 @@ import org.codehaus.plexus.util.IOUtil;
  * Reserve a list of random and not in used network ports and place them
  * in a configurable project properties.
  *
- * @goal reserve-network-port
- * @phase process-test-classes
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id: ReserveListnerPortMojo.java 6754 2008-04-13 15:14:04Z dantran $
  * @since 1.2
  */
+@Mojo( name = "reserve-network-port", defaultPhase = LifecyclePhase.PROCESS_TEST_CLASSES /*, threadSafe = true ? TODO investigate MBUILDHELPER-43 */ )
 public class ReserveListenerPortMojo
     extends AbstractMojo
 {
 
     /**
-     * A List to property names to be placed in maven project
-     * @parameter
-     * @required
-     * @since 1.2
+     * A List to property names to be placed in Maven project
      *
+     * @since 1.2
      */
+    @Parameter( required = true )
     private String [] portNames = new String[0];
     
     /**
      * Output file to write the generated properties to.
-     * if not given, they are written to maven project
-     * @parameter
+     * if not given, they are written to Maven project
+     *
      * @since 1.2
      */
+    @Parameter
     private File outputFile;
 
     /**
-     * @parameter expression="${project}"
-     * @required
-     * @readonly
      * @since 1.2
      */
+    @Component
     private MavenProject project;
 
 
@@ -88,7 +89,7 @@ public class ReserveListenerPortMojo
         
         for ( String portName : portNames )
         {
-            String unusedPort = Integer.toString( getNextAvailablePort()  );
+            String unusedPort = Integer.toString( getNextAvailablePort() );
             properties.put( portName, unusedPort );
             this.getLog().info( "Reserved port " + unusedPort + " for " + portName );
         }

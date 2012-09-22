@@ -34,6 +34,10 @@ import org.apache.maven.artifact.metadata.ArtifactMetadataSource;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 /**
@@ -50,59 +54,38 @@ import org.apache.maven.project.MavenProject;
  * Where the propertyPrefix is the string set in the mojo parameter.
  * 
  * @author Robert Scholte
- * @goal released-version
- * @phase validate
  * @since 1.6
- * @threadSafe
  */
+@Mojo( name = "released-version", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
 public class ReleasedVersionMojo
     extends AbstractMojo
 {
 
     /**
      * The Maven Project.
-     * 
-     * @parameter expression="${project}"
-     * @required
-     * @readonly
      */
+    @Component
     private MavenProject project;
 
     /**
      * The artifact metadata source to use.
-     * 
-     * @component
-     * @required
-     * @readonly
      */
+    @Component
     private ArtifactMetadataSource artifactMetadataSource;
 
-    /**
-     * @component
-     * @required
-     * @readonly
-     */
+    @Component
     private ArtifactFactory artifactFactory;
 
-    /**
-     * @parameter expression="${localRepository}"
-     * @readonly
-     * @required
-     */
+    @Parameter( defaultValue = "${localRepository}", readonly = true )
     private ArtifactRepository localRepository;
 
-    /**
-     * @parameter expression="${project.remoteArtifactRepositories}"
-     * @readonly
-     * @required
-     */
+    @Parameter( defaultValue = "${project.remoteArtifactRepositories}", readonly = true )
     private List<ArtifactRepository> remoteArtifactRepositories;
 
     /**
      * Prefix string to use for the set of version properties.
-     * 
-     * @parameter default-value="releasedVersion"
      */
+    @Parameter( defaultValue = "releasedVersion" )
     private String propertyPrefix;
 
     @SuppressWarnings( "unchecked" )
@@ -113,8 +96,8 @@ public class ReleasedVersionMojo
         try
         {
             ArtifactVersion releasedVersion = null;
-            List<ArtifactVersion> versions = artifactMetadataSource
-                .retrieveAvailableVersions( artifact, localRepository, remoteArtifactRepositories );
+            List<ArtifactVersion> versions =
+                artifactMetadataSource.retrieveAvailableVersions( artifact, localRepository, remoteArtifactRepositories );
             for ( ArtifactVersion version : versions )
             {
                 if ( !ArtifactUtils.isSnapshot( version.toString() )

@@ -27,38 +27,36 @@ package org.codehaus.mojo.buildhelper;
 import java.io.File;
 
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 /**
  * Add more source directories to the POM.
  *
- * @goal add-source
- * @phase generate-sources
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
  * @since 1.0
- * @threadSafe
  */
+@Mojo( name = "add-source", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true )
 public class AddSourceMojo
     extends AbstractMojo
 {
     /**
      * Additional source directories.
      *
-     * @parameter 
-     * @required
      * @since 1.0
      */
-    private File [] sources;
+    @Parameter( required = true )
+    private File[] sources;
 
     /**
-     * @parameter expression="${project}"
-     * @required
-     * @readonly
      * @since 1.0
      */
+    @Component
     private MavenProject project;
-
 
     public void execute()
     {        

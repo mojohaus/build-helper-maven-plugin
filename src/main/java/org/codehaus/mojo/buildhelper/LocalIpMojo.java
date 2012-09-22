@@ -25,47 +25,46 @@ import java.util.Properties;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 /**
  * Retrieve current host IP address and place it under a configurable project property
  * 
- * @goal local-ip
- * @phase process-test-classes
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @since 1.8
  */
+@Mojo( name = "local-ip", defaultPhase = LifecyclePhase.PROCESS_TEST_CLASSES /*, threadSafe = true ? TODO investigate MBUILDHELPER-43 */ )
 public class LocalIpMojo
-    extends AbstractMojo {
+    extends AbstractMojo
+{
 
     /**
      * The name of the property in which to store the version of maven.
-     * 
-     * @parameter default-value="local.ip"
      */
+    @Parameter( defaultValue = "local.ip" )
     private String localIpProperty;
 
-    /**
-     * @parameter expression="${project}"
-     * @required
-     * @readonly
-     * @since 1.8
-     */
+    @Component
     private MavenProject project;
 
     public void execute()
-        throws MojoExecutionException {
-
+        throws MojoExecutionException
+    {
         Properties properties = project.getProperties();
 
-        try {
+        try
+        {
             properties.put( this.localIpProperty, InetAddress.getLocalHost().getHostAddress() );
-            this.getLog().info(  "Current host address - " + this.localIpProperty + "=" + properties.getProperty( this.localIpProperty  ) );
+            this.getLog().info( "Current host address - " + this.localIpProperty + "="
+                                    + properties.getProperty( this.localIpProperty ) );
         }
-        catch ( UnknownHostException e ) {
+        catch ( UnknownHostException e )
+        {
             throw new MojoExecutionException( "Unable to retrieve localhost address.", e );
         }
-
     }
-
 }

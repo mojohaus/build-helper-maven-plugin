@@ -27,42 +27,39 @@ package org.codehaus.mojo.buildhelper;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.execution.RuntimeInformation;
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 /**
  * Store the maven core version in a property <code>maven.version</code>.
  * 
- * @goal maven-version
- * @phase validate
  * @author pgier
  * @since 1.3
- * @threadSafe
  */
+@Mojo( name = "maven-version", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
 public class MavenVersionMojo
     extends AbstractMojo
 {
 
     /**
      * The Maven project.
-     * 
-     * @parameter expression="${project}"
-     * @required
-     * @readonly
      */
+    @Component
     private MavenProject project;
 
     /**
-     * The RuntimeInforamtion for the current instance of maven.
-     * 
-     * @component
+     * The RuntimeInforamtion for the current instance of Maven.
      */
+    @Component
     private RuntimeInformation runtime;
 
     /**
-     * The name of the property in which to store the version of maven.
-     * 
-     * @parameter default-value="maven.version"
+     * The name of the property in which to store the version of Maven.
      */
+    @Parameter( defaultValue = "maven.version" )
     private String versionProperty;
 
     /**
@@ -73,7 +70,7 @@ public class MavenVersionMojo
     {
         ArtifactVersion mavenVersion = runtime.getApplicationVersion();
 
-        if( getLog().isDebugEnabled() )
+        if ( getLog().isDebugEnabled() )
         {
             getLog().debug( "Retrieved maven version: " + mavenVersion.toString() );
         }

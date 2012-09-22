@@ -27,6 +27,10 @@ package org.codehaus.mojo.buildhelper;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 import java.text.DateFormat;
@@ -41,51 +45,42 @@ import java.util.TimeZone;
  * Sets a property based on the current date and time.
  *
  * @author Stephen Connolly
- * @phase validate
- * @goal timestamp-property
  * @description Sets a property to the current time
  * @since 1.7
  */
+@Mojo( name = "timestamp-property", defaultPhase = LifecyclePhase.VALIDATE /*, threadSafe = true ? TODO investigate MBUILDHELPER-43 */ )
 public class TimestampPropertyMojo
     extends AbstractMojo
 {
 
     /**
      * The Maven project.
-     *
-     * @parameter expression="${project}"
-     * @required
-     * @readonly
      */
+    @Component
     private MavenProject project;
 
     /**
      * The property to set.
-     *
-     * @parameter
-     * @required
      */
+    @Parameter( required = true )
     private String name;
 
     /**
      * The date/time pattern to be used. The values are as defined by the Java SimpleDateFormat class.
-     *
-     * @parameter
      */
+    @Parameter
     private String pattern;
 
     /**
      * The timezone to use for displaying time. The values are as defined by the Java {$link TimeZone} class.
-     *
-     * @parameter default-value="GMT"
      */
+    @Parameter( defaultValue = "GMT" )
     private String timeZone;
 
     /**
      * An offset to apply to the current time.
-     *
-     * @parameter default-value="0"
      */
+    @Parameter( defaultValue = "0" )
     private int offset;
 
     /**
@@ -100,16 +95,14 @@ public class TimestampPropertyMojo
      * <li>month</li>
      * <li>year</li>
      * </ul>
-     *
-     * @parameter default-value="second"
      */
+    @Parameter( defaultValue = "second" )
     private String unit;
 
     /**
      * The locale to use, for example <code>en,US</code>.
-     *
-     * @parameter
      */
+    @Parameter
     private String locale;
 
     /**

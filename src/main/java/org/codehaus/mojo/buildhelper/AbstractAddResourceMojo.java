@@ -28,6 +28,8 @@ import java.io.File;
 
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 /**
@@ -38,19 +40,14 @@ public abstract class AbstractAddResourceMojo
 {
     /**
      * Additional source directories.
-     * 
-     * @parameter
-     * @required
      */
+    @Parameter( required = true )
     private Resource[] resources;
 
     /**
      * The maven project
-     * 
-     * @parameter expression="${project}"
-     * @required
-     * @readonly
      */
+    @Component
     private MavenProject project;
 
     /**
@@ -63,13 +60,13 @@ public abstract class AbstractAddResourceMojo
             // Check for relative paths in the resource configuration.
             // http://maven.apache.org/plugin-developers/common-bugs.html#Resolving_Relative_Paths
             File resourceDir = new File( resource.getDirectory() );
-            if ( ! resourceDir.isAbsolute() )
+            if ( !resourceDir.isAbsolute() )
             {
                 resourceDir = new File( project.getBasedir(), resource.getDirectory() );
                 resource.setDirectory( resourceDir.getAbsolutePath() );
             }
             
-            addResource ( resource );
+            addResource( resource );
         }
     }
     

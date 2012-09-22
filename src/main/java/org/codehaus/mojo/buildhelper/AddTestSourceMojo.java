@@ -27,46 +27,43 @@ package org.codehaus.mojo.buildhelper;
 import java.io.File;
 
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 /**
  * Add test source directories to the POM.
  *
- * @goal add-test-source
- * @phase generate-test-sources
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
  * @since 1.0
- * @threadSafe
  */
+@Mojo( name = "add-test-source", defaultPhase = LifecyclePhase.GENERATE_TEST_SOURCES, threadSafe = true )
 public class AddTestSourceMojo
     extends AbstractMojo
 {
     /**
      * Additional test source directories.
      *
-     * @parameter 
-     * @required
      * @since 1.0
-     * 
      */
-    private File [] sources;
+    @Parameter( required = true )
+    private File[] sources;
 
     /**
-     * @parameter expression="${project}"
-     * @required
-     * @readonly
      * @since 1.0
      */
+    @Component
     private MavenProject project;
-
 
     public void execute()
     {        
         for ( File source : sources )
         {
             this.project.addTestCompileSourceRoot( source.getAbsolutePath() );
-            if( getLog().isInfoEnabled() )
+            if ( getLog().isInfoEnabled() )
             {
                 getLog().info( "Test Source directory: " + source + " added." );              
             }

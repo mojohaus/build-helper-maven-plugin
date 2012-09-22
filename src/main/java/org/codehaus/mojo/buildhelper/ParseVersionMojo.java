@@ -28,6 +28,10 @@ import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 import java.util.Properties;
@@ -55,36 +59,29 @@ import java.util.Properties;
  *
  * @author pgier
  * @version $Id$
- * @goal parse-version
- * @phase validate
  * @since 1.3
- * @threadSafe
  */
+@Mojo( name = "parse-version", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
 public class ParseVersionMojo
     extends AbstractMojo
 {
 
     /**
      * The Maven project.
-     *
-     * @parameter expression="${project}"
-     * @required
-     * @readonly
      */
+    @Component
     private MavenProject project;
 
     /**
      * The version string to parse.
-     *
-     * @parameter default-value="${project.version}"
      */
+    @Parameter( defaultValue = "${project.version}" )
     private String versionString;
 
     /**
      * Prefix string to use for the set of version properties.
-     *
-     * @parameter default-value="parsedVersion"
      */
+    @Parameter( defaultValue = "parsedVersion" )
     private String propertyPrefix;
 
     /**
@@ -94,7 +91,7 @@ public class ParseVersionMojo
      */
     public void execute()
     {
-        parseVersion (versionString, project.getProperties() );
+        parseVersion( versionString, project.getProperties() );
     }
 
     /**
@@ -103,14 +100,14 @@ public class ParseVersionMojo
      * @param version the version to parse
      * @param props the target for the new properties
      */
-    public void parseVersion( String version, Properties props)
+    public void parseVersion( String version, Properties props )
     {
         ArtifactVersion artifactVersion = new DefaultArtifactVersion( version );
 
         if ( artifactVersion.getQualifier() != null && artifactVersion.getQualifier().equals( version ) )
         {
             // This means the version parsing failed, so try osgi format.
-            getLog().debug("The version is not in the regular format, will try OSGi format instead");
+            getLog().debug( "The version is not in the regular format, will try OSGi format instead" );
             artifactVersion = new OsgiArtifactVersion( version );
         }
         props.setProperty( propertyPrefix + ".majorVersion", 
@@ -128,7 +125,7 @@ public class ParseVersionMojo
                            Integer.toString( artifactVersion.getIncrementalVersion() + 1 ) );
 
         String qualifier = artifactVersion.getQualifier();
-        if (qualifier == null)
+        if ( qualifier == null )
         {
             qualifier = "";
         }
@@ -153,7 +150,7 @@ public class ParseVersionMojo
      */
     public String getOsgiVersion( ArtifactVersion version )
     {
-        if ( version.toString().equals( version.getQualifier() ))
+        if ( version.toString().equals( version.getQualifier() ) )
         {
             return version.toString();
         }

@@ -27,6 +27,10 @@ package org.codehaus.mojo.buildhelper;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 import java.util.regex.Matcher;
@@ -37,61 +41,47 @@ import java.util.regex.PatternSyntaxException;
  * Sets a property by applying a regex replacement rule to a supplied value.
  *
  * @author Stephen Connolly
- * @phase validate
- * @goal regex-property
- * @description Sets a property after applying a regex
  * @since 1.7
  */
+@Mojo( name = "regex-property", defaultPhase = LifecyclePhase.VALIDATE /*, threadSafe = true ? TODO investigate MBUILDHELPER-43 */ )
 public class RegexPropertyMojo
     extends AbstractMojo
 {
 
     /**
      * The Maven project.
-     *
-     * @parameter expression="${project}"
-     * @required
-     * @readonly
      */
+    @Component
     private MavenProject project;
 
     /**
      * The property to set.
-     *
-     * @parameter
-     * @required
      */
+    @Parameter( required = true )
     private String name;
 
     /**
      * The pre-transformation value.
-     *
-     * @parameter
-     * @required
      */
+    @Parameter( required = true )
     private String value;
 
     /**
      * The regex to replace.
-     *
-     * @parameter
-     * @required
      */
+    @Parameter( required = true )
     private String regex;
 
     /**
      * The replacement.
-     *
-     * @parameter
-     * @required
      */
+    @Parameter( required = true )
     private String replacement;
 
     /**
      * Whether to fail if no match is found.
-     *
-     * @parameter default-value="true"
      */
+    @Parameter( defaultValue = "true" )
     private boolean failIfNoMatch;
 
     /**

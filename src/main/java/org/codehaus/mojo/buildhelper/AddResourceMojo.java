@@ -25,17 +25,17 @@ package org.codehaus.mojo.buildhelper;
  */
 
 import org.apache.maven.model.Resource;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
 
 /**
  * Add more resource directories to the POM.
  *
- * @goal add-resource
- * @phase generate-resources
  * @author Paul Gier
  * @version $Id$
  * @since 1.3
- * @threadSafe
  */
+@Mojo( name = "add-resource", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, threadSafe = true )
 public class AddResourceMojo
     extends AbstractAddResourceMojo
 {
@@ -43,7 +43,7 @@ public class AddResourceMojo
     public void addResource( Resource resource )
     {
         getProject().addResource( resource );
-        if( getLog().isDebugEnabled() )
+        if ( getLog().isDebugEnabled() )
         {
             getLog().debug( "Added resource: " + resource.getDirectory() );              
         }

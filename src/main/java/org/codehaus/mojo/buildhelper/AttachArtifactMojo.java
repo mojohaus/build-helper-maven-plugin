@@ -28,6 +28,10 @@ import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 
@@ -37,55 +41,43 @@ import java.util.Set;
 /**
  * Attach additional artifacts to be installed and deployed.
  *
- * @goal attach-artifact
- * @phase package
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
  * @since 1.0
  */
+@Mojo( name = "attach-artifact", defaultPhase = LifecyclePhase.PACKAGE /*, threadSafe = true ? TODO investigate MBUILDHELPER-43 */ )
 public class AttachArtifactMojo
     extends AbstractMojo
 {
     /**
      * Attach an array of artifacts to the project.
-     *
-     * @parameter
-     * @required
      */
+    @Parameter( required = true )
     private Artifact [] artifacts;
 
     /**
      * This project's base directory.
      *
-     * @parameter expression="${basedir}"
-     * @required
      * @since 1.5
      */
+    @Parameter( defaultValue = "${basedir}" )
     private String basedir;
 
     /**
      * The Maven Session.
      *
-     * @parameter expression="${session}"
-     * @readonly
-     * @required
      * @since 1.5
      */
+    @Component
     private MavenSession mavenSession;
 
-    /**
-     * @parameter expression="${project}"
-     * @required
-     * @readonly
-     */
+    @Component
     private MavenProject project;
 
     /**
      * Maven ProjectHelper.
-     *
-     * @component
-     * @readonly
      */
+    @Component
     private MavenProjectHelper projectHelper;
 
     /**
@@ -93,18 +85,18 @@ public class AttachArtifactMojo
      * tree. That is, run in the project contained in the same folder where the
      * mvn execution was launched.
      *
-     * @parameter expression="${buildhelper.runOnlyAtExecutionRoot}" default-value="false"
      * @since 1.5
      */
+    @Parameter( property = "buildhelper.runOnlyAtExecutionRoot", defaultValue = "false" )
     private boolean runOnlyAtExecutionRoot;
 
     /**
      * This allows to skip the attach execution in case it is known that the corresponding file does not exists.
      * For exemple, when the previous ant-run task is skipped with a unless.
      * 
-     * @parameter expression="${buildhelper.skipAttach}" default-value="false"
      * @since 1.6
      */
+    @Parameter( property = "buildhelper.skipAttach", defaultValue = "false" )
     private boolean skipAttach;
     
     public void execute()
@@ -145,14 +137,14 @@ public class AttachArtifactMojo
      */
     private boolean isThisTheExecutionRoot()
     {
-        if( getLog().isDebugEnabled() )
+        if ( getLog().isDebugEnabled() )
         {
             getLog().debug( "Root Folder:" + mavenSession.getExecutionRootDirectory() );
             getLog().debug( "Current Folder:" + basedir );
             
         }
         boolean result = mavenSession.getExecutionRootDirectory().equalsIgnoreCase( basedir.toString() );
-        if( getLog().isDebugEnabled() )
+        if ( getLog().isDebugEnabled() )
         {
             if ( result )
             {
@@ -175,12 +167,11 @@ public class AttachArtifactMojo
         {
             String extensionClassifier = artifact.getType() + ":" + artifact.getClassifier();
 
-            if ( !extensionClassifiers.add( extensionClassifier  ) )
+            if ( !extensionClassifiers.add( extensionClassifier ) )
             {
                 throw new MojoFailureException( "The artifact with same type and classifier: "
                                                 + extensionClassifier + " is used more than once." );
             }
-
         }
     }
 }

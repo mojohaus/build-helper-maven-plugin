@@ -31,6 +31,10 @@ import java.io.IOException;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.FileUtils;
 
@@ -38,12 +42,11 @@ import org.codehaus.plexus.util.FileUtils;
  * Remove project's artifacts from local repository. Useful to keep only one copy of large local snapshot, 
  * for example: installer, for disk space optimization purpose. 
  *
- * @goal remove-project-artifact
- * @phase package
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
  * @since 1.1
  */
+@Mojo( name = "remove-project-artifact", defaultPhase = LifecyclePhase.PACKAGE /*, threadSafe = true ? TODO investigate MBUILDHELPER-43 */ )
 public class RemoveLocalArtifactMojo
     extends AbstractMojo
 {
@@ -52,35 +55,29 @@ public class RemoveLocalArtifactMojo
      * When true, remove all built artifacts including all versions.
      * When false, remove all built artifacts of this project version.
      *
-     * @parameter default-value="true" expression="${buildhelper.removeAll}"
      * @since 1.1
-     *
      */
+    @Parameter( defaultValue = "true", property = "buildhelper.removeAll" )
     private boolean removeAll;
 
     /**
      * Indicates whether the build will continue even if there are removal errors.
      *
-     * @parameter default-value="true" expression="${buildhelper.failOnError}"
      * @since 1.6
-     *
      */
+    @Parameter( defaultValue = "true", property = "buildhelper.failOnError" )
     private boolean failOnError;
 
     /**
-     * @parameter expression="${project}"
-     * @required
-     * @readonly
      * @since 1.1
      */
+    @Component
     private MavenProject project;
 
     /**
-     * @parameter default-value="${localRepository}"
-     * @required
-     * @readonly
      * @since 1.1
      */
+    @Parameter( defaultValue = "${localRepository}", readonly = true )
     private ArtifactRepository localRepository;
 
     public void execute()
@@ -100,7 +97,7 @@ public class RemoveLocalArtifactMojo
         {
             FileUtils.deleteDirectory( localArtifactDirectory );
 
-            if( getLog().isInfoEnabled() )
+            if ( getLog().isInfoEnabled() )
             {
                 getLog().info( localArtifactDirectory.getAbsolutePath() + " removed." );
             }
