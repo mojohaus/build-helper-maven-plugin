@@ -3,7 +3,7 @@
  ------
  Dennis Lundberg
  ------
- 2007-07-15
+ 2012-09-22
  ------
 
 ~~ The MIT License
@@ -50,8 +50,10 @@ Build Helper Maven Plugin
   * {{{./attach-artifact-mojo.html}build-helper:attach-artifact}} Attach additional artifacts to be installed and deployed.
 
   * {{{./maven-version-mojo.html}build-helper:maven-version}} Set a property containing the current version of maven.
-  
+
   * {{{./parse-version-mojo.html}build-helper:parse-version}} Set properties containing the parsed components of a version string.
+
+  * {{{./regex-property-mojo.html}build-helper:regex-property}} Sets a property by applying a regex replacement rule to a supplied value.
 
   * {{{./released-version-mojo.html}build-helper:released-version}} Resolve the latest released version of this project.
 
@@ -61,6 +63,9 @@ Build Helper Maven Plugin
 
   * {{{./local-ip-mojo.html}build-helper:local-ip}} Retrieve current host IP address.
 
+  * {{{./timestamp-property-mojo.html}build-helper:timestamp-property}} Sets a property based on the current date and time.
+
+
 * Usage
 
   Instructions on how to use the Build Helper Maven Plugin can be found on the {{{./usage.html}usage page}}.
@@ -69,5 +74,5 @@ Build Helper Maven Plugin
 * Examples
 
   * {{{http://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin/src/it/reserve-ports/pom.xml} Reserve network port}}
-  
-  * {{{http://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin/src/it/surefire/pom.xml} Passing reserve port to Surefire}}  
+
+  * {{{http://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin/src/it/surefire/pom.xml} Passing reserve port to Surefire}}
