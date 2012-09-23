@@ -104,12 +104,13 @@ public class ParseVersionMojo
     {
         ArtifactVersion artifactVersion = new DefaultArtifactVersion( version );
 
-        if ( artifactVersion.getQualifier() != null && artifactVersion.getQualifier().equals( version ) )
+        if ( version.equals( artifactVersion.getQualifier() ) )
         {
             // This means the version parsing failed, so try osgi format.
             getLog().debug( "The version is not in the regular format, will try OSGi format instead" );
             artifactVersion = new OsgiArtifactVersion( version );
         }
+
         props.setProperty( propertyPrefix + ".majorVersion", 
                            Integer.toString( artifactVersion.getMajorVersion() ) );
         props.setProperty( propertyPrefix + ".minorVersion", 
@@ -159,18 +160,21 @@ public class ParseVersionMojo
         osgiVersion.append( version.getMajorVersion() );
         osgiVersion.append( "." + version.getMinorVersion() );
         osgiVersion.append( "." + version.getIncrementalVersion() );
+
         if ( version.getQualifier() != null || version.getBuildNumber() != 0 )
         {
             osgiVersion.append( "." );
+
+            if ( version.getQualifier() != null )
+            {
+                osgiVersion.append( version.getQualifier() );
+            }
+            if ( version.getBuildNumber() != 0 )
+            {
+                osgiVersion.append( version.getBuildNumber() );
+            }
         }
-        if ( version.getQualifier() != null )
-        {
-            osgiVersion.append( version.getQualifier() );
-        }
-        if ( version.getBuildNumber() != 0 )
-        {
-            osgiVersion.append( version.getBuildNumber() );
-        }
+
         return osgiVersion.toString();
     }
 }
