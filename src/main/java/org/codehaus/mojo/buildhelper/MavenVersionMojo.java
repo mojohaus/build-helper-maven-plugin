@@ -26,12 +26,10 @@ package org.codehaus.mojo.buildhelper;
 
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.execution.RuntimeInformation;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
 
 /**
  * Store the maven core version in a property <code>maven.version</code>.
@@ -41,14 +39,8 @@ import org.apache.maven.project.MavenProject;
  */
 @Mojo( name = "maven-version", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
 public class MavenVersionMojo
-    extends AbstractMojo
+    extends AbstractDefinePropertyMojo
 {
-
-    /**
-     * The Maven project.
-     */
-    @Component
-    private MavenProject project;
 
     /**
      * The RuntimeInforamtion for the current instance of Maven.
@@ -70,15 +62,7 @@ public class MavenVersionMojo
     {
         ArtifactVersion mavenVersion = runtime.getApplicationVersion();
 
-        if ( getLog().isDebugEnabled() )
-        {
-            getLog().debug( "Retrieved maven version: " + mavenVersion.toString() );
-        }
-
-        if ( project != null )
-        {
-            project.getProperties().put( versionProperty, mavenVersion.toString() );
-        }
+        defineProperty( versionProperty, mavenVersion.toString() );
     }
 
 }

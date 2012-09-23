@@ -24,14 +24,11 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -50,14 +47,8 @@ import java.util.TimeZone;
  */
 @Mojo( name = "timestamp-property", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
 public class TimestampPropertyMojo
-    extends AbstractMojo
+    extends AbstractDefinePropertyMojo
 {
-
-    /**
-     * The Maven project.
-     */
-    @Component
-    private MavenProject project;
 
     /**
      * The property to set.
@@ -138,6 +129,7 @@ public class TimestampPropertyMojo
             getLog().warn( "Using platform locale (" + locale.toString()
                                + " actually) to format date/time, i.e. build is platform dependent!" );
         }
+
         DateFormat format;
         if ( pattern == null )
         {
@@ -154,6 +146,7 @@ public class TimestampPropertyMojo
                 throw new MojoExecutionException( e.getMessage(), e );
             }
         }
+
         TimeZone timeZone;
         if ( this.timeZone != null )
         {
@@ -163,6 +156,7 @@ public class TimestampPropertyMojo
         {
             timeZone = TimeZone.getTimeZone( "GMT" );
         }
+
         Date now = new Date();
         Calendar calendar = new GregorianCalendar();
         calendar.setTime( now );
@@ -203,10 +197,10 @@ public class TimestampPropertyMojo
                 calendar.add( Calendar.YEAR, offset );
             }
         }
+
         format.setTimeZone( timeZone );
-        String value = format.format( calendar.getTime() );
-        getLog().info( "Setting property '" + name + "' to '" + value + "'." );
-        project.getProperties().setProperty( name, value );
+
+        defineProperty( name, format.format( calendar.getTime() ) );
     }
 
 }

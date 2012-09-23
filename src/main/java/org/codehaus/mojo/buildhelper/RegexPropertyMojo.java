@@ -24,14 +24,11 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,14 +42,8 @@ import java.util.regex.PatternSyntaxException;
  */
 @Mojo( name = "regex-property", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
 public class RegexPropertyMojo
-    extends AbstractMojo
+    extends AbstractDefinePropertyMojo
 {
-
-    /**
-     * The Maven project.
-     */
-    @Component
-    private MavenProject project;
 
     /**
      * The property to set.
@@ -115,8 +106,8 @@ public class RegexPropertyMojo
         {
             value = matcher.replaceAll( replacement );
         }
-        getLog().info( "Setting property '" + name + "' to '" + value + "'." );
-        project.getProperties().setProperty( name, value );
+
+        defineProperty( name, value );
     }
 
 }

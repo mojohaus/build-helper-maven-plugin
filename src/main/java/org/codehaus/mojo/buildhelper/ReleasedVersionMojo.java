@@ -25,7 +25,6 @@ package org.codehaus.mojo.buildhelper;
  */
 
 import java.util.List;
-import java.util.Properties;
 
 import org.apache.maven.artifact.ArtifactUtils;
 import org.apache.maven.artifact.factory.ArtifactFactory;
@@ -33,12 +32,10 @@ import org.apache.maven.artifact.metadata.ArtifactMetadataRetrievalException;
 import org.apache.maven.artifact.metadata.ArtifactMetadataSource;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
 
 /**
  * Resolve the latest released version of this project.
@@ -58,14 +55,8 @@ import org.apache.maven.project.MavenProject;
  */
 @Mojo( name = "released-version", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
 public class ReleasedVersionMojo
-    extends AbstractMojo
+    extends AbstractDefinePropertyMojo
 {
-
-    /**
-     * The Maven Project.
-     */
-    @Component
-    private MavenProject project;
 
     /**
      * The artifact metadata source to use.
@@ -88,11 +79,21 @@ public class ReleasedVersionMojo
     @Parameter( defaultValue = "releasedVersion" )
     private String propertyPrefix;
 
+    private void defineVersionProperty( String name, String value )
+    {
+        defineProperty( propertyPrefix + '.' + name, value );
+    }
+
+    private void defineVersionProperty( String name, int value )
+    {
+        defineVersionProperty( name, Integer.toString( value ) );
+    }
+
     @SuppressWarnings( "unchecked" )
     public void execute()
     {
         org.apache.maven.artifact.Artifact artifact =
-            artifactFactory.createArtifact( project.getGroupId(), project.getArtifactId(), "", "", "" );
+            artifactFactory.createArtifact( getProject().getGroupId(), getProject().getArtifactId(), "", "", "" );
         try
         {
             ArtifactVersion releasedVersion = null;
@@ -106,35 +107,23 @@ public class ReleasedVersionMojo
                     releasedVersion = version;
                 }
             }
+
             if ( releasedVersion != null )
             {
-                String releasedVersionValue;
-
                 // Use ArtifactVersion.toString(), the major, minor and incrementalVersion return all an int.
+                String releasedVersionValue = releasedVersion.toString();
+
                 // This would not always reflect the expected version.
-                int dashIndex = releasedVersion.toString().indexOf( '-' );
+                int dashIndex = releasedVersionValue.indexOf( '-' );
                 if ( dashIndex >= 0 )
                 {
-                    releasedVersionValue = releasedVersion.toString().substring( 0, dashIndex );
+                    releasedVersionValue = releasedVersionValue.substring( 0, dashIndex );
                 }
-                else
-                {
-                    releasedVersionValue = releasedVersion.toString();
-                }
-                if ( getLog().isDebugEnabled() )
-                {
-                    getLog().debug( propertyPrefix + ".version = " + releasedVersionValue );
-                }
-                Properties props = project.getProperties(); 
-                props.setProperty( propertyPrefix + ".version", 
-                                   releasedVersionValue );
-                props.setProperty( propertyPrefix + ".majorVersion", 
-                                   Integer.toString( releasedVersion.getMajorVersion() ) );
-                props.setProperty( propertyPrefix + ".minorVersion", 
-                                   Integer.toString( releasedVersion.getMinorVersion() ) );
-                props.setProperty( propertyPrefix + ".incrementalVersion",
-                                   Integer.toString( releasedVersion.getIncrementalVersion() ) );
 
+                defineVersionProperty( "version", releasedVersionValue );
+                defineVersionProperty( "majorVersion", releasedVersion.getMajorVersion() );
+                defineVersionProperty( "minorVersion", releasedVersion.getMinorVersion() );
+                defineVersionProperty( "incrementalVersion", releasedVersion.getIncrementalVersion() );
             }
 
         }

@@ -21,15 +21,11 @@ package org.codehaus.mojo.buildhelper;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Properties;
 
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
 
 /**
  * Retrieve current host IP address and place it under a configurable project property
@@ -39,7 +35,7 @@ import org.apache.maven.project.MavenProject;
  */
 @Mojo( name = "local-ip", defaultPhase = LifecyclePhase.PROCESS_TEST_CLASSES, threadSafe = true )
 public class LocalIpMojo
-    extends AbstractMojo
+    extends AbstractDefinePropertyMojo
 {
 
     /**
@@ -48,20 +44,12 @@ public class LocalIpMojo
     @Parameter( defaultValue = "local.ip" )
     private String localIpProperty;
 
-    @Component
-    private MavenProject project;
-
     public void execute()
         throws MojoExecutionException
     {
-        Properties properties = project.getProperties();
-
         try
         {
-            properties.put( this.localIpProperty, InetAddress.getLocalHost().getHostAddress() );
-
-            this.getLog().info( "Current host address - " + this.localIpProperty + "="
-                                    + properties.getProperty( this.localIpProperty ) );
+            defineProperty( this.localIpProperty, InetAddress.getLocalHost().getHostAddress() );
         }
         catch ( UnknownHostException e )
         {

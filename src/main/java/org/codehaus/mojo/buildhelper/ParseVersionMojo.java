@@ -26,15 +26,10 @@ package org.codehaus.mojo.buildhelper;
 
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
-
-import java.util.Properties;
 
 /**
  * Parse a version string and set properties containing the component parts of the version.  This mojo sets the
@@ -63,14 +58,8 @@ import java.util.Properties;
  */
 @Mojo( name = "parse-version", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
 public class ParseVersionMojo
-    extends AbstractMojo
+    extends AbstractDefinePropertyMojo
 {
-
-    /**
-     * The Maven project.
-     */
-    @Component
-    private MavenProject project;
 
     /**
      * The version string to parse.
@@ -91,16 +80,25 @@ public class ParseVersionMojo
      */
     public void execute()
     {
-        parseVersion( versionString, project.getProperties() );
+        parseVersion( versionString );
+    }
+
+    private void defineVersionProperty( String name, String value )
+    {
+        defineProperty( propertyPrefix + '.' + name, value );
+    }
+
+    private void defineVersionProperty( String name, int value )
+    {
+        defineVersionProperty( name, Integer.toString( value ) );
     }
 
     /**
      * Parse a version String and add the components to a properties object.
      *
      * @param version the version to parse
-     * @param props the target for the new properties
      */
-    public void parseVersion( String version, Properties props )
+    public void parseVersion( String version )
     {
         ArtifactVersion artifactVersion = new DefaultArtifactVersion( version );
 
@@ -111,32 +109,25 @@ public class ParseVersionMojo
             artifactVersion = new OsgiArtifactVersion( version );
         }
 
-        props.setProperty( propertyPrefix + ".majorVersion", 
-                           Integer.toString( artifactVersion.getMajorVersion() ) );
-        props.setProperty( propertyPrefix + ".minorVersion", 
-                           Integer.toString( artifactVersion.getMinorVersion() ) );
-        props.setProperty( propertyPrefix + ".incrementalVersion",
-                           Integer.toString( artifactVersion.getIncrementalVersion() ) );
-
-        props.setProperty( propertyPrefix + ".nextMajorVersion", 
-                           Integer.toString( artifactVersion.getMajorVersion() + 1 ) );
-        props.setProperty( propertyPrefix + ".nextMinorVersion", 
-                           Integer.toString( artifactVersion.getMinorVersion() + 1 ) );
-        props.setProperty( propertyPrefix + ".nextIncrementalVersion",
-                           Integer.toString( artifactVersion.getIncrementalVersion() + 1 ) );
+        defineVersionProperty( "majorVersion", artifactVersion.getMajorVersion() );
+        defineVersionProperty( "minorVersion", artifactVersion.getMinorVersion() );
+        defineVersionProperty( "incrementalVersion", artifactVersion.getIncrementalVersion() );
+        defineVersionProperty( "nextMajorVersion", artifactVersion.getMajorVersion() + 1 );
+        defineVersionProperty( "nextMinorVersion", artifactVersion.getMinorVersion() + 1 );
+        defineVersionProperty( "nextIncrementalVersion", artifactVersion.getIncrementalVersion() + 1 );
 
         String qualifier = artifactVersion.getQualifier();
         if ( qualifier == null )
         {
             qualifier = "";
         }
-        props.setProperty( propertyPrefix + ".qualifier", qualifier );
+        defineVersionProperty( "qualifier", qualifier );
 
-        props.setProperty( propertyPrefix + ".buildNumber", Integer.toString( artifactVersion.getBuildNumber() ) );
+        defineVersionProperty( "buildNumber", artifactVersion.getBuildNumber() );
 
         // Replace the first instance of "-" to create an osgi compatible version string.
         String osgiVersion = getOsgiVersion( artifactVersion );
-        props.setProperty( propertyPrefix + ".osgiVersion", osgiVersion );
+        defineVersionProperty( "osgiVersion", osgiVersion );
     }
 
     public void setPropertyPrefix( String prefix )
