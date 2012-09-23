@@ -41,7 +41,7 @@ public abstract class AbstractDefinePropertyMojo
     {
         if ( getLog().isDebugEnabled() )
         {
-            getLog().debug( "define property " + name + "=" + value );
+            getLog().debug( "define property " + name + " = \"" + value + "\"" );
         }
 
         project.getProperties().put( name, value );
