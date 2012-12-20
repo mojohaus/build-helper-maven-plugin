@@ -29,6 +29,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.maven.plugin.AbstractMojo;
@@ -86,29 +88,58 @@ public class ReserveListenerPortMojo
         {
             properties = new Properties();
         }
-        
-        for ( String portName : portNames )
-        {
-            String unusedPort = Integer.toString( getNextAvailablePort() );
-            properties.put( portName, unusedPort );
-            this.getLog().info( "Reserved port " + unusedPort + " for " + portName );
-        }
-        
-        if ( outputFile != null )
-        {
-            OutputStream os = null;
-            try
+
+        // Reserve the entire block of ports to guarantee we don't get the same port twice
+        final List<ServerSocket> sockets = new ArrayList<ServerSocket>();
+        try {
+            for ( String portName : portNames )
             {
-                os = new FileOutputStream( outputFile );
-                properties.store( os, null );
+                try
+                {
+                    final ServerSocket socket = new ServerSocket( 0 );
+                    sockets.add(socket);
+
+                    final String unusedPort = Integer.toString( socket.getLocalPort() );
+                    properties.put( portName, unusedPort );
+
+                    this.getLog().info("Reserved port " + unusedPort + " for " + portName);
+                }
+                catch ( IOException e )
+                {
+                    throw new MojoExecutionException( "Error getting an available port from system", e );
+                }
             }
-            catch ( Exception e )
+
+            // Write the file -- still hold onto the ports
+            if ( outputFile != null )
             {
-                throw new MojoExecutionException( e.getMessage() );
+                OutputStream os = null;
+                try
+                {
+                    os = new FileOutputStream( outputFile );
+                    properties.store( os, null );
+                }
+                catch ( Exception e )
+                {
+                    throw new MojoExecutionException( e.getMessage() );
+                }
+                finally
+                {
+                    IOUtil.close( os );
+                }
             }
-            finally
+        } finally {
+            // Now free all the ports
+            for (ServerSocket socket : sockets)
             {
-                IOUtil.close( os );
+                final int localPort = socket.getLocalPort();
+                try {
+                    socket.close();
+                }
+                catch (IOException e)
+                {
+                    this.getLog().error("Cannot free reserved port " + localPort);
+                }
             }
         }
     }
