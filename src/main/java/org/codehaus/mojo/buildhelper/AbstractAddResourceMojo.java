@@ -39,7 +39,7 @@ public abstract class AbstractAddResourceMojo
     extends AbstractMojo
 {
     /**
-     * Additional source directories.
+     * Additional resource directories.
      */
     @Parameter( required = true )
     private Resource[] resources;
