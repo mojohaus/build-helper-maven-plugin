@@ -152,7 +152,6 @@
         <reportSets>
           <reportSet>
             <reports>
-              <report>changes-report</report>
               <report>jira-report</report>
             </reports>
           </reportSet>
