@@ -29,6 +29,7 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.codehaus.plexus.util.StringUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,7 +37,7 @@ import java.util.regex.PatternSyntaxException;
 
 /**
  * Sets a property by applying a regex replacement rule to a supplied value.
- *
+ * 
  * @author Stephen Connolly
  * @since 1.7
  */
@@ -44,7 +45,6 @@ import java.util.regex.PatternSyntaxException;
 public class RegexPropertyMojo
     extends AbstractDefinePropertyMojo
 {
-
     /**
      * The property to set.
      */
@@ -66,7 +66,7 @@ public class RegexPropertyMojo
     /**
      * The replacement.
      */
-    @Parameter( required = true )
+    @Parameter( defaultValue = "" )
     private String replacement;
 
     /**
@@ -91,7 +91,14 @@ public class RegexPropertyMojo
             throw new MojoExecutionException( e.getMessage(), e );
         }
         Matcher matcher = pattern.matcher( value );
-        if ( !matcher.find() )
+
+        if ( matcher.find() )
+        {
+            // if the string replacement is empty, we define the value replacement to empty.
+            value =
+                ( StringUtils.isNotEmpty( replacement ) ) ? matcher.replaceAll( replacement ) : matcher.replaceAll( "" );
+        }
+        else
         {
             if ( failIfNoMatch )
             {
@@ -99,15 +106,11 @@ public class RegexPropertyMojo
             }
             else
             {
-                getLog().info( "No match to regex '" + regex + "' found in '" + value + "'." );
+                getLog().info( "No match to regex '" + regex + "' found in '" + value + "'. " + "The initial value '"
+                                   + value + "' is left as-is..." );
             }
-        }
-        else
-        {
-            value = matcher.replaceAll( replacement );
         }
 
         defineProperty( name, value );
     }
-
 }
