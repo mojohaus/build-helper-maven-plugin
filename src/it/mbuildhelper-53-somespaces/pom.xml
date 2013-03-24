@@ -9,7 +9,7 @@
 
 	<name>Regex valid with empty replacement</name>
 	<description>
-    Tests that an empty replacement works (previously failing as if replacement was not specified).
+    Tests that an replacement with space.
   </description>
 
 	<build>
@@ -43,7 +43,7 @@
 							<name>propname</name>
 							<value>hi you</value>
 							<regex>you</regex>
-							<replacement></replacement>
+							<replacement>&nbsp;&nbsp;&nbsp;</replacement>
 							<failIfNoMatch>false</failIfNoMatch>
 						</configuration>
 					</execution>
