@@ -3,6 +3,6 @@ assert file.exists();
 
 String text = file.getText("utf-8");
 
-assert text.contains('define property propname = "hi \u00A0\u00A0\u00A0"') , "text=<"+text+">"
+assert text.contains('define property propname = "hi    "') , "text=<"+text+">"
 
 return true;

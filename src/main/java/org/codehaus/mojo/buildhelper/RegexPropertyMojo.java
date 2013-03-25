@@ -76,11 +76,23 @@ public class RegexPropertyMojo
     private boolean failIfNoMatch;
 
     /**
+     * Used as a workaround to MBUILDHELPER-34.
+     * By default, unbreakable spaces passed in replacement will be replaced with normal spaces.
+     * If this is not desired, set this property to false (defaults to true).
+     */
+    @Parameter( defaultValue = "true" )
+    private boolean unbreakableSpaceReplacementAsNormalSpace;
+    
+    /**
      * {@inheritDoc}
      */
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
+        if ( StringUtils.isNotEmpty( replacement ) && unbreakableSpaceReplacementAsNormalSpace )
+        {
+            replacement = replacement.replace( '\u00A0', ' ' );
+        }
         Pattern pattern;
         try
         {
