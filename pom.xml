@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>build-helper-maven-plugin</artifactId>
-  <version>1.8-SNAPSHOT</version>
+  <version>1.8</version>
   <packaging>maven-plugin</packaging>
 
   <name>Build Helper Maven Plugin</name>
@@ -47,9 +47,9 @@
   </prerequisites>
 
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin</developerConnection>
-    <url>http://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin</url>
+    <connection>scm:svn:http://svn.codehaus.org/mojo/tags/build-helper-maven-plugin-1.8</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/tags/build-helper-maven-plugin-1.8</developerConnection>
+    <url>http://svn.codehaus.org/mojo/tags/build-helper-maven-plugin-1.8</url>
   </scm>
   <issueManagement>
     <system>JIRA</system>
