@@ -55,6 +55,10 @@ public class ReserveListenerPortMojo
 {
     private static final String BUILD_HELPER_RESERVED_PORTS = "BUILD_HELPER_MIN_PORT";
 
+    private static final Integer FIRST_NON_ROOT_PORT_NUMBER = 1024;
+
+    private static final Integer MAX_PORT_NUMBER = 65536;
+
     /**
      * A List to property names to be placed in Maven project
      * 
@@ -72,10 +76,23 @@ public class ReserveListenerPortMojo
     private File outputFile;
 
     /**
+     * Specify this if you want the port be chosen with a number higher than that one.
+     * <p>
+     * If {@link #maxPortNumber} is specified, defaults to {@value #FIRST_NON_ROOT_PORT_NUMBER}.
+     * </p>
+     * 
      * @since 1.8
      */
     @Parameter
     private Integer minPortNumber;
+
+    /**
+     * Specify this if you want the port be chosen with a number lower than that one.
+     * 
+     * @since 1.8
+     */
+    @Parameter
+    private Integer maxPortNumber;
 
     /**
      * @since 1.2
@@ -153,25 +170,40 @@ public class ReserveListenerPortMojo
     }
 
     private ServerSocket getServerSocket()
-        throws IOException
+        throws IOException, MojoExecutionException
     {
-        if ( minPortNumber == null )
+        if ( minPortNumber == null && maxPortNumber != null )
+        {
+            getLog().debug( "minPortNumber unspecified:     using default value " + FIRST_NON_ROOT_PORT_NUMBER );
+            minPortNumber = FIRST_NON_ROOT_PORT_NUMBER;
+        }
+        if ( minPortNumber != null && maxPortNumber == null )
+        {
+            getLog().debug( "maxPortNumber unspecified: using default value " + MAX_PORT_NUMBER );
+            maxPortNumber = MAX_PORT_NUMBER;
+        }
+        if ( minPortNumber == null && maxPortNumber == null )
         {
             return new ServerSocket( 0 );
         }
         else
         {
             int min = getNextPortNumber();
-            for ( int i = min;; ++i )
+            for ( int port = min;; ++port )
             {
+                if ( port > maxPortNumber )
+                {
+                    throw new MojoExecutionException( "Unable to find an available port between " + minPortNumber
+                        + " and " + maxPortNumber );
+                }
                 try
                 {
-                    ServerSocket serverSocket = new ServerSocket( i );
+                    ServerSocket serverSocket = new ServerSocket( port );
                     return serverSocket;
                 }
                 catch ( IOException ioe )
                 {
-                    getLog().debug( "Tried binding to port " + i + " without success. Trying next port.", ioe );
+                    getLog().debug( "Tried binding to port " + port + " without success. Trying next port.", ioe );
                 }
             }
         }
