@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>build-helper-maven-plugin-os-it</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  
+  <name>build-helper-maven-plugin-os-it </name>
+
+  
+  <build>
+    
+    <defaultGoal>package</defaultGoal>
+    
+    <plugins>
+
+
+      <plugin>
+      
+         <groupId>@project.groupId@</groupId>
+        <artifactId>@project.artifactId@</artifactId>
+        <version>@project.version@</version>      
+        <executions>
+
+          <execution>
+            <id>os-execution</id>
+            <goals>
+              <goal>os</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+       <plugin>
+
+        <artifactId>maven-antrun-plugin</artifactId>        
+        <executions>
+          <execution>
+            <id>echo-os</id>
+            <phase>test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <echo>os.name=${os.name}</echo>
+                <echo>os.version=${os.version}</echo>
+                <echo>os.family=${os.family}</echo>
+                <echo>os.arch=${os.arch}</echo>
+              </tasks>                
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+    
+    
+  </build>
+  
+</project>
