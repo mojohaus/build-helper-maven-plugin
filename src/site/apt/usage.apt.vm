@@ -588,3 +588,106 @@ releasedVersion.incrementalVersion
   ...
 </project>
 -------------------
+
+* Retrieve Operation System Information
+
+  The {{{./os-mojo.html}build-helper:os}} goal can be used to get information about the current
+  operation system. 
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <executions>
+          <execution>
+            <id>get-os-information</id>
+            <goals>
+              <goal>os</goal>
+            </goals>
+            <configuration>
+              <!-- if not given, 'os' name is used as prefix -->
+              <propertyPrefix>osinformation</propertyPrefix>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  ...
+</project>
+-------------------
+
+  After the goal executes (by default during the <<<validate>>> phase) the following
+  properties will be available.
+
+-------------------
+osinformation.family
+osinformation.name
+osinformation.version
+osinformation.arch
+-------------------
+
+
+* Retrieve Java Information
+
+  The {{{./java-mojo.html}build-helper:java}} goal can be used to get information about the current java 
+  runtime etc.
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <executions>
+          <execution>
+            <id>get-java-information</id>
+            <goals>
+              <goal>java</goal>
+            </goals>
+            <configuration>
+              <!-- if not given, 'build.environment' name is used as prefix -->
+              <propertyPrefix>build.env</propertyPrefix>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  ...
+</project>
+-------------------
+
+  After the goal executes (by default during the <<<validate>>> phase) the following
+  properties will be available.
+
+-------------------
+build.env.java.vendor
+build.env.java.version
+
+build.env.java.runtime.name
+build.env.java.runtime.version
+
+build.env.java.specification.name
+build.env.java.specification.vendor
+build.env.java.specification.version
+
+build.env.java.vm.name
+build.env.java.vm.info
+build.env.java.vm.vendor
+build.env.java.vm.version
+
+build.env.java.vm.specification.name
+build.env.java.vm.specification.vendor
+build.env.java.vm.specification.version
+
+build.env.sun.management.compiler
+-------------------
