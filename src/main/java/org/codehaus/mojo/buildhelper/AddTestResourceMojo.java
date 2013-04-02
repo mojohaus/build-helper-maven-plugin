@@ -40,6 +40,11 @@ public class AddTestResourceMojo
     extends AbstractAddResourceMojo
 {
 
+    /**
+     * Add the resource to the project.
+     * 
+     * @param resource the resource to add
+     */
     public void addResource( Resource resource )
     {
         getProject().addTestResource( resource );

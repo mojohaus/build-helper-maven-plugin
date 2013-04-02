@@ -130,6 +130,11 @@ public class ParseVersionMojo
         defineVersionProperty( "osgiVersion", osgiVersion );
     }
 
+    /**
+     * Set property name prefix.
+     * 
+     * @param prefix The prefix to be used.
+     */
     public void setPropertyPrefix( String prefix )
     {
         this.propertyPrefix = prefix;
@@ -137,8 +142,8 @@ public class ParseVersionMojo
 
     /**
      * Make an osgi compatible version String from an ArtifactVersion
-     * @param version
-     * @return
+     * @param version The artifact version.
+     * @return The OSGi version as string.
      */
     public String getOsgiVersion( ArtifactVersion version )
     {

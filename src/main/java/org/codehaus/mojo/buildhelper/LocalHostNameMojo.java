@@ -49,6 +49,9 @@ public class LocalHostNameMojo
     @Parameter( defaultValue = "local.hostname" )
     private String localHostNameProperty;
 
+    /**
+     * to be called from Maven.
+     */
     public void execute()
         throws MojoExecutionException
     {

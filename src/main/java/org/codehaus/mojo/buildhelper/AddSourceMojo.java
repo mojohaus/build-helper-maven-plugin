@@ -35,7 +35,7 @@ import org.apache.maven.project.MavenProject;
 
 /**
  * Add more source directories to the POM.
- *
+ * 
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
  * @since 1.0
@@ -46,7 +46,7 @@ public class AddSourceMojo
 {
     /**
      * Additional source directories.
-     *
+     * 
      * @since 1.0
      */
     @Parameter( required = true )
@@ -59,13 +59,13 @@ public class AddSourceMojo
     private MavenProject project;
 
     public void execute()
-    {        
+    {
         for ( File source : sources )
         {
             this.project.addCompileSourceRoot( source.getAbsolutePath() );
-            if( getLog().isInfoEnabled() )
+            if ( getLog().isInfoEnabled() )
             {
-                getLog().info( "Source directory: " + source + " added." );              
+                getLog().info( "Source directory: " + source + " added." );
             }
         }
     }
