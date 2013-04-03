@@ -71,6 +71,8 @@ Build Helper Maven Plugin
 
   * {{{./os-mojo.html}build-helper:os}} Retrieve information about current operation system.
 
+  * {{{./username-mojo.html}build-helper:username}} Retrieve information about currently logged in user.
+
 * Usage
 
   Instructions on how to use the Build Helper Maven Plugin can be found on the {{{./usage.html}usage page}}.

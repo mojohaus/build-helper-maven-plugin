@@ -24,36 +24,34 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugins.annotations.Component;
-import org.apache.maven.project.MavenProject;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 
-public abstract class AbstractDefinePropertyMojo
-    extends AbstractMojo
+/**
+ * Retrieve current username and place it under a configurable project property
+ * 
+ * @author <a href="kama@soebes.de">Karl-Heinz Marbaise</a>
+ * @since 1.9
+ */
+@Mojo( name = "username", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
+public class UserNameMojo
+    extends AbstractDefinePropertyMojo
 {
-    /**
-     * The maven project
-     */
-    @Component
-    private MavenProject project;
-
-    protected void defineProperty( String name, String value )
-    {
-        if ( getLog().isDebugEnabled() )
-        {
-            getLog().debug( "define property " + name + " = \"" + value + "\"" );
-        }
-
-        project.getProperties().put( name, value );
-    }
 
     /**
-     * Get the current project instance.
-     * 
-     * @return the project
+     * The name of the property in which to store the local user name.
      */
-    public MavenProject getProject()
+    @Parameter( defaultValue = "username" )
+    private String userNameProperty;
+
+    /**
+     * to be called from Maven.
+     */
+    public void execute()
+        throws MojoExecutionException
     {
-        return this.project;
+        defineProperty( this.userNameProperty, System.getProperty( "user.name" ) );
     }
 }

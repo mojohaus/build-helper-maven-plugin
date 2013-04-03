@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>build-helper-maven-plugin-username-it</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  
+  <name>build-helper-maven-plugin-username-it</name>
+
+  
+  <build>
+    
+    <defaultGoal>package</defaultGoal>
+    
+    <plugins>
+
+
+      <plugin>
+      
+         <groupId>@project.groupId@</groupId>
+        <artifactId>@project.artifactId@</artifactId>
+        <version>@project.version@</version>      
+        <executions>
+
+          <execution>
+            <id>username-execution</id>
+            <goals>
+              <goal>username</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+       <plugin>
+
+        <artifactId>maven-antrun-plugin</artifactId>        
+        <executions>
+          <execution>
+            <id>echo-username</id>
+            <phase>test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <echo>username=${username}</echo>
+              </tasks>                
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+    
+    
+  </build>
+  
+</project>

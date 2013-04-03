@@ -691,3 +691,37 @@ build.env.java.vm.specification.version
 
 build.env.sun.management.compiler
 -------------------
+
+* Retrieve Currently logged in user.
+
+  The <<<username>>> goal can be used to get the currently logged in user name.
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <executions>
+          <execution>
+            <id>get-username</id>
+            <goals>
+              <goal>username</goal>
+            </goals>
+            <configuration>
+              <!-- if not given, 'username' name is used -->
+              <userNameProperty>my.username</userNameProperty>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  ...
+</project>
+-------------------
+
+  []
