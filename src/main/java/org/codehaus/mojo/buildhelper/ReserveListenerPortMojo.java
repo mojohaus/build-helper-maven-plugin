@@ -59,6 +59,8 @@ public class ReserveListenerPortMojo
 
     private static final Integer MAX_PORT_NUMBER = 65536;
 
+    private static final Object lock = new Object();
+
     /**
      * A List to property names to be placed in Maven project
      * 
@@ -174,7 +176,7 @@ public class ReserveListenerPortMojo
     {
         if ( minPortNumber == null && maxPortNumber != null )
         {
-            getLog().debug( "minPortNumber unspecified:     using default value " + FIRST_NON_ROOT_PORT_NUMBER );
+            getLog().debug( "minPortNumber unspecified: using default value " + FIRST_NON_ROOT_PORT_NUMBER );
             minPortNumber = FIRST_NON_ROOT_PORT_NUMBER;
         }
         if ( minPortNumber != null && maxPortNumber == null )
@@ -188,22 +190,27 @@ public class ReserveListenerPortMojo
         }
         else
         {
-            int min = getNextPortNumber();
-            for ( int port = min;; ++port )
+            // Might be synchronizing a bit too largely, but at least that defensive approach should prevent
+            // threading issues (essentially possible while put/getting the plugin ctx to get the reserved ports).
+            synchronized ( lock )
             {
-                if ( port > maxPortNumber )
+                int min = getNextPortNumber();
+                for ( int port = min;; ++port )
                 {
-                    throw new MojoExecutionException( "Unable to find an available port between " + minPortNumber
-                        + " and " + maxPortNumber );
-                }
-                try
-                {
-                    ServerSocket serverSocket = new ServerSocket( port );
-                    return serverSocket;
-                }
-                catch ( IOException ioe )
-                {
-                    getLog().debug( "Tried binding to port " + port + " without success. Trying next port.", ioe );
+                    if ( port > maxPortNumber )
+                    {
+                        throw new MojoExecutionException( "Unable to find an available port between " + minPortNumber
+                            + " and " + maxPortNumber );
+                    }
+                    try
+                    {
+                        ServerSocket serverSocket = new ServerSocket( port );
+                        return serverSocket;
+                    }
+                    catch ( IOException ioe )
+                    {
+                        getLog().debug( "Tried binding to port " + port + " without success. Trying next port.", ioe );
+                    }
                 }
             }
         }
@@ -212,6 +219,7 @@ public class ReserveListenerPortMojo
     private int getNextPortNumber()
     {
         assert minPortNumber != null;
+
         List<Integer> reservedPorts = getReservedPorts();
         int nextPort = -1;
         if ( reservedPorts.isEmpty() )
