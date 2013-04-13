@@ -46,9 +46,9 @@ public abstract class AbstractDefinePropertyMojo
 
         project.getProperties().put( name, value );
     }
-
+    
     /**
-     * Get the current project instance.
+     * Get the current project instance. 
      * 
      * @return the project
      */
