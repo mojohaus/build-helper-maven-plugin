@@ -31,8 +31,9 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.Os;
 
 /**
- * Set the os properties which contain name, family, version and architecture of the operation system.
- * 
+ * Set the os properties which contain name, family, version and architecture
+ * of the operation system.
+ *
  * <pre>
  *   [propertyPrefix].name
  *   [propertyPrefix].family
@@ -41,6 +42,7 @@ import org.codehaus.plexus.util.Os;
  * </pre>
  * 
  * Where the propertyPrefix is the string set in the mojo parameter.
+ *
  * 
  * @author <a href="kama@soebes.de">Karl-Heinz Marbaise</a>
  * @since 1.9
@@ -55,7 +57,7 @@ public class OsInformationMojo
     @Parameter( defaultValue = "os" )
     private String propertyPrefix;
 
-    private void definePropertyWithPrefix( String name, String value )
+    private void definePropertyWithPrefix ( String name, String value )
     {
         defineProperty( propertyPrefix + '.' + name, value );
     }
@@ -67,10 +69,10 @@ public class OsInformationMojo
         throws MojoExecutionException
     {
 
-        definePropertyWithPrefix( "name", Os.OS_NAME );
-        definePropertyWithPrefix( "family", Os.OS_FAMILY );
-        definePropertyWithPrefix( "version", Os.OS_VERSION );
-        definePropertyWithPrefix( "arch", Os.OS_ARCH );
+    	definePropertyWithPrefix ( "name", Os.OS_NAME);
+    	definePropertyWithPrefix ( "family", Os.OS_FAMILY);
+    	definePropertyWithPrefix ( "version", Os.OS_VERSION);
+    	definePropertyWithPrefix ( "arch", Os.OS_ARCH);
 
     }
 }
