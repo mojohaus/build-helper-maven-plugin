@@ -29,21 +29,16 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.codehaus.plexus.util.StringUtils;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 /**
  * Sets a property by applying a regex replacement rule to a supplied value.
- * 
+ *
  * @author Stephen Connolly
  * @since 1.7
  */
 @Mojo( name = "regex-property", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
 public class RegexPropertyMojo
-    extends AbstractDefinePropertyMojo
+    extends AbstractRegexPropertyMojo
 {
     /**
      * The property to set.
@@ -81,36 +76,15 @@ public class RegexPropertyMojo
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
-        Pattern pattern;
-        try
-        {
-            pattern = Pattern.compile( regex );
-        }
-        catch ( PatternSyntaxException e )
-        {
-            throw new MojoExecutionException( e.getMessage(), e );
-        }
-        Matcher matcher = pattern.matcher( value );
+        RegexPropertyConfig config = new RegexPropertyConfig();
+        config.setName( name );
+        config.setValue( value );
+        config.setRegex( regex );
+        config.setReplacement( replacement );
+        config.setFailIfNoMatch( failIfNoMatch );
 
-        if ( matcher.find() )
-        {
-            // if the string replacement is empty, we define the value replacement to empty.
-            value =
-                ( StringUtils.isNotEmpty( replacement ) ) ? matcher.replaceAll( replacement ) : matcher.replaceAll( "" );
-        }
-        else
-        {
-            if ( failIfNoMatch )
-            {
-                throw new MojoFailureException( "No match to regex '" + regex + "' found in '" + value + "'." );
-            }
-            else
-            {
-                getLog().info( "No match to regex '" + regex + "' found in '" + value + "'. " + "The initial value '"
-                                   + value + "' is left as-is..." );
-            }
-        }
+        this.execute( config );
 
-        defineProperty( name, value );
     }
+
 }
