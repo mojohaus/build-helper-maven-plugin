@@ -24,7 +24,6 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,9 +34,8 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * Sets a property by applying a regex replacement rule to a supplied value.
- * This is similar to regex-property goal with support  for multiple regex settings using
- * RegexPropertyConfig
+ * Sets a property by applying a regex replacement rule to a supplied value. This is similar to regex-property goal with
+ * support for multiple regex settings using RegexPropertyConfig
  *
  * @since 1.9
  */
@@ -49,17 +47,15 @@ public class RegexPropertiesMojo
      * List of RegexPropertyConfig to apply the regex
      */
     @Parameter( required = false )
-    private List<RegexPropertyConfig> settings = new ArrayList<RegexPropertyConfig>();
-
+    private List<?> settings = new ArrayList<RegexPropertyConfig>();
 
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
 
-        for ( RegexPropertyConfig config: settings )
+        for ( RegexPropertyConfig config : (List<RegexPropertyConfig>) settings )
         {
             this.execute( config );
         }
     }
-
 }
