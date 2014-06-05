@@ -30,7 +30,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * Retrieve number of CPUs place it under a configurable project property
+ * Retrieve number of CPUs with project factor, and place it under a configurable project property
  *
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @since 1.9
@@ -46,10 +46,22 @@ public class CpuCountMojo
     @Parameter( defaultValue = "cpu.count" )
     private String cpuCount;
 
+    /**
+     * Projection factor.
+     */
+    @Parameter( defaultValue = "1.0" )
+    private float factor;
+
     public void execute()
         throws MojoExecutionException
     {
-        defineProperty( this.cpuCount, Integer.toString( Runtime.getRuntime().availableProcessors() ) );
+        float count =  Runtime.getRuntime().availableProcessors() * factor;
+        if ( count < 1 )
+        {
+            count = 1;
+        }
+
+        defineProperty( this.cpuCount, Integer.toString( (int) count ) );
         this.getLog().info( "CPU count: " + this.getProject().getProperties().getProperty( cpuCount ) );
     }
 }
