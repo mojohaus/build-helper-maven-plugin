@@ -50,5 +50,6 @@ public class CpuCountMojo
         throws MojoExecutionException
     {
         defineProperty( this.cpuCount, Integer.toString( Runtime.getRuntime().availableProcessors() ) );
+        this.getLog().info( "CPU count: " + this.getProject().getProperties().getProperty( cpuCount ) );
     }
 }
