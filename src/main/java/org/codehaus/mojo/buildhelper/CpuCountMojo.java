@@ -24,41 +24,31 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * Retrieve current host IP address and place it under a configurable project property
+ * Retrieve number of CPUs place it under a configurable project property
  *
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
- * @since 1.8
+ * @since 1.9
  */
-@Mojo( name = "local-ip", defaultPhase = LifecyclePhase.PROCESS_TEST_CLASSES, threadSafe = true )
-public class LocalIpMojo
+@Mojo( name = "cpu-count", defaultPhase = LifecyclePhase.INITIALIZE, threadSafe = true )
+public class CpuCountMojo
     extends AbstractDefinePropertyMojo
 {
 
     /**
-     * The name of the property in which to store the localhost ipaddress.
+     * The name of the property in which to store the CPU count.
      */
-    @Parameter( defaultValue = "local.ip" )
-    private String localIpProperty;
+    @Parameter( defaultValue = "cpu.count" )
+    private String cpuCount;
 
     public void execute()
         throws MojoExecutionException
     {
-        try
-        {
-            defineProperty( this.localIpProperty, InetAddress.getLocalHost().getHostAddress() );
-        }
-        catch ( UnknownHostException e )
-        {
-            throw new MojoExecutionException( "Unable to retrieve localhost address.", e );
-        }
+        defineProperty( this.cpuCount, Integer.toString( Runtime.getRuntime().availableProcessors() ) );
     }
 }
