@@ -497,16 +497,16 @@ releasedVersion.incrementalVersion
               <goal>regex-properties</goal>
             </goals>
             <configuration>
-              <settings>
-                <setting>
+              <regexPropertySettings>
+                <regexPropertySetting>
                   <name>human.version</name>
                   <value>$\{project.version}</value>
                   <regex>-SNAPSHOT</regex>
                   <replacement> pre-release development version</replacement>
                   <failIfNoMatch>false</failIfNoMatch>
-                </setting>
+                </regexPropertySetting>
                 [....]
-              <settings>
+              <regexPropertySettings>
             </configuration>
           </execution>
         </executions>
