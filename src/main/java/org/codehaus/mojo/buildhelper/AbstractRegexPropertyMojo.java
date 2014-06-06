@@ -37,7 +37,7 @@ public abstract class AbstractRegexPropertyMojo
     extends AbstractDefinePropertyMojo
 {
 
-    protected void execute( RegexPropertyConfig config )
+    protected void execute( RegexPropertySetting config )
         throws MojoExecutionException, MojoFailureException
     {
         try

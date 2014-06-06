@@ -49,16 +49,16 @@ public class RegexPropertiesMojo
      * List of RegexPropertyConfig to apply the regex
      */
     @Parameter( required = false )
-    private List<RegexPropertyConfig> settings = new ArrayList<RegexPropertyConfig>();
+    private List<RegexPropertySetting> regexPropertySettings = new ArrayList<RegexPropertySetting>();
 
 
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
 
-        for ( RegexPropertyConfig config: settings )
+        for ( RegexPropertySetting setting: regexPropertySettings )
         {
-            this.execute( config );
+            this.execute( setting );
         }
     }
 

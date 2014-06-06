@@ -76,7 +76,7 @@ public class RegexPropertyMojo
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
-        RegexPropertyConfig config = new RegexPropertyConfig();
+        RegexPropertySetting config = new RegexPropertySetting();
         config.setName( name );
         config.setValue( value );
         config.setRegex( regex );

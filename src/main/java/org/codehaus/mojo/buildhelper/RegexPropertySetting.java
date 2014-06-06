@@ -28,7 +28,7 @@ package org.codehaus.mojo.buildhelper;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.StringUtils;
 
-public class RegexPropertyConfig
+public class RegexPropertySetting
 {
     /**
      * The property to set.

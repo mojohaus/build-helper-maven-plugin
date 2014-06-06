@@ -40,15 +40,15 @@
               <goal>regex-properties</goal>
             </goals>
             <configuration>
-              <settings>
-                <setting>
+              <regexPropertySettings>
+                <regexPropertySetting>
                   <name>build.version</name>
                   <value>${project.version}</value>
                   <regex>-SNAPSHOT</regex>
                   <replacement>-RC</replacement>
                   <failIfNoMatch>false</failIfNoMatch>
-                </setting>
-              </settings>
+                </regexPropertySetting>
+              </regexPropertySettings>
             </configuration>
           </execution>
         </executions>
