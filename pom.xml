@@ -21,8 +21,8 @@
       <url>http://www.opensource.org/licenses/mit-license.php</url>
       <distribution>repo</distribution>
     </license>
-  </licenses> 
-  
+  </licenses>
+
   <developers>
     <developer>
       <name>Dan Tran</name>
@@ -41,7 +41,7 @@
       <timezone>+1</timezone>
     </developer>
   </developers>
-  
+
   <prerequisites>
     <maven>${mavenVersion}</maven>
   </prerequisites>
@@ -57,8 +57,7 @@
   </issueManagement>
 
   <properties>
-    <mavenVersion>2.0.6</mavenVersion>  <!-- due to MNG-2892 -->
-    <mojo.java.target>1.5</mojo.java.target>
+    <mavenVersion>2.2.1</mavenVersion>
   </properties>
 
   <dependencies>
