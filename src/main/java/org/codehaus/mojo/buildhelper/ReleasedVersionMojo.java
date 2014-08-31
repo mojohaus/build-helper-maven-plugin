@@ -40,16 +40,16 @@ import org.apache.maven.plugins.annotations.Parameter;
 /**
  * Resolve the latest released version of this project.
  * This mojo sets the following properties:
- * 
+ *
  * <pre>
  *   [propertyPrefix].version
  *   [propertyPrefix].majorVersion
  *   [propertyPrefix].minorVersion
- *   [propertyPrefix].incrementalVersion   
+ *   [propertyPrefix].incrementalVersion
  * </pre>
- * 
+ *
  * Where the propertyPrefix is the string set in the mojo parameter.
- * 
+ *
  * @author Robert Scholte
  * @since 1.6
  */
@@ -102,7 +102,7 @@ public class ReleasedVersionMojo
             for ( ArtifactVersion version : versions )
             {
                 if ( !ArtifactUtils.isSnapshot( version.toString() )
-                    && ( releasedVersion == null || version.compareTo( releasedVersion ) == 1 ) )
+                    && ( releasedVersion == null || version.compareTo( releasedVersion ) > 0 ) )
                 {
                     releasedVersion = version;
                 }
