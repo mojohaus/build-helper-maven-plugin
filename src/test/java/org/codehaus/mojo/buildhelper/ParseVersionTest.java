@@ -40,7 +40,7 @@ public class ParseVersionTest
         {
             this.properties = properties;
         }
-        
+
         protected void defineProperty( String name, String value )
         {
             properties.put( name, value );
@@ -71,7 +71,7 @@ public class ParseVersionTest
         assertEquals( "1", props.getProperty( "parsed.majorVersion" ) );
         assertEquals( "0", props.getProperty( "parsed.minorVersion" ) );
         assertEquals( "0", props.getProperty( "parsed.incrementalVersion" ) );
-        assertEquals( "",  props.getProperty( "parsed.qualifier" ) );
+        assertEquals( "", props.getProperty( "parsed.qualifier" ) );
         assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
         assertEquals( "1.0.0", props.getProperty( "parsed.osgiVersion" ) );
 
@@ -124,6 +124,16 @@ public class ParseVersionTest
         assertEquals( "", props.getProperty( "parsed.qualifier" ) );
         assertEquals( "4", props.getProperty( "parsed.buildNumber" ) );
         assertEquals( "1.2.3.4", props.getProperty( "parsed.osgiVersion" ) );
+
+        // Test a version string with a build number
+        mojo.parseVersion( "1.2.3-4-SNAPSHOT" );
+
+        assertEquals( "1", props.getProperty( "parsed.majorVersion" ) );
+        assertEquals( "2", props.getProperty( "parsed.minorVersion" ) );
+        assertEquals( "3", props.getProperty( "parsed.incrementalVersion" ) );
+        assertEquals( "4-SNAPSHOT", props.getProperty( "parsed.qualifier" ) );
+        assertEquals( "4", props.getProperty( "parsed.buildNumber" ) );
+        assertEquals( "1.2.3.4-SNAPSHOT", props.getProperty( "parsed.osgiVersion" ) );
 
     }
 
@@ -184,4 +194,5 @@ public class ParseVersionTest
         assertEquals( "3", props.getProperty( "parsed.nextMinorVersion" ) );
         assertEquals( "4", props.getProperty( "parsed.nextIncrementalVersion" ) );
     }
+
 }
