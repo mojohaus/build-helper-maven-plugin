@@ -48,7 +48,9 @@ public class OsgiArtifactVersion
     private String qualifier;
 
     /**
-     * <p>Constructor for OsgiArtifactVersion.</p>
+     * <p>
+     * Constructor for OsgiArtifactVersion.
+     * </p>
      *
      * @param version a {@link java.lang.String} object.
      */
@@ -82,13 +84,13 @@ public class OsgiArtifactVersion
                 if ( otherVersion.qualifier != null )
                 {
                     if ( qualifier.length() > otherVersion.qualifier.length()
-                                    && qualifier.startsWith( otherVersion.qualifier ) )
+                        && qualifier.startsWith( otherVersion.qualifier ) )
                     {
                         // here, the longer one that otherwise match is considered older
                         result = -1;
                     }
                     else if ( qualifier.length() < otherVersion.qualifier.length()
-                                    && otherVersion.qualifier.startsWith( qualifier ) )
+                        && otherVersion.qualifier.startsWith( qualifier ) )
                     {
                         // here, the longer one that otherwise match is considered older
                         result = 1;
@@ -134,7 +136,9 @@ public class OsgiArtifactVersion
     }
 
     /**
-     * <p>Getter for the field <code>majorVersion</code>.</p>
+     * <p>
+     * Getter for the field <code>majorVersion</code>.
+     * </p>
      *
      * @return a int.
      */
@@ -144,7 +148,9 @@ public class OsgiArtifactVersion
     }
 
     /**
-     * <p>Getter for the field <code>minorVersion</code>.</p>
+     * <p>
+     * Getter for the field <code>minorVersion</code>.
+     * </p>
      *
      * @return a int.
      */
@@ -154,7 +160,9 @@ public class OsgiArtifactVersion
     }
 
     /**
-     * <p>Getter for the field <code>incrementalVersion</code>.</p>
+     * <p>
+     * Getter for the field <code>incrementalVersion</code>.
+     * </p>
      *
      * @return a int.
      */
@@ -164,7 +172,9 @@ public class OsgiArtifactVersion
     }
 
     /**
-     * <p>Getter for the field <code>buildNumber</code>.</p>
+     * <p>
+     * Getter for the field <code>buildNumber</code>.
+     * </p>
      *
      * @return a int.
      */
@@ -174,7 +184,9 @@ public class OsgiArtifactVersion
     }
 
     /**
-     * <p>Getter for the field <code>qualifier</code>.</p>
+     * <p>
+     * Getter for the field <code>qualifier</code>.
+     * </p>
      *
      * @return a {@link java.lang.String} object.
      */
@@ -239,7 +251,9 @@ public class OsgiArtifactVersion
     }
 
     /**
-     * <p>toString</p>
+     * <p>
+     * toString
+     * </p>
      *
      * @return a {@link java.lang.String} object.
      */

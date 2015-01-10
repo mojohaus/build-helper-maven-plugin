@@ -24,7 +24,6 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.StringUtils;
 

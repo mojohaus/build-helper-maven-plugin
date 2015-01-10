@@ -24,7 +24,6 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-
 import java.io.File;
 import java.io.IOException;
 
@@ -38,8 +37,8 @@ import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.FileUtils;
 
 /**
- * Remove project's artifacts from local repository. Useful to keep only one copy of large local snapshot,
- * for example: installer, for disk space optimization purpose.
+ * Remove project's artifacts from local repository. Useful to keep only one copy of large local snapshot, for example:
+ * installer, for disk space optimization purpose.
  *
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
@@ -51,8 +50,8 @@ public class RemoveLocalArtifactMojo
 {
 
     /**
-     * When true, remove all built artifacts including all versions.
-     * When false, remove all built artifacts of this project version.
+     * When true, remove all built artifacts including all versions. When false, remove all built artifacts of this
+     * project version.
      *
      * @since 1.1
      */

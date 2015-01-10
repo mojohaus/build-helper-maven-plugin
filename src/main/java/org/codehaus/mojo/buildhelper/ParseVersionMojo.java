@@ -35,8 +35,8 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
- * Parse a version string and set properties containing the component parts of the version.  This mojo sets the
- * following properties:
+ * Parse a version string and set properties containing the component parts of the version. This mojo sets the following
+ * properties:
  *
  * <pre>
  *   [propertyPrefix].majorVersion
@@ -45,15 +45,17 @@ import org.codehaus.plexus.util.StringUtils;
  *   [propertyPrefix].qualifier
  *   [propertyPrefix].buildNumber
  * </pre>
- * Where the propertyPrefix is the string set in the mojo parameter.  Note that the behaviour of the
- * parsing is determined by org.apache.maven.artifact.versioning.DefaultArtifactVersion
- *
- * An osgi compatible version will also be created and made available through the property:
+ * 
+ * Where the propertyPrefix is the string set in the mojo parameter. Note that the behaviour of the parsing is
+ * determined by org.apache.maven.artifact.versioning.DefaultArtifactVersion An osgi compatible version will also be
+ * created and made available through the property:
+ * 
  * <pre>
  *   [propertyPrefix].osgiVersion
  * </pre>
- * This version is simply the original version string with the first instance of '-' replaced by '.'
- * For example, 1.0.2-beta-1 will be converted to 1.0.2.beta-1
+ * 
+ * This version is simply the original version string with the first instance of '-' replaced by '.' For example,
+ * 1.0.2-beta-1 will be converted to 1.0.2.beta-1
  *
  * @author pgier
  * @version $Id$
@@ -108,8 +110,10 @@ public class ParseVersionMojo
         ArtifactVersion releaseVersion = artifactVersion;
         if ( ArtifactUtils.isSnapshot( version ) )
         {
-            //work around for MBUILDHELPER-69
-            releaseVersion = new DefaultArtifactVersion( StringUtils.substring( version,  0, version.length() - Artifact.SNAPSHOT_VERSION.length() -1 ) );
+            // work around for MBUILDHELPER-69
+            releaseVersion =
+                new DefaultArtifactVersion( StringUtils.substring( version, 0, version.length()
+                    - Artifact.SNAPSHOT_VERSION.length() - 1 ) );
         }
 
         if ( version.equals( artifactVersion.getQualifier() ) )
@@ -133,7 +137,7 @@ public class ParseVersionMojo
         }
         defineVersionProperty( "qualifier", qualifier );
 
-        defineVersionProperty( "buildNumber", releaseVersion.getBuildNumber() ); //see MBUILDHELPER-69
+        defineVersionProperty( "buildNumber", releaseVersion.getBuildNumber() ); // see MBUILDHELPER-69
 
         // Replace the first instance of "-" to create an osgi compatible version string.
         String osgiVersion = getOsgiVersion( artifactVersion );
@@ -152,6 +156,7 @@ public class ParseVersionMojo
 
     /**
      * Make an osgi compatible version String from an ArtifactVersion
+     * 
      * @param version The artifact version.
      * @return The OSGi version as string.
      */

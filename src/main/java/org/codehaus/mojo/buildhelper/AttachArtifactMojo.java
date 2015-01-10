@@ -24,6 +24,9 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -34,9 +37,6 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Attach additional artifacts to be installed and deployed.
@@ -53,7 +53,7 @@ public class AttachArtifactMojo
      * Attach an array of artifacts to the project.
      */
     @Parameter( required = true )
-    private Artifact [] artifacts;
+    private Artifact[] artifacts;
 
     /**
      * This project's base directory.
@@ -81,9 +81,8 @@ public class AttachArtifactMojo
     private MavenProjectHelper projectHelper;
 
     /**
-     * This will cause the execution to be run only at the top of a given module
-     * tree. That is, run in the project contained in the same folder where the
-     * mvn execution was launched.
+     * This will cause the execution to be run only at the top of a given module tree. That is, run in the project
+     * contained in the same folder where the mvn execution was launched.
      *
      * @since 1.5
      */
@@ -91,8 +90,8 @@ public class AttachArtifactMojo
     private boolean runOnlyAtExecutionRoot;
 
     /**
-     * This allows to skip the attach execution in case it is known that the corresponding file does not exists.
-     * For exemple, when the previous ant-run task is skipped with a unless.
+     * This allows to skip the attach execution in case it is known that the corresponding file does not exists. For
+     * exemple, when the previous ant-run task is skipped with a unless.
      *
      * @since 1.6
      */
@@ -120,9 +119,7 @@ public class AttachArtifactMojo
 
             for ( Artifact artifact : artifacts )
             {
-                projectHelper.attachArtifact( this.project,
-                                              artifact.getType(),
-                                              artifact.getClassifier(),
+                projectHelper.attachArtifact( this.project, artifact.getType(), artifact.getClassifier(),
                                               artifact.getFile() );
             }
         }
@@ -130,8 +127,8 @@ public class AttachArtifactMojo
     }
 
     /**
-     * Returns <code>true</code> if the current project is located at the
-     * Execution Root Directory (where mvn was launched).
+     * Returns <code>true</code> if the current project is located at the Execution Root Directory (where mvn was
+     * launched).
      *
      * @return <code>true</code> if the current project is at the Execution Root
      */
@@ -169,8 +166,8 @@ public class AttachArtifactMojo
 
             if ( !extensionClassifiers.add( extensionClassifier ) )
             {
-                throw new MojoFailureException( "The artifact with same type and classifier: "
-                                                + extensionClassifier + " is used more than once." );
+                throw new MojoFailureException( "The artifact with same type and classifier: " + extensionClassifier
+                    + " is used more than once." );
             }
         }
     }

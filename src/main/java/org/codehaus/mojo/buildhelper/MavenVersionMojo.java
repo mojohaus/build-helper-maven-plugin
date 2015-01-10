@@ -56,7 +56,6 @@ public class MavenVersionMojo
 
     /**
      * Main plugin execution
-     *
      */
     public void execute()
     {

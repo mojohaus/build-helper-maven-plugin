@@ -55,7 +55,7 @@ public class CpuCountMojo
     public void execute()
         throws MojoExecutionException
     {
-        float count =  Runtime.getRuntime().availableProcessors() * factor;
+        float count = Runtime.getRuntime().availableProcessors() * factor;
         if ( count < 1 )
         {
             count = 1;

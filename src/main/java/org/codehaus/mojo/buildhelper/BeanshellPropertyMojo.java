@@ -35,9 +35,9 @@ import bsh.EvalError;
 import bsh.Interpreter;
 
 /**
- * Define one or many properties as a result of a Beanshell script invocation.
- * Like <a href="http://docs.codehaus.org/display/GMAVEN/Executing+Groovy+Code">gmaven-plugin</a>,
- * some variables are defined:<ul>
+ * Define one or many properties as a result of a Beanshell script invocation. Like <a
+ * href="http://docs.codehaus.org/display/GMAVEN/Executing+Groovy+Code">gmaven-plugin</a>, some variables are defined:
+ * <ul>
  * <li><code>project</code>: the actual Maven project,</li>
  * <li><code>session</code>: the executing <code>MavenSession</code>,</li>
  * <li><code>settings</code>: the executing <code>Settings</code>.</li>
@@ -54,8 +54,8 @@ public class BeanshellPropertyMojo
     private String source;
 
     /**
-     * List of property names to get from script context after execution. Can be omitted
-     * if no property needs to be defined, just the script execution.
+     * List of property names to get from script context after execution. Can be omitted if no property needs to be
+     * defined, just the script execution.
      */
     @Parameter
     private String[] properties;
@@ -90,7 +90,8 @@ public class BeanshellPropertyMojo
         }
         catch ( EvalError ee )
         {
-            MojoFailureException mfe = new MojoFailureException( "error during Beanshell script execution: " + ee.getMessage() );
+            MojoFailureException mfe =
+                new MojoFailureException( "error during Beanshell script execution: " + ee.getMessage() );
             mfe.initCause( ee );
             throw mfe;
         }

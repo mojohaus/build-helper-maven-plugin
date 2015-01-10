@@ -38,8 +38,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * Resolve the latest released version of this project.
- * This mojo sets the following properties:
+ * Resolve the latest released version of this project. This mojo sets the following properties:
  *
  * <pre>
  *   [propertyPrefix].version
