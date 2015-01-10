@@ -26,7 +26,6 @@ package org.codehaus.mojo.buildhelper;
 
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -64,13 +63,13 @@ public class BeanshellPropertyMojo
     /**
      * The Maven Session.
      */
-    @Component
+    @Parameter( readonly = true, defaultValue = "${session}" )
     private MavenSession mavenSession;
 
     /**
      * The Maven Settings.
      */
-    @Component
+    @Parameter( readonly = true, defaultValue = "${settings}" )
     private Settings settings;
 
     /**

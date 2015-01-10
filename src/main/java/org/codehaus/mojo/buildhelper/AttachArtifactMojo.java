@@ -68,10 +68,10 @@ public class AttachArtifactMojo
      *
      * @since 1.5
      */
-    @Component
+    @Parameter( readonly = true, defaultValue = "${session}" )
     private MavenSession mavenSession;
 
-    @Component
+    @Parameter( readonly = true, defaultValue = "${project}" )
     private MavenProject project;
 
     /**
@@ -93,12 +93,12 @@ public class AttachArtifactMojo
     /**
      * This allows to skip the attach execution in case it is known that the corresponding file does not exists.
      * For exemple, when the previous ant-run task is skipped with a unless.
-     * 
+     *
      * @since 1.6
      */
     @Parameter( property = "buildhelper.skipAttach", defaultValue = "false" )
     private boolean skipAttach;
-    
+
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
@@ -108,7 +108,7 @@ public class AttachArtifactMojo
             getLog().info( "Skip attaching artifacts" );
             return;
         }
-        
+
         // Run only at the execution root
         if ( runOnlyAtExecutionRoot && !isThisTheExecutionRoot() )
         {
@@ -141,7 +141,7 @@ public class AttachArtifactMojo
         {
             getLog().debug( "Root Folder:" + mavenSession.getExecutionRootDirectory() );
             getLog().debug( "Current Folder:" + basedir );
-            
+
         }
         boolean result = mavenSession.getExecutionRootDirectory().equalsIgnoreCase( basedir.toString() );
         if ( getLog().isDebugEnabled() )

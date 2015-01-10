@@ -25,7 +25,7 @@ package org.codehaus.mojo.buildhelper;
  */
 
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 public abstract class AbstractDefinePropertyMojo
@@ -34,7 +34,7 @@ public abstract class AbstractDefinePropertyMojo
     /**
      * The maven project
      */
-    @Component
+    @Parameter( readonly = true, defaultValue = "${project}" )
     private MavenProject project;
 
     protected void defineProperty( String name, String value )
@@ -46,10 +46,10 @@ public abstract class AbstractDefinePropertyMojo
 
         project.getProperties().put( name, value );
     }
-    
+
     /**
-     * Get the current project instance. 
-     * 
+     * Get the current project instance.
+     *
      * @return the project
      */
     public MavenProject getProject()

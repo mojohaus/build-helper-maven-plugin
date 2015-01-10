@@ -31,7 +31,6 @@ import java.io.IOException;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -39,8 +38,8 @@ import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.FileUtils;
 
 /**
- * Remove project's artifacts from local repository. Useful to keep only one copy of large local snapshot, 
- * for example: installer, for disk space optimization purpose. 
+ * Remove project's artifacts from local repository. Useful to keep only one copy of large local snapshot,
+ * for example: installer, for disk space optimization purpose.
  *
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
@@ -71,7 +70,7 @@ public class RemoveLocalArtifactMojo
     /**
      * @since 1.1
      */
-    @Component
+    @Parameter( readonly = true, defaultValue = "${project}" )
     private MavenProject project;
 
     /**

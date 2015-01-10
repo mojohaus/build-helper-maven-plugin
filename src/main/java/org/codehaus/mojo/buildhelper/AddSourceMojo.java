@@ -27,7 +27,6 @@ package org.codehaus.mojo.buildhelper;
 import java.io.File;
 
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -35,7 +34,7 @@ import org.apache.maven.project.MavenProject;
 
 /**
  * Add more source directories to the POM.
- * 
+ *
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id$
  * @since 1.0
@@ -46,7 +45,7 @@ public class AddSourceMojo
 {
     /**
      * Additional source directories.
-     * 
+     *
      * @since 1.0
      */
     @Parameter( required = true )
@@ -55,7 +54,7 @@ public class AddSourceMojo
     /**
      * @since 1.0
      */
-    @Component
+    @Parameter( readonly = true, defaultValue = "${project}" )
     private MavenProject project;
 
     public void execute()

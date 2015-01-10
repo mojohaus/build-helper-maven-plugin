@@ -35,7 +35,6 @@ import java.util.Properties;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -44,7 +43,7 @@ import org.codehaus.plexus.util.IOUtil;
 
 /**
  * Reserve a list of random and not in use network ports and place them in a configurable project properties.
- * 
+ *
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @version $Id: ReserveListnerPortMojo.java 6754 2008-04-13 15:14:04Z dantran $
  * @since 1.2
@@ -63,7 +62,7 @@ public class ReserveListenerPortMojo
 
     /**
      * A List to property names to be placed in Maven project
-     * 
+     *
      * @since 1.2
      */
     @Parameter( required = true )
@@ -71,7 +70,7 @@ public class ReserveListenerPortMojo
 
     /**
      * Output file to write the generated properties to. if not given, they are written to Maven project
-     * 
+     *
      * @since 1.2
      */
     @Parameter
@@ -82,7 +81,7 @@ public class ReserveListenerPortMojo
      * <p>
      * If {@link #maxPortNumber} is specified, defaults to {@value #FIRST_NON_ROOT_PORT_NUMBER}.
      * </p>
-     * 
+     *
      * @since 1.8
      */
     @Parameter
@@ -90,7 +89,7 @@ public class ReserveListenerPortMojo
 
     /**
      * Specify this if you want the port be chosen with a number lower than that one.
-     * 
+     *
      * @since 1.8
      */
     @Parameter
@@ -99,7 +98,7 @@ public class ReserveListenerPortMojo
     /**
      * @since 1.2
      */
-    @Component
+    @Parameter( readonly = true, defaultValue = "${project}" )
     private MavenProject project;
 
     public void execute()
@@ -235,6 +234,7 @@ public class ReserveListenerPortMojo
         return nextPort;
     }
 
+    @SuppressWarnings( "unchecked" )
     private List<Integer> getReservedPorts()
     {
         List<Integer> reservedPorts = (List<Integer>) getPluginContext().get( BUILD_HELPER_RESERVED_PORTS );
@@ -249,7 +249,7 @@ public class ReserveListenerPortMojo
     /**
      * Returns the first number available, starting at portNumberStartingPoint that's not already in the reservedPorts
      * list.
-     * 
+     *
      * @param portNumberStartingPoint first port number to start from.
      * @param reservedPorts the ports already reserved.
      * @return first number available not in the given list, starting at the given parameter.
