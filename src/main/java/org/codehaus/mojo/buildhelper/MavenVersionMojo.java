@@ -33,7 +33,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 /**
  * Store the maven core version in a property <code>maven.version</code>.
- * 
+ *
  * @author pgier
  * @since 1.3
  */
@@ -56,7 +56,7 @@ public class MavenVersionMojo
 
     /**
      * Main plugin execution
-     * 
+     *
      */
     public void execute()
     {

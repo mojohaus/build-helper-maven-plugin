@@ -45,7 +45,7 @@ public class AddResourceMojo
         getProject().addResource( resource );
         if ( getLog().isDebugEnabled() )
         {
-            getLog().debug( "Added resource: " + resource.getDirectory() );              
+            getLog().debug( "Added resource: " + resource.getDirectory() );
         }
     }
 }

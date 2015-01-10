@@ -35,11 +35,11 @@ import java.io.File;
 public class Artifact
 {
     private File file;
-    
+
     private String type = "jar";
-    
+
     private String classifier;
-    
+
     /**
      * <p>Setter for the field <code>file</code>.</p>
      *
@@ -49,7 +49,7 @@ public class Artifact
     {
         this.file = localFile;
     }
-    
+
     /**
      * <p>Getter for the field <code>file</code>.</p>
      *
@@ -69,7 +69,7 @@ public class Artifact
     {
         this.type = type;
     }
-    
+
     /**
      * <p>Getter for the field <code>type</code>.</p>
      *
@@ -78,8 +78,8 @@ public class Artifact
     public String getType ()
     {
         return this.type;
-    }    
-    
+    }
+
     /**
      * <p>Setter for the field <code>classifier</code>.</p>
      *
@@ -89,7 +89,7 @@ public class Artifact
     {
         this.classifier = classifier;
     }
-    
+
     /**
      * <p>Getter for the field <code>classifier</code>.</p>
      *
@@ -98,5 +98,5 @@ public class Artifact
     public String getClassifier ()
     {
         return this.classifier;
-    }        
+    }
 }

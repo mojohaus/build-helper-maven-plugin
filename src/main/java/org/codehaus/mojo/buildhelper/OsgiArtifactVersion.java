@@ -81,13 +81,13 @@ public class OsgiArtifactVersion
             {
                 if ( otherVersion.qualifier != null )
                 {
-                    if ( qualifier.length() > otherVersion.qualifier.length() 
+                    if ( qualifier.length() > otherVersion.qualifier.length()
                                     && qualifier.startsWith( otherVersion.qualifier ) )
                     {
                         // here, the longer one that otherwise match is considered older
                         result = -1;
                     }
-                    else if ( qualifier.length() < otherVersion.qualifier.length() 
+                    else if ( qualifier.length() < otherVersion.qualifier.length()
                                     && otherVersion.qualifier.startsWith( qualifier ) )
                     {
                         // here, the longer one that otherwise match is considered older
@@ -187,14 +187,14 @@ public class OsgiArtifactVersion
     public void parseVersion( String version )
     {
         boolean fallback = false;
-        
+
         if ( version.indexOf( '.' ) == -1 )
         {
             fallback = true;
         }
         else
         {
-        
+
             StringTokenizer tok = new StringTokenizer( version, "." );
             try
             {
@@ -225,7 +225,7 @@ public class OsgiArtifactVersion
             minorVersion = null;
             incrementalVersion = null;
         }
-        
+
     }
 
     private static Integer getNextIntegerToken( StringTokenizer tok )

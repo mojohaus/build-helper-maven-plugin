@@ -42,7 +42,7 @@ public class AddTestResourceMojo
 
     /**
      * Add the resource to the project.
-     * 
+     *
      * @param resource the resource to add
      */
     public void addResource( Resource resource )
@@ -50,7 +50,7 @@ public class AddTestResourceMojo
         getProject().addTestResource( resource );
         if ( getLog().isDebugEnabled() )
         {
-            getLog().debug( "Added test resource: " + resource.getDirectory() );              
+            getLog().debug( "Added test resource: " + resource.getDirectory() );
         }
     }
 }
