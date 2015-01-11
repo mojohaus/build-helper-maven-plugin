@@ -461,7 +461,7 @@ releasedVersion.incrementalVersion
             </goals>
             <configuration>
               <name>human.version</name>
-              <value>$\{project.version}</value>
+              <value>${project.version}</value>
               <regex>-SNAPSHOT</regex>
               <replacement> pre-release development version</replacement>
               <failIfNoMatch>false</failIfNoMatch>
@@ -500,7 +500,7 @@ releasedVersion.incrementalVersion
               <regexPropertySettings>
                 <regexPropertySetting>
                   <name>human.version</name>
-                  <value>$\{project.version}</value>
+                  <value>${project.version}</value>
                   <regex>-SNAPSHOT</regex>
                   <replacement> pre-release development version</replacement>
                   <failIfNoMatch>false</failIfNoMatch>
@@ -616,7 +616,7 @@ releasedVersion.incrementalVersion
             </goals>
             <configuration>
               <!-- if not given, 'cpu.count' name is used -->
-              <localIpProperty>my.cpu.count</localIpProperty>
+              <cpuCount>my.cpu.count</cpuCount>
             </configuration>
           </execution>
         </executions>
