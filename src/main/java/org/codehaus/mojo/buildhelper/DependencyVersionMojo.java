@@ -28,6 +28,7 @@ import org.apache.maven.model.Dependency;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.project.MavenProject;
 import java.util.List;
 
 /**
@@ -45,27 +46,50 @@ public class DependencyVersionMojo
     /**
      * The property prefix
      */
-    @Parameter(defaultValue = "dependency.")
+    @Parameter(property = "prefix", defaultValue = "dependency.")
     private String prefix;
 
     /**
      * The separator between the GroupId and ArtifactId
      */
-    @Parameter(defaultValue = ".")
+    @Parameter(property = "separator", defaultValue = ".")
     private String separator;
 
     /**
      * If true, properties for the the dependency management section
      * are also set
      */
-    @Parameter(defaultValue = "false")
+    @Parameter(property = "includeDependencyManagement", defaultValue = "false")
     private boolean includeDependencyManagement;
+
+    /**
+     * If true, properties are set for the parents of modules
+     * in reactor projects. i.e. The "parent" section of
+     * the pom has a property set for the parent's version.
+     */
+    @Parameter(property = "includeParents", defaultValue = "false")
+    private boolean includeParents;
 
     /**
      * Main plugin execution
      */
     public void execute()
     {
+        if ( includeParents )
+        {
+            MavenProject parent = getProject();
+            for(;;)
+            {
+                parent = parent.getParent();
+                if ( parent == null )
+                {
+                    break;
+                }
+                String name = makeName(parent.getGroupId(), parent.getArtifactId());
+                defineProperty(name, parent.getVersion());
+            }
+        }
+
         if ( includeDependencyManagement )
         {
             apply(getProject().getDependencyManagement().getDependencies());
@@ -79,8 +103,13 @@ public class DependencyVersionMojo
     {
         for ( Dependency dependency : dependencies )
         {
-            String name = prefix + dependency.getGroupId() + separator + dependency.getArtifactId();
+            String name = makeName(dependency.getGroupId(), dependency.getArtifactId());
             defineProperty(name, dependency.getVersion());
         }
+    }
+
+    private String makeName(String groupId, String artifactId)
+    {
+        return prefix + groupId + separator + artifactId;
     }
 }
