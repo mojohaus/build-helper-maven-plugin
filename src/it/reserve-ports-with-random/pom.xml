@@ -1,0 +1,93 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>build-helper-maven-plugin-reverse-port-it</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <name>build-helper-maven-plugin-reverse-port-it </name>
+
+
+  <build>
+
+    <defaultGoal>package</defaultGoal>
+
+    <plugins>
+
+
+      <plugin>
+
+         <groupId>@project.groupId@</groupId>
+        <artifactId>@project.artifactId@</artifactId>
+        <version>@project.version@</version>
+        <executions>
+
+          <execution>
+            <id>reserve-ports</id>
+            <phase>process-test-resources</phase>
+            <goals>
+              <goal>reserve-network-port</goal>
+            </goals>
+            <configuration>
+              <portNames>
+                <portName>port1</portName>
+                <portName>port2</portName>
+                <portName>port3</portName>
+              </portNames>
+             <minPortNumber>9000</minPortNumber>
+             <maxPortNumber>9005</maxPortNumber>
+              <randomPort>true</randomPort>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+       <plugin>
+
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+            <id>mk-target-dir</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <mkdir dir="${project.build.directory}" />
+              </tasks>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>echo-reserve-ports</id>
+            <phase>test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <echo>port1=${port1}</echo>
+                <echo>port2=${port2}</echo>
+                <echo>port3=${port3}</echo>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+
+
+  </build>
+
+  <!-- default port values, will not be overwritten so DONOT set them
+  <properties>
+     <port1>1</port1>
+     <port2>2</port2>
+     <port3>3</port3>
+  </properties>
+  -->
+</project>
