@@ -30,6 +30,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -66,7 +68,7 @@ public class ReserveListenerPortMojo
      * @since 1.2
      */
     @Parameter( required = true )
-    private String[] portNames = new String[0];
+    private final String[] portNames = new String[0];
 
     /**
      * Output file to write the generated properties to. if not given, they are written to Maven project
@@ -94,14 +96,23 @@ public class ReserveListenerPortMojo
      */
     @Parameter
     private Integer maxPortNumber;
-
+    /**
+     * Specify true or false if you want the port selection randomized.
+     * <p>
+     * </p>
+     *
+     * @since 1.8
+     */
+    @Parameter
+    private boolean randomPort;
     /**
      * @since 1.2
      */
     @Parameter( readonly = true, defaultValue = "${project}" )
     private MavenProject project;
 
-    public void execute()
+    @Override
+	public void execute()
         throws MojoExecutionException
     {
         Properties properties = project.getProperties();
@@ -187,33 +198,73 @@ public class ReserveListenerPortMojo
         {
             return new ServerSocket( 0 );
         }
+		if (randomPort) {
+			synchronized (lock) {
+				List<Integer> availablePorts = randomPortList();
+				for (Iterator<Integer> iterator = availablePorts.iterator(); iterator
+						.hasNext();) {
+					int port = iterator.next();
+					ServerSocket serverSocket = reservePort(port);
+					iterator.remove();
+					if (serverSocket != null){
+						return serverSocket;
+					}
+				}
+				throw new MojoExecutionException(
+						"Unable to find an available port between "
+								+ minPortNumber + " and " + maxPortNumber);
+			}
+		}
         else
         {
             // Might be synchronizing a bit too largely, but at least that defensive approach should prevent
             // threading issues (essentially possible while put/getting the plugin ctx to get the reserved ports).
             synchronized ( lock )
             {
-                int min = getNextPortNumber();
-                for ( int port = min;; ++port )
-                {
-                    if ( port > maxPortNumber )
-                    {
-                        throw new MojoExecutionException( "Unable to find an available port between " + minPortNumber
-                            + " and " + maxPortNumber );
-                    }
-                    try
-                    {
-                        ServerSocket serverSocket = new ServerSocket( port );
-                        return serverSocket;
-                    }
-                    catch ( IOException ioe )
-                    {
-                        getLog().debug( "Tried binding to port " + port + " without success. Trying next port.", ioe );
-                    }
-                }
-            }
+				int min = getNextPortNumber();
+
+				for (int port = min;; ++port) {
+
+					ServerSocket serverSocket = reservePort(port);
+					if (serverSocket != null)
+						return serverSocket;
+				}
+			}
         }
     }
+
+	private List<Integer> randomPortList() {
+		int difference= (maxPortNumber-minPortNumber)+1;
+		List<Integer> portList= new ArrayList<Integer>(difference);
+		   List<Integer> reservedPorts = getReservedPorts();
+		 for(int i=0;i< difference;i++){
+			 int port =minPortNumber+i;
+			 if(!reservedPorts.contains(port)){
+				 portList.add(minPortNumber+i);
+			 }
+		 }
+			Collections.shuffle(portList);
+		return portList;
+	}
+
+	public ServerSocket reservePort(int port) throws MojoExecutionException {
+		if ( port > maxPortNumber )
+		{
+		    throw new MojoExecutionException( "Unable to find an available port between " + minPortNumber
+		        + " and " + maxPortNumber );
+		}
+		try
+		{
+			ServerSocket serverSocket = new ServerSocket( port );
+			  getLog().info( "Port assigned" + port);
+			return serverSocket;
+		}
+		catch ( IOException ioe )
+		{
+		    getLog().info( "Tried binding to port " + port + " without success. Trying next port.", ioe );
+		}
+		  return null;
+	}
 
     private int getNextPortNumber()
     {
