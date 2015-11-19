@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -51,13 +52,11 @@
     <developerConnection>scm:git:ssh://git@github.com/mojohaus/build-helper-maven-plugin.git</developerConnection>
     <url>https://github.com/mojohaus/build-helper-maven-plugin</url>
   </scm>
-  <issueManagement>
-    <system>github</system>
-    <url>https://github.com/mojohaus/build-helper-maven-plugin/issues/</url>
-  </issueManagement>
+
 
   <properties>
     <mavenVersion>2.2.1</mavenVersion>
+    <scmpublish.content>${project.build.directory}/staging/build-helper-maven-plugin</scmpublish.content>
   </properties>
 
   <dependencies>
@@ -89,13 +88,13 @@
     <dependency>
       <groupId>org.apache.maven.plugin-tools</groupId>
       <artifactId>maven-plugin-annotations</artifactId>
-      <version>3.3</version>
+      <version>3.4</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
-      <version>3.0.20</version>
+      <version>3.0.22</version>
     </dependency>
     <dependency>
       <groupId>org.beanshell</groupId>
