@@ -25,8 +25,8 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2005 - 2015 MojoHaus</copyright>
     <item>
-      <title>File: 22,
-             Errors: 8,
+      <title>File: 23,
+             Errors: 10,
              Warnings: 26,
              Infos: 0
       </title>
@@ -214,6 +214,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.HelpMojo.java">org/codehaus/mojo/buildhelper/HelpMojo.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.ParseVersionMojo.java">org/codehaus/mojo/buildhelper/ParseVersionMojo.java</a>
                 </td>
                 <td>
@@ -279,7 +293,7 @@ under the License.
                   1
                 </td>
                 <td>
-                  1
+                  2
                 </td>
               </tr>
                           <tr>
