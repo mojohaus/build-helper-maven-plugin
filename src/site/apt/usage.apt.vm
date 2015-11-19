@@ -506,7 +506,7 @@ releasedVersion.incrementalVersion
                   <failIfNoMatch>false</failIfNoMatch>
                 </regexPropertySetting>
                 [....]
-              <regexPropertySettings>
+              </regexPropertySettings>
             </configuration>
           </execution>
         </executions>
