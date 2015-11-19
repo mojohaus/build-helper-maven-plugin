@@ -541,7 +541,7 @@ releasedVersion.incrementalVersion
             <configuration>
               <name>next.year</name>
               <pattern>yyyy</pattern>
-              <units>year</units>
+              <unit>year</unit>
               <offset>+1</offset>
             </configuration>
           </execution>
@@ -558,7 +558,7 @@ releasedVersion.incrementalVersion
 
   The <<<pattern>>> parameter accepts any valid <<<java.text.SimpleDateFormat>>> format string.
 
-  The <<<units>>> will accept any of: <<<millisecond>>>, <<<second>>>, <<<minute>>>, <<<hour>>>, <<<day>>>, <<<week>>>,
+  The <<<unit>>> will accept any of: <<<millisecond>>>, <<<second>>>, <<<minute>>>, <<<hour>>>, <<<day>>>, <<<week>>>,
   <<<month>>> and <<<year>>>. The <<<offset>>> parameter takes integer values only and defaults to <<<0>>>.
 
   The <<<locale>>> and <<<timeZone>>> parameters can be further used to control the build-time behaviour.
