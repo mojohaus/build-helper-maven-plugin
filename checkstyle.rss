@@ -20,19 +20,19 @@ under the License.
 <rss version="0.91">
   <channel>
     <title>Build Helper Maven Plugin - Checkstyle report</title>
-    <link>http://mojo.codehaus.org/build-helper-maven-plugin</link>
+    <link>http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin</link>
     <description>Build Helper Maven Plugin - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2005 - 2015 Codehaus</copyright>
+    <copyright>&#169;2005 - 2015 MojoHaus</copyright>
     <item>
       <title>File: 22,
-             Errors: 11,
-             Warnings: 27,
+             Errors: 8,
+             Warnings: 26,
              Infos: 0
       </title>
-            <link>http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html</link>
+            <link>http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html</link>
       <description>
-        <p>Click <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html">here</a> for the full Checkstyle report.</p>
+        <p>Click <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html">here</a> for the full Checkstyle report.</p>
 
         <table summary="Files" boder="1">
           <thead>
@@ -46,7 +46,7 @@ under the License.
           <tbody>
                           <tr>
                 <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.RegexPropertiesMojo.java">org/codehaus/mojo/buildhelper/RegexPropertiesMojo.java</a>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.RegexPropertiesMojo.java">org/codehaus/mojo/buildhelper/RegexPropertiesMojo.java</a>
                 </td>
                 <td>
                   0
@@ -60,7 +60,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.AbstractAddResourceMojo.java">org/codehaus/mojo/buildhelper/AbstractAddResourceMojo.java</a>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.AbstractAddResourceMojo.java">org/codehaus/mojo/buildhelper/AbstractAddResourceMojo.java</a>
                 </td>
                 <td>
                   0
@@ -74,7 +74,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.AddTestSourceMojo.java">org/codehaus/mojo/buildhelper/AddTestSourceMojo.java</a>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.AddTestSourceMojo.java">org/codehaus/mojo/buildhelper/AddTestSourceMojo.java</a>
                 </td>
                 <td>
                   0
@@ -88,7 +88,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.RegexPropertyMojo.java">org/codehaus/mojo/buildhelper/RegexPropertyMojo.java</a>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.RegexPropertyMojo.java">org/codehaus/mojo/buildhelper/RegexPropertyMojo.java</a>
                 </td>
                 <td>
                   0
@@ -102,7 +102,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.AddSourceMojo.java">org/codehaus/mojo/buildhelper/AddSourceMojo.java</a>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.AddSourceMojo.java">org/codehaus/mojo/buildhelper/AddSourceMojo.java</a>
                 </td>
                 <td>
                   0
@@ -116,7 +116,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.AddTestResourceMojo.java">org/codehaus/mojo/buildhelper/AddTestResourceMojo.java</a>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.AddTestResourceMojo.java">org/codehaus/mojo/buildhelper/AddTestResourceMojo.java</a>
                 </td>
                 <td>
                   0
@@ -130,7 +130,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.MavenVersionMojo.java">org/codehaus/mojo/buildhelper/MavenVersionMojo.java</a>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.MavenVersionMojo.java">org/codehaus/mojo/buildhelper/MavenVersionMojo.java</a>
                 </td>
                 <td>
                   0
@@ -144,7 +144,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.RegexPropertySetting.java">org/codehaus/mojo/buildhelper/RegexPropertySetting.java</a>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.RegexPropertySetting.java">org/codehaus/mojo/buildhelper/RegexPropertySetting.java</a>
                 </td>
                 <td>
                   0
@@ -158,7 +158,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.ReleasedVersionMojo.java">org/codehaus/mojo/buildhelper/ReleasedVersionMojo.java</a>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.ReleasedVersionMojo.java">org/codehaus/mojo/buildhelper/ReleasedVersionMojo.java</a>
                 </td>
                 <td>
                   0
@@ -172,7 +172,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.CpuCountMojo.java">org/codehaus/mojo/buildhelper/CpuCountMojo.java</a>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.CpuCountMojo.java">org/codehaus/mojo/buildhelper/CpuCountMojo.java</a>
                 </td>
                 <td>
                   0
@@ -186,7 +186,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.AbstractDefinePropertyMojo.java">org/codehaus/mojo/buildhelper/AbstractDefinePropertyMojo.java</a>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.AbstractDefinePropertyMojo.java">org/codehaus/mojo/buildhelper/AbstractDefinePropertyMojo.java</a>
                 </td>
                 <td>
                   0
@@ -200,7 +200,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.AttachArtifactMojo.java">org/codehaus/mojo/buildhelper/AttachArtifactMojo.java</a>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.AttachArtifactMojo.java">org/codehaus/mojo/buildhelper/AttachArtifactMojo.java</a>
                 </td>
                 <td>
                   0
@@ -214,7 +214,10 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.ParseVersionMojo.java">org/codehaus/mojo/buildhelper/ParseVersionMojo.java</a>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.ParseVersionMojo.java">org/codehaus/mojo/buildhelper/ParseVersionMojo.java</a>
+                </td>
+                <td>
+                  0
                 </td>
                 <td>
                   0
@@ -222,41 +225,10 @@ under the License.
                 <td>
                   1
                 </td>
-                <td>
-                  3
-                </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.RemoveLocalArtifactMojo.java">org/codehaus/mojo/buildhelper/RemoveLocalArtifactMojo.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.AbstractRegexPropertyMojo.java">org/codehaus/mojo/buildhelper/AbstractRegexPropertyMojo.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  2
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.LocalIpMojo.java">org/codehaus/mojo/buildhelper/LocalIpMojo.java</a>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.RemoveLocalArtifactMojo.java">org/codehaus/mojo/buildhelper/RemoveLocalArtifactMojo.java</a>
                 </td>
                 <td>
                   0
@@ -270,63 +242,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.ReserveListenerPortMojo.java">org/codehaus/mojo/buildhelper/ReserveListenerPortMojo.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  1
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.OsgiArtifactVersion.java">org/codehaus/mojo/buildhelper/OsgiArtifactVersion.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.TimestampPropertyMojo.java">org/codehaus/mojo/buildhelper/TimestampPropertyMojo.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.Artifact.java">org/codehaus/mojo/buildhelper/Artifact.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.BeanshellPropertyMojo.java">org/codehaus/mojo/buildhelper/BeanshellPropertyMojo.java</a>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.AbstractRegexPropertyMojo.java">org/codehaus/mojo/buildhelper/AbstractRegexPropertyMojo.java</a>
                 </td>
                 <td>
                   0
@@ -340,7 +256,91 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://mojo.codehaus.org/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.AddResourceMojo.java">org/codehaus/mojo/buildhelper/AddResourceMojo.java</a>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.LocalIpMojo.java">org/codehaus/mojo/buildhelper/LocalIpMojo.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.ReserveListenerPortMojo.java">org/codehaus/mojo/buildhelper/ReserveListenerPortMojo.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.OsgiArtifactVersion.java">org/codehaus/mojo/buildhelper/OsgiArtifactVersion.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.TimestampPropertyMojo.java">org/codehaus/mojo/buildhelper/TimestampPropertyMojo.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.Artifact.java">org/codehaus/mojo/buildhelper/Artifact.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.BeanshellPropertyMojo.java">org/codehaus/mojo/buildhelper/BeanshellPropertyMojo.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin/build-helper-maven-plugin/checkstyle.html#org.codehaus.mojo.buildhelper.AddResourceMojo.java">org/codehaus/mojo/buildhelper/AddResourceMojo.java</a>
                 </td>
                 <td>
                   0
