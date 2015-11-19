@@ -50,8 +50,10 @@ import org.codehaus.plexus.util.IOUtil;
  * @version $Id: ReserveListnerPortMojo.java 6754 2008-04-13 15:14:04Z dantran $
  * @since 1.2
  */
-@Mojo(name = "reserve-network-port", defaultPhase = LifecyclePhase.PROCESS_TEST_CLASSES, threadSafe = true)
-public class ReserveListenerPortMojo extends AbstractMojo {
+@Mojo( name = "reserve-network-port", defaultPhase = LifecyclePhase.PROCESS_TEST_CLASSES, threadSafe = true )
+public class ReserveListenerPortMojo
+    extends AbstractMojo
+{
     private static final String BUILD_HELPER_RESERVED_PORTS = "BUILD_HELPER_MIN_PORT";
 
     private static final Integer FIRST_NON_ROOT_PORT_NUMBER = 1024;
@@ -65,7 +67,7 @@ public class ReserveListenerPortMojo extends AbstractMojo {
      *
      * @since 1.2
      */
-    @Parameter(required = true)
+    @Parameter( required = true )
     private final String[] portNames = new String[0];
 
     /**
@@ -108,152 +110,202 @@ public class ReserveListenerPortMojo extends AbstractMojo {
     /**
      * @since 1.2
      */
-    @Parameter(readonly = true, defaultValue = "${project}")
+    @Parameter( readonly = true, defaultValue = "${project}" )
     private MavenProject project;
 
     @Override
-    public void execute() throws MojoExecutionException {
+    public void execute()
+        throws MojoExecutionException
+    {
         Properties properties = project.getProperties();
 
-        if (outputFile != null) {
+        if ( outputFile != null )
+        {
             properties = new Properties();
         }
 
         // Reserve the entire block of ports to guarantee we don't get the same port twice
         final List<ServerSocket> sockets = new ArrayList<ServerSocket>();
-        try {
-            for (String portName : portNames) {
-                try {
+        try
+        {
+            for ( String portName : portNames )
+            {
+                try
+                {
                     final ServerSocket socket = getServerSocket();
-                    sockets.add(socket);
+                    sockets.add( socket );
 
-                    final String unusedPort = Integer.toString(socket.getLocalPort());
-                    properties.put(portName, unusedPort);
-                    getReservedPorts().add(socket.getLocalPort());
-                    this.getLog().info("Reserved port " + unusedPort + " for " + portName);
-                } catch (IOException e) {
-                    throw new MojoExecutionException("Error getting an available port from system", e);
+                    final String unusedPort = Integer.toString( socket.getLocalPort() );
+                    properties.put( portName, unusedPort );
+                    getReservedPorts().add( socket.getLocalPort() );
+                    this.getLog().info( "Reserved port " + unusedPort + " for " + portName );
+                }
+                catch ( IOException e )
+                {
+                    throw new MojoExecutionException( "Error getting an available port from system", e );
                 }
             }
 
             // Write the file -- still hold onto the ports
-            if (outputFile != null) {
+            if ( outputFile != null )
+            {
                 OutputStream os = null;
-                try {
-                    os = new FileOutputStream(outputFile);
-                    properties.store(os, null);
-                } catch (Exception e) {
-                    throw new MojoExecutionException(e.getMessage());
-                } finally {
-                    IOUtil.close(os);
+                try
+                {
+                    os = new FileOutputStream( outputFile );
+                    properties.store( os, null );
+                }
+                catch ( Exception e )
+                {
+                    throw new MojoExecutionException( e.getMessage() );
+                }
+                finally
+                {
+                    IOUtil.close( os );
                 }
             }
-        } finally {
+        }
+        finally
+        {
             // Now free all the ports
-            for (ServerSocket socket : sockets) {
+            for ( ServerSocket socket : sockets )
+            {
                 final int localPort = socket.getLocalPort();
-                try {
+                try
+                {
                     socket.close();
-                } catch (IOException e) {
-                    this.getLog().error("Cannot free reserved port " + localPort);
+                }
+                catch ( IOException e )
+                {
+                    this.getLog().error( "Cannot free reserved port " + localPort );
                 }
             }
         }
     }
 
-    private ServerSocket getServerSocket() throws IOException, MojoExecutionException {
-        if (minPortNumber == null && maxPortNumber != null) {
-            getLog().debug("minPortNumber unspecified: using default value " + FIRST_NON_ROOT_PORT_NUMBER);
+    private ServerSocket getServerSocket()
+        throws IOException, MojoExecutionException
+    {
+        if ( minPortNumber == null && maxPortNumber != null )
+        {
+            getLog().debug( "minPortNumber unspecified: using default value " + FIRST_NON_ROOT_PORT_NUMBER );
             minPortNumber = FIRST_NON_ROOT_PORT_NUMBER;
         }
-        if (minPortNumber != null && maxPortNumber == null) {
-            getLog().debug("maxPortNumber unspecified: using default value " + MAX_PORT_NUMBER);
+        if ( minPortNumber != null && maxPortNumber == null )
+        {
+            getLog().debug( "maxPortNumber unspecified: using default value " + MAX_PORT_NUMBER );
             maxPortNumber = MAX_PORT_NUMBER;
         }
-        if (minPortNumber == null && maxPortNumber == null) {
-            return new ServerSocket(0);
+        if ( minPortNumber == null && maxPortNumber == null )
+        {
+            return new ServerSocket( 0 );
         }
-        if (randomPort) {
-            synchronized (lock) {
+        if ( randomPort )
+        {
+            synchronized ( lock )
+            {
                 List<Integer> availablePorts = randomPortList();
-                for (Iterator<Integer> iterator = availablePorts.iterator(); iterator.hasNext();) {
+                for ( Iterator<Integer> iterator = availablePorts.iterator(); iterator.hasNext(); )
+                {
                     int port = iterator.next();
-                    ServerSocket serverSocket = reservePort(port);
+                    ServerSocket serverSocket = reservePort( port );
                     iterator.remove();
-                    if (serverSocket != null) {
+                    if ( serverSocket != null )
+                    {
                         return serverSocket;
                     }
                 }
-                throw new MojoExecutionException("Unable to find an available port between " + minPortNumber + " and " + maxPortNumber);
+                throw new MojoExecutionException( "Unable to find an available port between " + minPortNumber + " and "
+                    + maxPortNumber );
             }
-        } else {
+        }
+        else
+        {
             // Might be synchronizing a bit too largely, but at least that defensive approach should prevent
             // threading issues (essentially possible while put/getting the plugin ctx to get the reserved ports).
-            synchronized (lock) {
+            synchronized ( lock )
+            {
                 int min = getNextPortNumber();
 
-                for (int port = min;; ++port) {
+                for ( int port = min;; ++port )
+                {
 
-                    ServerSocket serverSocket = reservePort(port);
-                    if (serverSocket != null)
+                    ServerSocket serverSocket = reservePort( port );
+                    if ( serverSocket != null )
                         return serverSocket;
                 }
             }
         }
     }
 
-    private List<Integer> randomPortList() {
+    private List<Integer> randomPortList()
+    {
 
-        int difference = (maxPortNumber - minPortNumber) + 1;
-        List<Integer> portList = new ArrayList<Integer>(difference);
+        int difference = ( maxPortNumber - minPortNumber ) + 1;
+        List<Integer> portList = new ArrayList<Integer>( difference );
         List<Integer> reservedPorts = getReservedPorts();
-        for (int i = 0; i < difference; i++) {
+        for ( int i = 0; i < difference; i++ )
+        {
             int port = minPortNumber + i;
-            if (!reservedPorts.contains(port)) {
-                portList.add(minPortNumber + i);
+            if ( !reservedPorts.contains( port ) )
+            {
+                portList.add( minPortNumber + i );
             }
         }
-        Collections.shuffle(portList);
+        Collections.shuffle( portList );
         return portList;
     }
 
-    public ServerSocket reservePort(int port) throws MojoExecutionException {
+    public ServerSocket reservePort( int port )
+        throws MojoExecutionException
+    {
 
-        if (port > maxPortNumber) {
-            throw new MojoExecutionException("Unable to find an available port between " + minPortNumber + " and " + maxPortNumber);
+        if ( port > maxPortNumber )
+        {
+            throw new MojoExecutionException( "Unable to find an available port between " + minPortNumber + " and "
+                + maxPortNumber );
         }
-        try {
-            ServerSocket serverSocket = new ServerSocket(port);
-            getLog().info("Port assigned" + port);
+        try
+        {
+            ServerSocket serverSocket = new ServerSocket( port );
+            getLog().info( "Port assigned" + port );
             return serverSocket;
-        } catch (IOException ioe) {
-            getLog().info("Tried binding to port " + port + " without success. Trying next port.", ioe);
+        }
+        catch ( IOException ioe )
+        {
+            getLog().info( "Tried binding to port " + port + " without success. Trying next port.", ioe );
         }
         return null;
     }
 
-    private int getNextPortNumber() {
+    private int getNextPortNumber()
+    {
         assert minPortNumber != null;
 
         List<Integer> reservedPorts = getReservedPorts();
         int nextPort = -1;
-        if (reservedPorts.isEmpty()) {
+        if ( reservedPorts.isEmpty() )
+        {
             nextPort = minPortNumber;
-        } else {
-            nextPort = findAvailablePortNumber(minPortNumber, reservedPorts);
         }
-        reservedPorts.add(nextPort);
-        getLog().debug("Next port: " + nextPort);
+        else
+        {
+            nextPort = findAvailablePortNumber( minPortNumber, reservedPorts );
+        }
+        reservedPorts.add( nextPort );
+        getLog().debug( "Next port: " + nextPort );
         return nextPort;
     }
 
-    @SuppressWarnings("unchecked")
-    private List<Integer> getReservedPorts() {
+    @SuppressWarnings( "unchecked" )
+    private List<Integer> getReservedPorts()
+    {
 
-        List<Integer> reservedPorts = (List<Integer>) getPluginContext().get(BUILD_HELPER_RESERVED_PORTS);
-        if (reservedPorts == null) {
+        List<Integer> reservedPorts = (List<Integer>) getPluginContext().get( BUILD_HELPER_RESERVED_PORTS );
+        if ( reservedPorts == null )
+        {
             reservedPorts = new ArrayList<Integer>();
-            getPluginContext().put(BUILD_HELPER_RESERVED_PORTS, reservedPorts);
+            getPluginContext().put( BUILD_HELPER_RESERVED_PORTS, reservedPorts );
         }
         return reservedPorts;
     }
@@ -262,16 +314,16 @@ public class ReserveListenerPortMojo extends AbstractMojo {
      * Returns the first number available, starting at portNumberStartingPoint that's not already in the reservedPorts
      * list.
      *
-     * @param portNumberStartingPoint
-     *            first port number to start from.
-     * @param reservedPorts
-     *            the ports already reserved.
+     * @param portNumberStartingPoint first port number to start from.
+     * @param reservedPorts the ports already reserved.
      * @return first number available not in the given list, starting at the given parameter.
      */
-    private int findAvailablePortNumber(Integer portNumberStartingPoint, List<Integer> reservedPorts) {
+    private int findAvailablePortNumber( Integer portNumberStartingPoint, List<Integer> reservedPorts )
+    {
         assert portNumberStartingPoint != null;
         int candidate = portNumberStartingPoint;
-        while (reservedPorts.contains(candidate)) {
+        while ( reservedPorts.contains( candidate ) )
+        {
             candidate++;
         }
         return candidate;
