@@ -52,7 +52,14 @@
     <url>https://github.com/mojohaus/build-helper-maven-plugin</url>
     <tag>HEAD</tag>
   </scm>
-
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/mojohaus/build-helper-maven-plugin/issues/</url>
+  </issueManagement>
+  <ciManagement>
+    <system>Travis-CI</system>
+    <url>https://travis-ci.org/mojohaus/build-helper-maven-plugin</url>
+  </ciManagement>
 
   <properties>
     <mavenVersion>2.2.1</mavenVersion>
@@ -88,7 +95,6 @@
     <dependency>
       <groupId>org.apache.maven.plugin-tools</groupId>
       <artifactId>maven-plugin-annotations</artifactId>
-      <version>3.4</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
