@@ -11,6 +11,7 @@
   <artifactId>build-helper-maven-plugin</artifactId>
   <version>1.11-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
+  <url>http://www.mojohaus.org/build-helper-maven-plugin/</url>
 
   <name>Build Helper Maven Plugin</name>
   <description>This plugin contains various small independent goals to assist with Maven build lifecycle</description>
