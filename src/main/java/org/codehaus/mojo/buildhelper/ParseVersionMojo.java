@@ -57,6 +57,34 @@ import org.codehaus.plexus.util.StringUtils;
  * This version is simply the original version string with the first instance of '-' replaced by '.' For example,
  * 1.0.2-beta-1 will be converted to 1.0.2.beta-1
  *
+ * This goal also sets the following properties:
+ * 
+ * <pre>
+ *   [propertyPrefix].nextMajorVersion
+ *   [propertyPrefix].nextMinorVersion
+ *   [propertyPrefix].nextIncrementalVersion
+ * </pre>
+ * 
+ * The above properties contain simply incremented versions
+ * of the parsed version informations. Those can now be used 
+ * to update the version of your project via the following to
+ * the next Major version:
+ * 
+ * <pre>
+ *   mvn build-helper:parse-version versions:set \
+ *      -DnewVersion=\${parsedVersion.nextMajorVersion}.0.0 \
+ *      versions:commit
+ * </pre>
+ *
+ * It can of course being used to increment the minor version:
+ * <pre>
+ *   mvn build-helper:parse-version versions:set \
+ *      -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.0 \
+ *      versions:commit
+ * </pre>
+ *
+ * This can make an upgrade of the versions of your project very convenient.
+ * 
  * @author pgier
  * @version $Id$
  * @since 1.3
