@@ -71,6 +71,22 @@ public class RegexPropertyMojo
     private boolean failIfNoMatch;
 
     /**
+     * Make the value of the resulting property upper case.
+     * 
+     * @since 1.11
+     */
+    @Parameter( defaultValue = "false" )
+    private boolean toUpperCase;
+
+    /**
+     * Make the value of the resulting property lower case.
+     * 
+     * @since 1.11
+     */
+    @Parameter( defaultValue = "false" )
+    private boolean toLowerCase;
+
+    /**
      * {@inheritDoc}
      */
     public void execute()
@@ -82,6 +98,8 @@ public class RegexPropertyMojo
         config.setRegex( regex );
         config.setReplacement( replacement );
         config.setFailIfNoMatch( failIfNoMatch );
+        config.setToLowerCase( toLowerCase );
+        config.setToUpperCase( toUpperCase );
 
         this.execute( config );
 

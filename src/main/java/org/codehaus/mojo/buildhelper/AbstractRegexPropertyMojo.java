@@ -1,5 +1,7 @@
 package org.codehaus.mojo.buildhelper;
 
+import java.util.Locale;
+
 /*
  * The MIT License
  *
@@ -77,6 +79,16 @@ public abstract class AbstractRegexPropertyMojo
                 getLog().info( "No match to regex '" + config.getRegex() + "' found in '" + config.getValue() + "'. "
                                    + "The initial value '" + config.getValue() + "' is left as-is..." );
             }
+        }
+
+        if ( config.isToLowerCase() )
+        {
+            config.setValue( config.getValue().toLowerCase( Locale.getDefault() ) );
+        }
+        
+        if ( config.isToUpperCase() )
+        {
+            config.setValue( config.getValue().toUpperCase( Locale.getDefault() ) );
         }
 
         defineProperty( config.getName(), config.getValue() );

@@ -59,6 +59,18 @@ public class RegexPropertySetting
     @Parameter( defaultValue = "true" )
     private boolean failIfNoMatch = true;
 
+    /**
+     * Change the case of the value to upper case if set to true.
+     */
+    @Parameter( defaultValue = "false" )
+    private boolean toUpperCase = false;
+
+    /**
+     * Change the case of the value to lower case if set to true.
+     */
+    @Parameter( defaultValue = "false" )
+    private boolean toLowerCase = false;
+
     public String getName()
     {
         return name;
@@ -109,6 +121,26 @@ public class RegexPropertySetting
         this.failIfNoMatch = failIfNoMatch;
     }
 
+    public boolean isToUpperCase()
+    {
+        return toUpperCase;
+    }
+
+    public void setToUpperCase( boolean toUpperCase )
+    {
+        this.toUpperCase = toUpperCase;
+    }
+
+    public boolean isToLowerCase()
+    {
+        return toLowerCase;
+    }
+
+    public void setToLowerCase( boolean toLowerCase )
+    {
+        this.toLowerCase = toLowerCase;
+    }
+
     public void validate()
     {
         if ( StringUtils.isBlank( name ) )
@@ -124,6 +156,11 @@ public class RegexPropertySetting
         if ( StringUtils.isBlank( regex ) )
         {
             throw new IllegalArgumentException( "regex required" );
+        }
+
+        if ( toLowerCase && toUpperCase )
+        {
+            throw new IllegalArgumentException( "either toUpperCase or toLowerCase can be set, but not both." );
         }
     }
 
