@@ -125,7 +125,7 @@ public class ReserveListenerPortMojo
         }
 
         // Reserve the entire block of ports to guarantee we don't get the same port twice
-        final List<ServerSocket> sockets = new ArrayList<ServerSocket>();
+        final List<ServerSocket> sockets = new ArrayList<>();
         try
         {
             for ( String portName : portNames )
@@ -242,7 +242,7 @@ public class ReserveListenerPortMojo
     {
 
         int difference = ( maxPortNumber - minPortNumber ) + 1;
-        List<Integer> portList = new ArrayList<Integer>( difference );
+        List<Integer> portList = new ArrayList<>(difference);
         List<Integer> reservedPorts = getReservedPorts();
         for ( int i = 0; i < difference; i++ )
         {
@@ -304,7 +304,7 @@ public class ReserveListenerPortMojo
         List<Integer> reservedPorts = (List<Integer>) getPluginContext().get( BUILD_HELPER_RESERVED_PORTS );
         if ( reservedPorts == null )
         {
-            reservedPorts = new ArrayList<Integer>();
+            reservedPorts = new ArrayList<>();
             getPluginContext().put( BUILD_HELPER_RESERVED_PORTS, reservedPorts );
         }
         return reservedPorts;
