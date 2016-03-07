@@ -259,7 +259,7 @@ public class OsgiArtifactVersion
      */
     public String toString()
     {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         if ( majorVersion != null )
         {
             buf.append( majorVersion );

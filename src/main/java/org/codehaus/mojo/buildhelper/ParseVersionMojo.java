@@ -195,7 +195,7 @@ public class ParseVersionMojo
             return version.toString();
         }
 
-        StringBuffer osgiVersion = new StringBuffer();
+        StringBuilder osgiVersion = new StringBuilder();
         osgiVersion.append( version.getMajorVersion() );
         osgiVersion.append( "." + version.getMinorVersion() );
         osgiVersion.append( "." + version.getIncrementalVersion() );
