@@ -1,0 +1,1 @@
+org.codehaus.mojo.buildhelper.FixtureUtils.createResources( "target/it/uptodate-package" )

@@ -4,6 +4,7 @@
  Dan Tran
  Dennis Lundberg
  Robert Scholte
+ Adrian Price
  ------
  2010-02-12
  ------
@@ -479,7 +480,7 @@ releasedVersion.incrementalVersion
   the value <<<1.0>>> if the <<<project.version>>> was <<<1.0>>> but if the project version was <<<1.0-SNAPSHOT>>>
   then it would have the value <<<1.0 pre-release development version>>>.
 
-  To load mutiple properties in one execution, use <<<regex-properties>>> goal
+  To load multiple properties in one execution, use <<<regex-properties>>> goal
 
 -------------------
 <project>
@@ -626,3 +627,128 @@ releasedVersion.incrementalVersion
   ...
 </project>
 -------------------
+
+* Set a property according to whether target files are up to date with respect to their sources 
+
+  'Up to date' means that the target file both exists and has a 'last modification timestamp' (<<<java.io.File.lastModified()>>>)
+  equal to or later than that of the corresponding source file(s).
+
+  Source files are computed relative to the <<<fileset>>>'s required <<<directory>>> property.
+  If the <<<fileset>>> has an <<<outputDirectory>>> property, target files are computed relative to that;
+  otherwise, target files are also computed relative to <<<directory>>>.
+  
+  The <<<fileset>>> element supports a <<<mapper>>>, whose <<<type>>> can be any of the built-in mappers
+  <<<flatten glob identity merge package unpackage>>>. Alternatively, the <<<classname>>> property can specify the
+  fully qualified name of a class that implements <<<org.apache.maven.shared.model.fileset.mappers.FileNameMapper>>>.
+
+  The <<<uptodate-property>>> goal can be used to set a property to a value if specified target files are up to date.
+  For example, executing the following plugin configuration to set the <<<obj.status>>> property.
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <executions>
+          <execution>
+            <id>obj-uptodate</id>
+            <goals>
+              <goal>uptodate-property</goal>
+            </goals>
+            <configuration>
+              <name>obj.status</name>
+              <value>fresh</value>
+              <else>stale</else>
+              <fileSet>
+                <directory>src/main/c</directory>
+                <outputDirectory>target/obj</outputDirectory>
+                <includes>
+                  <include>mod-*/**</include>
+                </includes>
+                <excludes>
+                  <exclude>**/*.old.*</exclude>
+                </excludes>
+                <mapper>
+                  <type>glob</type>
+                  <from>*.c</from>
+                  <to>*.o</to>
+                </mapper>
+              </fileSet>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  ...
+</project>
+-------------------
+
+  After the goal executes (by default during the <<<validate>>> phase) the <<<obj.status>>> property would have
+  the value <<<fresh>>> if all <<<target/obj/**/*.o>>> object files were up to date with respect to their
+  corresponding <<<src/main/c/mod-*/**/*.c>>> source files (excluding any with <<<.old.>>> in the name);
+  otherwise, the property would have the value <<<stale>>>.
+
+  To set multiple properties for multiple file sets in one execution, use the <<<uptodate-properties>>> goal.
+  The <<<upToDatePropertySetting>>> element supports all the configuration properties documented above for the
+  <<<uptodate-property>>> goal.
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <executions>
+          <execution>
+            <id>lib-doc-uptodate</id>
+            <goals>
+              <goal>uptodate-properties</goal>
+            </goals>
+            <configuration>
+              <upToDatePropertySettings>
+                <upToDatePropertySetting>
+                  <name>lib.uptodate</name>
+                  <fileSet>
+                    <directory>target/obj</directory>
+                    <outputDirectory>target/lib</outputDirectory>
+                    <mapper>
+                      <type>merge</type>
+                      <from>*.o</from>
+                      <to>mylibrary.so</to>
+                    </mapper>
+                  </fileSet>
+                </upToDatePropertySetting>
+                <upToDatePropertySetting>
+                  <name>doc.uptodate</name>
+                  <fileSet>
+                    <directory>src/main/c</directory>
+                    <outputDirectory>target/site/doc</outputDirectory>
+                    <mapper>
+                      <type>merge</type>
+                      <from>*.c</from>
+                      <to>mylibrary.html</to>
+                    </mapper>
+                  </fileSet>
+                </upToDatePropertySetting>
+              </upToDatePropertySettings>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  ...
+</project>
+-------------------
+
+  After the goal executes, the <<<lib.uptodate>>> property would have the value <<<true>>> if <<<target/lib/mylibrary.so>>>
+  is up to date with respect to all the <<<target/obj/**/*.o>>> object files. Also, the <<<doc.uptodate>>> property would
+  have the value <<<true>>> if <<<target/site/doc/mylibrary.html>>> is up to date with respect to <<<src/main/c/**/*.c>>>.

@@ -67,8 +67,11 @@ Build Helper Maven Plugin
 
   * {{{./cpu-count-mojo.html}build-helper:cpu-count}} Retrieve number of available CPU.
 
-
   * {{{./timestamp-property-mojo.html}build-helper:timestamp-property}} Sets a property based on the current date and time.
+
+  * {{{./uptodate-property-mojo.html}build-helper:uptodate-property}} Sets a property according to whether a file set's outputs are up to date with respect to its inputs.
+
+  * {{{./uptodate-properties-mojo.html}build-helper:uptodate-properties}} Sets multiple properties according to whether multiple file sets' outputs are up to date with respect to their inputs.
 
 
 * Usage
