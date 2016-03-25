@@ -140,7 +140,7 @@ public class AttachArtifactMojo
             getLog().debug( "Current Folder:" + basedir );
 
         }
-        boolean result = mavenSession.getExecutionRootDirectory().equalsIgnoreCase( basedir.toString() );
+        boolean result = mavenSession.getExecutionRootDirectory().equalsIgnoreCase( basedir );
         if ( getLog().isDebugEnabled() )
         {
             if ( result )

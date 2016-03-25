@@ -283,7 +283,7 @@ public class ReserveListenerPortMojo
         assert minPortNumber != null;
 
         List<Integer> reservedPorts = getReservedPorts();
-        int nextPort = -1;
+        int nextPort;
         if ( reservedPorts.isEmpty() )
         {
             nextPort = minPortNumber;
