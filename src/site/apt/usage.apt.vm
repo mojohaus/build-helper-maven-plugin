@@ -439,6 +439,56 @@ releasedVersion.incrementalVersion
   </build>
 </project>
 -------------------
+  It is also possible to define port names via resource file(s). Resources in classpath are also supported (artifact 
+  with resource has to be defined in plugin dependencies section).
+
+  <<<portNames>>> and <<<urls>>> parameters can be combined.
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <dependencies>
+          <dependency>
+            <artifactId>jar-with-port-names.txt</artifactId>
+            [...]
+        </dependencies>
+        <executions>
+          <execution>
+            <id>reserve-network-port</id>
+            <goals>
+              <goal>reserve-network-port</goal>
+            </goals>
+            <phase>process-resources</phase>
+            <configuration>
+              <urls>
+                <url>file://${project.basedir}/names1.txt</url>
+                <url>classpath:port-names.txt</url>
+              </urls>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      [...]
+
+    </plugins>
+  </build>
+</project>
+-------------------
+  port-names.txt:
+
+-------------------
+# Selenium port name
+selenium.server.port
+# Tomcat port name
+tomcat.http.port
+-------------------
 
 * Set a property by applying a regex replacement to a value
 

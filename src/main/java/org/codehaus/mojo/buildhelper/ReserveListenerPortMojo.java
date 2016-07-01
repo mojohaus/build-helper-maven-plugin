@@ -24,11 +24,17 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.ServerSocket;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -63,12 +69,21 @@ public class ReserveListenerPortMojo
     private static final Object lock = new Object();
 
     /**
-     * A List to property names to be placed in Maven project
+     * A List to property names to be placed in Maven project. At least one of {@code #urls} or {@code #portNames} has to be specified.
      *
      * @since 1.2
      */
-    @Parameter( required = true )
-    private final String[] portNames = new String[0];
+    @Parameter
+    private String[] portNames = new String[0];
+
+    /**
+     * A List of urls to resource where list of name could be found. Can be in
+     * form of classpath:com/myproject/names.txt . At least one of {@code #urls} or {@code #portNames} has to be specified.
+     * 
+     * @since 1.11
+     */
+    @Parameter
+    private String[] urls = new String[0];
 
     /**
      * Output file to write the generated properties to. if not given, they are written to Maven project
@@ -123,6 +138,8 @@ public class ReserveListenerPortMojo
         {
             properties = new Properties();
         }
+
+        loadUrls();
 
         // Reserve the entire block of ports to guarantee we don't get the same port twice
         final List<ServerSocket> sockets = new ArrayList<ServerSocket>();
@@ -231,8 +248,9 @@ public class ReserveListenerPortMojo
                 {
 
                     ServerSocket serverSocket = reservePort( port );
-                    if ( serverSocket != null )
+                    if ( serverSocket != null ) {
                         return serverSocket;
+                    }
                 }
             }
         }
@@ -241,7 +259,7 @@ public class ReserveListenerPortMojo
     private List<Integer> randomPortList()
     {
 
-        int difference = ( maxPortNumber - minPortNumber ) + 1;
+        int difference = maxPortNumber - minPortNumber + 1;
         List<Integer> portList = new ArrayList<Integer>( difference );
         List<Integer> reservedPorts = getReservedPorts();
         for ( int i = 0; i < difference; i++ )
@@ -327,5 +345,121 @@ public class ReserveListenerPortMojo
             candidate++;
         }
         return candidate;
+    }
+
+    private void loadUrls() throws MojoExecutionException {
+        for (String url : urls) {
+            load(new UrlResource(url));
+        }
+    }
+
+    private void load(UrlResource resource) throws MojoExecutionException {
+        if (resource.canBeOpened()) {
+            loadPortNamesFromResource(resource);
+        } else {
+            throw new MojoExecutionException("Port names could not be loaded from \"" + resource + "\"");
+        }
+    }
+
+    private void loadPortNamesFromResource(UrlResource resource) throws MojoExecutionException {
+        try {
+            if (getLog().isDebugEnabled()) {
+                getLog().debug("Loading port names from " + resource);
+            }
+            final InputStream stream = resource.getInputStream();
+
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+                List<String> names = new ArrayList<String>();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    line = line.trim();
+                    if (!line.isEmpty() && !line.replace(" ", "").startsWith("#")) {
+                        names.add(line);
+                    }
+                }
+                if (getLog().isDebugEnabled()) {
+                    getLog().debug("Loaded port names " + names);
+                }
+                String[] tPortNames = names.toArray(new String[portNames.length + names.size()]);
+                if (portNames.length > 0) {
+                    System.arraycopy(portNames, 0, tPortNames, names.size(), portNames.length);
+                }
+                portNames = tPortNames;
+            } finally {
+                stream.close();
+            }
+        } catch (IOException e) {
+            throw new MojoExecutionException("Error reading port names from \"" + resource + "\"", e);
+        }
+    }
+
+    private class UrlResource {
+        private static final String CLASSPATH_PREFIX = "classpath:";
+
+        private static final String SLASH_PREFIX = "/";
+
+        private final URL url;
+
+        private boolean isMissingClasspathResouce = false;
+
+        private String classpathUrl;
+
+        private InputStream stream;
+
+        public UrlResource(String url)
+                throws MojoExecutionException {
+            if (url.startsWith(CLASSPATH_PREFIX)) {
+                String resource = url.substring(CLASSPATH_PREFIX.length(), url.length());
+                if (resource.startsWith(SLASH_PREFIX)) {
+                    resource = resource.substring(1, resource.length());
+                }
+                this.url = getClass().getClassLoader().getResource(resource);
+                if (this.url == null) {
+                    if (getLog().isDebugEnabled()) {
+                        getLog().debug("Can not load classpath resouce \"" + url + "\"");
+                    }
+                    isMissingClasspathResouce = true;
+                    classpathUrl = url;
+                }
+            } else {
+                try {
+                    this.url = new URL(url);
+                } catch (MalformedURLException e) {
+                    throw new MojoExecutionException("Badly formed URL " + url + " - " + e.getMessage());
+                }
+            }
+        }
+
+        public InputStream getInputStream() throws IOException {
+            if (stream == null) {
+                stream = openStream();
+            }
+            return stream;
+        }
+
+        public boolean canBeOpened() {
+            if (isMissingClasspathResouce) {
+                return false;
+            }
+            try {
+                openStream().close();
+            } catch (IOException e) {
+                return false;
+            }
+            return true;
+        }
+
+        private InputStream openStream() throws IOException {
+            return new BufferedInputStream(url.openStream());
+        }
+
+        @Override
+        public String toString() {
+            if (!isMissingClasspathResouce) {
+                return "URL " + url.toString();
+            }
+            return classpathUrl;
+        }
     }
 }
