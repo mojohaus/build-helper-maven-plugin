@@ -34,8 +34,8 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * Sets multiple properties according to whether multiple sets of source and target resources are
- * respectively up to date.
+ * Sets multiple properties according to whether multiple sets of source and target resources are respectively up to
+ * date.
  *
  * @author Adrian Price <demonfiddler @ virginmedia.com>
  * @since 1.12
@@ -48,7 +48,7 @@ public class UpToDatePropertiesMojo
      * List of <code>UpToDatePropertySetting</code>s to apply.
      */
     @Parameter( required = false )
-    private List<UpToDatePropertySetting> upToDatePropertySettings = new ArrayList<UpToDatePropertySetting>();
+    private List<UpToDatePropertySetting> upToDatePropertySettings;
 
     /**
      * Disables the plug-in execution.
@@ -58,7 +58,8 @@ public class UpToDatePropertiesMojo
 
     /** {@inheritDoc} */
     @Override
-    public void execute() throws MojoExecutionException, MojoFailureException
+    public void execute()
+        throws MojoExecutionException, MojoFailureException
     {
         if ( skip )
         {
@@ -66,9 +67,12 @@ public class UpToDatePropertiesMojo
             return;
         }
 
-        for ( UpToDatePropertySetting config : upToDatePropertySettings )
+        if ( upToDatePropertySettings != null )
         {
-            this.execute( config );
+            for ( UpToDatePropertySetting config : upToDatePropertySettings )
+            {
+                this.execute( config );
+            }
         }
     }
 }
