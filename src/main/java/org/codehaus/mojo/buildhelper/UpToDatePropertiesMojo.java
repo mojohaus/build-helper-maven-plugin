@@ -48,7 +48,7 @@ public class UpToDatePropertiesMojo
      * List of <code>UpToDatePropertySetting</code>s to apply.
      */
     @Parameter( required = false )
-    private List<UpToDatePropertySetting> upToDatePropertySettings = new ArrayList<>();
+    private List<UpToDatePropertySetting> upToDatePropertySettings = new ArrayList<UpToDatePropertySetting>();
 
     /**
      * Disables the plug-in execution.
