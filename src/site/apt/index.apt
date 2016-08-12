@@ -73,6 +73,7 @@ Build Helper Maven Plugin
 
   * {{{./uptodate-properties-mojo.html}build-helper:uptodate-properties}} Sets multiple properties according to whether multiple file sets' outputs are up to date with respect to their inputs.
 
+  * {{{./rootlocation-mojo.html}build-helper:rootlocation}} Sets a property which defines the root folder of a multi module build.
 
 * Usage
 
