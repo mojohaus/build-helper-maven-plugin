@@ -109,7 +109,7 @@ public class AttachArtifactMojo
         }
 
         // Run only at the execution root
-        if ( runOnlyAtExecutionRoot && !isThisTheExecutionRoot() )
+        if ( runOnlyAtExecutionRoot && !project.isExecutionRoot() )
         {
             getLog().info( "Skip attaching artifacts in this project because it's not the Execution Root" );
         }
@@ -124,35 +124,6 @@ public class AttachArtifactMojo
             }
         }
 
-    }
-
-    /**
-     * Returns <code>true</code> if the current project is located at the Execution Root Directory (where mvn was
-     * launched).
-     *
-     * @return <code>true</code> if the current project is at the Execution Root
-     */
-    private boolean isThisTheExecutionRoot()
-    {
-        if ( getLog().isDebugEnabled() )
-        {
-            getLog().debug( "Root Folder:" + mavenSession.getExecutionRootDirectory() );
-            getLog().debug( "Current Folder:" + basedir );
-
-        }
-        boolean result = mavenSession.getExecutionRootDirectory().equalsIgnoreCase( basedir.toString() );
-        if ( getLog().isDebugEnabled() )
-        {
-            if ( result )
-            {
-                getLog().debug( "This is the execution root." );
-            }
-            else
-            {
-                getLog().debug( "This is NOT the execution root." );
-            }
-        }
-        return result;
     }
 
     private void validateArtifacts()
