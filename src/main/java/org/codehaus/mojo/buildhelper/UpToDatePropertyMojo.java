@@ -71,10 +71,10 @@ public class UpToDatePropertyMojo
     @Parameter( alias = "else" )
     private String elseValue;
 
-
     /** {@inheritDoc} */
     @Override
-    public void execute() throws MojoExecutionException, MojoFailureException
+    public void execute()
+        throws MojoExecutionException, MojoFailureException
     {
         if ( skip )
         {

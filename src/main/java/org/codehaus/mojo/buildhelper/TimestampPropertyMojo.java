@@ -127,7 +127,7 @@ public class TimestampPropertyMojo
         {
             locale = Locale.getDefault();
             getLog().warn( "Using platform locale (" + locale.toString()
-                               + " actually) to format date/time, i.e. build is platform dependent!" );
+                + " actually) to format date/time, i.e. build is platform dependent!" );
         }
 
         DateFormat format;

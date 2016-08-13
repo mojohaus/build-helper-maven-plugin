@@ -97,7 +97,8 @@ public class ReleasedVersionMojo
         {
             ArtifactVersion releasedVersion = null;
             List<ArtifactVersion> versions =
-                artifactMetadataSource.retrieveAvailableVersions( artifact, localRepository, remoteArtifactRepositories );
+                artifactMetadataSource.retrieveAvailableVersions( artifact, localRepository,
+                                                                  remoteArtifactRepositories );
             for ( ArtifactVersion version : versions )
             {
                 if ( !ArtifactUtils.isSnapshot( version.toString() )

@@ -55,9 +55,7 @@ import org.codehaus.plexus.util.StringUtils;
  * </pre>
  * 
  * This version is simply the original version string with the first instance of '-' replaced by '.' For example,
- * 1.0.2-beta-1 will be converted to 1.0.2.beta-1
- *
- * This goal also sets the following properties:
+ * 1.0.2-beta-1 will be converted to 1.0.2.beta-1 This goal also sets the following properties:
  * 
  * <pre>
  *   [propertyPrefix].nextMajorVersion
@@ -65,10 +63,8 @@ import org.codehaus.plexus.util.StringUtils;
  *   [propertyPrefix].nextIncrementalVersion
  * </pre>
  * 
- * The above properties contain simply incremented versions
- * of the parsed version informations. Those can now be used 
- * to update the version of your project via the following to
- * the next Major version:
+ * The above properties contain simply incremented versions of the parsed version informations. Those can now be used to
+ * update the version of your project via the following to the next Major version:
  * 
  * <pre>
  *   mvn build-helper:parse-version versions:set \
@@ -77,6 +73,7 @@ import org.codehaus.plexus.util.StringUtils;
  * </pre>
  *
  * It can of course being used to increment the minor version:
+ * 
  * <pre>
  *   mvn build-helper:parse-version versions:set \
  *      -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.0 \
@@ -139,9 +136,8 @@ public class ParseVersionMojo
         if ( ArtifactUtils.isSnapshot( version ) )
         {
             // work around for MBUILDHELPER-69
-            releaseVersion =
-                new DefaultArtifactVersion( StringUtils.substring( version, 0, version.length()
-                    - Artifact.SNAPSHOT_VERSION.length() - 1 ) );
+            releaseVersion = new DefaultArtifactVersion( StringUtils.substring( version, 0, version.length()
+                - Artifact.SNAPSHOT_VERSION.length() - 1 ) );
         }
 
         if ( version.equals( artifactVersion.getQualifier() ) )

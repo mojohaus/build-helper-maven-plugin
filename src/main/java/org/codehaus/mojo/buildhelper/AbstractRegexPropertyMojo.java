@@ -64,8 +64,8 @@ public abstract class AbstractRegexPropertyMojo
         if ( matcher.find() )
         {
             // if the string replacement is empty, we define the value replacement to empty.
-            config.setValue( ( StringUtils.isNotEmpty( config.getReplacement() ) ? matcher.replaceAll( config.getReplacement() )
-                            : matcher.replaceAll( "" ) ) );
+            config.setValue( ( StringUtils.isNotEmpty( config.getReplacement() )
+                            ? matcher.replaceAll( config.getReplacement() ) : matcher.replaceAll( "" ) ) );
         }
         else
         {
@@ -77,7 +77,7 @@ public abstract class AbstractRegexPropertyMojo
             else
             {
                 getLog().info( "No match to regex '" + config.getRegex() + "' found in '" + config.getValue() + "'. "
-                                   + "The initial value '" + config.getValue() + "' is left as-is..." );
+                    + "The initial value '" + config.getValue() + "' is left as-is..." );
             }
         }
 
@@ -85,7 +85,7 @@ public abstract class AbstractRegexPropertyMojo
         {
             config.setValue( config.getValue().toLowerCase( Locale.getDefault() ) );
         }
-        
+
         if ( config.isToUpperCase() )
         {
             config.setValue( config.getValue().toUpperCase( Locale.getDefault() ) );

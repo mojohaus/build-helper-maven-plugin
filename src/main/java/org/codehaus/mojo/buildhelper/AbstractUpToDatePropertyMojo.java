@@ -45,7 +45,8 @@ abstract class AbstractUpToDatePropertyMojo
     {
     }
 
-    protected void execute( UpToDatePropertySetting config ) throws MojoExecutionException, MojoFailureException
+    protected void execute( UpToDatePropertySetting config )
+        throws MojoExecutionException, MojoFailureException
     {
         try
         {
@@ -83,8 +84,8 @@ abstract class AbstractUpToDatePropertyMojo
                             StringBuilder msg = new StringBuilder( targetFile.getCanonicalPath() );
                             if ( !targetFile.exists() )
                                 msg.append( " (nonexistent)" );
-                            msg.append( "\n\tis " ).append( upToDate ? "up to date" : "out of date" )
-                                .append( " with respect to \n\t" ).append( srcFile.getCanonicalPath() );
+                            msg.append( "\n\tis " ).append( upToDate ? "up to date"
+                                            : "out of date" ).append( " with respect to \n\t" ).append( srcFile.getCanonicalPath() );
                             if ( !srcFile.exists() )
                                 msg.append( " (nonexistent)" );
 
@@ -116,12 +117,13 @@ abstract class AbstractUpToDatePropertyMojo
     private File getFile( FileSet fileSet, boolean useOutputDirectory, String path )
     {
         String baseDir = useOutputDirectory && !StringUtils.isBlank( fileSet.getOutputDirectory() )
-            ? fileSet.getOutputDirectory() : fileSet.getDirectory();
+                        ? fileSet.getOutputDirectory() : fileSet.getDirectory();
         return path == null ? null : new File( baseDir, path );
     }
 
     private boolean isUpToDate( File srcFile, File targetFile )
     {
-        return srcFile != null && srcFile.exists() && (targetFile == null || srcFile.lastModified() <= targetFile.lastModified());
+        return srcFile != null && srcFile.exists()
+            && ( targetFile == null || srcFile.lastModified() <= targetFile.lastModified() );
     }
 }

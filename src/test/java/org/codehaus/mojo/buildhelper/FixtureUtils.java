@@ -42,7 +42,8 @@ public final class FixtureUtils
      * @throws IOException If unable to create a file or a missing parent directory.
      * @throws NumberFormatException If a non-empty property value cannot be parsed as an integer.
      */
-    public static void createResources( String basePath ) throws IOException
+    public static void createResources( String basePath )
+        throws IOException
     {
         File baseDir = new File( basePath );
         createResources( baseDir, "fixture.properties", "UTF-8", System.currentTimeMillis() );
@@ -58,7 +59,6 @@ public final class FixtureUtils
      *            file paths (relative or absolute) and whose optional property values represent relative modification
      *            timestamps in seconds.
      * @param baseTimestamp The base timestamp to use, in milliseconds since midnight on the 1st January 1970 GMT.
-     *
      * @throws IOException If unable to create a file or a missing parent directory.
      * @throws NumberFormatException If a non-empty property value cannot be parsed as an integer.
      */
@@ -77,7 +77,6 @@ public final class FixtureUtils
      * @param propertiesFile A <code>Properties</code> file whose property names are file paths (relative or absolute)
      *            and whose optional property values represent relative modification timestamps in seconds.
      * @param baseTimestamp The base timestamp to use, in milliseconds since midnight on the 1st January 1970 GMT.
-     *
      * @throws IOException If unable to create a file or a missing parent directory.
      * @throws NumberFormatException If a non-empty property value cannot be parsed as an integer.
      */
@@ -98,11 +97,11 @@ public final class FixtureUtils
      * @param properties A <code>Properties</code> object whose property names are file paths (relative or absolute) and
      *            whose optional property values represent relative modification timestamps in seconds.
      * @param baseTimestamp The base timestamp to use, in milliseconds since midnight on the 1st January 1970 GMT.
-     *
      * @throws IOException If unable to create a file or a missing parent directory.
      * @throws NumberFormatException If a non-empty property value cannot be parsed as an integer.
      */
-    public static void createResources( File baseDir, Properties properties, long baseTimestamp ) throws IOException
+    public static void createResources( File baseDir, Properties properties, long baseTimestamp )
+        throws IOException
     {
         for ( String propertyName : properties.stringPropertyNames() )
         {
@@ -117,7 +116,7 @@ public final class FixtureUtils
             if ( !propertyValue.isEmpty() )
             {
                 int offset = Integer.parseInt( propertyValue );
-                long ts = baseTimestamp + (offset * 1000);
+                long ts = baseTimestamp + ( offset * 1000 );
                 file.setLastModified( ts );
                 assert file.lastModified() == ts : "failed to set last modified timestamp for "
                     + file.getCanonicalPath();

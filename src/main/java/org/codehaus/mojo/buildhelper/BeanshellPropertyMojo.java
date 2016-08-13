@@ -35,8 +35,9 @@ import bsh.EvalError;
 import bsh.Interpreter;
 
 /**
- * Define one or many properties as a result of a Beanshell script invocation. Like <a
- * href="http://docs.codehaus.org/display/GMAVEN/Executing+Groovy+Code">gmaven-plugin</a>, some variables are defined:
+ * Define one or many properties as a result of a Beanshell script invocation. Like
+ * <a href="http://docs.codehaus.org/display/GMAVEN/Executing+Groovy+Code">gmaven-plugin</a>, some variables are
+ * defined:
  * <ul>
  * <li><code>project</code>: the actual Maven project,</li>
  * <li><code>session</code>: the executing <code>MavenSession</code>,</li>
@@ -112,9 +113,8 @@ public class BeanshellPropertyMojo
                 }
                 catch ( EvalError ee )
                 {
-                    MojoFailureException mfe =
-                        new MojoFailureException( "cannot get Beanshell global variable '" + property + "': "
-                            + ee.getMessage() );
+                    MojoFailureException mfe = new MojoFailureException( "cannot get Beanshell global variable '"
+                        + property + "': " + ee.getMessage() );
                     mfe.initCause( ee );
                     throw mfe;
                 }
@@ -131,8 +131,8 @@ public class BeanshellPropertyMojo
         }
         catch ( EvalError ee )
         {
-            MojoFailureException mfe =
-                new MojoFailureException( "cannot define Beanshell global variable '" + name + "': " + ee.getMessage() );
+            MojoFailureException mfe = new MojoFailureException( "cannot define Beanshell global variable '" + name
+                + "': " + ee.getMessage() );
             mfe.initCause( ee );
             throw mfe;
         }
