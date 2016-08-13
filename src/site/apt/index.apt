@@ -35,6 +35,11 @@ Build Helper Maven Plugin
 
   * This plugin contains various small independent goals to assist with the Maven build lifecycle.
 
+* Notes
+
+  Starting with version 3.0.0 this plugin will only support Maven 3+. If you really
+  need Maven 2+ support you have to use version 1.12 or earlier.
+
 * Goals Overview
 
 ~~  General Information about the goals.
