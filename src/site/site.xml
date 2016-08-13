@@ -16,6 +16,22 @@
 -->
 
 <project xmlns="http://maven.apache.org/DECORATION/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
+  <custom>
+    <fluidoSkin>
+      <googleSearch>
+        <sitesearch>www.mojohaus.org</sitesearch>
+      </googleSearch>
+      <ohloh>
+        <projectId>5211</projectId>
+        <widget>thin-badge</widget>
+      </ohloh>
+      <gitHub>
+        <projectId>mojohaus/${project.artifactId}</projectId>
+        <ribbonOrientation>right</ribbonOrientation>
+        <ribbonColor>gray</ribbonColor>
+      </gitHub>
+    </fluidoSkin>
+  </custom>
   <body>
     <menu name="Overview">
       <item name="Introduction" href="index.html"/>
