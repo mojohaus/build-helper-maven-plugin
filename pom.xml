@@ -74,7 +74,6 @@
   <properties>
     <mavenVersion>3.0</mavenVersion>
     <scmpublish.content>${project.build.directory}/staging/build-helper-maven-plugin</scmpublish.content>
-    <mojo.java.target>1.6</mojo.java.target>
   </properties>
 
   <dependencies>
