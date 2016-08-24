@@ -64,7 +64,7 @@ public class ReserveListenerPortMojo
 
     private static final Integer FIRST_NON_ROOT_PORT_NUMBER = 1024;
 
-    private static final Integer MAX_PORT_NUMBER = 65536;
+    private static final Integer MAX_PORT_NUMBER = 65535;
 
     private static final Object lock = new Object();
 
