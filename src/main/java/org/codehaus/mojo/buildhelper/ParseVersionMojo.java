@@ -1,38 +1,10 @@
 package org.codehaus.mojo.buildhelper;
 
-/*
- * The MIT License
- *
- * Copyright (c) 2004, The Codehaus
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
-import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.ArtifactUtils;
-import org.apache.maven.artifact.versioning.ArtifactVersion;
-import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.codehaus.plexus.util.StringUtils;
+import org.codehaus.mojo.buildhelper.versioning.DefaultVersioning;
 
 /**
  * Parse a version string and set properties containing the component parts of the version. This mojo sets the following
@@ -46,16 +18,21 @@ import org.codehaus.plexus.util.StringUtils;
  *   [propertyPrefix].buildNumber
  * </pre>
  * 
- * Where the propertyPrefix is the string set in the mojo parameter. Note that the behaviour of the parsing is
- * determined by org.apache.maven.artifact.versioning.DefaultArtifactVersion An osgi compatible version will also be
- * created and made available through the property:
+ * Where the propertyPrefix is the string set in the mojo parameter. The parsing of the above is based on the following
+ * format of the version:
+ * 
+ * <pre>
+ *  &lt;majorversion [&gt; . &lt;minorversion [&gt; . &lt;incrementalversion ] ] [&gt; - &lt;buildnumber | qualifier ]&gt;
+ * </pre>
+ * 
+ * It will be tried to parse the version as an OSGi version. It this is successful the following property will be set
+ * accordingly. If this is not possible a warning will be emitted.
  * 
  * <pre>
  *   [propertyPrefix].osgiVersion
  * </pre>
  * 
- * This version is simply the original version string with the first instance of '-' replaced by '.' For example,
- * 1.0.2-beta-1 will be converted to 1.0.2.beta-1 This goal also sets the following properties:
+ * This goal also sets the following properties:
  * 
  * <pre>
  *   [propertyPrefix].nextMajorVersion
@@ -130,42 +107,36 @@ public class ParseVersionMojo
      */
     public void parseVersion( String version )
     {
-        ArtifactVersion artifactVersion = new DefaultArtifactVersion( version );
+        DefaultVersioning artifactVersion = new DefaultVersioning( version );
 
-        ArtifactVersion releaseVersion = artifactVersion;
-        if ( ArtifactUtils.isSnapshot( version ) )
-        {
-            // work around for MBUILDHELPER-69
-            releaseVersion = new DefaultArtifactVersion( StringUtils.substring( version, 0, version.length()
-                - Artifact.SNAPSHOT_VERSION.length() - 1 ) );
-        }
+        getLog().debug( "Parsed Version" );
+        getLog().debug( "         major: " + artifactVersion.getMajor() );
+        getLog().debug( "         minor: " + artifactVersion.getMinor() );
+        getLog().debug( "   incremental: " + artifactVersion.getPatch() );
+        getLog().debug( "   buildnumber: " + artifactVersion.getBuildNumber() );
+        getLog().debug( "     qualifier: " + artifactVersion.getQualifier() );
 
-        if ( version.equals( artifactVersion.getQualifier() ) )
-        {
-            // This means the version parsing failed, so try osgi format.
-            getLog().debug( "The version is not in the regular format, will try OSGi format instead" );
-            artifactVersion = new OsgiArtifactVersion( version );
-        }
+        defineVersionProperty( "majorVersion", artifactVersion.getMajor() );
+        defineVersionProperty( "minorVersion", artifactVersion.getMinor() );
+        defineVersionProperty( "incrementalVersion", artifactVersion.getPatch() );
 
-        defineVersionProperty( "majorVersion", artifactVersion.getMajorVersion() );
-        defineVersionProperty( "minorVersion", artifactVersion.getMinorVersion() );
-        defineVersionProperty( "incrementalVersion", artifactVersion.getIncrementalVersion() );
-        defineVersionProperty( "nextMajorVersion", artifactVersion.getMajorVersion() + 1 );
-        defineVersionProperty( "nextMinorVersion", artifactVersion.getMinorVersion() + 1 );
-        defineVersionProperty( "nextIncrementalVersion", artifactVersion.getIncrementalVersion() + 1 );
+        defineVersionProperty( "nextMajorVersion", artifactVersion.getMajor() + 1 );
+        defineVersionProperty( "nextMinorVersion", artifactVersion.getMinor() + 1 );
+        defineVersionProperty( "nextIncrementalVersion", artifactVersion.getPatch() + 1 );
+
+        String osgi = artifactVersion.getAsOSGiVersion();
 
         String qualifier = artifactVersion.getQualifier();
         if ( qualifier == null )
         {
             qualifier = "";
         }
+
         defineVersionProperty( "qualifier", qualifier );
 
-        defineVersionProperty( "buildNumber", releaseVersion.getBuildNumber() ); // see MBUILDHELPER-69
+        defineVersionProperty( "buildNumber", artifactVersion.getBuildNumber() );
 
-        // Replace the first instance of "-" to create an osgi compatible version string.
-        String osgiVersion = getOsgiVersion( artifactVersion );
-        defineVersionProperty( "osgiVersion", osgiVersion );
+        defineVersionProperty( "osgiVersion", osgi );
     }
 
     /**
@@ -178,38 +149,4 @@ public class ParseVersionMojo
         this.propertyPrefix = prefix;
     }
 
-    /**
-     * Make an osgi compatible version String from an ArtifactVersion
-     * 
-     * @param version The artifact version.
-     * @return The OSGi version as string.
-     */
-    public String getOsgiVersion( ArtifactVersion version )
-    {
-        if ( version.toString().equals( version.getQualifier() ) )
-        {
-            return version.toString();
-        }
-
-        StringBuffer osgiVersion = new StringBuffer();
-        osgiVersion.append( version.getMajorVersion() );
-        osgiVersion.append( "." + version.getMinorVersion() );
-        osgiVersion.append( "." + version.getIncrementalVersion() );
-
-        if ( version.getQualifier() != null || version.getBuildNumber() != 0 )
-        {
-            osgiVersion.append( "." );
-
-            if ( version.getQualifier() != null )
-            {
-                osgiVersion.append( version.getQualifier() );
-            }
-            if ( version.getBuildNumber() != 0 )
-            {
-                osgiVersion.append( version.getBuildNumber() );
-            }
-        }
-
-        return osgiVersion.toString();
-    }
 }

@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Properties;
 
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class ParseVersionTest
@@ -55,7 +55,7 @@ public class ParseVersionTest
 
         private ParseVersionMojo mojo;
 
-        @BeforeClass
+        @BeforeMethod
         public void beforeClass()
         {
             props = new Properties();
@@ -75,7 +75,7 @@ public class ParseVersionTest
             assertEquals( "0", props.getProperty( "parsed.incrementalVersion" ) );
             assertEquals( "junk", props.getProperty( "parsed.qualifier" ) );
             assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
-            assertEquals( "junk", props.getProperty( "parsed.osgiVersion" ) );
+            assertEquals( "0.0.0.junk", props.getProperty( "parsed.osgiVersion" ) );
         }
 
         @Test
@@ -173,7 +173,7 @@ public class ParseVersionTest
             assertEquals( "1", props.getProperty( "parsed.majorVersion" ) );
             assertEquals( "2", props.getProperty( "parsed.minorVersion" ) );
             assertEquals( "3", props.getProperty( "parsed.incrementalVersion" ) );
-            assertEquals( "4-SNAPSHOT", props.getProperty( "parsed.qualifier" ) );
+            assertEquals( "-SNAPSHOT", props.getProperty( "parsed.qualifier" ) );
             assertEquals( "4", props.getProperty( "parsed.buildNumber" ) );
             assertEquals( "1.2.3.4-SNAPSHOT", props.getProperty( "parsed.osgiVersion" ) );
         }
@@ -186,7 +186,7 @@ public class ParseVersionTest
 
         private ParseVersionMojo mojo;
 
-        @BeforeClass
+        @BeforeMethod
         public void beforeClass()
         {
             props = new Properties();
