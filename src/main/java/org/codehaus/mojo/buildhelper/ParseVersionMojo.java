@@ -61,6 +61,7 @@ import org.codehaus.plexus.util.StringUtils;
  *   [propertyPrefix].nextMajorVersion
  *   [propertyPrefix].nextMinorVersion
  *   [propertyPrefix].nextIncrementalVersion
+ *   [propertyPrefix].nextBuildNumber
  * </pre>
  * 
  * The above properties contain simply incremented versions of the parsed version informations. Those can now be used to
@@ -162,6 +163,7 @@ public class ParseVersionMojo
         defineVersionProperty( "qualifier", qualifier );
 
         defineVersionProperty( "buildNumber", releaseVersion.getBuildNumber() ); // see MBUILDHELPER-69
+        defineVersionProperty( "nextBuildNumber", releaseVersion.getBuildNumber() + 1);
 
         // Replace the first instance of "-" to create an osgi compatible version string.
         String osgiVersion = getOsgiVersion( artifactVersion );
