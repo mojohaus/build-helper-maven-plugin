@@ -100,6 +100,12 @@ public class ParseVersionMojo
     private String propertyPrefix;
 
     /**
+     * Preserver Zero suffix into version: ex: 1.01.02, next minor will generate: 1.02.02.
+     */
+    @Parameter( defaultValue = "false" )
+    private Boolean preserveZero;
+
+    /**
      * Execute the mojo. This sets the version properties on the project.
      *
      * @throws MojoExecutionException if the plugin execution fails.
@@ -126,14 +132,14 @@ public class ParseVersionMojo
      */
     public void parseVersion( String version )
     {
-        final ArtifactVersion artifactVersion = new MvnOrOsgiVersion( version );
+        final MvnOrOsgiVersion artifactVersion = new MvnOrOsgiVersion( version, preserveZero );
 
         defineVersionProperty( "majorVersion", artifactVersion.getMajorVersion() );
         defineVersionProperty( "minorVersion", artifactVersion.getMinorVersion() );
         defineVersionProperty( "incrementalVersion", artifactVersion.getIncrementalVersion() );
-        defineVersionProperty( "nextMajorVersion", artifactVersion.getMajorVersion() + 1 );
-        defineVersionProperty( "nextMinorVersion", artifactVersion.getMinorVersion() + 1 );
-        defineVersionProperty( "nextIncrementalVersion", artifactVersion.getIncrementalVersion() + 1 );
+        defineVersionProperty( "nextMajorVersion", artifactVersion.getNextMajorVersion() );
+        defineVersionProperty( "nextMinorVersion", artifactVersion.getNextMinorVersion());
+        defineVersionProperty( "nextIncrementalVersion", artifactVersion.getNextIncrementalVersion() );
 
         String qualifier = artifactVersion.getQualifier();
         if ( qualifier == null )
@@ -143,7 +149,7 @@ public class ParseVersionMojo
         defineVersionProperty( "qualifier", qualifier );
 
         defineVersionProperty( "buildNumber", artifactVersion.getBuildNumber() ); // see MBUILDHELPER-69
-        defineVersionProperty( "nextBuildNumber", artifactVersion.getBuildNumber() + 1);
+        defineVersionProperty( "nextBuildNumber", artifactVersion.getNextBuildNumber());
 
         // Replace the first instance of "-" to create an osgi compatible version string.
         String osgiVersion = getOsgiVersion( artifactVersion );
@@ -186,5 +192,9 @@ public class ParseVersionMojo
         }
 
         return osgiVersion.toString();
+    }
+
+    public void setPreserveZero(Boolean preserveZero) {
+        this.preserveZero = preserveZero;
     }
 }

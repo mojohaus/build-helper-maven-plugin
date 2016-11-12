@@ -17,9 +17,20 @@ public class MvnOrOsgiVersion implements ArtifactVersion {
 	private Integer buildNumber;
 	private String qualifier;
 	private ComparableVersion comparable;
+	private String majorVersionOriginal;
+	private String minorVersionOriginal;
+	private String incrementalVersionOriginal;
+	private String buildNumberOriginal;
+	private final boolean preserveZero;
+
+
+	public MvnOrOsgiVersion(String version, boolean preserveZero) {
+		this.preserveZero = preserveZero;
+		parseVersion(version);
+	}
 
 	public MvnOrOsgiVersion(String version) {
-		parseVersion(version);
+		this(version, false);
 	}
 
 	@Override
@@ -70,13 +81,61 @@ public class MvnOrOsgiVersion implements ArtifactVersion {
         final Matcher m = p.matcher(version);
 
         if (m.matches()) {
-            this.majorVersion = m.group("major") == null ? null : valueOf(m.group("major"));
-            this.minorVersion = m.group("minor") == null ? null : valueOf(m.group("minor").substring(1));
-            this.incrementalVersion = m.group("incr") == null ? null : valueOf(m.group("incr").substring(1));
-            this.buildNumber = m.group("build") == null ? null : valueOf(m.group("build").substring(1));
-            this.qualifier = m.group("qualifier") == null ? null : m.group("qualifier").replaceFirst("^[.-]", "");
+			// Original
+			this.majorVersionOriginal = m.group("major");
+			this.minorVersionOriginal = m.group("minor") == null ? null : m.group("minor").substring(1);;
+			this.incrementalVersionOriginal = m.group("incr") == null ? null : m.group("incr").substring(1);
+			this.buildNumberOriginal = m.group("build") == null ? null : m.group("build").substring(1);
+			this.qualifier = m.group("qualifier") == null ? null : m.group("qualifier").replaceFirst("^[.-]", "");
+
+			// int value
+			this.majorVersion = this.majorVersionOriginal == null ? null : valueOf(this.majorVersionOriginal);
+            this.minorVersion = this.minorVersionOriginal == null ? null : valueOf(this.minorVersionOriginal);
+            this.incrementalVersion = this.incrementalVersionOriginal == null ? null : valueOf(this.incrementalVersionOriginal);
+            this.buildNumber = this.buildNumberOriginal == null ? null : valueOf(this.buildNumberOriginal);
         }
 	}
+
+	public String getNextMajorVersion() {
+		final int major = getMajorVersion();
+		final int nextMajor = major+1;
+		if (preserveZero && (major > 0 && major < 9) && this.majorVersionOriginal.startsWith("0")) {
+			return "0"+nextMajor;
+		} else {
+			return String.valueOf(nextMajor);
+		}
+	}
+
+	public String getNextMinorVersion() {
+		final int minor = getMinorVersion();
+		final int nextMinor = minor+1;
+		if (preserveZero && (minor > 0 && minor < 9) && this.minorVersionOriginal.startsWith("0")) {
+			return "0"+nextMinor;
+		} else {
+			return String.valueOf(nextMinor);
+		}
+	}
+
+	public String getNextIncrementalVersion() {
+		final int incr = getIncrementalVersion();
+		final int nextIncr = incr+1;
+		if (preserveZero && (incr > 0 && incr < 9) && this.incrementalVersionOriginal.startsWith("0")) {
+			return "0"+nextIncr;
+		} else {
+			return String.valueOf(nextIncr);
+		}
+	}
+
+	public String getNextBuildNumber() {
+		final int build = getBuildNumber();
+		final int nextBuild = build+1;
+		if (preserveZero && (build > 0 && build < 9) && this.buildNumberOriginal.startsWith("0")) {
+			return "0"+nextBuild;
+		} else {
+			return String.valueOf(nextBuild);
+		}
+	}
+
 
 	@Override
 	public String toString() {
