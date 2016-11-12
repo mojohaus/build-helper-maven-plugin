@@ -132,4 +132,17 @@ public class ParseNextVersionTest
         assertEquals( "05", props.getProperty( "parsed.nextBuildNumber" ) );
     }
 
+    @Test
+    public void testVersionStringWithNumberStartingWithZeroAndPreserveTrueCornerCase()
+    {
+        mojo.setPreserveZero( true );
+
+        mojo.parseVersion( "1.09.03-10" );
+        assertEquals( "2", props.getProperty( "parsed.nextMajorVersion" ) );
+        assertEquals( "10", props.getProperty( "parsed.nextMinorVersion" ) );
+        assertEquals( "04", props.getProperty( "parsed.nextIncrementalVersion" ) );
+        assertEquals( "11", props.getProperty( "parsed.nextBuildNumber" ) );
+
+    }
+
 }
