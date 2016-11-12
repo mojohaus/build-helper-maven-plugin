@@ -9,7 +9,8 @@ import java.util.regex.Pattern;
 import static java.lang.Integer.valueOf;
 
 public class MvnOrOsgiVersion implements ArtifactVersion {
-    Pattern p = Pattern.compile(
+	public static final String EMPTY_QUALIFIER = "";
+	Pattern p = Pattern.compile(
             "(?<major>\\d+)?(?<minor>\\.\\d+)?(?<incr>\\.\\d+)?(?<build>-\\d+)?(?<qualifier>[\\.-]?[a-zA-Z][a-zA-Z0-9_-]*)?");
 	private Integer majorVersion;
 	private Integer minorVersion;
@@ -73,7 +74,7 @@ public class MvnOrOsgiVersion implements ArtifactVersion {
 	}
 
 	public String getQualifier() {
-		return qualifier;
+		return qualifier == null ? EMPTY_QUALIFIER : qualifier;
 	}
 
 	public final void parseVersion(String version) {

@@ -140,15 +140,8 @@ public class ParseVersionMojo
         defineVersionProperty( "nextMajorVersion", artifactVersion.getNextMajorVersion() );
         defineVersionProperty( "nextMinorVersion", artifactVersion.getNextMinorVersion());
         defineVersionProperty( "nextIncrementalVersion", artifactVersion.getNextIncrementalVersion() );
-
-        String qualifier = artifactVersion.getQualifier();
-        if ( qualifier == null )
-        {
-            qualifier = "";
-        }
-        defineVersionProperty( "qualifier", qualifier );
-
-        defineVersionProperty( "buildNumber", artifactVersion.getBuildNumber() ); // see MBUILDHELPER-69
+        defineVersionProperty( "qualifier", artifactVersion.getQualifier() );
+        defineVersionProperty( "buildNumber", artifactVersion.getBuildNumber() );
         defineVersionProperty( "nextBuildNumber", artifactVersion.getNextBuildNumber());
 
         // Replace the first instance of "-" to create an osgi compatible version string.
@@ -187,7 +180,7 @@ public class ParseVersionMojo
         if (version.getBuildNumber() != 0 ) {
             osgiVersion.append("." + version.getBuildNumber());
         }
-        if (version.getQualifier() != null) {
+        if (version.getQualifier() != null && !version.getQualifier().trim().isEmpty()) {
             osgiVersion.append("." + version.getQualifier());
         }
 
