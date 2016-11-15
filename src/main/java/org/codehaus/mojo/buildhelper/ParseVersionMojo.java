@@ -90,19 +90,19 @@ public class ParseVersionMojo
     /**
      * The version string to parse.
      */
-    @Parameter( defaultValue = "${project.version}" )
+    @Parameter( defaultValue = "${project.version}", property = "bh.version" )
     private String versionString;
 
     /**
      * Prefix string to use for the set of version properties.
      */
-    @Parameter( defaultValue = "parsedVersion" )
+    @Parameter( defaultValue = "parsedVersion", property = "bh.parsedVersion" )
     private String propertyPrefix;
 
     /**
-     * Preserver Zero suffix into version: ex: 1.01.02, next minor will generate: 1.02.02.
+     * Preserve Zero suffix into version: ex: 1.01.02, next minor will generate: 1.02.02.
      */
-    @Parameter( defaultValue = "false" )
+    @Parameter( defaultValue = "false", property = "bh.preserveZero")
     private Boolean preserveZero;
 
     /**
