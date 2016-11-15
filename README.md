@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.org/mojohaus/build-helper-maven-plugin.svg?branch=master)](https://travis-ci.org/mojohaus/build-helper-maven-plugin)
 
 This is the [build-helper-maven-plugin](http://www.mojohaus.org/build-helper-maven-plugin/) contains
-serveral goals to support you in different kinds of task, like parsing version information,
+several goals to support you in different kinds of task, like parsing version information,
 add supplemental source/test folders to a Maven project or attach supplemental artifacts.
 
 More details can be found on the [goals overview page](http://www.mojohaus.org/build-helper-maven-plugin/).
