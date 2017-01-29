@@ -130,7 +130,7 @@
           <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
         </configuration>
         <executions>
-          <!-- without this maven-2.2.1 will not create the decriptor -->
+          <!-- without this maven-2.2.1 will not create the descriptor -->
           <execution>
             <id>mojo-descriptor</id>
             <goals>
