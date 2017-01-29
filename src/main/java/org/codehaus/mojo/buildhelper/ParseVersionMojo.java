@@ -41,6 +41,24 @@ import org.codehaus.mojo.buildhelper.versioning.DefaultVersioning;
  *   [propertyPrefix].nextBuildNumber
  * </pre>
  * 
+ * This goal also sets the following properties:
+ * 
+ * <pre>
+ *   [formattedPropertyPrefix].majorVersion
+ *   [formattedPropertyPrefix].minorVersion
+ *   [formattedPropertyPrefix].incrementalVersion
+ *   [formattedPropertyPrefix].buildNumber
+ * </pre>
+ * 
+ * This goal also sets the following properties:
+ * 
+ * <pre>
+ *   [formattedPropertyPrefix].nextMajorVersion
+ *   [formattedPropertyPrefix].nextMinorVersion
+ *   [formattedPropertyPrefix].nextIncrementalVersion
+ *   [formattedPropertyPrefix].nextBuildNumber
+ * </pre>
+ * 
  * The above properties contain simply incremented versions of the parsed version informations. Those can now be used to
  * update the version of your project via the following to the next Major version:
  * 
@@ -82,6 +100,38 @@ public class ParseVersionMojo
     private String propertyPrefix;
 
     /**
+     * Prefix string to use for the set of formatted version properties.
+     */
+    @Parameter( defaultValue = "formattedVersion" )
+    private String formattedPropertyPrefix;
+    
+    /**
+     * This can be used to make a particular format of the major number possible like padding it with zeros etc.
+     * 
+     * @see https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html#syntax
+     */
+    @Parameter( defaultValue = "%02d" )
+    private String formatMajor;
+
+    /**
+     * @see https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html#syntax
+     */
+    @Parameter( defaultValue = "%02d" )
+    private String formatMinor;
+
+    /**
+     * @see https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html#syntax
+     */
+    @Parameter( defaultValue = "%02d" )
+    private String formatIncremental;
+
+    /**
+     * @see https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html#syntax
+     */
+    @Parameter( defaultValue = "%02d" )
+    private String formatBuildNumber;
+
+    /**
      * Execute the mojo. This sets the version properties on the project.
      *
      * @throws MojoExecutionException if the plugin execution fails.
@@ -94,6 +144,11 @@ public class ParseVersionMojo
     private void defineVersionProperty( String name, String value )
     {
         defineProperty( propertyPrefix + '.' + name, value );
+    }
+
+    private void defineFormattedVersionProperty( String name, String value )
+    {
+        defineProperty( formattedPropertyPrefix + '.' + name, value );
     }
 
     private void defineVersionProperty( String name, int value )
@@ -126,6 +181,16 @@ public class ParseVersionMojo
         defineVersionProperty( "nextIncrementalVersion", artifactVersion.getPatch() + 1 );
         defineVersionProperty( "nextBuildNumber", artifactVersion.getBuildNumber() + 1 );
 
+        defineFormattedVersionProperty( "majorVersion", String.format( formatMajor, artifactVersion.getMajor() ) );
+        defineFormattedVersionProperty( "minorVersion", String.format( formatMinor, artifactVersion.getMinor() ) );
+        defineFormattedVersionProperty( "incrementalVersion", String.format( formatIncremental, artifactVersion.getPatch() ) );
+        defineFormattedVersionProperty( "buildNumber", String.format( formatBuildNumber, artifactVersion.getBuildNumber() ));
+
+        defineFormattedVersionProperty( "nextMajorVersion", String.format( formatMajor, artifactVersion.getMajor() + 1 ));
+        defineFormattedVersionProperty( "nextMinorVersion", String.format( formatMinor, artifactVersion.getMinor() + 1 ));
+        defineFormattedVersionProperty( "nextIncrementalVersion", String.format( formatIncremental, artifactVersion.getPatch() + 1 ));
+        defineFormattedVersionProperty( "nextBuildNumber", String.format( formatBuildNumber, artifactVersion.getBuildNumber() + 1 ));
+        
         String osgi = artifactVersion.getAsOSGiVersion();
 
         String qualifier = artifactVersion.getQualifier();
@@ -149,6 +214,46 @@ public class ParseVersionMojo
     public void setPropertyPrefix( String prefix )
     {
         this.propertyPrefix = prefix;
+    }
+
+    /**
+     * @param formattedPropertyPrefix The prefix used for formatted properties.
+     */
+    public void setFormattedPropertyPrefix( String formattedPropertyPrefix )
+    {
+        this.formattedPropertyPrefix = formattedPropertyPrefix;
+    }
+
+    /**
+     * @param formatMajor Set the format for major part.
+     */
+    public void setFormatMajor( String formatMajor )
+    {
+        this.formatMajor = formatMajor;
+    }
+
+    /**
+     * @param formatMinor Set the format for minor part.
+     */
+    public void setFormatMinor( String formatMinor )
+    {
+        this.formatMinor = formatMinor;
+    }
+
+    /**
+     * @param formatIncremental Set format for incremental part.
+     */
+    public void setFormatIncremental( String formatIncremental )
+    {
+        this.formatIncremental = formatIncremental;
+    }
+
+    /**
+     * @param formatBuildNumber Set the format for the buildNumber part.
+     */
+    public void setFormatBuildNumber( String formatBuildNumber )
+    {
+        this.formatBuildNumber = formatBuildNumber;
     }
 
 }
