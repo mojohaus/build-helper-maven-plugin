@@ -42,7 +42,6 @@ import org.apache.maven.plugins.annotations.Parameter;
  * Sets a property based on the current date and time.
  *
  * @author Stephen Connolly
- * @description Sets a property to the current time
  * @since 1.7
  */
 @Mojo( name = "timestamp-property", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )

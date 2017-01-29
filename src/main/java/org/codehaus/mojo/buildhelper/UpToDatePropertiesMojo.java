@@ -36,7 +36,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  * Sets multiple properties according to whether multiple sets of source and target resources are respectively up to
  * date.
  *
- * @author Adrian Price <demonfiddler @ virginmedia.com>
+ * @author Adrian Price <a href="mailto:demonfiddler@virginmedia.com">demonfiddler@virginmedia.com</a>
  * @since 1.12
  */
 @Mojo( name = "uptodate-properties", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )

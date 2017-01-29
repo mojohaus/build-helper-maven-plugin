@@ -34,7 +34,7 @@ import org.apache.maven.shared.model.fileset.FileSet;
 /**
  * Sets a property according to whether one set of resources is up to date with respect to another.
  *
- * @author Adrian Price <demonfiddler @ virginmedia.com>
+ * @author Adrian Price <a href="mailto:demonfiddler@virginmedia.com">demonfiddler@virginmedia.com</a>
  * @since 1.12
  */
 @Mojo( name = "uptodate-property", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )

@@ -27,7 +27,7 @@ import java.util.Properties;
 /**
  * A utility class for managing test resources.
  *
- * @author Adrian Price <demonfiddler @ virginmedia.com>
+ * @author Adrian Price <a href="mailto:demonfiddler@virginmedia.com">demonfiddler@virginmedia.com</a>
  * @since 1.12
  */
 public final class FixtureUtils
@@ -59,6 +59,7 @@ public final class FixtureUtils
      *            file paths (relative or absolute) and whose optional property values represent relative modification
      *            timestamps in seconds.
      * @param baseTimestamp The base timestamp to use, in milliseconds since midnight on the 1st January 1970 GMT.
+     * @param encoding Encoding.
      * @throws IOException If unable to create a file or a missing parent directory.
      * @throws NumberFormatException If a non-empty property value cannot be parsed as an integer.
      */
@@ -76,6 +77,7 @@ public final class FixtureUtils
      * @param baseDir The base directory against which to resolve relative paths.
      * @param propertiesFile A <code>Properties</code> file whose property names are file paths (relative or absolute)
      *            and whose optional property values represent relative modification timestamps in seconds.
+     * @param encoding Encoding.
      * @param baseTimestamp The base timestamp to use, in milliseconds since midnight on the 1st January 1970 GMT.
      * @throws IOException If unable to create a file or a missing parent directory.
      * @throws NumberFormatException If a non-empty property value cannot be parsed as an integer.

@@ -35,7 +35,7 @@ import org.codehaus.plexus.util.StringUtils;
  * Abstract base for setting properties according to whether sets of source and object resources are respectively up to
  * date with each other.
  *
- * @author Adrian Price <demonfiddler @ virginmedia.com>
+ * @author Adrian Price <a href="mailto:demonfiddler@virginmedia.com">demonfiddler@virginmedia.com</a>
  * @since 1.12
  */
 abstract class AbstractUpToDatePropertyMojo

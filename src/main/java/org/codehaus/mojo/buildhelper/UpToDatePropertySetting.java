@@ -31,7 +31,7 @@ import org.codehaus.plexus.util.StringUtils;
 /**
  * Holds settings for <code>AbstractUpToDateProperty</code> subclasses.
  *
- * @author Adrian Price <demonfiddler @ virginmedia.com>
+ * @author Adrian Price <a href="mailto:demonfiddler@virginmedia.com">demonfiddler@virginmedia.com</a>
  * @since 1.12
  */
 public final class UpToDatePropertySetting

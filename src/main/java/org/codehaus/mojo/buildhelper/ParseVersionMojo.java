@@ -133,8 +133,6 @@ public class ParseVersionMojo
 
     /**
      * Execute the mojo. This sets the version properties on the project.
-     *
-     * @throws MojoExecutionException if the plugin execution fails.
      */
     public void execute()
     {
