@@ -38,6 +38,7 @@ import org.codehaus.mojo.buildhelper.versioning.DefaultVersioning;
  *   [propertyPrefix].nextMajorVersion
  *   [propertyPrefix].nextMinorVersion
  *   [propertyPrefix].nextIncrementalVersion
+ *   [propertyPrefix].nextBuildNumber
  * </pre>
  * 
  * The above properties contain simply incremented versions of the parsed version informations. Those can now be used to
@@ -123,6 +124,7 @@ public class ParseVersionMojo
         defineVersionProperty( "nextMajorVersion", artifactVersion.getMajor() + 1 );
         defineVersionProperty( "nextMinorVersion", artifactVersion.getMinor() + 1 );
         defineVersionProperty( "nextIncrementalVersion", artifactVersion.getPatch() + 1 );
+        defineVersionProperty( "nextBuildNumber", artifactVersion.getBuildNumber() + 1 );
 
         String osgi = artifactVersion.getAsOSGiVersion();
 

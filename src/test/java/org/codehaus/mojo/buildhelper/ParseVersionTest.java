@@ -202,6 +202,7 @@ public class ParseVersionTest
             assertEquals( "1", props.getProperty( "parsed.nextMajorVersion" ) );
             assertEquals( "1", props.getProperty( "parsed.nextMinorVersion" ) );
             assertEquals( "1", props.getProperty( "parsed.nextIncrementalVersion" ) );
+            assertEquals( "1", props.getProperty( "parsed.nextBuildNumber" ) );
         }
 
         @Test
@@ -212,6 +213,7 @@ public class ParseVersionTest
             assertEquals( "2", props.getProperty( "parsed.nextMajorVersion" ) );
             assertEquals( "1", props.getProperty( "parsed.nextMinorVersion" ) );
             assertEquals( "1", props.getProperty( "parsed.nextIncrementalVersion" ) );
+            assertEquals( "1", props.getProperty( "parsed.nextBuildNumber" ) );
         }
 
         @Test
@@ -222,6 +224,7 @@ public class ParseVersionTest
             assertEquals( "3", props.getProperty( "parsed.nextMajorVersion" ) );
             assertEquals( "4", props.getProperty( "parsed.nextMinorVersion" ) );
             assertEquals( "5", props.getProperty( "parsed.nextIncrementalVersion" ) );
+            assertEquals( "1", props.getProperty( "parsed.nextBuildNumber" ) );
         }
 
         @Test
@@ -232,6 +235,7 @@ public class ParseVersionTest
             assertEquals( "3", props.getProperty( "parsed.nextMajorVersion" ) );
             assertEquals( "4", props.getProperty( "parsed.nextMinorVersion" ) );
             assertEquals( "5", props.getProperty( "parsed.nextIncrementalVersion" ) );
+            assertEquals( "1", props.getProperty( "parsed.nextBuildNumber" ) );
         }
 
         @Test
@@ -243,6 +247,7 @@ public class ParseVersionTest
             assertEquals( "2", props.getProperty( "parsed.nextMajorVersion" ) );
             assertEquals( "3", props.getProperty( "parsed.nextMinorVersion" ) );
             assertEquals( "4", props.getProperty( "parsed.nextIncrementalVersion" ) );
+            assertEquals( "1", props.getProperty( "parsed.nextBuildNumber" ) );
         }
 
         @Test
@@ -254,6 +259,7 @@ public class ParseVersionTest
             assertEquals( "3", props.getProperty( "parsed.nextMajorVersion" ) );
             assertEquals( "1", props.getProperty( "parsed.nextMinorVersion" ) );
             assertEquals( "18", props.getProperty( "parsed.nextIncrementalVersion" ) );
+            assertEquals( "1", props.getProperty( "parsed.nextBuildNumber" ) );
         }
 
         @Test
@@ -264,6 +270,7 @@ public class ParseVersionTest
             assertEquals( "2", props.getProperty( "parsed.nextMajorVersion" ) );
             assertEquals( "3", props.getProperty( "parsed.nextMinorVersion" ) );
             assertEquals( "4", props.getProperty( "parsed.nextIncrementalVersion" ) );
+            assertEquals( "5", props.getProperty( "parsed.nextBuildNumber" ) );
         }
 
     }
