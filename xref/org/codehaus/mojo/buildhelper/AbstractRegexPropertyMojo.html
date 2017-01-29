@@ -72,8 +72,8 @@
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>          <strong class="jxr_keyword">if</strong> ( matcher.find() )
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>          {
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>              <em class="jxr_comment">// if the string replacement is empty, we define the value replacement to empty.</em>
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>              config.setValue( ( StringUtils.isNotEmpty( config.getReplacement() ) ? matcher.replaceAll( config.getReplacement() )
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>                              : matcher.replaceAll( <span class="jxr_string">""</span> ) ) );
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>              config.setValue( ( StringUtils.isNotEmpty( config.getReplacement() )
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>                              ? matcher.replaceAll( config.getReplacement() ) : matcher.replaceAll( <span class="jxr_string">""</span> ) ) );
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>          }
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>          <strong class="jxr_keyword">else</strong>
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>          {
@@ -85,7 +85,7 @@
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>              <strong class="jxr_keyword">else</strong>
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>              {
 <a class="jxr_linenumber" name="L79" href="#L79">79</a>                  getLog().info( <span class="jxr_string">"No match to regex '"</span> + config.getRegex() + <span class="jxr_string">"' found in '"</span> + config.getValue() + <span class="jxr_string">"'. "</span>
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>                                     + <span class="jxr_string">"The initial value '"</span> + config.getValue() + <span class="jxr_string">"' is left as-is..."</span> );
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>                      + <span class="jxr_string">"The initial value '"</span> + config.getValue() + <span class="jxr_string">"' is left as-is..."</span> );
 <a class="jxr_linenumber" name="L81" href="#L81">81</a>              }
 <a class="jxr_linenumber" name="L82" href="#L82">82</a>          }
 <a class="jxr_linenumber" name="L83" href="#L83">83</a>  
@@ -93,7 +93,7 @@
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>          {
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>              config.setValue( config.getValue().toLowerCase( Locale.getDefault() ) );
 <a class="jxr_linenumber" name="L87" href="#L87">87</a>          }
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>          
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>  
 <a class="jxr_linenumber" name="L89" href="#L89">89</a>          <strong class="jxr_keyword">if</strong> ( config.isToUpperCase() )
 <a class="jxr_linenumber" name="L90" href="#L90">90</a>          {
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>              config.setValue( config.getValue().toUpperCase( Locale.getDefault() ) );
@@ -105,6 +105,6 @@
 <a class="jxr_linenumber" name="L97" href="#L97">97</a>  }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2005&#x2013;2016 <a href="http://www.mojohaus.org">MojoHaus</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2005&#x2013;2017 <a href="http://www.mojohaus.org">MojoHaus</a>. All rights reserved.</div>
 </body>
 </html>
