@@ -5,8 +5,9 @@
  Dennis Lundberg
  Robert Scholte
  Adrian Price
+ Karl Heinz Marbaise
  ------
- 2010-02-12
+ 2017-01-29
  ------
 
 ~~ The MIT License
@@ -217,7 +218,7 @@ Usage
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.2</version>
+        <version>3.0.2</version>
         <configuration>
           <archive>
             <manifestEntries>
@@ -273,9 +274,31 @@ parsedVersion.qualifier
 parsedVersion.buildNumber
 -------------------
 
-  The property prefix "parsedVersion" can be configured using the <<<propertyPrefix>>> parameter.
+  Apart from the above properties the following properties will be set:
+  
+-------------------
+parsedVersion.nextMajorVersion
+parsedVersion.nextMinorVersion
+parsedVersion.nextIncrementalVersion
+parsedVersion.nextBuildNumber
+-------------------
 
-  <<Note:>> the behaviour of the parsing is determined by <<<org.apache.maven.artifact.versioning.DefaultArtifactVersion>>>.
+  And another set of properties is set by using the defined formatting.
+  See {{{./parse-version-mojo.html}build-helper:parse-version}}
+  
+-------------------
+formattedVersion.majorVersion
+formattedVersion.minorVersion
+formattedVersion.incrementalVersion
+formattedVersion.buildNumber
+formattedVersion.nextMajorVersion
+formattedVersion.nextMinorVersion
+formattedVersion.nextIncrementalVersion
+formattedVersion.nextBuildNumber
+-------------------
+    
+
+  The property prefix <<<parsedVersion>>> can be configured using the <<<propertyPrefix>>> parameter.
 
   An OSGi compatible version will also be created and made available through the property:
 
@@ -284,7 +307,9 @@ parsedVersion.osgiVersion
 -------------------
 
   This property contains the original version string with the first instance of '-' replaced by '.'
-  For example, <<<1.0.2-beta-1>>> will be converted to <<<1.0.2.beta-1>>>.
+  For example, <<<1.0.2-beta-1>>> will be converted to <<<1.0.2.beta-1>>>. Each occurance
+  of a another `.` will be replaced by `_` cause OSGi does not allow to have more than three `.`
+  in a version.
 
 * Resolve the latest released version of a project
 
