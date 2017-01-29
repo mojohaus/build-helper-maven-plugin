@@ -177,6 +177,7 @@ public class ParseVersionMojo
         defineVersionProperty( "majorVersion", artifactVersion.getMajor() );
         defineVersionProperty( "minorVersion", artifactVersion.getMinor() );
         defineVersionProperty( "incrementalVersion", artifactVersion.getPatch() );
+        defineVersionProperty( "buildNumber", artifactVersion.getBuildNumber() );
 
         defineVersionProperty( "nextMajorVersion", artifactVersion.getMajor() + 1 );
         defineVersionProperty( "nextMinorVersion", artifactVersion.getMinor() + 1 );
@@ -202,8 +203,6 @@ public class ParseVersionMojo
         }
 
         defineVersionProperty( "qualifier", qualifier );
-
-        defineVersionProperty( "buildNumber", artifactVersion.getBuildNumber() );
 
         defineVersionProperty( "osgiVersion", osgi );
     }
