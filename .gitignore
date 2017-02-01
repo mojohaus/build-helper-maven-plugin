@@ -3,5 +3,6 @@ target
 .classpath
 .project
 *.iml
+.idea/
 /bin
 test-output

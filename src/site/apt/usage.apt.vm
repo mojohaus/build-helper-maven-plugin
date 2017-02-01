@@ -671,6 +671,38 @@ tomcat.http.port
 </project>
 -------------------
 
+* Retrieve current hostname
+
+  The <<<hostname>>> goal can be used to load current hostname
+
+-------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <executions>
+          <execution>
+            <id>get-hostname</id>
+            <goals>
+              <goal>hostname</goal>
+            </goals>
+            <configuration>
+              <!-- if not given, 'hostname' name is used -->
+              <hostnameProperty>my.local.ip</hostnameProperty>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  ...
+</project>
+-------------------
+
 * Retrieve available number of CPUs
 
   The <<<cpu-count>>> goal can be used to load number of CPU

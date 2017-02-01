@@ -71,6 +71,8 @@ Build Helper Maven Plugin
 
   * {{{./local-ip-mojo.html}build-helper:local-ip}} Retrieve current host IP address.
 
+  * {{{./hostname-mojo.html}build-helper:hostname}} Retrieve current hostname.
+
   * {{{./cpu-count-mojo.html}build-helper:cpu-count}} Retrieve number of available CPU.
 
   * {{{./timestamp-property-mojo.html}build-helper:timestamp-property}} Sets a property based on the current date and time.
