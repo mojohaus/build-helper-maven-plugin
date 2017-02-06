@@ -91,4 +91,10 @@ public class VersionInformationTest
         assertVersion( vi, major, minor, patch, buildNumber, qualifier );
     }
 
+    @Test( expectedExceptions = NumberFormatException.class )
+    public void shouldFaileWithNumberFormatException()
+    {
+        String version = "999999999999.12345678.12.beta_5";
+        createVersion( version );
+    }
 }
