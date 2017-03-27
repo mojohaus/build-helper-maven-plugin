@@ -145,6 +145,14 @@ public class ParseVersionMojo
     private String formatBuildNumber;
 
     /**
+     * By using <code>qualifierPrefix</code> you can change the prefix which is used
+     * to prefix the qualifier if not empty.
+     * @since 3.1.0
+     */
+    @Parameter( defaultValue = "-")
+    private String qualifierPrefix;
+    
+    /**
      * Execute the mojo. This sets the version properties on the project.
      */
     public void execute()
@@ -206,16 +214,16 @@ public class ParseVersionMojo
         String osgi = artifactVersion.getAsOSGiVersion();
 
         String qualifier = artifactVersion.getQualifier();
-        String qualifierPrefix = "";
+        String qualifierQuestion = "";
         if ( qualifier == null )
         {
             qualifier = "";
         } else {
-            qualifierPrefix = "-";
+            qualifierQuestion = qualifierPrefix;
         }
 
         defineVersionProperty( "qualifier", qualifier );
-        defineVersionProperty( "qualifier?", qualifierPrefix + qualifier );
+        defineVersionProperty( "qualifier?", qualifierQuestion + qualifier );
 
         defineVersionProperty( "osgiVersion", osgi );
     }
