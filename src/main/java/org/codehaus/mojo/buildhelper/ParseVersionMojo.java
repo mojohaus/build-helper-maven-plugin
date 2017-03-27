@@ -58,6 +58,15 @@ import org.codehaus.mojo.buildhelper.versioning.DefaultVersioning;
  *   [formattedPropertyPrefix].nextBuildNumber
  * </pre>
  * 
+ * There is another property set which is named <code>[propertyPrefix].qualifier</code> and furthermore 
+ * another property which is named <code>[propertyPrefix].qualifier?</code> which contains a prefix 
+ * <code>-</code> if the qualifier contains anything otherwise the whole property is simply empty.
+ * 
+ * <pre>
+ * mvn build-helper:parse-version versions:set \
+ *   -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.\${parsedVersion.incrementalVersion}\${parsedVersion.qualifier?}
+ * </pre>
+ * 
  * The above properties contain simply incremented versions of the parsed version informations. Those can now be used to
  * update the version of your project via the following to the next Major version:
  * 
@@ -197,12 +206,16 @@ public class ParseVersionMojo
         String osgi = artifactVersion.getAsOSGiVersion();
 
         String qualifier = artifactVersion.getQualifier();
+        String qualifierPrefix = "";
         if ( qualifier == null )
         {
             qualifier = "";
+        } else {
+            qualifierPrefix = "-";
         }
 
         defineVersionProperty( "qualifier", qualifier );
+        defineVersionProperty( "qualifier?", qualifierPrefix + qualifier );
 
         defineVersionProperty( "osgiVersion", osgi );
     }
