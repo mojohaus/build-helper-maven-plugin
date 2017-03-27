@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>build-helper-maven-plugin</artifactId>
-  <version>3.0.1-SNAPSHOT</version>
+  <version>3.1.0-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
   <url>http://www.mojohaus.org/build-helper-maven-plugin/</url>
 
