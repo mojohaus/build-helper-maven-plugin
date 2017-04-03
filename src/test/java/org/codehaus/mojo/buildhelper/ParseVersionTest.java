@@ -305,7 +305,6 @@ public class ParseVersionTest
 
     }
 
-
     public class TestFormattedVersion
     {
         private Properties props;
