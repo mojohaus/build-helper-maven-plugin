@@ -173,6 +173,21 @@ public class ParseVersionTest
         }
 
         @Test
+        public void testVersionStringWithTimestampBuildNumber()
+        {
+            // Test a version string with a timestamp build number
+            mojo.parseVersion( "1.2.3-20170403100110" );
+
+            assertEquals( "1", props.getProperty( "parsed.majorVersion" ) );
+            assertEquals( "2", props.getProperty( "parsed.minorVersion" ) );
+            assertEquals( "3", props.getProperty( "parsed.incrementalVersion" ) );
+            assertEquals( "", props.getProperty( "parsed.qualifier" ) );
+            assertEquals( "20170403100110", props.getProperty( "parsed.buildNumber" ) );
+            assertEquals( "1.2.3.20170403100110", props.getProperty( "parsed.osgiVersion" ) );
+
+        }
+
+        @Test
         public void testSnapshotVersionStringWithBuildNumber()
         {
             // Test a version string with a build number
@@ -290,7 +305,7 @@ public class ParseVersionTest
 
     }
 
-    
+
     public class TestFormattedVersion
     {
         private Properties props;

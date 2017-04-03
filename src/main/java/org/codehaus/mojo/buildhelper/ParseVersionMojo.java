@@ -162,9 +162,9 @@ public class ParseVersionMojo
         defineProperty( formattedPropertyPrefix + '.' + name, value );
     }
 
-    private void defineVersionProperty( String name, int value )
+    private void defineVersionProperty( String name, long value )
     {
-        defineVersionProperty( name, Integer.toString( value ) );
+        defineVersionProperty( name, Long.toString( value ) );
     }
 
     /**
