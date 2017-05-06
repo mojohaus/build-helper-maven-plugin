@@ -348,6 +348,8 @@ releasedVersion.version
 releasedVersion.majorVersion
 releasedVersion.minorVersion
 releasedVersion.incrementalVersion
+releasedVersion.buildNumber
+releasedVersion.qualifier
 -------------------
 
   The property prefix "releasedVersion" can be configured using the <<<propertyPrefix>>> parameter.
