@@ -91,7 +91,7 @@ public class AttachArtifactMojo
 
     /**
      * This allows to skip the attach execution in case it is known that the corresponding file does not exists. For
-     * exemple, when the previous ant-run task is skipped with a unless.
+     * example, when the previous ant-run task is skipped with a unless.
      *
      * @since 1.6
      */
