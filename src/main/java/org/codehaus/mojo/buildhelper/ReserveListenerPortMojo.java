@@ -167,6 +167,15 @@ public class ReserveListenerPortMojo
             // Write the file -- still hold onto the ports
             if ( outputFile != null )
             {
+                try
+                {
+                    createOutputDirectoryIfNotExist( outputFile );
+                }
+                catch ( IOException e )
+                {
+                    throw new MojoExecutionException( e.getMessage() );
+                }
+
                 OutputStream os = null;
                 try
                 {
@@ -199,6 +208,22 @@ public class ReserveListenerPortMojo
                 }
             }
         }
+    }
+
+    private void createOutputDirectoryIfNotExist( File outputFile )
+        throws IOException
+    {
+        File parentDirectory = new File( outputFile.getCanonicalFile().getParent() );
+
+        if ( !parentDirectory.exists() )
+        {
+            getLog().debug( "Trying to create directories: " + parentDirectory.getAbsolutePath() );
+            if ( !parentDirectory.mkdirs() )
+            {
+                getLog().error( "Failed to create folders " + parentDirectory.getAbsolutePath() );
+            }
+        }
+
     }
 
     private ServerSocket getServerSocket()
