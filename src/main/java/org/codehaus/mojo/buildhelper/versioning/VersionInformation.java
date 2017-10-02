@@ -52,7 +52,7 @@ public class VersionInformation
 
     private int patch;
 
-    private int buildNumber;
+    private long buildNumber;
 
     private String qualifier;
 
@@ -66,7 +66,7 @@ public class VersionInformation
 
             if ( buildNumber != null )
             {
-                setBuildNumber( Integer.parseInt( buildNumber ) );
+                setBuildNumber( Long.parseLong( buildNumber ) );
             }
 
             if ( matcher.group( 7 ) != null )
@@ -165,12 +165,12 @@ public class VersionInformation
         this.patch = patch;
     }
 
-    public int getBuildNumber()
+    public long getBuildNumber()
     {
         return buildNumber;
     }
 
-    public void setBuildNumber( int buildNumber )
+    public void setBuildNumber( long buildNumber )
     {
         this.buildNumber = buildNumber;
     }

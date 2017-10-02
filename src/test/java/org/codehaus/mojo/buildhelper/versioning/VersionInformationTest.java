@@ -35,7 +35,7 @@ public class VersionInformationTest
         return new VersionInformation( version );
     }
 
-    private void assertVersion( VersionInformation v, int major, int minor, int patch, int buildNumber,
+    private void assertVersion( VersionInformation v, int major, int minor, int patch, long buildNumber,
                                 String qualifier )
     {
         assertThat( v.getMajor() ).isEqualTo( major );
@@ -79,13 +79,14 @@ public class VersionInformationTest
 			{ "20.03.5-111-34.anton", 20, 3, 5, 111, "-34.anton" }, 
 			{ "junk", 0, 0, 0, 0, "junk" }, 
 			{ "2.3.4-beta_5", 2, 3, 4, 0, "beta_5" }, 
-			{ "2.3.4.beta_5", 2, 3, 4, 0, "beta_5" } 
+			{ "2.3.4.beta_5", 2, 3, 4, 0, "beta_5" },
+			{ "1.2.3-20171002135756", 1, 2, 3, 20171002135756l, null }
 		};
 	}
 	// @formatter:on
 
     @Test( dataProvider = "createVersions" )
-    public void checkVersions( String version, int major, int minor, int patch, int buildNumber, String qualifier )
+    public void checkVersions( String version, int major, int minor, int patch, long buildNumber, String qualifier )
     {
         VersionInformation vi = createVersion( version );
         assertVersion( vi, major, minor, patch, buildNumber, qualifier );

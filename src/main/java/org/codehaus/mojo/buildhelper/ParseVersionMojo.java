@@ -175,6 +175,11 @@ public class ParseVersionMojo
         defineVersionProperty( name, Integer.toString( value ) );
     }
 
+    private void defineVersionProperty( String name, long value )
+    {
+        defineVersionProperty( name, Long.toString( value ) );
+    }
+
     /**
      * Parse a version String and add the components to a properties object.
      *
