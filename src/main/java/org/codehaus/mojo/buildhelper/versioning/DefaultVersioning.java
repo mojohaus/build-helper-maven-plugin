@@ -69,7 +69,7 @@ public class DefaultVersioning
     }
 
     @Override
-    public int getBuildNumber()
+    public long getBuildNumber()
     {
         return this.vi.getBuildNumber();
     }

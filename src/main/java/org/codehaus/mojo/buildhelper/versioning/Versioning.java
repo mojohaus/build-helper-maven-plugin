@@ -11,7 +11,7 @@ public interface Versioning
 
     String getAsOSGiVersion();
 
-    int getBuildNumber();
+    long getBuildNumber();
 
     String getQualifier();
 
