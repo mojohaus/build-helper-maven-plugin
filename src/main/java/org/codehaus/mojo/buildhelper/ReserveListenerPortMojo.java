@@ -27,14 +27,15 @@ package org.codehaus.mojo.buildhelper;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -47,7 +48,6 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.util.IOUtil;
 
 /**
  * Reserve a list of random and not in use network ports and place them in a configurable project properties.
@@ -176,19 +176,13 @@ public class ReserveListenerPortMojo
                     throw new MojoExecutionException( e.getMessage() );
                 }
 
-                OutputStream os = null;
-                try
+                try ( Writer os = new FileWriter( outputFile ) )
                 {
-                    os = new FileOutputStream( outputFile );
                     properties.store( os, null );
                 }
                 catch ( Exception e )
                 {
                     throw new MojoExecutionException( e.getMessage() );
-                }
-                finally
-                {
-                    IOUtil.close( os );
                 }
             }
         }
@@ -481,7 +475,7 @@ public class ReserveListenerPortMojo
             {
                 try
                 {
-                    this.url = new URL( url );
+                    this.url = Paths.get( url ).toUri().toURL();
                 }
                 catch ( MalformedURLException e )
                 {
