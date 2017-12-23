@@ -4,31 +4,30 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class PassReservedPortToSureFireTest
     extends TestCase
 {
     public void testCheckSystemProperties()
-        throws Exception
     {
         String port = System.getProperty( "port1" );
-        Integer.parseInt( port );
+        assertThat( Integer.parseInt( port ) ).isGreaterThan( 0 );
     }
 
     public void testCheckEnvironment()
-        throws Exception
     {
         String port = System.getenv( "port1" );
-        Integer.parseInt( port );
+        assertThat( Integer.parseInt( port ) ).isGreaterThan( 0 );
     }
 
     public void testCheckEnvironmentUsingMavenProject()
-        throws Exception
     {
         String env = System.getenv( "targetDir" );
         
         String expectEnv = new File( System.getProperty( "basedir", "." ), "target" ).getAbsolutePath();
         
-        assertEquals( expectEnv, env );
+        assertThat( env ).isEqualTo( expectEnv );
     }
 
 }
