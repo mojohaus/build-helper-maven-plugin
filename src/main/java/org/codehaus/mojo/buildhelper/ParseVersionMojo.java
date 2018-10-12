@@ -15,6 +15,7 @@ import org.codehaus.mojo.buildhelper.versioning.DefaultVersioning;
  *   [propertyPrefix].incrementalVersion
  *   [propertyPrefix].qualifier
  *   [propertyPrefix].buildNumber
+ *   [propertyPrefix].isReleaseVersion (since 3.1.0)
  * </pre>
  * 
  * Where the propertyPrefix is the string set in the mojo parameter. The parsing of the above is based on the following
@@ -180,6 +181,11 @@ public class ParseVersionMojo
         defineVersionProperty( name, Long.toString( value ) );
     }
 
+    private void defineIsReleaseProperty( boolean value )
+    {
+    	defineProperty( propertyPrefix + "." + "isReleaseVersion", Boolean.toString( value ) );
+    }
+
     /**
      * Parse a version String and add the components to a properties object.
      *
@@ -200,6 +206,7 @@ public class ParseVersionMojo
         defineVersionProperty( "minorVersion", artifactVersion.getMinor() );
         defineVersionProperty( "incrementalVersion", artifactVersion.getPatch() );
         defineVersionProperty( "buildNumber", artifactVersion.getBuildNumber() );
+        defineIsReleaseProperty( !artifactVersion.getVersion().endsWith( "SNAPSHOT" ) );
 
         defineVersionProperty( "nextMajorVersion", artifactVersion.getMajor() + 1 );
         defineVersionProperty( "nextMinorVersion", artifactVersion.getMinor() + 1 );
