@@ -26,15 +26,23 @@ package org.codehaus.mojo.buildhelper;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 
 import org.apache.maven.artifact.repository.ArtifactRepository;
+import org.apache.maven.artifact.repository.metadata.Metadata;
+import org.apache.maven.artifact.repository.metadata.io.xpp3.MetadataXpp3Reader;
+import org.apache.maven.artifact.repository.metadata.io.xpp3.MetadataXpp3Writer;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.shared.utils.ReaderFactory;
+import org.apache.maven.shared.utils.WriterFactory;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 /**
  * Remove project's artifacts from local repository. Useful to keep only one copy of large local snapshot, for example:
@@ -89,6 +97,9 @@ public class RemoveLocalArtifactMojo
         if ( removeAll )
         {
             localArtifactDirectory = localArtifactDirectory.getParentFile();
+        } else {
+            File metadataFile = new File( localArtifactDirectory, "maven-metadata-local.xml" );
+            modifyMetadataFile( this.project, metadataFile );
         }
 
         try
@@ -113,4 +124,23 @@ public class RemoveLocalArtifactMojo
             }
         }
     }
+
+    static void modifyMetadataFile( MavenProject mavenProject, File metadataFile ) throws MojoFailureException {
+		if ( metadataFile.exists() ) {
+			try {
+		    	Reader reader = ReaderFactory.newXmlReader( metadataFile );
+		    	MetadataXpp3Reader mappingReader = new MetadataXpp3Reader();
+		    	Metadata metadata = mappingReader.read( reader, true );
+		    	metadata.getVersioning().removeVersion(mavenProject.getArtifact().getVersion());
+		    	Writer writer = WriterFactory.newXmlWriter( metadataFile );
+		    	MetadataXpp3Writer mappingWriter = new MetadataXpp3Writer();
+		    	mappingWriter.write( writer, metadata );
+		    	writer.flush();
+			} catch ( IOException e ) {
+		        throw new MojoFailureException( "IOException thrown while trying to modify metadata file.", e );
+			} catch ( XmlPullParserException e ) {
+		        throw new MojoFailureException( "XmlPullParserException thrown while trying to modify metadata file.", e );
+			}
+		}
+	}
 }
