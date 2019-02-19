@@ -32,15 +32,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
-
+import java.util.Set;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -122,6 +125,9 @@ public class ReserveListenerPortMojo
      */
     @Parameter
     private boolean randomPort;
+
+    @Parameter (defaultValue = "::1 localhost 127.0.0.1 0.0.0.0")
+    private String interfaces; 
 
     /**
      * @since 1.2
@@ -312,8 +318,19 @@ public class ReserveListenerPortMojo
         }
         try
         {
-            ServerSocket serverSocket = new ServerSocket( port );
-            getLog().info( "Port assigned" + port );
+            Set<InetAddress> inetList = new HashSet<>();
+            for (String inf : interfaces.split( " " ) ){
+                InetAddress[] addresses = InetAddress.getAllByName(inf);
+                inetList.addAll( Arrays.asList( addresses ));
+            }
+
+            ServerSocket serverSocket = null;
+
+            for (InetAddress address : inetList ) { 
+                serverSocket = new ServerSocket( port, 50, address );
+                getLog().info( "Port assigned" + port  +  " " + serverSocket.toString());
+            }
+
             return serverSocket;
         }
         catch ( IOException ioe )
