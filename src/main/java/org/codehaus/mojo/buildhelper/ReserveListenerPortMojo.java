@@ -328,7 +328,7 @@ public class ReserveListenerPortMojo
 
             for (InetAddress address : inetList ) { 
                 serverSocket = new ServerSocket( port, 50, address );
-                getLog().info( "Port assigned" + port  +  " " + serverSocket.toString());
+                getLog().info( "Port assigned " + port  +  " " + serverSocket.toString());
             }
 
             return serverSocket;
