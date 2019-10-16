@@ -92,7 +92,7 @@ public class ReleasedVersionMojo
     public void execute()
     {
         org.apache.maven.artifact.Artifact artifact =
-            artifactFactory.createArtifact( getProject().getGroupId(), getProject().getArtifactId(), "", "", "" );
+            artifactFactory.createArtifact( getProject().getGroupId(), getProject().getArtifactId(), getProject().getVersion(), "", "" );
         try
         {
             ArtifactVersion releasedVersion = null;
