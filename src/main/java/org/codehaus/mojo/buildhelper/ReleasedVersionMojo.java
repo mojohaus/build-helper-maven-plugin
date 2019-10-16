@@ -125,7 +125,7 @@ public class ReleasedVersionMojo
                 defineVersionProperty( "minorVersion", releasedVersion.getMinorVersion() );
                 defineVersionProperty( "incrementalVersion", releasedVersion.getIncrementalVersion() );
                 defineVersionProperty( "buildNumber", releasedVersion.getBuildNumber() );
-                defineVersionProperty( "qualifier", releasedVersion.getQualifier() );
+                defineVersionProperty( "qualifier", String.valueOf(releasedVersion.getQualifier()) );
             }
 
         }
