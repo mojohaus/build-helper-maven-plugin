@@ -1,0 +1,36 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.codehaus.mojo</groupId>
+	<artifactId>build-helper-rootlocation-parent</artifactId>
+	<version>1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>rootlocation search top root</name>
+	<description>
+    Tests that rootlocation finds the highest basedir.
+  </description>
+
+	<modules>
+		<module>submodule</module>
+	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>@project.groupId@</groupId>
+				<artifactId>@project.artifactId@</artifactId>
+				<version>@project.version@</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>rootlocation</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
