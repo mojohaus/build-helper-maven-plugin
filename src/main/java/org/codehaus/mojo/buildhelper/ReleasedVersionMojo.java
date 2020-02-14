@@ -127,6 +127,9 @@ public class ReleasedVersionMojo
                 defineVersionProperty( "buildNumber", releasedVersion.getBuildNumber() );
                 defineVersionProperty( "qualifier", releasedVersion.getQualifier() );
             }
+            else {
+                getLog().debug("No released version found.");
+            }
 
         }
         catch ( ArtifactMetadataRetrievalException e )
