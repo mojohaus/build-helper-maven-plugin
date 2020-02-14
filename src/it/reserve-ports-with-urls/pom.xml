@@ -22,7 +22,7 @@
             </goals>
             <configuration>
               <urls>
-                <url>file://${project.basedir}/names2.txt</url>
+                <url>file:///${project.basedir}/names2.txt</url>
               </urls>
             </configuration>
           </execution>
@@ -35,8 +35,8 @@
             <configuration>
               <outputFile>${project.build.directory}/ports.properties</outputFile>
               <urls>
-                <url>file://${project.basedir}/names1.txt</url>
-                <url>file://${project.basedir}/names2.txt</url>
+                <url>file:///${project.basedir}/names1.txt</url>
+                <url>file:///${project.basedir}/names2.txt</url>
               </urls>
             </configuration>
           </execution>
