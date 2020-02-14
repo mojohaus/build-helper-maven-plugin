@@ -25,6 +25,7 @@ package org.codehaus.mojo.buildhelper;
  */
 
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.maven.artifact.ArtifactUtils;
 import org.apache.maven.artifact.factory.ArtifactFactory;
@@ -80,7 +81,7 @@ public class ReleasedVersionMojo
 
     private void defineVersionProperty( String name, String value )
     {
-        defineProperty( propertyPrefix + '.' + name, value );
+        defineProperty( propertyPrefix + '.' + name, Objects.toString( value, "" ) );
     }
 
     private void defineVersionProperty( String name, int value )
