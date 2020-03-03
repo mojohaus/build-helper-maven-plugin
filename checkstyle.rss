@@ -23,10 +23,10 @@ under the License.
     <link>http://www.mojohaus.org/build-helper-maven-plugin/</link>
     <description>Build Helper Maven Plugin - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2005 - 2017 MojoHaus</copyright>
+    <copyright>&#169;2005 - 2020 MojoHaus</copyright>
     <item>
-      <title>File: 30,
-             Errors: 34,
+      <title>File: 31,
+             Errors: 40,
              Warnings: 63,
              Infos: 0
       </title>
@@ -55,7 +55,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  13
+                  17
                 </td>
               </tr>
                           <tr>
@@ -158,6 +158,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://www.mojohaus.org/build-helper-maven-plugin//checkstyle.html#org.codehaus.mojo.buildhelper.HostnameMojo.java">org/codehaus/mojo/buildhelper/HostnameMojo.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://www.mojohaus.org/build-helper-maven-plugin//checkstyle.html#org.codehaus.mojo.buildhelper.UpToDatePropertySetting.java">org/codehaus/mojo/buildhelper/UpToDatePropertySetting.java</a>
                 </td>
                 <td>
@@ -181,7 +195,7 @@ under the License.
                   1
                 </td>
                 <td>
-                  0
+                  4
                 </td>
               </tr>
                           <tr>
@@ -276,7 +290,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  7
+                  6
                 </td>
                 <td>
                   2
@@ -346,10 +360,10 @@ under the License.
                   0
                 </td>
                 <td>
-                  3
+                  2
                 </td>
                 <td>
-                  3
+                  1
                 </td>
               </tr>
                           <tr>
@@ -416,7 +430,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  1
+                  2
                 </td>
                 <td>
                   1
