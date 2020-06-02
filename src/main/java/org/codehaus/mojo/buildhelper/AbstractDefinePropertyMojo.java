@@ -35,7 +35,7 @@ public abstract class AbstractDefinePropertyMojo
      * The maven project
      */
     @Parameter( readonly = true, defaultValue = "${project}" )
-    private MavenProject project;
+    protected MavenProject project;
 
     protected void defineProperty( String name, String value )
     {

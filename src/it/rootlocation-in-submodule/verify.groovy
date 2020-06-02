@@ -3,6 +3,7 @@ assert file.exists()
 
 String text = file.getText("utf-8")
 
-assert text.matches('(?ms)(.*?)define property rootlocation = "(.*)[/\\\\]rootlocation-in-submodule"(.*?)')
+def rootFolderName = (text =~ /(?ms)(.*?)define property rootlocation = "(.*?)[\/\\]([^\/\\"]+)"(.*?)/)[0][3]
+assert rootFolderName == "rootlocation-in-submodule"
 
 return true
