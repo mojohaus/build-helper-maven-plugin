@@ -28,8 +28,6 @@ package org.codehaus.mojo.buildhelper.versioning;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.codehaus.mojo.buildhelper.ParseVersionMojo;
-
 /**
  * This class will parse the version based on the given pattern in {@link ParseVersionMojo}.
  * 
