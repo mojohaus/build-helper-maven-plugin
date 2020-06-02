@@ -2,9 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.codehaus.mojo</groupId>
-  <artifactId>build-helper-maven-plugin-reverse-port-it</artifactId>
+  <artifactId>build-helper-maven-plugin-released-version-it</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>build-helper-maven-plugin-reverse-port-it</name>
+  <name>build-helper-maven-plugin-released-version-it</name>
 
   <build>
     <defaultGoal>package</defaultGoal>
@@ -15,29 +15,12 @@
         <version>@project.version@</version>
         <executions>
           <execution>
-            <id>reserve-ports</id>
-            <phase>process-test-resources</phase>
+            <id>released-version</id>
             <goals>
-              <goal>reserve-network-port</goal>
+              <goal>released-version</goal>
             </goals>
             <configuration>
-              <urls>
-                <url>file:///${project.basedir}/names2.txt</url>
-              </urls>
-            </configuration>
-          </execution>
-          <execution>
-            <id>reserve-ports-to-files</id>
-            <phase>process-test-resources</phase>
-            <goals>
-              <goal>reserve-network-port</goal>
-            </goals>
-            <configuration>
-              <outputFile>${project.build.directory}/ports.properties</outputFile>
-              <urls>
-                <url>file:///${project.basedir}/names1.txt</url>
-                <url>file:///${project.basedir}/names2.txt</url>
-              </urls>
+              <propertyPrefix>myReleasedVersion</propertyPrefix>
             </configuration>
           </execution>
         </executions>
@@ -59,16 +42,17 @@
           </execution>
           
           <execution>
-            <id>echo-reserve-ports</id>
+            <id>echo-released-version</id>
             <phase>test</phase>
             <goals>
               <goal>run</goal>
             </goals>
             <configuration>
               <tasks>
-                <echo>port1=${port1}</echo>
-                <echo>port2=${port2}</echo>
-                <echo>port3=${port3}</echo>
+                <echo>myReleasedVersion.version=${myReleasedVersion.version}</echo>
+                <echo>myReleasedVersion.majorVersion=${myReleasedVersion.majorVersion}</echo>
+                <echo>myReleasedVersion.minorVersion=${myReleasedVersion.minorVersion}</echo>
+                <echo>myReleasedVersion.incrementalVersion=${myReleasedVersion.incrementalVersion}</echo>
               </tasks>
             </configuration>
           </execution>
@@ -76,4 +60,5 @@
       </plugin>
     </plugins>
   </build>
+
 </project>

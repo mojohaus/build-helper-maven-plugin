@@ -494,7 +494,7 @@ releasedVersion.qualifier
             <phase>process-resources</phase>
             <configuration>
               <urls>
-                <url>file://${project.basedir}/names1.txt</url>
+                <url>file:///${project.basedir}/names1.txt</url>
                 <url>classpath:port-names.txt</url>
               </urls>
             </configuration>
