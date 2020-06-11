@@ -32,6 +32,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -90,10 +91,30 @@ public class TimestampPropertyMojo
     private String unit;
 
     /**
+     * The source of the time. Valid Values are
+     * <ul>
+     * <li>current</li>
+     * <li>build</li>
+     * </ul>
+     *
+     * @since 3.2.0
+     */
+    @Parameter( defaultValue = "current" )
+    private String timeSource;
+
+    /**
      * The locale to use, for example <code>en,US</code>.
      */
     @Parameter
     private String locale;
+
+    /**
+     * The Maven Session.
+     *
+     * @since 3.2.0
+     */
+    @Parameter( readonly = true, defaultValue = "${session}" )
+    private MavenSession mavenSession;
 
     /**
      * {@inheritDoc}
@@ -199,7 +220,14 @@ public class TimestampPropertyMojo
 
         format.setTimeZone( timeZone );
 
-        defineProperty( name, format.format( calendar.getTime() ) );
+        if ("build".equals(timeSource))
+        {
+            defineProperty( name, format.format( mavenSession.getStartTime() ) );
+        }
+        else
+        {
+            defineProperty( name, format.format( calendar.getTime() ) );
+        }
     }
 
 }

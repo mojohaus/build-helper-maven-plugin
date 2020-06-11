@@ -641,6 +641,61 @@ tomcat.http.port
 
   The <<<locale>>> and <<<timeZone>>> parameters can be further used to control the build-time behaviour.
 
+* Set a property based on the <<<maven.build.timestamp>>>
+
+  The <<<maven.build.timestamp>>> property does not allow for timezone overrides for obvious reasons.
+  The <<<timestamp-property>>> goal can be used to create one with a local timezone timestamp.
+  But the default implementation uses the <<<current>>> time, which is thus not the same for all modules in a multi module project.
+  The new <<<timeSource>>> parameter with value <<<build>>> now allows the usage of <<<maven.build.timestamp>>> property instead of the <<<current>>> timestamp.
+
+-------------------
+<project>
+  ...
+  <properties>
+    <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss z</maven.build.timestamp.format>
+  </properties>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <executions>
+          <execution>
+            <id>module-timestamp-property</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <configuration>
+              <name>module.build.timestamp</name>
+              <pattern>${maven.build.timestamp.format}</pattern>
+              <timeZone>Europe/Amsterdam</timeZone>
+              <!-- <timeSource>current</timeSource> -->
+            </configuration>
+          </execution>
+          <execution>
+            <id>local-timestamp-property</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <configuration>
+              <name>local.build.timestamp</name>
+              <pattern>${maven.build.timestamp.format}</pattern>
+              <timeZone>Europe/Amsterdam</timeZone>
+              <timeSource>build</timeSource>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  ...
+</project>
+-------------------
+
 * Retrieve current host IP address
 
   The <<<local-ip>>> goal can be used to load current host address
