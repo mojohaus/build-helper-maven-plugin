@@ -127,7 +127,6 @@ public class RootLocationMojo
      * Returns a set of all child modules for a project, including any defined in profiles (ignoring profile activation).
      *
      * @param project The project.
-     * @param logger The logger to use.
      * @return the set of all child modules of the project (canonical paths).
      */
     private Set<String> getAllChildModules( MavenProject project ) throws IOException
