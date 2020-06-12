@@ -27,7 +27,6 @@ package org.codehaus.mojo.buildhelper;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -54,22 +53,6 @@ public class AttachArtifactMojo
      */
     @Parameter( required = true )
     private Artifact[] artifacts;
-
-    /**
-     * This project's base directory.
-     *
-     * @since 1.5
-     */
-    @Parameter( defaultValue = "${basedir}" )
-    private String basedir;
-
-    /**
-     * The Maven Session.
-     *
-     * @since 1.5
-     */
-    @Parameter( readonly = true, defaultValue = "${session}" )
-    private MavenSession mavenSession;
 
     @Parameter( readonly = true, defaultValue = "${project}" )
     private MavenProject project;
