@@ -115,8 +115,6 @@ public class ReserveListenerPortMojo
 
     /**
      * Specify true or false if you want the port selection randomized.
-     * <p>
-     * </p>
      *
      * @since 1.10
      */
