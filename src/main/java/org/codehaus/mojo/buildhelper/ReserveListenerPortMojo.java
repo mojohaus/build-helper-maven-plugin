@@ -62,7 +62,7 @@ public class ReserveListenerPortMojo
 {
     private static final String BUILD_HELPER_RESERVED_PORTS = "BUILD_HELPER_MIN_PORT";
 
-    private static final Integer FIRST_NON_ROOT_PORT_NUMBER = 1024;
+    private static final int FIRST_NON_ROOT_PORT_NUMBER = 1024;
 
     private static final Integer MAX_PORT_NUMBER = 65535;
 
