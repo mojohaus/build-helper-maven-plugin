@@ -32,15 +32,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
-
+import java.util.Set;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -121,11 +124,16 @@ public class ReserveListenerPortMojo
     @Parameter
     private boolean randomPort;
 
+    @Parameter (defaultValue = "::1 127.0.0.1")
+    private String interfaces; 
+
     /**
      * @since 1.2
      */
     @Parameter( readonly = true, defaultValue = "${project}" )
     private MavenProject project;
+
+    private final List<ServerSocket> sockets = new ArrayList<ServerSocket>();
 
     @Override
     public void execute()
@@ -141,7 +149,6 @@ public class ReserveListenerPortMojo
         loadUrls();
 
         // Reserve the entire block of ports to guarantee we don't get the same port twice
-        final List<ServerSocket> sockets = new ArrayList<ServerSocket>();
         try
         {
             for ( String portName : portNames )
@@ -149,8 +156,6 @@ public class ReserveListenerPortMojo
                 try
                 {
                     final ServerSocket socket = getServerSocket();
-                    sockets.add( socket );
-
                     final String unusedPort = Integer.toString( socket.getLocalPort() );
                     properties.put( portName, unusedPort );
                     getReservedPorts().add( socket.getLocalPort() );
@@ -193,11 +198,13 @@ public class ReserveListenerPortMojo
         finally
         {
             // Now free all the ports
+            this.getLog().debug( "Unbind sockets " + sockets.toString() );
             for ( ServerSocket socket : sockets )
             {
                 final int localPort = socket.getLocalPort();
                 try
                 {
+                    this.getLog().debug( "Unbind socket " + socket.toString() );
                     socket.close();
                 }
                 catch ( IOException e )
@@ -241,6 +248,14 @@ public class ReserveListenerPortMojo
         {
             return new ServerSocket( 0 );
         }
+
+        Set<InetAddress> inetList = new HashSet<>();
+        for (String inf : interfaces.split( " " ) ){
+            InetAddress[] addresses = InetAddress.getAllByName(inf);
+            inetList.addAll( Arrays.asList( addresses ));
+        }
+
+        getLog().debug( "binding on interfaces " + inetList.toString());
         if ( randomPort )
         {
             synchronized ( lock )
@@ -249,7 +264,10 @@ public class ReserveListenerPortMojo
                 for ( Iterator<Integer> iterator = availablePorts.iterator(); iterator.hasNext(); )
                 {
                     int port = iterator.next();
-                    ServerSocket serverSocket = reservePort( port );
+                    ServerSocket serverSocket = null;
+                    for (InetAddress address : inetList ) {
+                        serverSocket = reservePort( port , address);
+                    }
                     iterator.remove();
                     if ( serverSocket != null )
                     {
@@ -270,8 +288,10 @@ public class ReserveListenerPortMojo
 
                 for ( int port = min;; ++port )
                 {
-
-                    ServerSocket serverSocket = reservePort( port );
+                    ServerSocket serverSocket = null;
+                    for (InetAddress address : inetList ) {
+                        serverSocket = reservePort( port, address );
+                    }
                     if ( serverSocket != null )
                     {
                         return serverSocket;
@@ -299,7 +319,7 @@ public class ReserveListenerPortMojo
         return portList;
     }
 
-    public ServerSocket reservePort( int port )
+    public ServerSocket reservePort( int port, InetAddress address )
         throws MojoExecutionException
     {
 
@@ -310,8 +330,9 @@ public class ReserveListenerPortMojo
         }
         try
         {
-            ServerSocket serverSocket = new ServerSocket( port );
-            getLog().info( "Port assigned" + port );
+            ServerSocket serverSocket = serverSocket = new ServerSocket( port, 50, address );
+            getLog().debug( "Port assigned " + port  +  " " + serverSocket.toString());
+            sockets.add( serverSocket );
             return serverSocket;
         }
         catch ( IOException ioe )
