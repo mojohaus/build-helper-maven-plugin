@@ -90,6 +90,6 @@ Build Helper Maven Plugin
 
 * Examples
 
-  * {{{http://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin/src/it/reserve-ports/pom.xml} Reserve network port}}
+  * {{{https://github.com/mojohaus/build-helper-maven-plugin/blob/master/src/it/reserve-ports/pom.xml} Reserve network port}}
 
-  * {{{http://svn.codehaus.org/mojo/trunk/mojo/build-helper-maven-plugin/src/it/surefire/pom.xml} Passing reserve port to Surefire}}
+  * {{{https://github.com/mojohaus/build-helper-maven-plugin/blob/master/src/it/surefire/pom.xml} Passing reserve port to Surefire}}
