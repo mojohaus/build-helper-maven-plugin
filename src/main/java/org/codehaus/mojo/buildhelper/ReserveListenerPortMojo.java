@@ -311,7 +311,7 @@ public class ReserveListenerPortMojo
         try
         {
             ServerSocket serverSocket = new ServerSocket( port );
-            getLog().info( "Port assigned" + port );
+            getLog().info( "Port assigned " + port );
             return serverSocket;
         }
         catch ( IOException ioe )
