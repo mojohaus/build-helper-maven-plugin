@@ -98,7 +98,7 @@ public class ParseVersionMojo
     /**
      * The version string to parse.
      */
-    @Parameter( defaultValue = "${project.version}" )
+    @Parameter( defaultValue = "${project.version}", property = "versionString")
     private String versionString;
 
     /**
