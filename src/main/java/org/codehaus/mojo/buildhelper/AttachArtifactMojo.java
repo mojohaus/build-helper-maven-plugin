@@ -41,7 +41,6 @@ import org.apache.maven.project.MavenProjectHelper;
  * Attach additional artifacts to be installed and deployed.
  *
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
- * @version $Id$
  * @since 1.0
  */
 @Mojo( name = "attach-artifact", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true )

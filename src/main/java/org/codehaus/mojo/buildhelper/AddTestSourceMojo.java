@@ -36,7 +36,6 @@ import org.apache.maven.project.MavenProject;
  * Add test source directories to the POM.
  *
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
- * @version $Id$
  * @since 1.0
  */
 @Mojo( name = "add-test-source", defaultPhase = LifecyclePhase.GENERATE_TEST_SOURCES, threadSafe = true )

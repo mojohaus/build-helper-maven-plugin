@@ -41,7 +41,6 @@ import org.codehaus.plexus.util.FileUtils;
  * installer, for disk space optimization purpose.
  *
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
- * @version $Id$
  * @since 1.1
  */
 @Mojo( name = "remove-project-artifact", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true )

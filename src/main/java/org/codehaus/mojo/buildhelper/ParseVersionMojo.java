@@ -87,7 +87,6 @@ import org.codehaus.mojo.buildhelper.versioning.DefaultVersioning;
  * This can make an upgrade of the versions of your project very convenient.
  * 
  * @author pgier
- * @version $Id$
  * @since 1.3
  */
 @Mojo( name = "parse-version", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
