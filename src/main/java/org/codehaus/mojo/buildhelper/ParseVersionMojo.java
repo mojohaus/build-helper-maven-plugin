@@ -15,6 +15,8 @@ import org.codehaus.mojo.buildhelper.versioning.DefaultVersioning;
  *   [propertyPrefix].incrementalVersion
  *   [propertyPrefix].qualifier
  *   [propertyPrefix].buildNumber
+ *   [propertyPrefix].isRelease
+ *   [propertyPrefix].isSnapshot
  * </pre>
  * 
  * Where the propertyPrefix is the string set in the mojo parameter. The parsing of the above is based on the following
@@ -164,6 +166,11 @@ public class ParseVersionMojo
         defineProperty( propertyPrefix + '.' + name, value );
     }
 
+    private void defineVersionProperty( String name, Boolean value )
+    {
+        defineProperty( propertyPrefix + '.' + name, value.toString() );
+    }
+
     private void defineFormattedVersionProperty( String name, String value )
     {
         defineProperty( formattedPropertyPrefix + '.' + name, value );
@@ -194,11 +201,15 @@ public class ParseVersionMojo
         getLog().debug( "   incremental: " + artifactVersion.getPatch() );
         getLog().debug( "   buildnumber: " + artifactVersion.getBuildNumber() );
         getLog().debug( "     qualifier: " + artifactVersion.getQualifier() );
+        getLog().debug( "     isRelease: " + artifactVersion.isRelease() );
+        getLog().debug( "    isSnapshot: " + artifactVersion.isSnapshot() );
 
         defineVersionProperty( "majorVersion", artifactVersion.getMajor() );
         defineVersionProperty( "minorVersion", artifactVersion.getMinor() );
         defineVersionProperty( "incrementalVersion", artifactVersion.getPatch() );
         defineVersionProperty( "buildNumber", artifactVersion.getBuildNumber() );
+        defineVersionProperty( "isSnapshot", artifactVersion.isSnapshot() );
+        defineVersionProperty( "isRelease", artifactVersion.isRelease() );
 
         defineVersionProperty( "nextMajorVersion", artifactVersion.getMajor() + 1 );
         defineVersionProperty( "nextMinorVersion", artifactVersion.getMinor() + 1 );

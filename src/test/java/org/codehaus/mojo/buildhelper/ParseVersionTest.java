@@ -99,6 +99,8 @@ public class ParseVersionTest
             assertEquals( "", props.getProperty( "parsed.qualifier" ) );
             assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
             assertEquals( "1.0.0", props.getProperty( "parsed.osgiVersion" ) );
+            assertEquals( "true", props.getProperty( "parsed.isRelease" ) );
+            assertEquals( "false", props.getProperty( "parsed.isSnapshot" ) );
         }
 
         @Test
@@ -113,6 +115,8 @@ public class ParseVersionTest
             assertEquals( "beta-5", props.getProperty( "parsed.qualifier" ) );
             assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
             assertEquals( "2.3.4.beta-5", props.getProperty( "parsed.osgiVersion" ) );
+            assertEquals( "true", props.getProperty( "parsed.isRelease" ) );
+            assertEquals( "false", props.getProperty( "parsed.isSnapshot" ) );
         }
 
         @Test
@@ -127,6 +131,8 @@ public class ParseVersionTest
             assertEquals( "beta_5", props.getProperty( "parsed.qualifier" ) );
             assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
             assertEquals( "2.3.4.beta_5", props.getProperty( "parsed.osgiVersion" ) );
+            assertEquals( "true", props.getProperty( "parsed.isRelease" ) );
+            assertEquals( "false", props.getProperty( "parsed.isSnapshot" ) );
         }
 
         @Test
@@ -141,6 +147,8 @@ public class ParseVersionTest
             assertEquals( "SNAPSHOT", props.getProperty( "parsed.qualifier" ) );
             assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
             assertEquals( "1.2.3.SNAPSHOT", props.getProperty( "parsed.osgiVersion" ) );
+            assertEquals( "false", props.getProperty( "parsed.isRelease" ) );
+            assertEquals( "true", props.getProperty( "parsed.isSnapshot" ) );
         }
 
         @Test
@@ -155,6 +163,8 @@ public class ParseVersionTest
             assertEquals( "SNAPSHOT", props.getProperty( "parsed.qualifier" ) );
             assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
             assertEquals( "2.0.17.SNAPSHOT", props.getProperty( "parsed.osgiVersion" ) );
+            assertEquals( "false", props.getProperty( "parsed.isRelease" ) );
+            assertEquals( "true", props.getProperty( "parsed.isSnapshot" ) );
         }
 
         @Test
@@ -169,6 +179,8 @@ public class ParseVersionTest
             assertEquals( "", props.getProperty( "parsed.qualifier" ) );
             assertEquals( "4", props.getProperty( "parsed.buildNumber" ) );
             assertEquals( "1.2.3.4", props.getProperty( "parsed.osgiVersion" ) );
+            assertEquals( "true", props.getProperty( "parsed.isRelease" ) );
+            assertEquals( "false", props.getProperty( "parsed.isSnapshot" ) );
 
         }
 
@@ -184,6 +196,8 @@ public class ParseVersionTest
             assertEquals( "-SNAPSHOT", props.getProperty( "parsed.qualifier" ) );
             assertEquals( "4", props.getProperty( "parsed.buildNumber" ) );
             assertEquals( "1.2.3.4-SNAPSHOT", props.getProperty( "parsed.osgiVersion" ) );
+            assertEquals( "false", props.getProperty( "parsed.isRelease" ) );
+            assertEquals( "true", props.getProperty( "parsed.isSnapshot" ) );
         }
 
     }

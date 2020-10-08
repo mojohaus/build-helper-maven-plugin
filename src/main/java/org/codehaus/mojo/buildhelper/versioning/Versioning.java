@@ -15,4 +15,8 @@ public interface Versioning
 
     String getQualifier();
 
+    boolean isRelease();
+
+    boolean isSnapshot();
+
 }

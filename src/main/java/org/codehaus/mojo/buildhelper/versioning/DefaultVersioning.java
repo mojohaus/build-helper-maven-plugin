@@ -68,6 +68,14 @@ public class DefaultVersioning
         return osgiVersion.toString();
     }
 
+    public boolean isSnapshot() {
+        return this.version.endsWith("-SNAPSHOT");
+    }
+
+    public boolean isRelease() {
+        return !isSnapshot();
+    }
+
     @Override
     public long getBuildNumber()
     {
