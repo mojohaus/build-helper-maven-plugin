@@ -92,8 +92,17 @@ public class ReleasedVersionMojo
     @SuppressWarnings( "unchecked" )
     public void execute()
     {
+        /*
+         * We use a dummy version "0" here to check for all released version.
+         * Reason: The current project's version is completely irrelevant for the check to retrieve all available versions.
+         * But if the current project's version is a -SNAPSHOT version, only repository from maven settings are
+         * requested that are allowed for snapshots - but we want to query for released versions, not for snapshots.
+         * Using the dummy version "0" which looks like a released version, the repos with releases are requested.
+         * see https://github.com/mojohaus/build-helper-maven-plugin/issues/108
+         */
+        final String DUMMY_VERSION = "0";
         org.apache.maven.artifact.Artifact artifact =
-            artifactFactory.createArtifact( getProject().getGroupId(), getProject().getArtifactId(), getProject().getVersion(), "", "" );
+            artifactFactory.createArtifact( getProject().getGroupId(), getProject().getArtifactId(), DUMMY_VERSION, "", "" );
         try
         {
             ArtifactVersion releasedVersion = null;
