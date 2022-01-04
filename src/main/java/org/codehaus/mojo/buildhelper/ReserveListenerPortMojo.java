@@ -331,7 +331,7 @@ public class ReserveListenerPortMojo
         }
         try
         {
-            ServerSocket serverSocket = serverSocket = new ServerSocket( port, 50, address );
+            ServerSocket serverSocket = new ServerSocket( port, 50, address );
             getLog().debug( "Port assigned " + port  +  " " + serverSocket.toString());
             sockets.add( serverSocket );
             return serverSocket;

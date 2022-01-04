@@ -79,9 +79,9 @@
   
   <properties>
 
-      <java.version>6</java.version>
-      <maven.compiler.source>1.6</maven.compiler.source>
-      <maven.compiler.target>1.6</maven.compiler.target>
+      <java.version>8</java.version>
+      <maven.compiler.source>1.8</maven.compiler.source>
+      <maven.compiler.target>1.8</maven.compiler.target>
      <!-- default port values, will not be overwritten so DONOT set them 
      <port1>1</port1>
      <port2>2</port2>
