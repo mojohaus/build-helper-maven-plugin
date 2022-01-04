@@ -36,7 +36,6 @@ import org.apache.maven.project.MavenProject;
  * Add more source directories to the POM.
  *
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
- * @version $Id$
  * @since 1.0
  */
 @Mojo( name = "add-source", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true )

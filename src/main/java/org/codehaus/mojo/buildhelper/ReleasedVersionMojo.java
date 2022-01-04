@@ -25,6 +25,7 @@ package org.codehaus.mojo.buildhelper;
  */
 
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.maven.artifact.ArtifactUtils;
 import org.apache.maven.artifact.factory.ArtifactFactory;
@@ -80,7 +81,7 @@ public class ReleasedVersionMojo
 
     private void defineVersionProperty( String name, String value )
     {
-        defineProperty( propertyPrefix + '.' + name, value );
+        defineProperty( propertyPrefix + '.' + name, Objects.toString( value, "" ) );
     }
 
     private void defineVersionProperty( String name, int value )
@@ -91,8 +92,17 @@ public class ReleasedVersionMojo
     @SuppressWarnings( "unchecked" )
     public void execute()
     {
+        /*
+         * We use a dummy version "0" here to check for all released version.
+         * Reason: The current project's version is completely irrelevant for the check to retrieve all available versions.
+         * But if the current project's version is a -SNAPSHOT version, only repository from maven settings are
+         * requested that are allowed for snapshots - but we want to query for released versions, not for snapshots.
+         * Using the dummy version "0" which looks like a released version, the repos with releases are requested.
+         * see https://github.com/mojohaus/build-helper-maven-plugin/issues/108
+         */
+        final String DUMMY_VERSION = "0";
         org.apache.maven.artifact.Artifact artifact =
-            artifactFactory.createArtifact( getProject().getGroupId(), getProject().getArtifactId(), "", "", "" );
+            artifactFactory.createArtifact( getProject().getGroupId(), getProject().getArtifactId(), DUMMY_VERSION, "", "" );
         try
         {
             ArtifactVersion releasedVersion = null;
@@ -126,6 +136,9 @@ public class ReleasedVersionMojo
                 defineVersionProperty( "incrementalVersion", releasedVersion.getIncrementalVersion() );
                 defineVersionProperty( "buildNumber", releasedVersion.getBuildNumber() );
                 defineVersionProperty( "qualifier", releasedVersion.getQualifier() );
+            }
+            else {
+                getLog().debug("No released version found.");
             }
 
         }

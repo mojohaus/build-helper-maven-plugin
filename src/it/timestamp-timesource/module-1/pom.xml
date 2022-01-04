@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>localdomain.localhost</groupId>
+    <artifactId>timestamp-timesource</artifactId>
+    <version>1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>timestamp-timesource-module-1</artifactId>
+  <packaging>jar</packaging>
+
+  <name>Timestamp TimeSource Module 1</name>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>test.properties</exclude>
+        </excludes>
+        <filtering>false</filtering>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>test.properties</include>
+        </includes>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+  </build>
+</project>

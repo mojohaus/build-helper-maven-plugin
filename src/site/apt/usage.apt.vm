@@ -275,7 +275,7 @@ parsedVersion.buildNumber
 -------------------
 
   Apart from the above properties the following properties will be set:
-  
+
 -------------------
 parsedVersion.nextMajorVersion
 parsedVersion.nextMinorVersion
@@ -285,7 +285,7 @@ parsedVersion.nextBuildNumber
 
   And another set of properties is set by using the defined formatting.
   See {{{./parse-version-mojo.html}build-helper:parse-version}}
-  
+
 -------------------
 formattedVersion.majorVersion
 formattedVersion.minorVersion
@@ -296,7 +296,7 @@ formattedVersion.nextMinorVersion
 formattedVersion.nextIncrementalVersion
 formattedVersion.nextBuildNumber
 -------------------
-    
+
 
   The property prefix <<<parsedVersion>>> can be configured using the <<<propertyPrefix>>> parameter.
 
@@ -466,7 +466,7 @@ releasedVersion.qualifier
   </build>
 </project>
 -------------------
-  It is also possible to define port names via resource file(s). Resources in classpath are also supported (artifact 
+  It is also possible to define port names via resource file(s). Resources in classpath are also supported (artifact
   with resource has to be defined in plugin dependencies section).
 
   <<<portNames>>> and <<<urls>>> parameters can be combined.
@@ -494,7 +494,7 @@ releasedVersion.qualifier
             <phase>process-resources</phase>
             <configuration>
               <urls>
-                <url>file://${project.basedir}/names1.txt</url>
+                <url>file:///${project.basedir}/names1.txt</url>
                 <url>classpath:port-names.txt</url>
               </urls>
             </configuration>
@@ -539,7 +539,7 @@ tomcat.http.port
             </goals>
             <configuration>
               <name>human.version</name>
-              <value>${project.version}</value>
+              <value>\${project.version}</value>
               <regex>-SNAPSHOT</regex>
               <replacement> pre-release development version</replacement>
               <failIfNoMatch>false</failIfNoMatch>
@@ -578,7 +578,7 @@ tomcat.http.port
               <regexPropertySettings>
                 <regexPropertySetting>
                   <name>human.version</name>
-                  <value>${project.version}</value>
+                  <value>\${project.version}</value>
                   <regex>-SNAPSHOT</regex>
                   <replacement> pre-release development version</replacement>
                   <failIfNoMatch>false</failIfNoMatch>
@@ -640,6 +640,61 @@ tomcat.http.port
   <<<month>>> and <<<year>>>. The <<<offset>>> parameter takes integer values only and defaults to <<<0>>>.
 
   The <<<locale>>> and <<<timeZone>>> parameters can be further used to control the build-time behaviour.
+
+* Set a property based on the <<<maven.build.timestamp>>>
+
+  The <<<maven.build.timestamp>>> property does not allow for timezone overrides for obvious reasons.
+  The <<<timestamp-property>>> goal can be used to create one with a local timezone timestamp.
+  But the default implementation uses the <<<current>>> time, which is thus not the same for all modules in a multi module project.
+  The new <<<timeSource>>> parameter with value <<<build>>> now allows the usage of <<<maven.build.timestamp>>> property instead of the <<<current>>> timestamp.
+
+-------------------
+<project>
+  ...
+  <properties>
+    <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss z</maven.build.timestamp.format>
+  </properties>
+  ...
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <executions>
+          <execution>
+            <id>module-timestamp-property</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <configuration>
+              <name>module.build.timestamp</name>
+              <pattern>${maven.build.timestamp.format}</pattern>
+              <timeZone>Europe/Amsterdam</timeZone>
+              <!-- <timeSource>current</timeSource> -->
+            </configuration>
+          </execution>
+          <execution>
+            <id>local-timestamp-property</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <configuration>
+              <name>local.build.timestamp</name>
+              <pattern>${maven.build.timestamp.format}</pattern>
+              <timeZone>Europe/Amsterdam</timeZone>
+              <timeSource>build</timeSource>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  ...
+</project>
+-------------------
 
 * Retrieve current host IP address
 
@@ -737,7 +792,7 @@ tomcat.http.port
 </project>
 -------------------
 
-* Set a property according to whether target files are up to date with respect to their sources 
+* Set a property according to whether target files are up to date with respect to their sources
 
   'Up to date' means that the target file both exists and has a 'last modification timestamp' (<<<java.io.File.lastModified()>>>)
   equal to or later than that of the corresponding source file(s).
@@ -745,7 +800,7 @@ tomcat.http.port
   Source files are computed relative to the <<<fileset>>>'s required <<<directory>>> property.
   If the <<<fileset>>> has an <<<outputDirectory>>> property, target files are computed relative to that;
   otherwise, target files are also computed relative to <<<directory>>>.
-  
+
   The <<<fileset>>> element supports a <<<mapper>>>, whose <<<type>>> can be any of the built-in mappers
   <<<flatten glob identity merge package unpackage>>>. Alternatively, the <<<classname>>> property can specify the
   fully qualified name of a class that implements <<<org.apache.maven.shared.model.fileset.mappers.FileNameMapper>>>.

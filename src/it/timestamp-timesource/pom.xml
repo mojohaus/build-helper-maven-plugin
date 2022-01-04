@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>localdomain.localhost</groupId>
+  <artifactId>timestamp-timesource</artifactId>
+  <version>1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>Timestamp TimeSource</name>
+  <description>
+    Tests that a fixed timestamp gets generated
+  </description>
+
+  <modules>
+    <module>module-1</module>
+    <module>module-2</module>
+  </modules>
+
+  <properties>
+    <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss.SSS z</maven.build.timestamp.format>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>@project.groupId@</groupId>
+        <artifactId>@project.artifactId@</artifactId>
+        <version>@project.version@</version>
+        <executions>
+          <execution>
+            <id>module-timestamp-property</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <configuration>
+              <name>module.build.timestamp</name>
+              <pattern>${maven.build.timestamp.format}</pattern>
+              <timeZone>Europe/Amsterdam</timeZone>
+              <!-- <timeSource>current</timeSource> -->
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>session-timestamp-property</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <configuration>
+              <name>session.build.timestamp</name>
+              <pattern>${maven.build.timestamp.format}</pattern>
+              <timeZone>Europe/Amsterdam</timeZone>
+              <timeSource>build</timeSource>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

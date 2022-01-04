@@ -62,7 +62,7 @@ public class ReserveListenerPortMojo
 {
     private static final String BUILD_HELPER_RESERVED_PORTS = "BUILD_HELPER_MIN_PORT";
 
-    private static final Integer FIRST_NON_ROOT_PORT_NUMBER = 1024;
+    private static final int FIRST_NON_ROOT_PORT_NUMBER = 1024;
 
     private static final Integer MAX_PORT_NUMBER = 65535;
 
@@ -115,8 +115,6 @@ public class ReserveListenerPortMojo
 
     /**
      * Specify true or false if you want the port selection randomized.
-     * <p>
-     * </p>
      *
      * @since 1.10
      */
@@ -313,7 +311,7 @@ public class ReserveListenerPortMojo
         try
         {
             ServerSocket serverSocket = new ServerSocket( port );
-            getLog().info( "Port assigned" + port );
+            getLog().info( "Port assigned " + port );
             return serverSocket;
         }
         catch ( IOException ioe )

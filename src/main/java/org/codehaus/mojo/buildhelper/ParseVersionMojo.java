@@ -87,7 +87,6 @@ import org.codehaus.mojo.buildhelper.versioning.DefaultVersioning;
  * This can make an upgrade of the versions of your project very convenient.
  * 
  * @author pgier
- * @version $Id$
  * @since 1.3
  */
 @Mojo( name = "parse-version", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
@@ -98,7 +97,7 @@ public class ParseVersionMojo
     /**
      * The version string to parse.
      */
-    @Parameter( defaultValue = "${project.version}" )
+    @Parameter( defaultValue = "${project.version}", property = "versionString")
     private String versionString;
 
     /**
@@ -118,28 +117,28 @@ public class ParseVersionMojo
      * This can be used to make a particular format of the major number possible like padding it with zeros etc.
      * 
      * @since 3.0.0
-     * @see https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html#syntax
+     * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html#syntax">Formatter syntax</a>
      */
     @Parameter( defaultValue = "%02d" )
     private String formatMajor;
 
     /**
      * @since 3.0.0
-     * @see https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html#syntax
+     * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html#syntax">Formatter syntax</a>
      */
     @Parameter( defaultValue = "%02d" )
     private String formatMinor;
 
     /**
      * @since 3.0.0
-     * @see https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html#syntax
+     * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html#syntax">Formatter syntax</a>
      */
     @Parameter( defaultValue = "%02d" )
     private String formatIncremental;
 
     /**
      * @since 3.0.0
-     * @see https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html#syntax
+     * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html#syntax">Formatter syntax</a>
      */
     @Parameter( defaultValue = "%02d" )
     private String formatBuildNumber;

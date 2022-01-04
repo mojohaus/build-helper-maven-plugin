@@ -32,7 +32,6 @@ import java.io.File;
  * </p>
  *
  * @author dtran
- * @version $Id$
  */
 public class Artifact
 {
