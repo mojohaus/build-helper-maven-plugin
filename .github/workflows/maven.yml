@@ -24,9 +24,16 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+        os: [ubuntu-latest]
         java: [8, 11, 17]
-        jdk: ['temurin']
+        jdk: [temurin]
+        include:
+          - java: 11
+            os: windows-latest
+            jdk: temurin
+          - java: 11
+            os: macos-latest
+            jdk: temurin
       fail-fast: false
 
     runs-on: ${{ matrix.os }}
