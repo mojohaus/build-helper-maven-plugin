@@ -35,7 +35,8 @@
                 <portName>port2</portName>
                 <portName>port3</portName>
               </portNames>
-              <minPortNumber>800</minPortNumber>            
+              <!-- defining only a max port number generates ports from 1024 onwards -->
+              <maxPortNumber>10000</maxPortNumber>
             </configuration>
           </execution>
         </executions>
