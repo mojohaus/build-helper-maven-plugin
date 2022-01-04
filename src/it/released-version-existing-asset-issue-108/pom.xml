@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!--
+   We use by intention an existing artifact here, an artifact that exists in maven central to detect it's released version
+    And we are using an external quite specific and outdated asset, that is definitly already in the local maven repo
+    (because if it is in the local maven repo the test will pass always, and Issue #108 cannot be really tested)
+   -->
+  <groupId>org.apache.continuum</groupId>
+  <artifactId>continuum</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>build-helper-maven-plugin-released-version-it</name>
+
+  <build>
+    <defaultGoal>package</defaultGoal>
+    <plugins>
+      <plugin>
+        <groupId>@project.groupId@</groupId>
+        <artifactId>@project.artifactId@</artifactId>
+        <version>@project.version@</version>
+        <executions>
+          <execution>
+            <id>released-version</id>
+            <goals>
+              <goal>released-version</goal>
+            </goals>
+            <configuration>
+              <propertyPrefix>myReleasedVersion</propertyPrefix>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>mk-target-dir</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <mkdir dir="${project.build.directory}" />
+              </tasks>
+            </configuration>
+          </execution>
+          
+          <execution>
+            <id>echo-released-version</id>
+            <phase>test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <echo>myReleasedVersion.version=${myReleasedVersion.version}</echo>
+                <echo>myReleasedVersion.majorVersion=${myReleasedVersion.majorVersion}</echo>
+                <echo>myReleasedVersion.minorVersion=${myReleasedVersion.minorVersion}</echo>
+                <echo>myReleasedVersion.incrementalVersion=${myReleasedVersion.incrementalVersion}</echo>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

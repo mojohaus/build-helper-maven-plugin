@@ -44,6 +44,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -65,7 +66,7 @@ public class ReserveListenerPortMojo
 {
     private static final String BUILD_HELPER_RESERVED_PORTS = "BUILD_HELPER_MIN_PORT";
 
-    private static final Integer FIRST_NON_ROOT_PORT_NUMBER = 1024;
+    private static final int FIRST_NON_ROOT_PORT_NUMBER = 1024;
 
     private static final Integer MAX_PORT_NUMBER = 65535;
 
@@ -83,7 +84,7 @@ public class ReserveListenerPortMojo
     /**
      * A List of urls to resource where list of name could be found. Can be in form of classpath:com/myproject/names.txt
      * . At least one of {@code #urls} or {@code #portNames} has to be specified.
-     * 
+     *
      * @since 1.11
      */
     @Parameter
@@ -118,8 +119,6 @@ public class ReserveListenerPortMojo
 
     /**
      * Specify true or false if you want the port selection randomized.
-     * <p>
-     * </p>
      *
      * @since 1.10
      */
@@ -127,7 +126,7 @@ public class ReserveListenerPortMojo
     private boolean randomPort;
 
     @Parameter (defaultValue = "::1 127.0.0.1")
-    private String interfaces; 
+    private String interfaces;
 
     /**
      * @since 1.2

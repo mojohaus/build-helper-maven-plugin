@@ -32,7 +32,6 @@ import org.apache.maven.plugins.annotations.Mojo;
  * Add more resource directories to the POM.
  *
  * @author Paul Gier
- * @version $Id$
  * @since 1.3
  */
 @Mojo( name = "add-resource", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, threadSafe = true )

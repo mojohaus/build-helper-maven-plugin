@@ -32,7 +32,6 @@ import org.apache.maven.plugins.annotations.Mojo;
  * Add more test resource directories to the POM.
  *
  * @author Paul Gier
- * @version $Id$
  * @since 1.3
  */
 @Mojo( name = "add-test-resource", defaultPhase = LifecyclePhase.GENERATE_TEST_RESOURCES, threadSafe = true )
