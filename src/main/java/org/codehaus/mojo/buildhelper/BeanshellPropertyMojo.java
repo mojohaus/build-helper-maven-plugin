@@ -42,6 +42,7 @@ import bsh.Interpreter;
  * <li><code>project</code>: the actual Maven project,</li>
  * <li><code>session</code>: the executing <code>MavenSession</code>,</li>
  * <li><code>settings</code>: the executing <code>Settings</code>.</li>
+ * <li><code>log</code>: the logger of the Mojo (see {@link org.apache.maven.plugin.AbstractMojo#getLog()}).</li>
  * </ul>
  *
  * @author Hervé Boutemy
@@ -84,6 +85,7 @@ public class BeanshellPropertyMojo
         set( interpreter, "project", getProject() );
         set( interpreter, "session", mavenSession );
         set( interpreter, "settings", settings );
+        set( interpreter, "log", getLog() );        
 
         try
         {
