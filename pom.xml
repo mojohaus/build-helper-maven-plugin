@@ -72,7 +72,7 @@
   </ciManagement>
 
   <properties>
-    <mavenVersion>3.0</mavenVersion>
+    <mavenVersion>3.8.4</mavenVersion>
     <scmpublish.content>${project.build.directory}/staging/build-helper-maven-plugin</scmpublish.content>
   </properties>
 
