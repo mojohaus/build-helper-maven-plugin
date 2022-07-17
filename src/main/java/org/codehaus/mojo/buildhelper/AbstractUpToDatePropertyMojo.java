@@ -30,6 +30,8 @@ import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.shared.model.fileset.mappers.MapperException;
 import org.apache.maven.shared.model.fileset.util.FileSetManager;
 import org.codehaus.plexus.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract base for setting properties according to whether sets of source and object resources are respectively up to
@@ -41,6 +43,8 @@ import org.codehaus.plexus.util.StringUtils;
 abstract class AbstractUpToDatePropertyMojo
     extends AbstractDefinePropertyMojo
 {
+    private final Logger log = LoggerFactory.getLogger( this.getClass() );
+
     protected AbstractUpToDatePropertyMojo()
     {
     }
@@ -64,7 +68,7 @@ abstract class AbstractUpToDatePropertyMojo
         {
             try
             {
-                FileSetManager fileSetManager = new FileSetManager( getLog() );
+                FileSetManager fileSetManager = new FileSetManager( log );
                 Map<String, String> includedFiles = fileSetManager.mapIncludedFiles( fileSet );
 
                 // Treat a file set that yields no files as intrinsically out of date.
