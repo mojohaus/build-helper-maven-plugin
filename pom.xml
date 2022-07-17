@@ -72,7 +72,7 @@
   </ciManagement>
 
   <properties>
-    <mavenVersion>3.0</mavenVersion>
+    <mavenVersion>3.2.5</mavenVersion>
     <mojo.java.target>1.8</mojo.java.target>
     <scmpublish.content>${project.build.directory}/staging/build-helper-maven-plugin</scmpublish.content>
     <project.build.outputTimestamp>2022-01-18T09:14:02Z</project.build.outputTimestamp>
