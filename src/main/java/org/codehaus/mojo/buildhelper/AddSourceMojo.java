@@ -47,7 +47,7 @@ public class AddSourceMojo
      *
      * @since 1.0
      */
-    @Parameter( required = true )
+    @Parameter( property = "sources", required = true )
     private File[] sources;
 
     /**
