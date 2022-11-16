@@ -74,6 +74,13 @@ public class ReleasedVersionMojo
     private List<ArtifactRepository> remoteArtifactRepositories;
 
     /**
+     * Returned version must before with the version prefix. Allows searching for maximum minor version given a major
+     * version, or maximum increment version given a minor version.
+     */
+    @Parameter( property = "releasedVersion.versionPrefix" )
+    private String versionPrefix = "";
+
+    /**
      * Prefix string to use for the set of version properties.
      */
     @Parameter( defaultValue = "releasedVersion" )
@@ -111,7 +118,8 @@ public class ReleasedVersionMojo
                                                                   remoteArtifactRepositories );
             for ( ArtifactVersion version : versions )
             {
-                if ( !ArtifactUtils.isSnapshot( version.toString() )
+                if ( version.toString().startsWith(versionPrefix)
+                    && !ArtifactUtils.isSnapshot( version.toString() )
                     && ( releasedVersion == null || version.compareTo( releasedVersion ) > 0 ) )
                 {
                     releasedVersion = version;
