@@ -24,19 +24,23 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.apache.maven.artifact.ArtifactUtils;
-import org.apache.maven.artifact.factory.ArtifactFactory;
-import org.apache.maven.artifact.metadata.ArtifactMetadataRetrievalException;
-import org.apache.maven.artifact.metadata.ArtifactMetadataSource;
+import org.apache.maven.artifact.DefaultArtifact;
+import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager;
 import org.apache.maven.artifact.repository.ArtifactRepository;
+import org.apache.maven.artifact.repository.metadata.*;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
+import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
+import org.apache.maven.artifact.versioning.VersionRange;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.repository.legacy.metadata.DefaultMetadataResolutionRequest;
+import org.apache.maven.repository.legacy.metadata.MetadataResolutionRequest;
 
 /**
  * Resolve the latest released version of this project. This mojo sets the following properties:
@@ -62,10 +66,11 @@ public class ReleasedVersionMojo
      * The artifact metadata source to use.
      */
     @Component
-    private ArtifactMetadataSource artifactMetadataSource;
+    private RepositoryMetadataManager repositoryMetadataManager;
+
 
     @Component
-    private ArtifactFactory artifactFactory;
+    private ArtifactHandlerManager artifactHandlerManager;
 
     @Parameter( defaultValue = "${localRepository}", readonly = true )
     private ArtifactRepository localRepository;
@@ -91,23 +96,43 @@ public class ReleasedVersionMojo
 
     public void execute()
     {
-        /*
-         * We use a dummy version "0" here to check for all released version.
-         * Reason: The current project's version is completely irrelevant for the check to retrieve all available versions.
-         * But if the current project's version is a -SNAPSHOT version, only repository from maven settings are
-         * requested that are allowed for snapshots - but we want to query for released versions, not for snapshots.
-         * Using the dummy version "0" which looks like a released version, the repos with releases are requested.
-         * see https://github.com/mojohaus/build-helper-maven-plugin/issues/108
-         */
-        final String DUMMY_VERSION = "0";
-        org.apache.maven.artifact.Artifact artifact =
-            artifactFactory.createArtifact( getProject().getGroupId(), getProject().getArtifactId(), DUMMY_VERSION, "", "" );
         try
         {
+            /*
+             * We use a dummy version "0" here to check for all released version.
+             * Reason: The current project's version is completely irrelevant for the check to retrieve all available versions.
+             * But if the current project's version is a -SNAPSHOT version, only repository from maven settings are
+             * requested that are allowed for snapshots - but we want to query for released versions, not for snapshots.
+             * Using the dummy version "0" which looks like a released version, the repos with releases are requested.
+             * see https://github.com/mojohaus/build-helper-maven-plugin/issues/108
+             */
+
+            MetadataResolutionRequest request = new DefaultMetadataResolutionRequest()
+                    .setArtifact(new DefaultArtifact(
+                            getProject().getGroupId(), getProject().getArtifactId(),
+                            VersionRange.createFromVersion("0"),
+                            "", "", null,
+                            artifactHandlerManager.getArtifactHandler(""),
+                            false))
+                    .setLocalRepository(localRepository)
+                    .setRemoteRepositories(remoteArtifactRepositories);
+
+            RepositoryMetadata metadata = new ArtifactRepositoryMetadata( request.getArtifact() );
+
+            repositoryMetadataManager.resolve( metadata, request);
+
+            List<String> availableVersions = request.getLocalRepository().findVersions( request.getArtifact() );
+            Metadata repoMetadata = metadata.getMetadata();
+            Collection<String> versions1 = new LinkedHashSet<>();
+            if ( ( repoMetadata != null ) && ( repoMetadata.getVersioning() != null ) )
+            {
+                versions1.addAll( repoMetadata.getVersioning().getVersions() );
+            }
+
+            versions1.addAll(availableVersions);
+            List<ArtifactVersion> versions = versions1.stream().map(DefaultArtifactVersion::new).collect(Collectors.toList());
+
             ArtifactVersion releasedVersion = null;
-            List<ArtifactVersion> versions =
-                artifactMetadataSource.retrieveAvailableVersions( artifact, localRepository,
-                                                                  remoteArtifactRepositories );
             for ( ArtifactVersion version : versions )
             {
                 if ( !ArtifactUtils.isSnapshot( version.toString() )
@@ -139,14 +164,9 @@ public class ReleasedVersionMojo
             else {
                 getLog().debug("No released version found.");
             }
-
         }
-        catch ( ArtifactMetadataRetrievalException e )
-        {
-            if ( getLog().isWarnEnabled() )
-            {
-                getLog().warn( "Failed to retrieve artifacts metadata, cannot resolve the released version" );
-            }
+        catch ( RepositoryMetadataResolutionException e ) {
+            getLog().warn("Failed to retrieve artifacts metadata, cannot resolve the released version");
         }
     }
 }
