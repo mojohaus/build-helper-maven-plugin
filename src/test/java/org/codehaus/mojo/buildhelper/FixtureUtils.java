@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * A utility class for managing test resources.
+ * A utility class for managing test resources - used by integration tests - groovy scripting.
  *
  * @author Adrian Price <a href="mailto:demonfiddler@virginmedia.com">demonfiddler@virginmedia.com</a>
  * @since 1.12
@@ -118,7 +118,7 @@ public final class FixtureUtils
             if ( !propertyValue.isEmpty() )
             {
                 int offset = Integer.parseInt( propertyValue );
-                long ts = baseTimestamp + ( offset * 1000 );
+                long ts = baseTimestamp + ( offset * 1000L);
                 file.setLastModified( ts );
                 assert file.lastModified() == ts : "failed to set last modified timestamp for "
                     + file.getCanonicalPath();
