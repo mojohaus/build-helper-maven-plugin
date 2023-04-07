@@ -26,7 +26,8 @@ package org.codehaus.mojo.buildhelper;
 
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.shared.model.fileset.FileSet;
-import org.codehaus.plexus.util.StringUtils;
+
+import java.util.Objects;
 
 /**
  * Holds settings for <code>AbstractUpToDateProperty</code> subclasses.
@@ -106,17 +107,17 @@ public final class UpToDatePropertySetting
 
     void validate()
     {
-        if ( StringUtils.isBlank( name ) )
+        if ( isBlank( name ) )
         {
             throw new IllegalArgumentException( "name required" );
         }
 
-        if ( StringUtils.isBlank( value ) )
+        if ( isBlank( value ) )
         {
             throw new IllegalArgumentException( "value required" );
         }
 
-        if ( StringUtils.equals( value, elseValue ) )
+        if (Objects.equals(value, elseValue))
         {
             throw new IllegalArgumentException( "value and else cannot be the same" );
         }
@@ -126,7 +127,7 @@ public final class UpToDatePropertySetting
             throw new IllegalArgumentException( "fileSet required" );
         }
 
-        if ( StringUtils.isBlank( fileSet.getDirectory() ) )
+        if ( isBlank( fileSet.getDirectory() ) )
         {
             throw new IllegalArgumentException( "directory required for " + fileSet );
         }
@@ -135,5 +136,39 @@ public final class UpToDatePropertySetting
         {
             throw new IllegalArgumentException( "mapper required for " + fileSet );
         }
+    }
+
+
+    /**
+     * <p>
+     * Checks if a String is whitespace, empty ("") or null.
+     * </p>
+     *
+     * <pre>
+     * StringUtils.isBlank(null)      = true
+     * StringUtils.isBlank("")        = true
+     * StringUtils.isBlank(" ")       = true
+     * StringUtils.isBlank("bob")     = false
+     * StringUtils.isBlank("  bob  ") = false
+     * </pre>
+     *
+     * @param str the String to check, may be null
+     * @return <code>true</code> if the String is null, empty or whitespace
+     */
+    private boolean isBlank( String str )
+    {
+        int strLen;
+        if ( str == null || ( strLen = str.length() ) == 0 )
+        {
+            return true;
+        }
+        for ( int i = 0; i < strLen; i++ )
+        {
+            if ( !Character.isWhitespace( str.charAt( i ) ) )
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

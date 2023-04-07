@@ -27,13 +27,13 @@ package org.codehaus.mojo.buildhelper;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.ServerSocket;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -48,13 +48,11 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.util.IOUtil;
 
 /**
  * Reserve a list of random and not in use network ports and place them in a configurable project properties.
  *
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
- * @version $Id: ReserveListnerPortMojo.java 6754 2008-04-13 15:14:04Z dantran $
  * @since 1.2
  */
 @Mojo( name = "reserve-network-port", defaultPhase = LifecyclePhase.PROCESS_TEST_CLASSES, threadSafe = true )
@@ -461,9 +459,9 @@ public class ReserveListenerPortMojo
             {
                 try
                 {
-                    this.url = new URL( url );
+                    this.url = new java.net.URI(url).toURL();
                 }
-                catch ( MalformedURLException e )
+                catch (MalformedURLException | URISyntaxException e )
                 {
                     throw new MojoExecutionException( "Badly formed URL " + url + " - " + e.getMessage() );
                 }

@@ -27,6 +27,7 @@ package org.codehaus.mojo.buildhelper;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
@@ -34,7 +35,6 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.util.FileUtils;
 
 /**
  * Remove project's artifacts from local repository. Useful to keep only one copy of large local snapshot, for example:
@@ -112,4 +112,5 @@ public class RemoveLocalArtifactMojo
             }
         }
     }
+
 }

@@ -32,7 +32,6 @@ import java.util.regex.PatternSyntaxException;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.codehaus.plexus.util.StringUtils;
 
 public abstract class AbstractRegexPropertyMojo
     extends AbstractDefinePropertyMojo
@@ -64,7 +63,8 @@ public abstract class AbstractRegexPropertyMojo
         if ( matcher.find() )
         {
             // if the string replacement is empty, we define the value replacement to empty.
-            config.setValue( ( StringUtils.isNotEmpty( config.getReplacement() )
+            String str = config.getReplacement();
+            config.setValue( ( (str != null && !str.isEmpty())
                             ? matcher.replaceAll( config.getReplacement() ) : matcher.replaceAll( "" ) ) );
         }
         else

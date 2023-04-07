@@ -25,7 +25,6 @@ package org.codehaus.mojo.buildhelper;
  */
 
 import org.apache.maven.plugins.annotations.Parameter;
-import org.codehaus.plexus.util.StringUtils;
 
 public class RegexPropertySetting
 {
@@ -143,17 +142,17 @@ public class RegexPropertySetting
 
     public void validate()
     {
-        if ( StringUtils.isBlank( name ) )
+        if ( isBlank( name ) )
         {
             throw new IllegalArgumentException( "name required" );
         }
 
-        if ( StringUtils.isBlank( value ) )
+        if ( isBlank( value ) )
         {
             throw new IllegalArgumentException( "value required" );
         }
 
-        if ( StringUtils.isBlank( regex ) )
+        if ( isBlank( regex ) )
         {
             throw new IllegalArgumentException( "regex required" );
         }
@@ -164,4 +163,37 @@ public class RegexPropertySetting
         }
     }
 
+
+    /**
+     * <p>
+     * Checks if a String is whitespace, empty ("") or null.
+     * </p>
+     *
+     * <pre>
+     * StringUtils.isBlank(null)      = true
+     * StringUtils.isBlank("")        = true
+     * StringUtils.isBlank(" ")       = true
+     * StringUtils.isBlank("bob")     = false
+     * StringUtils.isBlank("  bob  ") = false
+     * </pre>
+     *
+     * @param str the String to check, may be null
+     * @return <code>true</code> if the String is null, empty or whitespace
+     */
+    private boolean isBlank( String str )
+    {
+        int strLen;
+        if ( str == null || ( strLen = str.length() ) == 0 )
+        {
+            return true;
+        }
+        for ( int i = 0; i < strLen; i++ )
+        {
+            if ( !Character.isWhitespace( str.charAt( i ) ) )
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }
