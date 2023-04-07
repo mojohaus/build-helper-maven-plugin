@@ -35,6 +35,7 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -141,7 +142,7 @@ public class ReserveListenerPortMojo
         loadUrls();
 
         // Reserve the entire block of ports to guarantee we don't get the same port twice
-        final List<ServerSocket> sockets = new ArrayList<ServerSocket>();
+        final List<ServerSocket> sockets = new ArrayList<>();
         try
         {
             for ( String portName : portNames )
@@ -174,19 +175,10 @@ public class ReserveListenerPortMojo
                     throw new MojoExecutionException( e.getMessage() );
                 }
 
-                OutputStream os = null;
-                try
-                {
-                    os = new FileOutputStream( outputFile );
+                try (OutputStream os = Files.newOutputStream(outputFile.toPath())) {
                     properties.store( os, null );
-                }
-                catch ( Exception e )
-                {
+                } catch (IOException e) {
                     throw new MojoExecutionException( e.getMessage() );
-                }
-                finally
-                {
-                    IOUtil.close( os );
                 }
             }
         }
@@ -285,7 +277,7 @@ public class ReserveListenerPortMojo
     {
 
         int difference = maxPortNumber - minPortNumber + 1;
-        List<Integer> portList = new ArrayList<Integer>( difference );
+        List<Integer> portList = new ArrayList<>(difference);
         List<Integer> reservedPorts = getReservedPorts();
         for ( int i = 0; i < difference; i++ )
         {
@@ -347,7 +339,7 @@ public class ReserveListenerPortMojo
         List<Integer> reservedPorts = (List<Integer>) getPluginContext().get( BUILD_HELPER_RESERVED_PORTS );
         if ( reservedPorts == null )
         {
-            reservedPorts = new ArrayList<Integer>();
+            reservedPorts = new ArrayList<>();
             getPluginContext().put( BUILD_HELPER_RESERVED_PORTS, reservedPorts );
         }
         return reservedPorts;
@@ -403,35 +395,25 @@ public class ReserveListenerPortMojo
             {
                 getLog().debug( "Loading port names from " + resource );
             }
-            final InputStream stream = resource.getInputStream();
 
-            try
-            {
-                BufferedReader reader = new BufferedReader( new InputStreamReader( stream ) );
-                List<String> names = new ArrayList<String>();
+            try (InputStream stream = resource.getInputStream()) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+                List<String> names = new ArrayList<>();
                 String line;
-                while ( ( line = reader.readLine() ) != null )
-                {
+                while ((line = reader.readLine()) != null) {
                     line = line.trim();
-                    if ( !line.isEmpty() && !line.replace( " ", "" ).startsWith( "#" ) )
-                    {
-                        names.add( line );
+                    if (!line.isEmpty() && !line.replace(" ", "").startsWith("#")) {
+                        names.add(line);
                     }
                 }
-                if ( getLog().isDebugEnabled() )
-                {
-                    getLog().debug( "Loaded port names " + names );
+                if (getLog().isDebugEnabled()) {
+                    getLog().debug("Loaded port names " + names);
                 }
-                String[] tPortNames = names.toArray( new String[portNames.length + names.size()] );
-                if ( portNames.length > 0 )
-                {
-                    System.arraycopy( portNames, 0, tPortNames, names.size(), portNames.length );
+                String[] tPortNames = names.toArray(new String[portNames.length + names.size()]);
+                if (portNames.length > 0) {
+                    System.arraycopy(portNames, 0, tPortNames, names.size(), portNames.length);
                 }
                 portNames = tPortNames;
-            }
-            finally
-            {
-                stream.close();
             }
         }
         catch ( IOException e )
@@ -459,10 +441,10 @@ public class ReserveListenerPortMojo
         {
             if ( url.startsWith( CLASSPATH_PREFIX ) )
             {
-                String resource = url.substring( CLASSPATH_PREFIX.length(), url.length() );
+                String resource = url.substring( CLASSPATH_PREFIX.length());
                 if ( resource.startsWith( SLASH_PREFIX ) )
                 {
-                    resource = resource.substring( 1, resource.length() );
+                    resource = resource.substring( 1);
                 }
                 this.url = getClass().getClassLoader().getResource( resource );
                 if ( this.url == null )

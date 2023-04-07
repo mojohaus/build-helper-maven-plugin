@@ -71,7 +71,7 @@ public class VersionInformationTest
 	// @formatter:on
 
     @ParameterizedTest
-	@MethodSource("createVersions")
+	@MethodSource ("createVersions")
     public void checkVersions( String version, int major, int minor, int patch, long buildNumber, String qualifier )
     {
 		VersionInformation vi = new VersionInformation(version);

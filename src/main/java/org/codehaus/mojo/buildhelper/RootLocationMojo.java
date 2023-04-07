@@ -132,8 +132,7 @@ public class RootLocationMojo
     private Set<String> getAllChildModules( MavenProject project ) throws IOException
     {
         Model model = project.getOriginalModel();
-        Set<String> paths = new TreeSet<>();
-        paths.addAll( getChildModuleCanoncialPath( project, model.getModules() ));
+        Set<String> paths = new TreeSet<>(getChildModuleCanoncialPath(project, model.getModules()));
         for ( Profile profile : model.getProfiles() )
         {
             paths.addAll( getChildModuleCanoncialPath( project, profile.getModules() ));

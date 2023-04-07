@@ -89,7 +89,6 @@ public class ReleasedVersionMojo
         defineVersionProperty( name, Integer.toString( value ) );
     }
 
-    @SuppressWarnings( "unchecked" )
     public void execute()
     {
         /*
