@@ -112,7 +112,7 @@ public class AttachArtifactMojo
         throws MojoFailureException
     {
         // check unique of types and classifiers
-        Set<String> extensionClassifiers = new HashSet<String>();
+        Set<String> extensionClassifiers = new HashSet<>();
         for ( Artifact artifact : artifacts )
         {
             String extensionClassifier = artifact.getType() + ":" + artifact.getClassifier();

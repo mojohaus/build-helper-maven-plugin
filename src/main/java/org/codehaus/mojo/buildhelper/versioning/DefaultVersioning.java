@@ -44,7 +44,7 @@ public class DefaultVersioning
     @Override
     public String getAsOSGiVersion()
     {
-        StringBuffer osgiVersion = new StringBuffer();
+        StringBuilder osgiVersion = new StringBuilder();
         osgiVersion.append( this.getMajor() );
         osgiVersion.append( "." + this.getMinor() );
         osgiVersion.append( "." + this.getPatch() );

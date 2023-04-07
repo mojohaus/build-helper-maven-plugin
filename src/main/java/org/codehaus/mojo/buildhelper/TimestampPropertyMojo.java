@@ -128,19 +128,28 @@ public class TimestampPropertyMojo
             String[] bits = this.locale.split( "[,_]" );
             if ( bits.length == 1 )
             {
-                locale = new Locale( bits[0].trim() );
+                locale = new Locale.Builder()
+                        .setLanguage(bits[0].trim())
+                        .build();
             }
             else if ( bits.length == 2 )
             {
-                locale = new Locale( bits[0].trim(), bits[1].trim() );
+                locale = new Locale.Builder()
+                        .setLanguage(bits[0].trim())
+                        .setRegion(bits[1].trim())
+                        .build();
             }
             else if ( bits.length == 3 )
             {
-                locale = new Locale( bits[0].trim(), bits[1].trim(), bits[2].trim() );
+                locale = new Locale.Builder()
+                        .setLanguage(bits[0].trim())
+                        .setRegion(bits[1].trim())
+                        .setVariant(bits[2].trim())
+                        .build();
             }
             else
             {
-                throw new MojoExecutionException( "expecting language,country,variant but got more than three parts" );
+                throw new MojoExecutionException( "expecting language,region,variant but got more than three parts" );
             }
         }
         else
