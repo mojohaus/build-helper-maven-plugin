@@ -24,19 +24,20 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 import java.util.Properties;
 
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ParseVersionTest
 {
-    private static class TestParseVersionMojo
+    public static class TestParseVersionMojo
         extends ParseVersionMojo
     {
-        private Properties properties;
+        private final Properties properties;
 
         public TestParseVersionMojo( Properties properties )
         {
@@ -49,17 +50,18 @@ public class ParseVersionTest
         }
     }
 
+    @Nested
     public class TestParseVersion
     {
         private Properties props;
 
         private ParseVersionMojo mojo;
 
-        @BeforeMethod
+        @BeforeEach
         public void beforeClass()
         {
             props = new Properties();
-            mojo = new TestParseVersionMojo( props );
+            mojo = new TestParseVersionMojo(props);
             mojo.setPropertyPrefix( "parsed" );
 
             mojo.setFormattedPropertyPrefix( "formatted" );
@@ -72,9 +74,7 @@ public class ParseVersionTest
         }
 
         @Test
-        public void testJunkVersion()
-            throws Exception
-        {
+        public void checkJunkVersion() {
             // Test a junk version string
             mojo.parseVersion( "junk" );
 
@@ -87,9 +87,7 @@ public class ParseVersionTest
         }
 
         @Test
-        public void testBasicMavenVersionString()
-            throws Exception
-        {
+        public void checkBasicMavenVersionString() {
             // Test a basic maven version string
             mojo.parseVersion( "1.0.0" );
 
@@ -102,7 +100,7 @@ public class ParseVersionTest
         }
 
         @Test
-        public void testVersionStringWithQualifier()
+        public void checkVersionStringWithQualifier()
         {
             // Test a version string with qualifier
             mojo.parseVersion( "2.3.4-beta-5" );
@@ -116,7 +114,7 @@ public class ParseVersionTest
         }
 
         @Test
-        public void testOSGiVersionStringWithQualifier()
+        public void checkOSGiVersionStringWithQualifier()
         {
             // Test an osgi version string
             mojo.parseVersion( "2.3.4.beta_5" );
@@ -130,7 +128,7 @@ public class ParseVersionTest
         }
 
         @Test
-        public void testSnapshotVersion()
+        public void checkSnapshotVersion()
         {
             // Test a snapshot version string
             mojo.parseVersion( "1.2.3-SNAPSHOT" );
@@ -144,7 +142,7 @@ public class ParseVersionTest
         }
 
         @Test
-        public void testSnapshotVersion2()
+        public void checkSnapshotVersion2()
         {
             // Test a snapshot version string
             mojo.parseVersion( "2.0.17-SNAPSHOT" );
@@ -158,7 +156,7 @@ public class ParseVersionTest
         }
 
         @Test
-        public void testVersionStringWithBuildNumber()
+        public void checkVersionStringWithBuildNumber()
         {
             // Test a version string with a build number
             mojo.parseVersion( "1.2.3-4" );
@@ -173,7 +171,7 @@ public class ParseVersionTest
         }
 
         @Test
-        public void testSnapshotVersionStringWithBuildNumber()
+        public void checkSnapshotVersionStringWithBuildNumber()
         {
             // Test a version string with a build number
             mojo.parseVersion( "1.2.3-4-SNAPSHOT" );
@@ -188,17 +186,18 @@ public class ParseVersionTest
 
     }
 
-    public class TestParseNextVersion
+    @Nested
+    class TestParseNextVersion
     {
         private Properties props;
 
         private ParseVersionMojo mojo;
 
-        @BeforeMethod
+        @BeforeEach
         public void beforeClass()
         {
             props = new Properties();
-            mojo = new TestParseVersionMojo( props );
+            mojo = new TestParseVersionMojo(props);
             mojo.setPropertyPrefix( "parsed" );
             mojo.setFormattedPropertyPrefix( "formatted" );
             // The settings should in line with the given defaultValues of the parameters
@@ -210,7 +209,7 @@ public class ParseVersionTest
         }
 
         @Test
-        public void testJunkVersion()
+        public void checkJunkVersion()
         {
             mojo.parseVersion( "junk" );
 
@@ -290,18 +289,18 @@ public class ParseVersionTest
 
     }
 
-    
-    public class TestFormattedVersion
+    @Nested
+    class TestFormattedVersion
     {
         private Properties props;
 
         private ParseVersionMojo mojo;
 
-        @BeforeMethod
+        @BeforeEach
         public void beforeClass()
         {
             props = new Properties();
-            mojo = new TestParseVersionMojo( props );
+            mojo = new TestParseVersionMojo(props);
             mojo.setPropertyPrefix( "parsed" );
             mojo.setFormattedPropertyPrefix( "formatted" );
             // The settings should in line with the given defaultValues of the parameters
