@@ -76,6 +76,8 @@
   <properties>
     <mavenVersion>3.2.5</mavenVersion>
     <mojo.java.target>8</mojo.java.target>
+    <!-- remove with parent upgrade -->
+    <maven-release-plugin.version>3.0.0</maven-release-plugin.version>
     <scmpublish.content>${project.build.directory}/staging/build-helper-maven-plugin</scmpublish.content>
     <project.build.outputTimestamp>2022-01-18T09:14:02Z</project.build.outputTimestamp>
   </properties>
