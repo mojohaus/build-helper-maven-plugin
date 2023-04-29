@@ -74,7 +74,7 @@
   </ciManagement>
 
   <properties>
-    <mavenVersion>3.2.5</mavenVersion>
+    <mavenVersion>3.5.4</mavenVersion>
     <mojo.java.target>8</mojo.java.target>
     <recommendedJavaBuildVersion>11</recommendedJavaBuildVersion>
     <!-- remove with parent upgrade -->
