@@ -24,19 +24,21 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import java.util.List;
 import java.util.Objects;
 
 import org.apache.maven.artifact.ArtifactUtils;
-import org.apache.maven.artifact.factory.ArtifactFactory;
-import org.apache.maven.artifact.metadata.ArtifactMetadataRetrievalException;
-import org.apache.maven.artifact.metadata.ArtifactMetadataSource;
-import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.artifact.versioning.ArtifactVersion;
+import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager;
+import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.eclipse.aether.RepositorySystem;
+import org.eclipse.aether.RepositorySystemSession;
+import org.eclipse.aether.artifact.DefaultArtifact;
+import org.eclipse.aether.resolution.VersionRangeRequest;
+import org.eclipse.aether.resolution.VersionRangeResolutionException;
+import org.eclipse.aether.resolution.VersionRangeResult;
 
 /**
  * Resolve the latest released version of this project. This mojo sets the following properties:
@@ -46,6 +48,8 @@ import org.apache.maven.plugins.annotations.Parameter;
  *   [propertyPrefix].majorVersion
  *   [propertyPrefix].minorVersion
  *   [propertyPrefix].incrementalVersion
+ *   [propertyPrefix].buildNumber
+ *   [propertyPrefix].qualifier
  * </pre>
  *
  * Where the propertyPrefix is the string set in the mojo parameter.
@@ -61,17 +65,15 @@ public class ReleasedVersionMojo
     /**
      * The artifact metadata source to use.
      */
-    @Component
-    private ArtifactMetadataSource artifactMetadataSource;
 
     @Component
-    private ArtifactFactory artifactFactory;
+    private RepositorySystem repoSystem;
 
-    @Parameter( defaultValue = "${localRepository}", readonly = true )
-    private ArtifactRepository localRepository;
+    @Component
+    private ArtifactHandlerManager artifactHandlerManager;
 
-    @Parameter( defaultValue = "${project.remoteArtifactRepositories}", readonly = true )
-    private List<ArtifactRepository> remoteArtifactRepositories;
+    @Parameter( defaultValue = "${repositorySystemSession}", readonly = true )
+    private RepositorySystemSession repoSession;
 
     /**
      * Prefix string to use for the set of version properties.
@@ -92,6 +94,7 @@ public class ReleasedVersionMojo
     @SuppressWarnings( "unchecked" )
     public void execute()
     {
+
         /*
          * We use a dummy version "0" here to check for all released version.
          * Reason: The current project's version is completely irrelevant for the check to retrieve all available versions.
@@ -100,23 +103,27 @@ public class ReleasedVersionMojo
          * Using the dummy version "0" which looks like a released version, the repos with releases are requested.
          * see https://github.com/mojohaus/build-helper-maven-plugin/issues/108
          */
-        final String DUMMY_VERSION = "0";
-        org.apache.maven.artifact.Artifact artifact =
-            artifactFactory.createArtifact( getProject().getGroupId(), getProject().getArtifactId(), DUMMY_VERSION, "", "" );
         try
         {
-            ArtifactVersion releasedVersion = null;
-            List<ArtifactVersion> versions =
-                artifactMetadataSource.retrieveAvailableVersions( artifact, localRepository,
-                                                                  remoteArtifactRepositories );
-            for ( ArtifactVersion version : versions )
-            {
-                if ( !ArtifactUtils.isSnapshot( version.toString() )
-                    && ( releasedVersion == null || version.compareTo( releasedVersion ) > 0 ) )
-                {
-                    releasedVersion = version;
-                }
-            }
+
+            DefaultArtifact artifact =
+                    new DefaultArtifact(getProject().getGroupId(), getProject().getArtifactId(),
+                            artifactHandlerManager.getArtifactHandler(getProject().getPackaging()).getExtension(), "[0,)");
+
+            getLog().debug("Artifact for lookup released version: " + artifact);
+            VersionRangeRequest request = new VersionRangeRequest(artifact, getProject().getRemoteProjectRepositories(), null);
+
+            VersionRangeResult versionRangeResult = repoSystem.resolveVersionRange(repoSession, request);
+
+            getLog().debug("Resolved versions: " + versionRangeResult.getVersions());
+
+            DefaultArtifactVersion releasedVersion = versionRangeResult.getVersions().stream()
+                    .filter(v -> !ArtifactUtils.isSnapshot(v.toString()))
+                    .map(v -> new DefaultArtifactVersion(v.toString()))
+                    .max(DefaultArtifactVersion::compareTo)
+                    .orElse(null);
+
+            getLog().debug("Released version: " + releasedVersion);
 
             if ( releasedVersion != null )
             {
@@ -142,7 +149,7 @@ public class ReleasedVersionMojo
             }
 
         }
-        catch ( ArtifactMetadataRetrievalException e )
+        catch (VersionRangeResolutionException e )
         {
             if ( getLog().isWarnEnabled() )
             {

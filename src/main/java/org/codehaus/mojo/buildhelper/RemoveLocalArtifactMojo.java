@@ -27,14 +27,16 @@ package org.codehaus.mojo.buildhelper;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.maven.artifact.repository.ArtifactRepository;
+import org.apache.maven.RepositoryUtils;
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.FileUtils;
+import org.eclipse.aether.RepositorySystemSession;
+import org.eclipse.aether.repository.LocalRepositoryManager;
 
 /**
  * Remove project's artifacts from local repository. Useful to keep only one copy of large local snapshot, for example:
@@ -71,18 +73,18 @@ public class RemoveLocalArtifactMojo
     @Parameter( readonly = true, defaultValue = "${project}" )
     private MavenProject project;
 
-    /**
-     * @since 1.1
-     */
-    @Parameter( defaultValue = "${localRepository}", readonly = true )
-    private ArtifactRepository localRepository;
+    @Parameter( readonly = true, defaultValue = "${repositorySystemSession}" )
+    private RepositorySystemSession repoSession;
 
     public void execute()
-        throws MojoFailureException
+        throws MojoExecutionException
     {
-        File localArtifactFile =
-            new File( localRepository.getBasedir(), localRepository.pathOf( project.getArtifact() ) );
+        LocalRepositoryManager lrm = repoSession.getLocalRepositoryManager();
 
+        String artifactPath = lrm.getPathForLocalArtifact(RepositoryUtils.toArtifact(project.getArtifact()));
+        File repoBasedir = lrm.getRepository().getBasedir();
+
+        File localArtifactFile = new File( repoBasedir, artifactPath );
         File localArtifactDirectory = localArtifactFile.getParentFile();
 
         if ( removeAll )
@@ -104,7 +106,7 @@ public class RemoveLocalArtifactMojo
             final String failureMessage = "Cannot delete " + localArtifactDirectory;
             if ( failOnError )
             {
-                throw new MojoFailureException( failureMessage );
+                throw new MojoExecutionException( failureMessage );
             }
             else
             {
