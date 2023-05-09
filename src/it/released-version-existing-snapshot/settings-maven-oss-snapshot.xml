@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+  <profiles>
+    <profile>
+      <id>default</id>
+      <!-- use oss repo which provide release and snapshot artifacts -->
+      <repositories>
+          <repository>
+            <id>oss-snap</id>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
+            <releases>
+              <enabled>false</enabled>
+              <checksumPolicy>fail</checksumPolicy>
+            </releases>
+            <snapshots>
+              <enabled>true</enabled>
+              <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+          </repository>
+      </repositories>
+    </profile>
+  </profiles>
+  <activeProfiles>
+    <activeProfile>default</activeProfile>
+  </activeProfiles>
+</settings>

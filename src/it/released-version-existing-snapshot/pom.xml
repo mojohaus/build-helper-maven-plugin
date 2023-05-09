@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- We use artifact which contains released and snapshot versions. -->
+
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>versions-maven-plugin</artifactId>
+  <version>1.0.0-SNAPHOST</version>
+  <name>build-helper-maven-plugin-released-version-it</name>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>@project.groupId@</groupId>
+        <artifactId>@project.artifactId@</artifactId>
+        <version>@project.version@</version>
+        <executions>
+          <execution>
+            <id>released-version</id>
+            <goals>
+              <goal>released-version</goal>
+            </goals>
+            <configuration>
+              <propertyPrefix>myReleasedVersion</propertyPrefix>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
