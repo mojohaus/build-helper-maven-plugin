@@ -64,7 +64,7 @@ public class ReserveListenerPortMojo extends AbstractMojo {
 
     private static final Integer MAX_PORT_NUMBER = 65535;
 
-    private static final Object lock = new Object();
+    private static final Object LOCK = new Object();
 
     /**
      * A List to property names to be placed in Maven project. At least one of {@code #urls} or {@code #portNames} has
@@ -207,7 +207,7 @@ public class ReserveListenerPortMojo extends AbstractMojo {
             return new ServerSocket(0);
         }
         if (randomPort) {
-            synchronized (lock) {
+            synchronized (LOCK) {
                 List<Integer> availablePorts = randomPortList();
                 for (Iterator<Integer> iterator = availablePorts.iterator(); iterator.hasNext(); ) {
                     int port = iterator.next();
@@ -223,7 +223,7 @@ public class ReserveListenerPortMojo extends AbstractMojo {
         } else {
             // Might be synchronizing a bit too largely, but at least that defensive approach should prevent
             // threading issues (essentially possible while put/getting the plugin ctx to get the reserved ports).
-            synchronized (lock) {
+            synchronized (LOCK) {
                 int min = getNextPortNumber();
 
                 for (int port = min; ; ++port) {
@@ -371,7 +371,7 @@ public class ReserveListenerPortMojo extends AbstractMojo {
 
         private InputStream stream;
 
-        public UrlResource(String url) throws MojoExecutionException {
+        UrlResource(String url) throws MojoExecutionException {
             if (url.startsWith(CLASSPATH_PREFIX)) {
                 String resource = url.substring(CLASSPATH_PREFIX.length(), url.length());
                 if (resource.startsWith(SLASH_PREFIX)) {
