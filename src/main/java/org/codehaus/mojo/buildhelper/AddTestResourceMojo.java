@@ -34,22 +34,18 @@ import org.apache.maven.plugins.annotations.Mojo;
  * @author Paul Gier
  * @since 1.3
  */
-@Mojo( name = "add-test-resource", defaultPhase = LifecyclePhase.GENERATE_TEST_RESOURCES, threadSafe = true )
-public class AddTestResourceMojo
-    extends AbstractAddResourceMojo
-{
+@Mojo(name = "add-test-resource", defaultPhase = LifecyclePhase.GENERATE_TEST_RESOURCES, threadSafe = true)
+public class AddTestResourceMojo extends AbstractAddResourceMojo {
 
     /**
      * Add the resource to the project.
      *
      * @param resource the resource to add
      */
-    public void addResource( Resource resource )
-    {
-        getProject().addTestResource( resource );
-        if ( getLog().isDebugEnabled() )
-        {
-            getLog().debug( "Added test resource: " + resource.getDirectory() );
+    public void addResource(Resource resource) {
+        getProject().addTestResource(resource);
+        if (getLog().isDebugEnabled()) {
+            getLog().debug("Added test resource: " + resource.getDirectory());
         }
     }
 }

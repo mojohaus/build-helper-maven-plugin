@@ -38,27 +38,20 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @since 1.8
  */
-@Mojo( name = "local-ip", defaultPhase = LifecyclePhase.PROCESS_TEST_CLASSES, threadSafe = true )
-public class LocalIpMojo
-    extends AbstractDefinePropertyMojo
-{
+@Mojo(name = "local-ip", defaultPhase = LifecyclePhase.PROCESS_TEST_CLASSES, threadSafe = true)
+public class LocalIpMojo extends AbstractDefinePropertyMojo {
 
     /**
      * The name of the property in which to store the localhost ipaddress.
      */
-    @Parameter( defaultValue = "local.ip" )
+    @Parameter(defaultValue = "local.ip")
     private String localIpProperty;
 
-    public void execute()
-        throws MojoExecutionException
-    {
-        try
-        {
-            defineProperty( this.localIpProperty, InetAddress.getLocalHost().getHostAddress() );
-        }
-        catch ( UnknownHostException e )
-        {
-            throw new MojoExecutionException( "Unable to retrieve localhost address.", e );
+    public void execute() throws MojoExecutionException {
+        try {
+            defineProperty(this.localIpProperty, InetAddress.getLocalHost().getHostAddress());
+        } catch (UnknownHostException e) {
+            throw new MojoExecutionException("Unable to retrieve localhost address.", e);
         }
     }
 }

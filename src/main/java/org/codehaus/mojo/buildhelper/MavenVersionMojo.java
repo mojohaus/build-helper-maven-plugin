@@ -36,10 +36,8 @@ import org.apache.maven.rtinfo.RuntimeInformation;
  * @author pgier
  * @since 1.3
  */
-@Mojo( name = "maven-version", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
-public class MavenVersionMojo
-    extends AbstractDefinePropertyMojo
-{
+@Mojo(name = "maven-version", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true)
+public class MavenVersionMojo extends AbstractDefinePropertyMojo {
 
     /**
      * The RuntimeInforamtion for the current instance of Maven.
@@ -50,15 +48,13 @@ public class MavenVersionMojo
     /**
      * The name of the property in which to store the version of Maven.
      */
-    @Parameter( defaultValue = "maven.version" )
+    @Parameter(defaultValue = "maven.version")
     private String versionProperty;
 
     /**
      * Main plugin execution
      */
-    public void execute()
-    {
-        defineProperty( versionProperty, runtime.getMavenVersion() );
+    public void execute() {
+        defineProperty(versionProperty, runtime.getMavenVersion());
     }
-
 }

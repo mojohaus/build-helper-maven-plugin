@@ -3,65 +3,53 @@ package org.codehaus.mojo.buildhelper.versioning;
 /**
  * @author Karl Heinz Marbaise <a href="mailto:khmarbaise@apache.org">khmarbaise@apache.org</a>
  */
-public class DefaultVersioning
-    implements Versioning
-{
+public class DefaultVersioning implements Versioning {
 
     private VersionInformation vi;
 
     private String version;
 
-    public DefaultVersioning( String version )
-    {
+    public DefaultVersioning(String version) {
         this.version = version;
-        this.vi = new VersionInformation( version );
-
+        this.vi = new VersionInformation(version);
     }
 
-    public String getVersion()
-    {
+    public String getVersion() {
         return this.version;
     }
 
     @Override
-    public int getMajor()
-    {
+    public int getMajor() {
         return this.vi.getMajor();
     }
 
     @Override
-    public int getMinor()
-    {
+    public int getMinor() {
         return this.vi.getMinor();
     }
 
     @Override
-    public int getPatch()
-    {
+    public int getPatch() {
         return this.vi.getPatch();
     }
 
     @Override
-    public String getAsOSGiVersion()
-    {
+    public String getAsOSGiVersion() {
         StringBuffer osgiVersion = new StringBuffer();
-        osgiVersion.append( this.getMajor() );
-        osgiVersion.append( "." + this.getMinor() );
-        osgiVersion.append( "." + this.getPatch() );
+        osgiVersion.append(this.getMajor());
+        osgiVersion.append("." + this.getMinor());
+        osgiVersion.append("." + this.getPatch());
 
-        if ( this.getQualifier() != null || this.getBuildNumber() != 0 )
-        {
-            osgiVersion.append( "." );
+        if (this.getQualifier() != null || this.getBuildNumber() != 0) {
+            osgiVersion.append(".");
 
-            if ( this.getBuildNumber() != 0 )
-            {
-                osgiVersion.append( this.getBuildNumber() );
+            if (this.getBuildNumber() != 0) {
+                osgiVersion.append(this.getBuildNumber());
             }
-            if ( this.getQualifier() != null )
-            {
+            if (this.getQualifier() != null) {
                 // Do not allow having "." in it cause it's not allowed in OSGi.
-                String qualifier = this.getQualifier().replaceAll( "\\.", "_" );
-                osgiVersion.append( qualifier );
+                String qualifier = this.getQualifier().replaceAll("\\.", "_");
+                osgiVersion.append(qualifier);
             }
         }
 
@@ -69,15 +57,12 @@ public class DefaultVersioning
     }
 
     @Override
-    public long getBuildNumber()
-    {
+    public long getBuildNumber() {
         return this.vi.getBuildNumber();
     }
 
     @Override
-    public String getQualifier()
-    {
+    public String getQualifier() {
         return this.vi.getQualifier();
     }
-
 }

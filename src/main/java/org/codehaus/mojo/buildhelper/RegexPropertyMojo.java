@@ -36,73 +36,67 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @author Stephen Connolly
  * @since 1.7
  */
-@Mojo( name = "regex-property", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
-public class RegexPropertyMojo
-    extends AbstractRegexPropertyMojo
-{
+@Mojo(name = "regex-property", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true)
+public class RegexPropertyMojo extends AbstractRegexPropertyMojo {
     /**
      * The property to set.
      */
-    @Parameter( required = true )
+    @Parameter(required = true)
     private String name;
 
     /**
      * The pre-transformation value.
      */
-    @Parameter( required = true )
+    @Parameter(required = true)
     private String value;
 
     /**
      * The regex to replace.
      */
-    @Parameter( required = true )
+    @Parameter(required = true)
     private String regex;
 
     /**
      * The replacement.
      */
-    @Parameter( defaultValue = "" )
+    @Parameter(defaultValue = "")
     private String replacement;
 
     /**
      * Whether to fail if no match is found.
      */
-    @Parameter( defaultValue = "true" )
+    @Parameter(defaultValue = "true")
     private boolean failIfNoMatch;
 
     /**
      * Make the value of the resulting property upper case.
-     * 
+     *
      * @since 1.11
      */
-    @Parameter( defaultValue = "false" )
+    @Parameter(defaultValue = "false")
     private boolean toUpperCase;
 
     /**
      * Make the value of the resulting property lower case.
-     * 
+     *
      * @since 1.11
      */
-    @Parameter( defaultValue = "false" )
+    @Parameter(defaultValue = "false")
     private boolean toLowerCase;
 
     /**
      * {@inheritDoc}
      */
-    public void execute()
-        throws MojoExecutionException, MojoFailureException
-    {
+    public void execute() throws MojoExecutionException, MojoFailureException {
         RegexPropertySetting config = new RegexPropertySetting();
-        config.setName( name );
-        config.setValue( value );
-        config.setRegex( regex );
-        config.setReplacement( replacement );
-        config.setFailIfNoMatch( failIfNoMatch );
-        config.setToLowerCase( toLowerCase );
-        config.setToUpperCase( toUpperCase );
+        config.setName(name);
+        config.setValue(value);
+        config.setRegex(regex);
+        config.setReplacement(replacement);
+        config.setFailIfNoMatch(failIfNoMatch);
+        config.setToLowerCase(toLowerCase);
+        config.setToUpperCase(toUpperCase);
 
-        this.execute( config );
-
+        this.execute(config);
     }
-
 }

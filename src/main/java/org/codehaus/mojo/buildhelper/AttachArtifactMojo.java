@@ -43,17 +43,15 @@ import org.apache.maven.project.MavenProjectHelper;
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @since 1.0
  */
-@Mojo( name = "attach-artifact", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true )
-public class AttachArtifactMojo
-    extends AbstractMojo
-{
+@Mojo(name = "attach-artifact", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true)
+public class AttachArtifactMojo extends AbstractMojo {
     /**
      * Attach an array of artifacts to the project.
      */
-    @Parameter( required = true )
+    @Parameter(required = true)
     private Artifact[] artifacts;
 
-    @Parameter( readonly = true, defaultValue = "${project}" )
+    @Parameter(readonly = true, defaultValue = "${project}")
     private MavenProject project;
 
     /**
@@ -68,7 +66,7 @@ public class AttachArtifactMojo
      *
      * @since 1.5
      */
-    @Parameter( property = "buildhelper.runOnlyAtExecutionRoot", defaultValue = "false" )
+    @Parameter(property = "buildhelper.runOnlyAtExecutionRoot", defaultValue = "false")
     private boolean runOnlyAtExecutionRoot;
 
     /**
@@ -77,50 +75,38 @@ public class AttachArtifactMojo
      *
      * @since 1.6
      */
-    @Parameter( property = "buildhelper.skipAttach", defaultValue = "false" )
+    @Parameter(property = "buildhelper.skipAttach", defaultValue = "false")
     private boolean skipAttach;
 
-    public void execute()
-        throws MojoExecutionException, MojoFailureException
-    {
+    public void execute() throws MojoExecutionException, MojoFailureException {
 
-        if ( skipAttach )
-        {
-            getLog().info( "Skip attaching artifacts" );
+        if (skipAttach) {
+            getLog().info("Skip attaching artifacts");
             return;
         }
 
         // Run only at the execution root
-        if ( runOnlyAtExecutionRoot && !project.isExecutionRoot() )
-        {
-            getLog().info( "Skip attaching artifacts in this project because it's not the Execution Root" );
-        }
-        else
-        {
+        if (runOnlyAtExecutionRoot && !project.isExecutionRoot()) {
+            getLog().info("Skip attaching artifacts in this project because it's not the Execution Root");
+        } else {
             this.validateArtifacts();
 
-            for ( Artifact artifact : artifacts )
-            {
-                projectHelper.attachArtifact( this.project, artifact.getType(), artifact.getClassifier(),
-                                              artifact.getFile() );
+            for (Artifact artifact : artifacts) {
+                projectHelper.attachArtifact(
+                        this.project, artifact.getType(), artifact.getClassifier(), artifact.getFile());
             }
         }
-
     }
 
-    private void validateArtifacts()
-        throws MojoFailureException
-    {
+    private void validateArtifacts() throws MojoFailureException {
         // check unique of types and classifiers
         Set<String> extensionClassifiers = new HashSet<String>();
-        for ( Artifact artifact : artifacts )
-        {
+        for (Artifact artifact : artifacts) {
             String extensionClassifier = artifact.getType() + ":" + artifact.getClassifier();
 
-            if ( !extensionClassifiers.add( extensionClassifier ) )
-            {
-                throw new MojoFailureException( "The artifact with same type and classifier: " + extensionClassifier
-                    + " is used more than once." );
+            if (!extensionClassifiers.add(extensionClassifier)) {
+                throw new MojoFailureException("The artifact with same type and classifier: " + extensionClassifier
+                        + " is used more than once.");
             }
         }
     }

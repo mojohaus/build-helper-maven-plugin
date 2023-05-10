@@ -35,33 +35,28 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @since 1.9
  */
-@Mojo( name = "cpu-count", defaultPhase = LifecyclePhase.INITIALIZE, threadSafe = true )
-public class CpuCountMojo
-    extends AbstractDefinePropertyMojo
-{
+@Mojo(name = "cpu-count", defaultPhase = LifecyclePhase.INITIALIZE, threadSafe = true)
+public class CpuCountMojo extends AbstractDefinePropertyMojo {
 
     /**
      * The name of the property in which to store the CPU count.
      */
-    @Parameter( defaultValue = "cpu.count" )
+    @Parameter(defaultValue = "cpu.count")
     private String cpuCount;
 
     /**
      * Projection factor.
      */
-    @Parameter( defaultValue = "1.0" )
+    @Parameter(defaultValue = "1.0")
     private float factor;
 
-    public void execute()
-        throws MojoExecutionException
-    {
+    public void execute() throws MojoExecutionException {
         float count = Runtime.getRuntime().availableProcessors() * factor;
-        if ( count < 1 )
-        {
+        if (count < 1) {
             count = 1;
         }
 
-        defineProperty( this.cpuCount, Integer.toString( (int) count ) );
-        this.getLog().info( "CPU count: " + this.getProject().getProperties().getProperty( cpuCount ) );
+        defineProperty(this.cpuCount, Integer.toString((int) count));
+        this.getLog().info("CPU count: " + this.getProject().getProperties().getProperty(cpuCount));
     }
 }

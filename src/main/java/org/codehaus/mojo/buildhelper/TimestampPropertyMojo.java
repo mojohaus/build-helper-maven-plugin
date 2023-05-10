@@ -45,15 +45,13 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @author Stephen Connolly
  * @since 1.7
  */
-@Mojo( name = "timestamp-property", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
-public class TimestampPropertyMojo
-    extends AbstractDefinePropertyMojo
-{
+@Mojo(name = "timestamp-property", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true)
+public class TimestampPropertyMojo extends AbstractDefinePropertyMojo {
 
     /**
      * The property to set.
      */
-    @Parameter( required = true )
+    @Parameter(required = true)
     private String name;
 
     /**
@@ -65,13 +63,13 @@ public class TimestampPropertyMojo
     /**
      * The timezone to use for displaying time. The values are as defined by the Java {$link TimeZone} class.
      */
-    @Parameter( defaultValue = "GMT" )
+    @Parameter(defaultValue = "GMT")
     private String timeZone;
 
     /**
      * An offset to apply to the current time.
      */
-    @Parameter( defaultValue = "0" )
+    @Parameter(defaultValue = "0")
     private int offset;
 
     /**
@@ -87,7 +85,7 @@ public class TimestampPropertyMojo
      * <li>year</li>
      * </ul>
      */
-    @Parameter( defaultValue = "second" )
+    @Parameter(defaultValue = "second")
     private String unit;
 
     /**
@@ -99,7 +97,7 @@ public class TimestampPropertyMojo
      *
      * @since 3.2.0
      */
-    @Parameter( defaultValue = "current" )
+    @Parameter(defaultValue = "current")
     private String timeSource;
 
     /**
@@ -113,121 +111,80 @@ public class TimestampPropertyMojo
      *
      * @since 3.2.0
      */
-    @Parameter( readonly = true, defaultValue = "${session}" )
+    @Parameter(readonly = true, defaultValue = "${session}")
     private MavenSession mavenSession;
 
     /**
      * {@inheritDoc}
      */
-    public void execute()
-        throws MojoExecutionException, MojoFailureException
-    {
+    public void execute() throws MojoExecutionException, MojoFailureException {
         Locale locale;
-        if ( this.locale != null )
-        {
-            String[] bits = this.locale.split( "[,_]" );
-            if ( bits.length == 1 )
-            {
-                locale = new Locale( bits[0].trim() );
+        if (this.locale != null) {
+            String[] bits = this.locale.split("[,_]");
+            if (bits.length == 1) {
+                locale = new Locale(bits[0].trim());
+            } else if (bits.length == 2) {
+                locale = new Locale(bits[0].trim(), bits[1].trim());
+            } else if (bits.length == 3) {
+                locale = new Locale(bits[0].trim(), bits[1].trim(), bits[2].trim());
+            } else {
+                throw new MojoExecutionException("expecting language,country,variant but got more than three parts");
             }
-            else if ( bits.length == 2 )
-            {
-                locale = new Locale( bits[0].trim(), bits[1].trim() );
-            }
-            else if ( bits.length == 3 )
-            {
-                locale = new Locale( bits[0].trim(), bits[1].trim(), bits[2].trim() );
-            }
-            else
-            {
-                throw new MojoExecutionException( "expecting language,country,variant but got more than three parts" );
-            }
-        }
-        else
-        {
+        } else {
             locale = Locale.getDefault();
-            getLog().warn( "Using platform locale (" + locale.toString()
-                + " actually) to format date/time, i.e. build is platform dependent!" );
+            getLog().warn("Using platform locale (" + locale.toString()
+                    + " actually) to format date/time, i.e. build is platform dependent!");
         }
 
         DateFormat format;
-        if ( pattern == null )
-        {
-            format = DateFormat.getDateTimeInstance( DateFormat.SHORT, DateFormat.SHORT, locale );
-        }
-        else
-        {
-            try
-            {
-                format = new SimpleDateFormat( pattern, locale );
-            }
-            catch ( IllegalArgumentException e )
-            {
-                throw new MojoExecutionException( e.getMessage(), e );
+        if (pattern == null) {
+            format = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, locale);
+        } else {
+            try {
+                format = new SimpleDateFormat(pattern, locale);
+            } catch (IllegalArgumentException e) {
+                throw new MojoExecutionException(e.getMessage(), e);
             }
         }
 
         TimeZone timeZone;
-        if ( this.timeZone != null )
-        {
-            timeZone = TimeZone.getTimeZone( this.timeZone );
-        }
-        else
-        {
-            timeZone = TimeZone.getTimeZone( "GMT" );
+        if (this.timeZone != null) {
+            timeZone = TimeZone.getTimeZone(this.timeZone);
+        } else {
+            timeZone = TimeZone.getTimeZone("GMT");
         }
 
         Date now = new Date();
         Calendar calendar = new GregorianCalendar();
-        calendar.setTime( now );
-        calendar.setTimeZone( timeZone );
-        if ( offset != 0 && unit != null )
-        {
+        calendar.setTime(now);
+        calendar.setTimeZone(timeZone);
+        if (offset != 0 && unit != null) {
             unit = unit.toLowerCase();
-            if ( unit.indexOf( "millisecond" ) == 0 )
-            {
-                calendar.add( Calendar.MILLISECOND, offset );
-            }
-            else if ( unit.indexOf( "second" ) == 0 )
-            {
-                calendar.add( Calendar.SECOND, offset );
-            }
-            else if ( unit.indexOf( "minute" ) == 0 )
-            {
-                calendar.add( Calendar.MINUTE, offset );
-            }
-            else if ( unit.indexOf( "hour" ) == 0 )
-            {
-                calendar.add( Calendar.HOUR, offset );
-            }
-            else if ( unit.indexOf( "day" ) == 0 )
-            {
-                calendar.add( Calendar.DAY_OF_MONTH, offset );
-            }
-            else if ( unit.indexOf( "week" ) == 0 )
-            {
-                calendar.add( Calendar.WEEK_OF_YEAR, offset );
-            }
-            else if ( unit.indexOf( "month" ) == 0 )
-            {
-                calendar.add( Calendar.MONTH, offset );
-            }
-            else if ( unit.indexOf( "year" ) == 0 )
-            {
-                calendar.add( Calendar.YEAR, offset );
+            if (unit.indexOf("millisecond") == 0) {
+                calendar.add(Calendar.MILLISECOND, offset);
+            } else if (unit.indexOf("second") == 0) {
+                calendar.add(Calendar.SECOND, offset);
+            } else if (unit.indexOf("minute") == 0) {
+                calendar.add(Calendar.MINUTE, offset);
+            } else if (unit.indexOf("hour") == 0) {
+                calendar.add(Calendar.HOUR, offset);
+            } else if (unit.indexOf("day") == 0) {
+                calendar.add(Calendar.DAY_OF_MONTH, offset);
+            } else if (unit.indexOf("week") == 0) {
+                calendar.add(Calendar.WEEK_OF_YEAR, offset);
+            } else if (unit.indexOf("month") == 0) {
+                calendar.add(Calendar.MONTH, offset);
+            } else if (unit.indexOf("year") == 0) {
+                calendar.add(Calendar.YEAR, offset);
             }
         }
 
-        format.setTimeZone( timeZone );
+        format.setTimeZone(timeZone);
 
-        if ("build".equals(timeSource))
-        {
-            defineProperty( name, format.format( mavenSession.getStartTime() ) );
-        }
-        else
-        {
-            defineProperty( name, format.format( calendar.getTime() ) );
+        if ("build".equals(timeSource)) {
+            defineProperty(name, format.format(mavenSession.getStartTime()));
+        } else {
+            defineProperty(name, format.format(calendar.getTime()));
         }
     }
-
 }

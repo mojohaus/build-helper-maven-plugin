@@ -39,24 +39,18 @@ import org.apache.maven.plugins.annotations.Parameter;
  *
  * @since 1.9
  */
-@Mojo( name = "regex-properties", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
-public class RegexPropertiesMojo
-    extends AbstractRegexPropertyMojo
-{
+@Mojo(name = "regex-properties", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true)
+public class RegexPropertiesMojo extends AbstractRegexPropertyMojo {
     /**
      * List of RegexPropertyConfig to apply the regex
      */
-    @Parameter( required = false )
+    @Parameter(required = false)
     private List<RegexPropertySetting> regexPropertySettings = new ArrayList<RegexPropertySetting>();
 
-    public void execute()
-        throws MojoExecutionException, MojoFailureException
-    {
+    public void execute() throws MojoExecutionException, MojoFailureException {
 
-        for ( RegexPropertySetting setting : regexPropertySettings )
-        {
-            this.execute( setting );
+        for (RegexPropertySetting setting : regexPropertySettings) {
+            this.execute(setting);
         }
     }
-
 }

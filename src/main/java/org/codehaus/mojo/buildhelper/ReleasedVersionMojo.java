@@ -57,43 +57,37 @@ import org.eclipse.aether.resolution.VersionRangeResult;
  * @author Robert Scholte
  * @since 1.6
  */
-@Mojo( name = "released-version", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
-public class ReleasedVersionMojo
-    extends AbstractDefinePropertyMojo
-{
+@Mojo(name = "released-version", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true)
+public class ReleasedVersionMojo extends AbstractDefinePropertyMojo {
 
     /**
      * The artifact metadata source to use.
      */
-
     @Component
     private RepositorySystem repoSystem;
 
     @Component
     private ArtifactHandlerManager artifactHandlerManager;
 
-    @Parameter( defaultValue = "${repositorySystemSession}", readonly = true )
+    @Parameter(defaultValue = "${repositorySystemSession}", readonly = true)
     private RepositorySystemSession repoSession;
 
     /**
      * Prefix string to use for the set of version properties.
      */
-    @Parameter( defaultValue = "releasedVersion" )
+    @Parameter(defaultValue = "releasedVersion")
     private String propertyPrefix;
 
-    private void defineVersionProperty( String name, String value )
-    {
-        defineProperty( propertyPrefix + '.' + name, Objects.toString( value, "" ) );
+    private void defineVersionProperty(String name, String value) {
+        defineProperty(propertyPrefix + '.' + name, Objects.toString(value, ""));
     }
 
-    private void defineVersionProperty( String name, int value )
-    {
-        defineVersionProperty( name, Integer.toString( value ) );
+    private void defineVersionProperty(String name, int value) {
+        defineVersionProperty(name, Integer.toString(value));
     }
 
-    @SuppressWarnings( "unchecked" )
-    public void execute()
-    {
+    @SuppressWarnings("unchecked")
+    public void execute() {
 
         /*
          * We use a dummy version "0" here to check for all released version.
@@ -103,15 +97,19 @@ public class ReleasedVersionMojo
          * Using the dummy version "0" which looks like a released version, the repos with releases are requested.
          * see https://github.com/mojohaus/build-helper-maven-plugin/issues/108
          */
-        try
-        {
+        try {
 
-            DefaultArtifact artifact =
-                    new DefaultArtifact(getProject().getGroupId(), getProject().getArtifactId(),
-                            artifactHandlerManager.getArtifactHandler(getProject().getPackaging()).getExtension(), "[0,)");
+            DefaultArtifact artifact = new DefaultArtifact(
+                    getProject().getGroupId(),
+                    getProject().getArtifactId(),
+                    artifactHandlerManager
+                            .getArtifactHandler(getProject().getPackaging())
+                            .getExtension(),
+                    "[0,)");
 
             getLog().debug("Artifact for lookup released version: " + artifact);
-            VersionRangeRequest request = new VersionRangeRequest(artifact, getProject().getRemoteProjectRepositories(), null);
+            VersionRangeRequest request =
+                    new VersionRangeRequest(artifact, getProject().getRemoteProjectRepositories(), null);
 
             VersionRangeResult versionRangeResult = repoSystem.resolveVersionRange(repoSession, request);
 
@@ -125,35 +123,29 @@ public class ReleasedVersionMojo
 
             getLog().debug("Released version: " + releasedVersion);
 
-            if ( releasedVersion != null )
-            {
+            if (releasedVersion != null) {
                 // Use ArtifactVersion.toString(), the major, minor and incrementalVersion return all an int.
                 String releasedVersionValue = releasedVersion.toString();
 
                 // This would not always reflect the expected version.
-                int dashIndex = releasedVersionValue.indexOf( '-' );
-                if ( dashIndex >= 0 )
-                {
-                    releasedVersionValue = releasedVersionValue.substring( 0, dashIndex );
+                int dashIndex = releasedVersionValue.indexOf('-');
+                if (dashIndex >= 0) {
+                    releasedVersionValue = releasedVersionValue.substring(0, dashIndex);
                 }
 
-                defineVersionProperty( "version", releasedVersionValue );
-                defineVersionProperty( "majorVersion", releasedVersion.getMajorVersion() );
-                defineVersionProperty( "minorVersion", releasedVersion.getMinorVersion() );
-                defineVersionProperty( "incrementalVersion", releasedVersion.getIncrementalVersion() );
-                defineVersionProperty( "buildNumber", releasedVersion.getBuildNumber() );
-                defineVersionProperty( "qualifier", releasedVersion.getQualifier() );
-            }
-            else {
+                defineVersionProperty("version", releasedVersionValue);
+                defineVersionProperty("majorVersion", releasedVersion.getMajorVersion());
+                defineVersionProperty("minorVersion", releasedVersion.getMinorVersion());
+                defineVersionProperty("incrementalVersion", releasedVersion.getIncrementalVersion());
+                defineVersionProperty("buildNumber", releasedVersion.getBuildNumber());
+                defineVersionProperty("qualifier", releasedVersion.getQualifier());
+            } else {
                 getLog().debug("No released version found.");
             }
 
-        }
-        catch (VersionRangeResolutionException e )
-        {
-            if ( getLog().isWarnEnabled() )
-            {
-                getLog().warn( "Failed to retrieve artifacts metadata, cannot resolve the released version" );
+        } catch (VersionRangeResolutionException e) {
+            if (getLog().isWarnEnabled()) {
+                getLog().warn("Failed to retrieve artifacts metadata, cannot resolve the released version");
             }
         }
     }

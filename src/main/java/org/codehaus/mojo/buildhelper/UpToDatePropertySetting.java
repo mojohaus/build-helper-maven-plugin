@@ -34,8 +34,7 @@ import org.codehaus.plexus.util.StringUtils;
  * @author Adrian Price <a href="mailto:demonfiddler@virginmedia.com">demonfiddler@virginmedia.com</a>
  * @since 1.12
  */
-public final class UpToDatePropertySetting
-{
+public final class UpToDatePropertySetting {
     /**
      * A set of source files.
      */
@@ -45,95 +44,78 @@ public final class UpToDatePropertySetting
     /**
      * The name of the property to set.
      */
-    @Parameter( required = true )
+    @Parameter(required = true)
     private String name;
 
     /**
      * The property value to set if the up-to-date condition is fulfilled.
      */
-    @Parameter( defaultValue = "true" )
+    @Parameter(defaultValue = "true")
     private String value = "true";
 
     /**
      * The property value to set if the up-to-date condition is not fulfilled.
      */
-    @Parameter( alias = "else" )
+    @Parameter(alias = "else")
     private String elseValue;
 
-    public UpToDatePropertySetting()
-    {
-    }
+    public UpToDatePropertySetting() {}
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public FileSet getFileSet()
-    {
+    public FileSet getFileSet() {
         return fileSet;
     }
 
-    public String getValue()
-    {
+    public String getValue() {
         return value;
     }
 
-    public void setFileSet( FileSet fileSet )
-    {
+    public void setFileSet(FileSet fileSet) {
         this.fileSet = fileSet;
     }
 
-    public void setName( String name )
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setValue( String value )
-    {
+    public void setValue(String value) {
         this.value = value;
     }
 
-    public String getElse()
-    {
+    public String getElse() {
         return elseValue;
     }
 
-    public void setElse( String elseValue )
-    {
+    public void setElse(String elseValue) {
         this.elseValue = elseValue;
     }
 
-    void validate()
-    {
-        if ( StringUtils.isBlank( name ) )
-        {
-            throw new IllegalArgumentException( "name required" );
+    void validate() {
+        if (StringUtils.isBlank(name)) {
+            throw new IllegalArgumentException("name required");
         }
 
-        if ( StringUtils.isBlank( value ) )
-        {
-            throw new IllegalArgumentException( "value required" );
+        if (StringUtils.isBlank(value)) {
+            throw new IllegalArgumentException("value required");
         }
 
-        if ( StringUtils.equals( value, elseValue ) )
-        {
-            throw new IllegalArgumentException( "value and else cannot be the same" );
+        if (StringUtils.equals(value, elseValue)) {
+            throw new IllegalArgumentException("value and else cannot be the same");
         }
 
-        if ( fileSet == null )
-        {
-            throw new IllegalArgumentException( "fileSet required" );
+        if (fileSet == null) {
+            throw new IllegalArgumentException("fileSet required");
         }
 
-        if ( StringUtils.isBlank( fileSet.getDirectory() ) )
-        {
-            throw new IllegalArgumentException( "directory required for " + fileSet );
+        if (StringUtils.isBlank(fileSet.getDirectory())) {
+            throw new IllegalArgumentException("directory required for " + fileSet);
         }
 
-        if ( fileSet.getMapper() == null )
-        {
-            throw new IllegalArgumentException( "mapper required for " + fileSet );
+        if (fileSet.getMapper() == null) {
+            throw new IllegalArgumentException("mapper required for " + fileSet);
         }
     }
 }

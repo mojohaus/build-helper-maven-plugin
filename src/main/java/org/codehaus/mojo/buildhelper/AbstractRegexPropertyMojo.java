@@ -1,7 +1,5 @@
 package org.codehaus.mojo.buildhelper;
 
-import java.util.Locale;
-
 /*
  * The MIT License
  *
@@ -26,6 +24,7 @@ import java.util.Locale;
  * SOFTWARE.
  */
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -34,64 +33,47 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.codehaus.plexus.util.StringUtils;
 
-public abstract class AbstractRegexPropertyMojo
-    extends AbstractDefinePropertyMojo
-{
+public abstract class AbstractRegexPropertyMojo extends AbstractDefinePropertyMojo {
 
-    protected void execute( RegexPropertySetting config )
-        throws MojoExecutionException, MojoFailureException
-    {
-        try
-        {
+    protected void execute(RegexPropertySetting config) throws MojoExecutionException, MojoFailureException {
+        try {
             config.validate();
-        }
-        catch ( IllegalArgumentException e )
-        {
-            throw new MojoExecutionException( e.getMessage(), e );
+        } catch (IllegalArgumentException e) {
+            throw new MojoExecutionException(e.getMessage(), e);
         }
 
         Pattern pattern;
-        try
-        {
-            pattern = Pattern.compile( config.getRegex() );
+        try {
+            pattern = Pattern.compile(config.getRegex());
+        } catch (PatternSyntaxException e) {
+            throw new MojoExecutionException(e.getMessage(), e);
         }
-        catch ( PatternSyntaxException e )
-        {
-            throw new MojoExecutionException( e.getMessage(), e );
-        }
-        Matcher matcher = pattern.matcher( config.getValue() );
+        Matcher matcher = pattern.matcher(config.getValue());
 
-        if ( matcher.find() )
-        {
+        if (matcher.find()) {
             // if the string replacement is empty, we define the value replacement to empty.
-            config.setValue( ( StringUtils.isNotEmpty( config.getReplacement() )
-                            ? matcher.replaceAll( config.getReplacement() ) : matcher.replaceAll( "" ) ) );
-        }
-        else
-        {
-            if ( config.isFailIfNoMatch() )
-            {
-                throw new MojoFailureException( "No match to regex '" + config.getRegex() + "' found in '"
-                    + config.getValue() + "'." );
-            }
-            else
-            {
-                getLog().info( "No match to regex '" + config.getRegex() + "' found in '" + config.getValue() + "'. "
-                    + "The initial value '" + config.getValue() + "' is left as-is..." );
+            config.setValue(
+                    (StringUtils.isNotEmpty(config.getReplacement())
+                            ? matcher.replaceAll(config.getReplacement())
+                            : matcher.replaceAll("")));
+        } else {
+            if (config.isFailIfNoMatch()) {
+                throw new MojoFailureException(
+                        "No match to regex '" + config.getRegex() + "' found in '" + config.getValue() + "'.");
+            } else {
+                getLog().info("No match to regex '" + config.getRegex() + "' found in '" + config.getValue() + "'. "
+                        + "The initial value '" + config.getValue() + "' is left as-is...");
             }
         }
 
-        if ( config.isToLowerCase() )
-        {
-            config.setValue( config.getValue().toLowerCase( Locale.getDefault() ) );
+        if (config.isToLowerCase()) {
+            config.setValue(config.getValue().toLowerCase(Locale.getDefault()));
         }
 
-        if ( config.isToUpperCase() )
-        {
-            config.setValue( config.getValue().toUpperCase( Locale.getDefault() ) );
+        if (config.isToUpperCase()) {
+            config.setValue(config.getValue().toUpperCase(Locale.getDefault()));
         }
 
-        defineProperty( config.getName(), config.getValue() );
-
+        defineProperty(config.getName(), config.getValue());
     }
 }
