@@ -24,410 +24,371 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
+import java.util.Properties;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.Properties;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ParseVersionTest
-{
-    public static class TestParseVersionMojo
-        extends ParseVersionMojo
-    {
+public class ParseVersionTest {
+    public static class TestParseVersionMojo extends ParseVersionMojo {
         private final Properties properties;
 
-        public TestParseVersionMojo( Properties properties )
-        {
+        public TestParseVersionMojo(Properties properties) {
             this.properties = properties;
         }
 
-        protected void defineProperty( String name, String value )
-        {
-            properties.put( name, value );
+        protected void defineProperty(String name, String value) {
+            properties.put(name, value);
         }
     }
 
     @Nested
-    public class TestParseVersion
-    {
+    public class TestParseVersion {
         private Properties props;
 
         private ParseVersionMojo mojo;
 
         @BeforeEach
-        public void beforeClass()
-        {
+        public void beforeClass() {
             props = new Properties();
             mojo = new TestParseVersionMojo(props);
-            mojo.setPropertyPrefix( "parsed" );
+            mojo.setPropertyPrefix("parsed");
 
-            mojo.setFormattedPropertyPrefix( "formatted" );
+            mojo.setFormattedPropertyPrefix("formatted");
             // The settings should in line with the given defaultValues of the parameters
             // in the mojo definition.
-            mojo.setFormatMajor( "%02d" );
-            mojo.setFormatMinor( "%02d" );
-            mojo.setFormatIncremental( "%02d" );
-            mojo.setFormatBuildNumber( "%02d" );
+            mojo.setFormatMajor("%02d");
+            mojo.setFormatMinor("%02d");
+            mojo.setFormatIncremental("%02d");
+            mojo.setFormatBuildNumber("%02d");
         }
 
         @Test
         public void checkJunkVersion() {
             // Test a junk version string
-            mojo.parseVersion( "junk" );
+            mojo.parseVersion("junk");
 
-            assertEquals( "0", props.getProperty( "parsed.majorVersion" ) );
-            assertEquals( "0", props.getProperty( "parsed.minorVersion" ) );
-            assertEquals( "0", props.getProperty( "parsed.incrementalVersion" ) );
-            assertEquals( "junk", props.getProperty( "parsed.qualifier" ) );
-            assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
-            assertEquals( "0.0.0.junk", props.getProperty( "parsed.osgiVersion" ) );
+            assertEquals("0", props.getProperty("parsed.majorVersion"));
+            assertEquals("0", props.getProperty("parsed.minorVersion"));
+            assertEquals("0", props.getProperty("parsed.incrementalVersion"));
+            assertEquals("junk", props.getProperty("parsed.qualifier"));
+            assertEquals("0", props.getProperty("parsed.buildNumber"));
+            assertEquals("0.0.0.junk", props.getProperty("parsed.osgiVersion"));
         }
 
         @Test
         public void checkBasicMavenVersionString() {
             // Test a basic maven version string
-            mojo.parseVersion( "1.0.0" );
+            mojo.parseVersion("1.0.0");
 
-            assertEquals( "1", props.getProperty( "parsed.majorVersion" ) );
-            assertEquals( "0", props.getProperty( "parsed.minorVersion" ) );
-            assertEquals( "0", props.getProperty( "parsed.incrementalVersion" ) );
-            assertEquals( "", props.getProperty( "parsed.qualifier" ) );
-            assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
-            assertEquals( "1.0.0", props.getProperty( "parsed.osgiVersion" ) );
+            assertEquals("1", props.getProperty("parsed.majorVersion"));
+            assertEquals("0", props.getProperty("parsed.minorVersion"));
+            assertEquals("0", props.getProperty("parsed.incrementalVersion"));
+            assertEquals("", props.getProperty("parsed.qualifier"));
+            assertEquals("0", props.getProperty("parsed.buildNumber"));
+            assertEquals("1.0.0", props.getProperty("parsed.osgiVersion"));
         }
 
         @Test
-        public void checkVersionStringWithQualifier()
-        {
+        public void checkVersionStringWithQualifier() {
             // Test a version string with qualifier
-            mojo.parseVersion( "2.3.4-beta-5" );
+            mojo.parseVersion("2.3.4-beta-5");
 
-            assertEquals( "2", props.getProperty( "parsed.majorVersion" ) );
-            assertEquals( "3", props.getProperty( "parsed.minorVersion" ) );
-            assertEquals( "4", props.getProperty( "parsed.incrementalVersion" ) );
-            assertEquals( "beta-5", props.getProperty( "parsed.qualifier" ) );
-            assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
-            assertEquals( "2.3.4.beta-5", props.getProperty( "parsed.osgiVersion" ) );
+            assertEquals("2", props.getProperty("parsed.majorVersion"));
+            assertEquals("3", props.getProperty("parsed.minorVersion"));
+            assertEquals("4", props.getProperty("parsed.incrementalVersion"));
+            assertEquals("beta-5", props.getProperty("parsed.qualifier"));
+            assertEquals("0", props.getProperty("parsed.buildNumber"));
+            assertEquals("2.3.4.beta-5", props.getProperty("parsed.osgiVersion"));
         }
 
         @Test
-        public void checkOSGiVersionStringWithQualifier()
-        {
+        public void checkOSGiVersionStringWithQualifier() {
             // Test an osgi version string
-            mojo.parseVersion( "2.3.4.beta_5" );
+            mojo.parseVersion("2.3.4.beta_5");
 
-            assertEquals( "2", props.getProperty( "parsed.majorVersion" ) );
-            assertEquals( "3", props.getProperty( "parsed.minorVersion" ) );
-            assertEquals( "4", props.getProperty( "parsed.incrementalVersion" ) );
-            assertEquals( "beta_5", props.getProperty( "parsed.qualifier" ) );
-            assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
-            assertEquals( "2.3.4.beta_5", props.getProperty( "parsed.osgiVersion" ) );
+            assertEquals("2", props.getProperty("parsed.majorVersion"));
+            assertEquals("3", props.getProperty("parsed.minorVersion"));
+            assertEquals("4", props.getProperty("parsed.incrementalVersion"));
+            assertEquals("beta_5", props.getProperty("parsed.qualifier"));
+            assertEquals("0", props.getProperty("parsed.buildNumber"));
+            assertEquals("2.3.4.beta_5", props.getProperty("parsed.osgiVersion"));
         }
 
         @Test
-        public void checkSnapshotVersion()
-        {
+        public void checkSnapshotVersion() {
             // Test a snapshot version string
-            mojo.parseVersion( "1.2.3-SNAPSHOT" );
+            mojo.parseVersion("1.2.3-SNAPSHOT");
 
-            assertEquals( "1", props.getProperty( "parsed.majorVersion" ) );
-            assertEquals( "2", props.getProperty( "parsed.minorVersion" ) );
-            assertEquals( "3", props.getProperty( "parsed.incrementalVersion" ) );
-            assertEquals( "SNAPSHOT", props.getProperty( "parsed.qualifier" ) );
-            assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
-            assertEquals( "1.2.3.SNAPSHOT", props.getProperty( "parsed.osgiVersion" ) );
+            assertEquals("1", props.getProperty("parsed.majorVersion"));
+            assertEquals("2", props.getProperty("parsed.minorVersion"));
+            assertEquals("3", props.getProperty("parsed.incrementalVersion"));
+            assertEquals("SNAPSHOT", props.getProperty("parsed.qualifier"));
+            assertEquals("0", props.getProperty("parsed.buildNumber"));
+            assertEquals("1.2.3.SNAPSHOT", props.getProperty("parsed.osgiVersion"));
         }
 
         @Test
-        public void checkSnapshotVersion2()
-        {
+        public void checkSnapshotVersion2() {
             // Test a snapshot version string
-            mojo.parseVersion( "2.0.17-SNAPSHOT" );
+            mojo.parseVersion("2.0.17-SNAPSHOT");
 
-            assertEquals( "2", props.getProperty( "parsed.majorVersion" ) );
-            assertEquals( "0", props.getProperty( "parsed.minorVersion" ) );
-            assertEquals( "17", props.getProperty( "parsed.incrementalVersion" ) );
-            assertEquals( "SNAPSHOT", props.getProperty( "parsed.qualifier" ) );
-            assertEquals( "0", props.getProperty( "parsed.buildNumber" ) );
-            assertEquals( "2.0.17.SNAPSHOT", props.getProperty( "parsed.osgiVersion" ) );
+            assertEquals("2", props.getProperty("parsed.majorVersion"));
+            assertEquals("0", props.getProperty("parsed.minorVersion"));
+            assertEquals("17", props.getProperty("parsed.incrementalVersion"));
+            assertEquals("SNAPSHOT", props.getProperty("parsed.qualifier"));
+            assertEquals("0", props.getProperty("parsed.buildNumber"));
+            assertEquals("2.0.17.SNAPSHOT", props.getProperty("parsed.osgiVersion"));
         }
 
         @Test
-        public void checkVersionStringWithBuildNumber()
-        {
+        public void checkVersionStringWithBuildNumber() {
             // Test a version string with a build number
-            mojo.parseVersion( "1.2.3-4" );
+            mojo.parseVersion("1.2.3-4");
 
-            assertEquals( "1", props.getProperty( "parsed.majorVersion" ) );
-            assertEquals( "2", props.getProperty( "parsed.minorVersion" ) );
-            assertEquals( "3", props.getProperty( "parsed.incrementalVersion" ) );
-            assertEquals( "", props.getProperty( "parsed.qualifier" ) );
-            assertEquals( "4", props.getProperty( "parsed.buildNumber" ) );
-            assertEquals( "1.2.3.4", props.getProperty( "parsed.osgiVersion" ) );
-
+            assertEquals("1", props.getProperty("parsed.majorVersion"));
+            assertEquals("2", props.getProperty("parsed.minorVersion"));
+            assertEquals("3", props.getProperty("parsed.incrementalVersion"));
+            assertEquals("", props.getProperty("parsed.qualifier"));
+            assertEquals("4", props.getProperty("parsed.buildNumber"));
+            assertEquals("1.2.3.4", props.getProperty("parsed.osgiVersion"));
         }
 
         @Test
-        public void checkSnapshotVersionStringWithBuildNumber()
-        {
+        public void checkSnapshotVersionStringWithBuildNumber() {
             // Test a version string with a build number
-            mojo.parseVersion( "1.2.3-4-SNAPSHOT" );
+            mojo.parseVersion("1.2.3-4-SNAPSHOT");
 
-            assertEquals( "1", props.getProperty( "parsed.majorVersion" ) );
-            assertEquals( "2", props.getProperty( "parsed.minorVersion" ) );
-            assertEquals( "3", props.getProperty( "parsed.incrementalVersion" ) );
-            assertEquals( "-SNAPSHOT", props.getProperty( "parsed.qualifier" ) );
-            assertEquals( "4", props.getProperty( "parsed.buildNumber" ) );
-            assertEquals( "1.2.3.4-SNAPSHOT", props.getProperty( "parsed.osgiVersion" ) );
+            assertEquals("1", props.getProperty("parsed.majorVersion"));
+            assertEquals("2", props.getProperty("parsed.minorVersion"));
+            assertEquals("3", props.getProperty("parsed.incrementalVersion"));
+            assertEquals("-SNAPSHOT", props.getProperty("parsed.qualifier"));
+            assertEquals("4", props.getProperty("parsed.buildNumber"));
+            assertEquals("1.2.3.4-SNAPSHOT", props.getProperty("parsed.osgiVersion"));
         }
-
     }
 
     @Nested
-    class TestParseNextVersion
-    {
+    class TestParseNextVersion {
         private Properties props;
 
         private ParseVersionMojo mojo;
 
         @BeforeEach
-        public void beforeClass()
-        {
+        public void beforeClass() {
             props = new Properties();
             mojo = new TestParseVersionMojo(props);
-            mojo.setPropertyPrefix( "parsed" );
-            mojo.setFormattedPropertyPrefix( "formatted" );
+            mojo.setPropertyPrefix("parsed");
+            mojo.setFormattedPropertyPrefix("formatted");
             // The settings should in line with the given defaultValues of the parameters
             // in the mojo definition.
-            mojo.setFormatMajor( "%02d" );
-            mojo.setFormatMinor( "%02d" );
-            mojo.setFormatIncremental( "%02d" );
-            mojo.setFormatBuildNumber( "%02d" );
+            mojo.setFormatMajor("%02d");
+            mojo.setFormatMinor("%02d");
+            mojo.setFormatIncremental("%02d");
+            mojo.setFormatBuildNumber("%02d");
         }
 
         @Test
-        public void checkJunkVersion()
-        {
-            mojo.parseVersion( "junk" );
+        public void checkJunkVersion() {
+            mojo.parseVersion("junk");
 
-            assertEquals( "1", props.getProperty( "parsed.nextMajorVersion" ) );
-            assertEquals( "1", props.getProperty( "parsed.nextMinorVersion" ) );
-            assertEquals( "1", props.getProperty( "parsed.nextIncrementalVersion" ) );
-            assertEquals( "1", props.getProperty( "parsed.nextBuildNumber" ) );
+            assertEquals("1", props.getProperty("parsed.nextMajorVersion"));
+            assertEquals("1", props.getProperty("parsed.nextMinorVersion"));
+            assertEquals("1", props.getProperty("parsed.nextIncrementalVersion"));
+            assertEquals("1", props.getProperty("parsed.nextBuildNumber"));
         }
 
         @Test
-        public void testBasicMavenVersion()
-        {
-            mojo.parseVersion( "1.0.0" );
+        public void testBasicMavenVersion() {
+            mojo.parseVersion("1.0.0");
 
-            assertEquals( "2", props.getProperty( "parsed.nextMajorVersion" ) );
-            assertEquals( "1", props.getProperty( "parsed.nextMinorVersion" ) );
-            assertEquals( "1", props.getProperty( "parsed.nextIncrementalVersion" ) );
-            assertEquals( "1", props.getProperty( "parsed.nextBuildNumber" ) );
+            assertEquals("2", props.getProperty("parsed.nextMajorVersion"));
+            assertEquals("1", props.getProperty("parsed.nextMinorVersion"));
+            assertEquals("1", props.getProperty("parsed.nextIncrementalVersion"));
+            assertEquals("1", props.getProperty("parsed.nextBuildNumber"));
         }
 
         @Test
-        public void testVersionStringWithQualifier()
-        {
-            mojo.parseVersion( "2.3.4-beta-5" );
+        public void testVersionStringWithQualifier() {
+            mojo.parseVersion("2.3.4-beta-5");
 
-            assertEquals( "3", props.getProperty( "parsed.nextMajorVersion" ) );
-            assertEquals( "4", props.getProperty( "parsed.nextMinorVersion" ) );
-            assertEquals( "5", props.getProperty( "parsed.nextIncrementalVersion" ) );
-            assertEquals( "1", props.getProperty( "parsed.nextBuildNumber" ) );
+            assertEquals("3", props.getProperty("parsed.nextMajorVersion"));
+            assertEquals("4", props.getProperty("parsed.nextMinorVersion"));
+            assertEquals("5", props.getProperty("parsed.nextIncrementalVersion"));
+            assertEquals("1", props.getProperty("parsed.nextBuildNumber"));
         }
 
         @Test
-        public void testOSGiVersion()
-        {
-            mojo.parseVersion( "2.3.4.beta_5" );
+        public void testOSGiVersion() {
+            mojo.parseVersion("2.3.4.beta_5");
 
-            assertEquals( "3", props.getProperty( "parsed.nextMajorVersion" ) );
-            assertEquals( "4", props.getProperty( "parsed.nextMinorVersion" ) );
-            assertEquals( "5", props.getProperty( "parsed.nextIncrementalVersion" ) );
-            assertEquals( "1", props.getProperty( "parsed.nextBuildNumber" ) );
+            assertEquals("3", props.getProperty("parsed.nextMajorVersion"));
+            assertEquals("4", props.getProperty("parsed.nextMinorVersion"));
+            assertEquals("5", props.getProperty("parsed.nextIncrementalVersion"));
+            assertEquals("1", props.getProperty("parsed.nextBuildNumber"));
         }
 
         @Test
-        public void testSnapshotVersion()
-        {
+        public void testSnapshotVersion() {
             // Test a snapshot version string
-            mojo.parseVersion( "1.2.3-SNAPSHOT" );
+            mojo.parseVersion("1.2.3-SNAPSHOT");
 
-            assertEquals( "2", props.getProperty( "parsed.nextMajorVersion" ) );
-            assertEquals( "3", props.getProperty( "parsed.nextMinorVersion" ) );
-            assertEquals( "4", props.getProperty( "parsed.nextIncrementalVersion" ) );
-            assertEquals( "1", props.getProperty( "parsed.nextBuildNumber" ) );
+            assertEquals("2", props.getProperty("parsed.nextMajorVersion"));
+            assertEquals("3", props.getProperty("parsed.nextMinorVersion"));
+            assertEquals("4", props.getProperty("parsed.nextIncrementalVersion"));
+            assertEquals("1", props.getProperty("parsed.nextBuildNumber"));
         }
 
         @Test
-        public void testSnapshotVersion2()
-        {
+        public void testSnapshotVersion2() {
             // Test a snapshot version string
-            mojo.parseVersion( "2.0.17-SNAPSHOT" );
+            mojo.parseVersion("2.0.17-SNAPSHOT");
 
-            assertEquals( "3", props.getProperty( "parsed.nextMajorVersion" ) );
-            assertEquals( "1", props.getProperty( "parsed.nextMinorVersion" ) );
-            assertEquals( "18", props.getProperty( "parsed.nextIncrementalVersion" ) );
-            assertEquals( "1", props.getProperty( "parsed.nextBuildNumber" ) );
+            assertEquals("3", props.getProperty("parsed.nextMajorVersion"));
+            assertEquals("1", props.getProperty("parsed.nextMinorVersion"));
+            assertEquals("18", props.getProperty("parsed.nextIncrementalVersion"));
+            assertEquals("1", props.getProperty("parsed.nextBuildNumber"));
         }
 
         @Test
-        public void testVersionStringWithBuildNumber()
-        {
-            mojo.parseVersion( "1.2.3-4" );
+        public void testVersionStringWithBuildNumber() {
+            mojo.parseVersion("1.2.3-4");
 
-            assertEquals( "2", props.getProperty( "parsed.nextMajorVersion" ) );
-            assertEquals( "3", props.getProperty( "parsed.nextMinorVersion" ) );
-            assertEquals( "4", props.getProperty( "parsed.nextIncrementalVersion" ) );
-            assertEquals( "5", props.getProperty( "parsed.nextBuildNumber" ) );
+            assertEquals("2", props.getProperty("parsed.nextMajorVersion"));
+            assertEquals("3", props.getProperty("parsed.nextMinorVersion"));
+            assertEquals("4", props.getProperty("parsed.nextIncrementalVersion"));
+            assertEquals("5", props.getProperty("parsed.nextBuildNumber"));
         }
-
     }
 
     @Nested
-    class TestFormattedVersion
-    {
+    class TestFormattedVersion {
         private Properties props;
 
         private ParseVersionMojo mojo;
 
         @BeforeEach
-        public void beforeClass()
-        {
+        public void beforeClass() {
             props = new Properties();
             mojo = new TestParseVersionMojo(props);
-            mojo.setPropertyPrefix( "parsed" );
-            mojo.setFormattedPropertyPrefix( "formatted" );
+            mojo.setPropertyPrefix("parsed");
+            mojo.setFormattedPropertyPrefix("formatted");
             // The settings should in line with the given defaultValues of the parameters
             // in the mojo definition.
-            mojo.setFormatMajor( "%02d" );
-            mojo.setFormatMinor( "%02d" );
-            mojo.setFormatIncremental( "%02d" );
-            mojo.setFormatBuildNumber( "%02d" );
+            mojo.setFormatMajor("%02d");
+            mojo.setFormatMinor("%02d");
+            mojo.setFormatIncremental("%02d");
+            mojo.setFormatBuildNumber("%02d");
         }
 
         @Test
-        public void testJunkVersion()
-        {
-            mojo.parseVersion( "junk" );
+        public void testJunkVersion() {
+            mojo.parseVersion("junk");
 
-            assertEquals( "00", props.getProperty( "formatted.majorVersion" ) );
-            assertEquals( "00", props.getProperty( "formatted.minorVersion" ) );
-            assertEquals( "00", props.getProperty( "formatted.incrementalVersion" ) );
-            assertEquals( "00", props.getProperty( "formatted.buildNumber" ) );
+            assertEquals("00", props.getProperty("formatted.majorVersion"));
+            assertEquals("00", props.getProperty("formatted.minorVersion"));
+            assertEquals("00", props.getProperty("formatted.incrementalVersion"));
+            assertEquals("00", props.getProperty("formatted.buildNumber"));
 
-            assertEquals( "01", props.getProperty( "formatted.nextMajorVersion" ) );
-            assertEquals( "01", props.getProperty( "formatted.nextMinorVersion" ) );
-            assertEquals( "01", props.getProperty( "formatted.nextIncrementalVersion" ) );
-            assertEquals( "01", props.getProperty( "formatted.nextBuildNumber" ) );
+            assertEquals("01", props.getProperty("formatted.nextMajorVersion"));
+            assertEquals("01", props.getProperty("formatted.nextMinorVersion"));
+            assertEquals("01", props.getProperty("formatted.nextIncrementalVersion"));
+            assertEquals("01", props.getProperty("formatted.nextBuildNumber"));
         }
 
         @Test
-        public void testBasicMavenVersion()
-        {
-            mojo.parseVersion( "1.0.0" );
+        public void testBasicMavenVersion() {
+            mojo.parseVersion("1.0.0");
 
-            assertEquals( "01", props.getProperty( "formatted.majorVersion" ) );
-            assertEquals( "00", props.getProperty( "formatted.minorVersion" ) );
-            assertEquals( "00", props.getProperty( "formatted.incrementalVersion" ) );
-            assertEquals( "00", props.getProperty( "formatted.buildNumber" ) );
+            assertEquals("01", props.getProperty("formatted.majorVersion"));
+            assertEquals("00", props.getProperty("formatted.minorVersion"));
+            assertEquals("00", props.getProperty("formatted.incrementalVersion"));
+            assertEquals("00", props.getProperty("formatted.buildNumber"));
 
-            assertEquals( "02", props.getProperty( "formatted.nextMajorVersion" ) );
-            assertEquals( "01", props.getProperty( "formatted.nextMinorVersion" ) );
-            assertEquals( "01", props.getProperty( "formatted.nextIncrementalVersion" ) );
-            assertEquals( "01", props.getProperty( "formatted.nextBuildNumber" ) );
+            assertEquals("02", props.getProperty("formatted.nextMajorVersion"));
+            assertEquals("01", props.getProperty("formatted.nextMinorVersion"));
+            assertEquals("01", props.getProperty("formatted.nextIncrementalVersion"));
+            assertEquals("01", props.getProperty("formatted.nextBuildNumber"));
         }
 
         @Test
-        public void testVersionStringWithQualifier()
-        {
-            mojo.parseVersion( "2.3.4-beta-5" );
+        public void testVersionStringWithQualifier() {
+            mojo.parseVersion("2.3.4-beta-5");
 
-            assertEquals( "02", props.getProperty( "formatted.majorVersion" ) );
-            assertEquals( "03", props.getProperty( "formatted.minorVersion" ) );
-            assertEquals( "04", props.getProperty( "formatted.incrementalVersion" ) );
-            assertEquals( "00", props.getProperty( "formatted.buildNumber" ) );
+            assertEquals("02", props.getProperty("formatted.majorVersion"));
+            assertEquals("03", props.getProperty("formatted.minorVersion"));
+            assertEquals("04", props.getProperty("formatted.incrementalVersion"));
+            assertEquals("00", props.getProperty("formatted.buildNumber"));
 
-            assertEquals( "03", props.getProperty( "formatted.nextMajorVersion" ) );
-            assertEquals( "04", props.getProperty( "formatted.nextMinorVersion" ) );
-            assertEquals( "05", props.getProperty( "formatted.nextIncrementalVersion" ) );
-            assertEquals( "01", props.getProperty( "formatted.nextBuildNumber" ) );
-
+            assertEquals("03", props.getProperty("formatted.nextMajorVersion"));
+            assertEquals("04", props.getProperty("formatted.nextMinorVersion"));
+            assertEquals("05", props.getProperty("formatted.nextIncrementalVersion"));
+            assertEquals("01", props.getProperty("formatted.nextBuildNumber"));
         }
 
         @Test
-        public void testOSGiVersion()
-        {
-            mojo.parseVersion( "2.3.4.beta_5" );
+        public void testOSGiVersion() {
+            mojo.parseVersion("2.3.4.beta_5");
 
-            assertEquals( "02", props.getProperty( "formatted.majorVersion" ) );
-            assertEquals( "03", props.getProperty( "formatted.minorVersion" ) );
-            assertEquals( "04", props.getProperty( "formatted.incrementalVersion" ) );
-            assertEquals( "00", props.getProperty( "formatted.buildNumber" ) );
+            assertEquals("02", props.getProperty("formatted.majorVersion"));
+            assertEquals("03", props.getProperty("formatted.minorVersion"));
+            assertEquals("04", props.getProperty("formatted.incrementalVersion"));
+            assertEquals("00", props.getProperty("formatted.buildNumber"));
 
-            assertEquals( "03", props.getProperty( "formatted.nextMajorVersion" ) );
-            assertEquals( "04", props.getProperty( "formatted.nextMinorVersion" ) );
-            assertEquals( "05", props.getProperty( "formatted.nextIncrementalVersion" ) );
-            assertEquals( "01", props.getProperty( "formatted.nextBuildNumber" ) );
-
+            assertEquals("03", props.getProperty("formatted.nextMajorVersion"));
+            assertEquals("04", props.getProperty("formatted.nextMinorVersion"));
+            assertEquals("05", props.getProperty("formatted.nextIncrementalVersion"));
+            assertEquals("01", props.getProperty("formatted.nextBuildNumber"));
         }
 
         @Test
-        public void testSnapshotVersion()
-        {
+        public void testSnapshotVersion() {
             // Test a snapshot version string
-            mojo.parseVersion( "1.2.3-SNAPSHOT" );
+            mojo.parseVersion("1.2.3-SNAPSHOT");
 
-            assertEquals( "01", props.getProperty( "formatted.majorVersion" ) );
-            assertEquals( "02", props.getProperty( "formatted.minorVersion" ) );
-            assertEquals( "03", props.getProperty( "formatted.incrementalVersion" ) );
-            assertEquals( "00", props.getProperty( "formatted.buildNumber" ) );
+            assertEquals("01", props.getProperty("formatted.majorVersion"));
+            assertEquals("02", props.getProperty("formatted.minorVersion"));
+            assertEquals("03", props.getProperty("formatted.incrementalVersion"));
+            assertEquals("00", props.getProperty("formatted.buildNumber"));
 
-            assertEquals( "02", props.getProperty( "formatted.nextMajorVersion" ) );
-            assertEquals( "03", props.getProperty( "formatted.nextMinorVersion" ) );
-            assertEquals( "04", props.getProperty( "formatted.nextIncrementalVersion" ) );
-            assertEquals( "01", props.getProperty( "formatted.nextBuildNumber" ) );
-
+            assertEquals("02", props.getProperty("formatted.nextMajorVersion"));
+            assertEquals("03", props.getProperty("formatted.nextMinorVersion"));
+            assertEquals("04", props.getProperty("formatted.nextIncrementalVersion"));
+            assertEquals("01", props.getProperty("formatted.nextBuildNumber"));
         }
 
         @Test
-        public void testSnapshotVersion2()
-        {
+        public void testSnapshotVersion2() {
             // Test a snapshot version string
-            mojo.parseVersion( "2.0.17-SNAPSHOT" );
+            mojo.parseVersion("2.0.17-SNAPSHOT");
 
-            assertEquals( "02", props.getProperty( "formatted.majorVersion" ) );
-            assertEquals( "00", props.getProperty( "formatted.minorVersion" ) );
-            assertEquals( "17", props.getProperty( "formatted.incrementalVersion" ) );
-            assertEquals( "00", props.getProperty( "formatted.buildNumber" ) );
+            assertEquals("02", props.getProperty("formatted.majorVersion"));
+            assertEquals("00", props.getProperty("formatted.minorVersion"));
+            assertEquals("17", props.getProperty("formatted.incrementalVersion"));
+            assertEquals("00", props.getProperty("formatted.buildNumber"));
 
-            assertEquals( "03", props.getProperty( "formatted.nextMajorVersion" ) );
-            assertEquals( "01", props.getProperty( "formatted.nextMinorVersion" ) );
-            assertEquals( "18", props.getProperty( "formatted.nextIncrementalVersion" ) );
-            assertEquals( "01", props.getProperty( "formatted.nextBuildNumber" ) );
+            assertEquals("03", props.getProperty("formatted.nextMajorVersion"));
+            assertEquals("01", props.getProperty("formatted.nextMinorVersion"));
+            assertEquals("18", props.getProperty("formatted.nextIncrementalVersion"));
+            assertEquals("01", props.getProperty("formatted.nextBuildNumber"));
         }
 
         @Test
-        public void testVersionStringWithBuildNumber()
-        {
-            mojo.parseVersion( "1.2.3-4" );
+        public void testVersionStringWithBuildNumber() {
+            mojo.parseVersion("1.2.3-4");
 
-            assertEquals( "01", props.getProperty( "formatted.majorVersion" ) );
-            assertEquals( "02", props.getProperty( "formatted.minorVersion" ) );
-            assertEquals( "03", props.getProperty( "formatted.incrementalVersion" ) );
-            assertEquals( "04", props.getProperty( "formatted.buildNumber" ) );
+            assertEquals("01", props.getProperty("formatted.majorVersion"));
+            assertEquals("02", props.getProperty("formatted.minorVersion"));
+            assertEquals("03", props.getProperty("formatted.incrementalVersion"));
+            assertEquals("04", props.getProperty("formatted.buildNumber"));
 
-            assertEquals( "02", props.getProperty( "formatted.nextMajorVersion" ) );
-            assertEquals( "03", props.getProperty( "formatted.nextMinorVersion" ) );
-            assertEquals( "04", props.getProperty( "formatted.nextIncrementalVersion" ) );
-            assertEquals( "05", props.getProperty( "formatted.nextBuildNumber" ) );
+            assertEquals("02", props.getProperty("formatted.nextMajorVersion"));
+            assertEquals("03", props.getProperty("formatted.nextMinorVersion"));
+            assertEquals("04", props.getProperty("formatted.nextIncrementalVersion"));
+            assertEquals("05", props.getProperty("formatted.nextBuildNumber"));
         }
-
     }
-
 }

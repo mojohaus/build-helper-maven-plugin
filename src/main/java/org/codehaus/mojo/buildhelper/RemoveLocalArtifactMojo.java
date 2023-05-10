@@ -45,10 +45,8 @@ import org.eclipse.aether.repository.LocalRepositoryManager;
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @since 1.1
  */
-@Mojo( name = "remove-project-artifact", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true )
-public class RemoveLocalArtifactMojo
-    extends AbstractMojo
-{
+@Mojo(name = "remove-project-artifact", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true)
+public class RemoveLocalArtifactMojo extends AbstractMojo {
 
     /**
      * When true, remove all built artifacts including all versions. When false, remove all built artifacts of this
@@ -56,7 +54,7 @@ public class RemoveLocalArtifactMojo
      *
      * @since 1.1
      */
-    @Parameter( defaultValue = "true", property = "buildhelper.removeAll" )
+    @Parameter(defaultValue = "true", property = "buildhelper.removeAll")
     private boolean removeAll;
 
     /**
@@ -64,53 +62,43 @@ public class RemoveLocalArtifactMojo
      *
      * @since 1.6
      */
-    @Parameter( defaultValue = "true", property = "buildhelper.failOnError" )
+    @Parameter(defaultValue = "true", property = "buildhelper.failOnError")
     private boolean failOnError;
 
     /**
      * @since 1.1
      */
-    @Parameter( readonly = true, defaultValue = "${project}" )
+    @Parameter(readonly = true, defaultValue = "${project}")
     private MavenProject project;
 
-    @Parameter( readonly = true, defaultValue = "${repositorySystemSession}" )
+    @Parameter(readonly = true, defaultValue = "${repositorySystemSession}")
     private RepositorySystemSession repoSession;
 
-    public void execute()
-        throws MojoExecutionException
-    {
+    public void execute() throws MojoExecutionException {
         LocalRepositoryManager lrm = repoSession.getLocalRepositoryManager();
 
         String artifactPath = lrm.getPathForLocalArtifact(RepositoryUtils.toArtifact(project.getArtifact()));
         File repoBasedir = lrm.getRepository().getBasedir();
 
-        File localArtifactFile = new File( repoBasedir, artifactPath );
+        File localArtifactFile = new File(repoBasedir, artifactPath);
         File localArtifactDirectory = localArtifactFile.getParentFile();
 
-        if ( removeAll )
-        {
+        if (removeAll) {
             localArtifactDirectory = localArtifactDirectory.getParentFile();
         }
 
-        try
-        {
-            FileUtils.deleteDirectory( localArtifactDirectory );
+        try {
+            FileUtils.deleteDirectory(localArtifactDirectory);
 
-            if ( getLog().isInfoEnabled() )
-            {
-                getLog().info( localArtifactDirectory.getAbsolutePath() + " removed." );
+            if (getLog().isInfoEnabled()) {
+                getLog().info(localArtifactDirectory.getAbsolutePath() + " removed.");
             }
-        }
-        catch ( IOException e )
-        {
+        } catch (IOException e) {
             final String failureMessage = "Cannot delete " + localArtifactDirectory;
-            if ( failOnError )
-            {
-                throw new MojoExecutionException( failureMessage );
-            }
-            else
-            {
-                getLog().warn( failureMessage );
+            if (failOnError) {
+                throw new MojoExecutionException(failureMessage);
+            } else {
+                getLog().warn(failureMessage);
             }
         }
     }

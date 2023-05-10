@@ -39,38 +39,31 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @author Adrian Price <a href="mailto:demonfiddler@virginmedia.com">demonfiddler@virginmedia.com</a>
  * @since 1.12
  */
-@Mojo( name = "uptodate-properties", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
-public class UpToDatePropertiesMojo
-    extends AbstractUpToDatePropertyMojo
-{
+@Mojo(name = "uptodate-properties", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true)
+public class UpToDatePropertiesMojo extends AbstractUpToDatePropertyMojo {
     /**
      * List of <code>UpToDatePropertySetting</code>s to apply.
      */
-    @Parameter( required = false )
+    @Parameter(required = false)
     private List<UpToDatePropertySetting> upToDatePropertySettings;
 
     /**
      * Disables the plug-in execution.
      */
-    @Parameter( property = "buildhelper.uptodateproperties.skip", defaultValue = "false" )
+    @Parameter(property = "buildhelper.uptodateproperties.skip", defaultValue = "false")
     private boolean skip;
 
     /** {@inheritDoc} */
     @Override
-    public void execute()
-        throws MojoExecutionException, MojoFailureException
-    {
-        if ( skip )
-        {
-            getLog().info( "uptodate-properties is skipped." );
+    public void execute() throws MojoExecutionException, MojoFailureException {
+        if (skip) {
+            getLog().info("uptodate-properties is skipped.");
             return;
         }
 
-        if ( upToDatePropertySettings != null )
-        {
-            for ( UpToDatePropertySetting config : upToDatePropertySettings )
-            {
-                this.execute( config );
+        if (upToDatePropertySettings != null) {
+            for (UpToDatePropertySetting config : upToDatePropertySettings) {
+                this.execute(config);
             }
         }
     }

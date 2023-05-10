@@ -33,8 +33,7 @@ import java.io.File;
  *
  * @author dtran
  */
-public class Artifact
-{
+public class Artifact {
     private File file;
 
     private String type = "jar";
@@ -48,8 +47,7 @@ public class Artifact
      *
      * @param localFile a {@link java.io.File} object.
      */
-    public void setFile( File localFile )
-    {
+    public void setFile(File localFile) {
         this.file = localFile;
     }
 
@@ -60,8 +58,7 @@ public class Artifact
      *
      * @return a {@link java.io.File} object.
      */
-    public File getFile()
-    {
+    public File getFile() {
         return this.file;
     }
 
@@ -72,8 +69,7 @@ public class Artifact
      *
      * @param type a {@link java.lang.String} object.
      */
-    public void setType( String type )
-    {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -84,8 +80,7 @@ public class Artifact
      *
      * @return a {@link java.lang.String} object.
      */
-    public String getType()
-    {
+    public String getType() {
         return this.type;
     }
 
@@ -96,8 +91,7 @@ public class Artifact
      *
      * @param classifier a {@link java.lang.String} object.
      */
-    public void setClassifier( String classifier )
-    {
+    public void setClassifier(String classifier) {
         this.classifier = classifier;
     }
 
@@ -108,8 +102,7 @@ public class Artifact
      *
      * @return a {@link java.lang.String} object.
      */
-    public String getClassifier()
-    {
+    public String getClassifier() {
         return this.classifier;
     }
 }

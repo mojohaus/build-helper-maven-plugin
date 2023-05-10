@@ -11,10 +11,10 @@
   <artifactId>build-helper-maven-plugin</artifactId>
   <version>3.4.0-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
-  <url>https://www.mojohaus.org/build-helper-maven-plugin/</url>
 
   <name>Build Helper Maven Plugin</name>
   <description>This plugin contains various small independent goals to assist with Maven build lifecycle</description>
+  <url>https://www.mojohaus.org/build-helper-maven-plugin/</url>
   <inceptionYear>2005</inceptionYear>
   <licenses>
     <license>
@@ -59,8 +59,8 @@
   <scm>
     <connection>scm:git:https://github.com/mojohaus/build-helper-maven-plugin.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/mojohaus/build-helper-maven-plugin.git</developerConnection>
-    <url>https://github.com/mojohaus/build-helper-maven-plugin/tree/master</url>
     <tag>HEAD</tag>
+    <url>https://github.com/mojohaus/build-helper-maven-plugin/tree/master</url>
   </scm>
 
   <issueManagement>
@@ -115,9 +115,9 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-    	<groupId>org.apache.maven.shared</groupId>
-    	<artifactId>file-management</artifactId>
-    	<version>3.1.0</version>
+      <groupId>org.apache.maven.shared</groupId>
+      <artifactId>file-management</artifactId>
+      <version>3.1.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

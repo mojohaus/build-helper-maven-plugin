@@ -38,32 +38,27 @@ import org.apache.maven.project.MavenProject;
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @since 1.0
  */
-@Mojo( name = "add-test-source", defaultPhase = LifecyclePhase.GENERATE_TEST_SOURCES, threadSafe = true )
-public class AddTestSourceMojo
-    extends AbstractMojo
-{
+@Mojo(name = "add-test-source", defaultPhase = LifecyclePhase.GENERATE_TEST_SOURCES, threadSafe = true)
+public class AddTestSourceMojo extends AbstractMojo {
     /**
      * Additional test source directories.
      *
      * @since 1.0
      */
-    @Parameter( required = true )
+    @Parameter(required = true)
     private File[] sources;
 
     /**
      * @since 1.0
      */
-    @Parameter( readonly = true, defaultValue = "${project}" )
+    @Parameter(readonly = true, defaultValue = "${project}")
     private MavenProject project;
 
-    public void execute()
-    {
-        for ( File source : sources )
-        {
-            this.project.addTestCompileSourceRoot( source.getAbsolutePath() );
-            if ( getLog().isInfoEnabled() )
-            {
-                getLog().info( "Test Source directory: " + source + " added." );
+    public void execute() {
+        for (File source : sources) {
+            this.project.addTestCompileSourceRoot(source.getAbsolutePath());
+            if (getLog().isInfoEnabled()) {
+                getLog().info("Test Source directory: " + source + " added.");
             }
         }
     }

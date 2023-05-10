@@ -30,30 +30,27 @@ import java.util.Properties;
  * @author Adrian Price <a href="mailto:demonfiddler@virginmedia.com">demonfiddler@virginmedia.com</a>
  * @since 1.12
  */
-public final class FixtureUtils
-{
+public final class FixtureUtils {
     /**
      * Creates test resources defined by the specification file <code>fixture.properties</code>. The method creates all
      * the files named by the properties, optionally setting the modification timestamp by adding the number of seconds
      * specified by the property value (which must be an integer) to the current system time.
-     * 
+     *
      * @param basePath The path to the base directory against which to resolve relative paths (including
      *            <code>fixture.properties</code>).
      * @throws IOException If unable to create a file or a missing parent directory.
      * @throws NumberFormatException If a non-empty property value cannot be parsed as an integer.
      */
-    public static void createResources( String basePath )
-        throws IOException
-    {
-        File baseDir = new File( basePath );
-        createResources( baseDir, "fixture.properties", "UTF-8", System.currentTimeMillis() );
+    public static void createResources(String basePath) throws IOException {
+        File baseDir = new File(basePath);
+        createResources(baseDir, "fixture.properties", "UTF-8", System.currentTimeMillis());
     }
 
     /**
      * Creates test resources defined by a specification file. The method creates all the files named by the properties,
      * optionally setting the modification timestamp by adding the number of seconds specified by the property value
      * (which must be an integer) to a base timestamp.
-     * 
+     *
      * @param baseDir The base directory against which to resolve relative paths.
      * @param propertiesPath The path (relative or absolute) to a <code>Properties</code> file whose property names are
      *            file paths (relative or absolute) and whose optional property values represent relative modification
@@ -63,17 +60,16 @@ public final class FixtureUtils
      * @throws IOException If unable to create a file or a missing parent directory.
      * @throws NumberFormatException If a non-empty property value cannot be parsed as an integer.
      */
-    public static void createResources( File baseDir, String propertiesPath, String encoding, long baseTimestamp )
-        throws IOException
-    {
-        createResources( baseDir, new File( baseDir, propertiesPath ), encoding, baseTimestamp );
+    public static void createResources(File baseDir, String propertiesPath, String encoding, long baseTimestamp)
+            throws IOException {
+        createResources(baseDir, new File(baseDir, propertiesPath), encoding, baseTimestamp);
     }
 
     /**
      * Creates test resources defined by a specification file. The method creates all the files named by the properties,
      * optionally setting the modification timestamp by adding the number of seconds specified by the property value
      * (which must be an integer) to a base timestamp.
-     * 
+     *
      * @param baseDir The base directory against which to resolve relative paths.
      * @param propertiesFile A <code>Properties</code> file whose property names are file paths (relative or absolute)
      *            and whose optional property values represent relative modification timestamps in seconds.
@@ -82,19 +78,18 @@ public final class FixtureUtils
      * @throws IOException If unable to create a file or a missing parent directory.
      * @throws NumberFormatException If a non-empty property value cannot be parsed as an integer.
      */
-    public static void createResources( File baseDir, File propertiesFile, String encoding, long baseTimestamp )
-        throws IOException
-    {
+    public static void createResources(File baseDir, File propertiesFile, String encoding, long baseTimestamp)
+            throws IOException {
         Properties properties = new Properties();
-        properties.load( new FileReader( propertiesFile ) );
-        createResources( baseDir, properties, baseTimestamp );
+        properties.load(new FileReader(propertiesFile));
+        createResources(baseDir, properties, baseTimestamp);
     }
 
     /**
      * Creates test resources defined by a specification file. The method creates all the files named by the properties,
      * optionally setting the modification timestamp by adding the number of seconds specified by the property value
      * (which must be an integer) to a base timestamp.
-     * 
+     *
      * @param baseDir The base directory against which to resolve relative paths.
      * @param properties A <code>Properties</code> object whose property names are file paths (relative or absolute) and
      *            whose optional property values represent relative modification timestamps in seconds.
@@ -102,31 +97,24 @@ public final class FixtureUtils
      * @throws IOException If unable to create a file or a missing parent directory.
      * @throws NumberFormatException If a non-empty property value cannot be parsed as an integer.
      */
-    public static void createResources( File baseDir, Properties properties, long baseTimestamp )
-        throws IOException
-    {
-        for ( String propertyName : properties.stringPropertyNames() )
-        {
-            File file = new File( baseDir, propertyName );
+    public static void createResources(File baseDir, Properties properties, long baseTimestamp) throws IOException {
+        for (String propertyName : properties.stringPropertyNames()) {
+            File file = new File(baseDir, propertyName);
             File parent = file.getParentFile();
-            if ( parent != null )
-                parent.mkdirs();
+            if (parent != null) parent.mkdirs();
             file.createNewFile();
 
             // If required, set the last modification timestamp.
-            String propertyValue = properties.getProperty( propertyName );
-            if ( !propertyValue.isEmpty() )
-            {
-                int offset = Integer.parseInt( propertyValue );
-                long ts = baseTimestamp + ( offset * 1000L);
-                file.setLastModified( ts );
-                assert file.lastModified() == ts : "failed to set last modified timestamp for "
-                    + file.getCanonicalPath();
+            String propertyValue = properties.getProperty(propertyName);
+            if (!propertyValue.isEmpty()) {
+                int offset = Integer.parseInt(propertyValue);
+                long ts = baseTimestamp + (offset * 1000L);
+                file.setLastModified(ts);
+                assert file.lastModified() == ts
+                        : "failed to set last modified timestamp for " + file.getCanonicalPath();
             }
         }
     }
 
-    private FixtureUtils()
-    {
-    }
+    private FixtureUtils() {}
 }

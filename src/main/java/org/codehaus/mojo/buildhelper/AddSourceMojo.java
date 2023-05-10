@@ -38,32 +38,27 @@ import org.apache.maven.project.MavenProject;
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @since 1.0
  */
-@Mojo( name = "add-source", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true )
-public class AddSourceMojo
-    extends AbstractMojo
-{
+@Mojo(name = "add-source", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
+public class AddSourceMojo extends AbstractMojo {
     /**
      * Additional source directories.
      *
      * @since 1.0
      */
-    @Parameter( property = "sources", required = true )
+    @Parameter(property = "sources", required = true)
     private File[] sources;
 
     /**
      * @since 1.0
      */
-    @Parameter( readonly = true, defaultValue = "${project}" )
+    @Parameter(readonly = true, defaultValue = "${project}")
     private MavenProject project;
 
-    public void execute()
-    {
-        for ( File source : sources )
-        {
-            this.project.addCompileSourceRoot( source.getAbsolutePath() );
-            if ( getLog().isInfoEnabled() )
-            {
-                getLog().info( "Source directory: " + source + " added." );
+    public void execute() {
+        for (File source : sources) {
+            this.project.addCompileSourceRoot(source.getAbsolutePath());
+            if (getLog().isInfoEnabled()) {
+                getLog().info("Source directory: " + source + " added.");
             }
         }
     }

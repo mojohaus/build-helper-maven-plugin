@@ -37,56 +37,51 @@ import org.apache.maven.shared.model.fileset.FileSet;
  * @author Adrian Price <a href="mailto:demonfiddler@virginmedia.com">demonfiddler@virginmedia.com</a>
  * @since 1.12
  */
-@Mojo( name = "uptodate-property", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true )
-public class UpToDatePropertyMojo
-    extends AbstractUpToDatePropertyMojo
-{
+@Mojo(name = "uptodate-property", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true)
+public class UpToDatePropertyMojo extends AbstractUpToDatePropertyMojo {
     /**
      * The name of the property to set.
      */
-    @Parameter( required = true )
+    @Parameter(required = true)
     private String name;
 
     /**
      * Disables the plug-in execution.
      */
-    @Parameter( property = "buildhelper.uptodateproperty.skip", defaultValue = "false" )
+    @Parameter(property = "buildhelper.uptodateproperty.skip", defaultValue = "false")
     private boolean skip;
 
     /**
      * The file set to check.
      */
-    @Parameter( required = true )
+    @Parameter(required = true)
     private FileSet fileSet;
 
     /**
      * The property value to set if the up-to-date condition is fulfilled.
      */
-    @Parameter( defaultValue = "true" )
+    @Parameter(defaultValue = "true")
     private String value;
 
     /**
      * The property value to set if the up-to-date condition is not fulfilled.
      */
-    @Parameter( alias = "else" )
+    @Parameter(alias = "else")
     private String elseValue;
 
     /** {@inheritDoc} */
     @Override
-    public void execute()
-        throws MojoExecutionException, MojoFailureException
-    {
-        if ( skip )
-        {
-            getLog().info( "uptodate-property is skipped." );
+    public void execute() throws MojoExecutionException, MojoFailureException {
+        if (skip) {
+            getLog().info("uptodate-property is skipped.");
             return;
         }
 
         UpToDatePropertySetting config = new UpToDatePropertySetting();
-        config.setName( name );
-        config.setValue( value );
-        config.setElse( elseValue );
-        config.setFileSet( fileSet );
-        execute( config );
+        config.setName(name);
+        config.setValue(value);
+        config.setElse(elseValue);
+        config.setFileSet(fileSet);
+        execute(config);
     }
 }

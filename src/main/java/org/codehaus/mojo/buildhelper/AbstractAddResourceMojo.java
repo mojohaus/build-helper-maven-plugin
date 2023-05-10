@@ -34,38 +34,33 @@ import org.apache.maven.project.MavenProject;
 /**
  * Abstract Mojo for adding Resources
  */
-public abstract class AbstractAddResourceMojo
-    extends AbstractMojo
-{
+public abstract class AbstractAddResourceMojo extends AbstractMojo {
     /**
      * Additional resource directories.
      */
-    @Parameter( required = true )
+    @Parameter(required = true)
     private Resource[] resources;
 
     /**
      * The maven project
      */
-    @Parameter( readonly = true, defaultValue = "${project}" )
+    @Parameter(readonly = true, defaultValue = "${project}")
     private MavenProject project;
 
     /**
      * Main plugin execution
      */
-    public void execute()
-    {
-        for ( Resource resource : resources )
-        {
+    public void execute() {
+        for (Resource resource : resources) {
             // Check for relative paths in the resource configuration.
             // http://maven.apache.org/plugin-developers/common-bugs.html#Resolving_Relative_Paths
-            File resourceDir = new File( resource.getDirectory() );
-            if ( !resourceDir.isAbsolute() )
-            {
-                resourceDir = new File( project.getBasedir(), resource.getDirectory() );
-                resource.setDirectory( resourceDir.getAbsolutePath() );
+            File resourceDir = new File(resource.getDirectory());
+            if (!resourceDir.isAbsolute()) {
+                resourceDir = new File(project.getBasedir(), resource.getDirectory());
+                resource.setDirectory(resourceDir.getAbsolutePath());
             }
 
-            addResource( resource );
+            addResource(resource);
         }
     }
 
@@ -74,15 +69,14 @@ public abstract class AbstractAddResourceMojo
      *
      * @param resource the resource to add
      */
-    public abstract void addResource( Resource resource );
+    public abstract void addResource(Resource resource);
 
     /**
      * Get the current project instance.
      *
      * @return the project
      */
-    public MavenProject getProject()
-    {
+    public MavenProject getProject() {
         return this.project;
     }
 }

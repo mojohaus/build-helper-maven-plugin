@@ -1,7 +1,6 @@
 package org.codehaus.mojo.buildhelper.versioning;
 
-public interface Versioning
-{
+public interface Versioning {
 
     int getMajor();
 
@@ -14,5 +13,4 @@ public interface Versioning
     long getBuildNumber();
 
     String getQualifier();
-
 }
