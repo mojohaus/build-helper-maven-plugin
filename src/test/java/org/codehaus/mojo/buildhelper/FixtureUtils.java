@@ -101,7 +101,9 @@ public final class FixtureUtils {
         for (String propertyName : properties.stringPropertyNames()) {
             File file = new File(baseDir, propertyName);
             File parent = file.getParentFile();
-            if (parent != null) parent.mkdirs();
+            if (parent != null) {
+                parent.mkdirs();
+            }
             file.createNewFile();
 
             // If required, set the last modification timestamp.

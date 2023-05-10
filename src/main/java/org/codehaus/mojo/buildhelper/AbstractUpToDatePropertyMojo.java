@@ -72,12 +72,16 @@ abstract class AbstractUpToDatePropertyMojo extends AbstractDefinePropertyMojo {
                     if (getLog().isDebugEnabled()) {
                         try {
                             StringBuilder msg = new StringBuilder(targetFile.getCanonicalPath());
-                            if (!targetFile.exists()) msg.append(" (nonexistent)");
+                            if (!targetFile.exists()) {
+                                msg.append(" (nonexistent)");
+                            }
                             msg.append("\n\tis ")
                                     .append(upToDate ? "up to date" : "out of date")
                                     .append(" with respect to \n\t")
                                     .append(srcFile.getCanonicalPath());
-                            if (!srcFile.exists()) msg.append(" (nonexistent)");
+                            if (!srcFile.exists()) {
+                                msg.append(" (nonexistent)");
+                            }
 
                             getLog().debug(msg);
                         } catch (IOException e) {
@@ -85,7 +89,9 @@ abstract class AbstractUpToDatePropertyMojo extends AbstractDefinePropertyMojo {
                         }
                     }
 
-                    if (!upToDate) break;
+                    if (!upToDate) {
+                        break;
+                    }
                 }
             } catch (MapperException e) {
                 throw new MojoExecutionException("", e);
@@ -93,9 +99,11 @@ abstract class AbstractUpToDatePropertyMojo extends AbstractDefinePropertyMojo {
         }
 
         // Set the property to the appropriate value, depending on whether target files are up to date WRT source files.
-        if (upToDate) defineProperty(config.getName(), config.getValue().trim());
-        else if (!StringUtils.isBlank(config.getElse()))
+        if (upToDate) {
+            defineProperty(config.getName(), config.getValue().trim());
+        } else if (!StringUtils.isBlank(config.getElse())) {
             defineProperty(config.getName(), config.getElse().trim());
+        }
     }
 
     private File getFile(FileSet fileSet, boolean useOutputDirectory, String path) {

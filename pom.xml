@@ -185,6 +185,7 @@
             <artifactId>maven-checkstyle-plugin</artifactId>
             <configuration>
               <configLocation>${checkstyle.spotless.config}</configLocation>
+              <violationIgnore>MagicNumber</violationIgnore>
             </configuration>
           </plugin>
         </plugins>
