@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>build-helper-maven-plugin</artifactId>
-  <version>3.4.0</version>
+  <version>3.4.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>Build Helper Maven Plugin</name>
@@ -80,7 +80,7 @@
     <!-- remove with parent upgrade -->
     <maven-release-plugin.version>3.0.0</maven-release-plugin.version>
     <scmpublish.content>${project.build.directory}/staging/build-helper-maven-plugin</scmpublish.content>
-    <project.build.outputTimestamp>2023-05-11T22:02:29Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2023-05-11T22:04:25Z</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
