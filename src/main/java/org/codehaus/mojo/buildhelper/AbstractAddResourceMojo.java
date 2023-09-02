@@ -48,9 +48,24 @@ public abstract class AbstractAddResourceMojo extends AbstractMojo {
     private MavenProject project;
 
     /**
+     * Skip plugin execution.
+     *
+     * @since 3.4.1
+     */
+    @Parameter(property = "skip", defaultValue = "false")
+    private boolean skip;
+
+    /**
      * Main plugin execution
      */
     public void execute() {
+        if (skip) {
+            if (getLog().isInfoEnabled()) {
+                getLog().info("Skipping plugin execution!");
+            }
+            return;
+        }
+
         for (Resource resource : resources) {
             // Check for relative paths in the resource configuration.
             // http://maven.apache.org/plugin-developers/common-bugs.html#Resolving_Relative_Paths
