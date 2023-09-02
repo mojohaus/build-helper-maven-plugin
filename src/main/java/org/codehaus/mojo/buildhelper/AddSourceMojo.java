@@ -55,6 +55,14 @@ public class AddSourceMojo extends AbstractMojo {
     private MavenProject project;
 
     /**
+     * If a directory does not exist, do not add it as a source root.
+     *
+     * @since 3.4.1
+     */
+    @Parameter(property = "skipIfMissing", defaultValue = "false")
+    private boolean skipIfMissing;
+
+    /**
      * Skip plugin execution.
      *
      * @since 3.5.0
@@ -71,9 +79,15 @@ public class AddSourceMojo extends AbstractMojo {
         }
 
         for (File source : sources) {
-            this.project.addCompileSourceRoot(source.getAbsolutePath());
-            if (getLog().isInfoEnabled()) {
-                getLog().info("Source directory: " + source + " added.");
+            if (skipIfMissing && !source.exists()) {
+                if (getLog().isDebugEnabled()) {
+                    getLog().debug("Skipping directory: " + source + ", because it does not exist.");
+                }
+            } else {
+                this.project.addCompileSourceRoot(source.getAbsolutePath());
+                if (getLog().isInfoEnabled()) {
+                    getLog().info("Source directory: " + source + " added.");
+                }
             }
         }
     }
