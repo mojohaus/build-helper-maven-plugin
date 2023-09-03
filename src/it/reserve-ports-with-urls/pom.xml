@@ -43,7 +43,9 @@
         </executions>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
+        <version>@maven-antrun-plugin.version@</version>
         <executions>
           <execution>
             <id>mk-target-dir</id>
@@ -52,9 +54,9 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <mkdir dir="${project.build.directory}" />
-              </tasks>
+              </target>
             </configuration>
           </execution>
           
@@ -65,11 +67,11 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <echo>port1=${port1}</echo>
                 <echo>port2=${port2}</echo>
                 <echo>port3=${port3}</echo>
-              </tasks>
+              </target>
             </configuration>
           </execution>
         </executions>
