@@ -29,7 +29,9 @@
         </executions>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
+        <version>@maven-antrun-plugin.version@</version>
         <executions>
           <execution>
             <id>mk-target-dir</id>
@@ -38,9 +40,9 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <mkdir dir="${project.build.directory}" />
-              </tasks>
+              </target>
             </configuration>
           </execution>
           
@@ -51,12 +53,12 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <echo>myReleasedVersion.version=${myReleasedVersion.version}</echo>
                 <echo>myReleasedVersion.majorVersion=${myReleasedVersion.majorVersion}</echo>
                 <echo>myReleasedVersion.minorVersion=${myReleasedVersion.minorVersion}</echo>
                 <echo>myReleasedVersion.incrementalVersion=${myReleasedVersion.incrementalVersion}</echo>
-              </tasks>
+              </target>
             </configuration>
           </execution>
         </executions>
