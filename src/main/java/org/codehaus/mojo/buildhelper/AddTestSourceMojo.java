@@ -58,9 +58,9 @@ public class AddTestSourceMojo extends AbstractMojo {
     /**
      * If a directory does not exist, do not add it as a test source root.
      *
-     * @since 3.4.1
+     * @since 3.5.0
      */
-    @Parameter(property = "skipIfMissing", defaultValue = "false")
+    @Parameter(property = "buildhelper.addtestsource.skipIfMissing", defaultValue = "false")
     private boolean skipIfMissing;
 
     /**

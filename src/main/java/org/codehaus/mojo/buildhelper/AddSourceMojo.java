@@ -57,9 +57,9 @@ public class AddSourceMojo extends AbstractMojo {
     /**
      * If a directory does not exist, do not add it as a source root.
      *
-     * @since 3.4.1
+     * @since 3.5.0
      */
-    @Parameter(property = "skipIfMissing", defaultValue = "false")
+    @Parameter(property = "buildhelper.addsource.skipIfMissing", defaultValue = "false")
     private boolean skipIfMissing;
 
     /**

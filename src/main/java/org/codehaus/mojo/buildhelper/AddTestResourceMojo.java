@@ -47,6 +47,14 @@ public class AddTestResourceMojo extends AbstractAddResourceMojo {
     private boolean skipAddTestResource;
 
     /**
+     * If a test resource directory does not exist, do not add it as a root.
+     *
+     * @since 3.5.0
+     */
+    @Parameter(property = "buildhelper.addtestresource.skipIfMissing", defaultValue = "false")
+    private boolean skipIfMissing;
+
+    /**
      * Add the resource to the project.
      *
      * @param resource the resource to add
@@ -61,5 +69,9 @@ public class AddTestResourceMojo extends AbstractAddResourceMojo {
     @Override
     protected boolean isSkip() {
         return skipAddTestResource;
+    }
+
+    protected boolean isSkipIfMissing() {
+        return skipIfMissing;
     }
 }

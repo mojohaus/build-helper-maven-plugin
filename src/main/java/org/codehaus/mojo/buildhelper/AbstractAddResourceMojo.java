@@ -48,14 +48,6 @@ public abstract class AbstractAddResourceMojo extends AbstractMojo {
     private MavenProject project;
 
     /**
-     * If a resource directory does not exist, do not add it as a root.
-     *
-     * @since 3.4.1
-     */
-    @Parameter(property = "skipIfMissing", defaultValue = "false")
-    private boolean skipIfMissing;
-
-    /**
      * Main plugin execution
      */
     public void execute() {
@@ -75,7 +67,7 @@ public abstract class AbstractAddResourceMojo extends AbstractMojo {
                 resource.setDirectory(resourceDir.getAbsolutePath());
             }
 
-            if (skipIfMissing && !resourceDir.exists()) {
+            if (isSkipIfMissing() && !resourceDir.exists()) {
                 if (getLog().isDebugEnabled()) {
                     getLog().debug("Skipping directory: " + resourceDir + ", because it does not exist.");
                 }
@@ -84,6 +76,8 @@ public abstract class AbstractAddResourceMojo extends AbstractMojo {
             }
         }
     }
+
+    protected abstract boolean isSkipIfMissing();
 
     protected abstract boolean isSkip();
 
