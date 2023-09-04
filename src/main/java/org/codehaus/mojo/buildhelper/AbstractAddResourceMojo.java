@@ -48,18 +48,10 @@ public abstract class AbstractAddResourceMojo extends AbstractMojo {
     private MavenProject project;
 
     /**
-     * Skip plugin execution.
-     *
-     * @since 3.4.1
-     */
-    @Parameter(property = "skip", defaultValue = "false")
-    private boolean skip;
-
-    /**
      * Main plugin execution
      */
     public void execute() {
-        if (skip) {
+        if (isSkip()) {
             if (getLog().isInfoEnabled()) {
                 getLog().info("Skipping plugin execution!");
             }
@@ -78,6 +70,8 @@ public abstract class AbstractAddResourceMojo extends AbstractMojo {
             addResource(resource);
         }
     }
+
+    protected abstract boolean isSkip();
 
     /**
      * Add the resource to the project.

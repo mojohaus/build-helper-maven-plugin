@@ -27,6 +27,7 @@ package org.codehaus.mojo.buildhelper;
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 
 /**
  * Add more resource directories to the POM.
@@ -37,10 +38,22 @@ import org.apache.maven.plugins.annotations.Mojo;
 @Mojo(name = "add-resource", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, threadSafe = true)
 public class AddResourceMojo extends AbstractAddResourceMojo {
 
+    /**
+     * Skip plugin execution.
+     *
+     * @since 3.4.1
+     */
+    @Parameter(property = "buildhelper.addresource.skip", defaultValue = "false")
+    private boolean skip;
+
     public void addResource(Resource resource) {
         getProject().addResource(resource);
         if (getLog().isDebugEnabled()) {
             getLog().debug("Added resource: " + resource.getDirectory());
         }
+    }
+
+    protected boolean isSkip() {
+        return skip;
     }
 }

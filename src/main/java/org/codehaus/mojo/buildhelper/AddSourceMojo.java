@@ -59,7 +59,7 @@ public class AddSourceMojo extends AbstractMojo {
      *
      * @since 3.4.1
      */
-    @Parameter(property = "skip", defaultValue = "false")
+    @Parameter(property = "buildhelper.addsource.skip", defaultValue = "false")
     private boolean skip;
 
     public void execute() {
