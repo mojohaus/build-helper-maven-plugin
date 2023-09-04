@@ -41,7 +41,7 @@ public class AddResourceMojo extends AbstractAddResourceMojo {
     /**
      * Skip plugin execution.
      *
-     * @since 3.4.1
+     * @since 3.5.0
      */
     @Parameter(property = "buildhelper.addresource.skip", defaultValue = "false")
     private boolean skip;

@@ -57,7 +57,7 @@ public class AddTestSourceMojo extends AbstractMojo {
     /**
      * Skip plugin execution.
      *
-     * @since 3.4.1
+     * @since 3.5.0
      */
     @Parameter(property = "buildhelper.addtestsource.skip", defaultValue = "false")
     private boolean skip;
