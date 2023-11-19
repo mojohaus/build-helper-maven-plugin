@@ -54,7 +54,22 @@ public class AddSourceMojo extends AbstractMojo {
     @Parameter(readonly = true, defaultValue = "${project}")
     private MavenProject project;
 
+    /**
+     * Skip plugin execution.
+     *
+     * @since 3.5.0
+     */
+    @Parameter(property = "buildhelper.addsource.skip", defaultValue = "false")
+    private boolean skipAddSource;
+
     public void execute() {
+        if (skipAddSource) {
+            if (getLog().isInfoEnabled()) {
+                getLog().info("Skipping plugin execution!");
+            }
+            return;
+        }
+
         for (File source : sources) {
             this.project.addCompileSourceRoot(source.getAbsolutePath());
             if (getLog().isInfoEnabled()) {

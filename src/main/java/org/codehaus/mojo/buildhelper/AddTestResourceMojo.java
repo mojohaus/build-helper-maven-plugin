@@ -27,6 +27,7 @@ package org.codehaus.mojo.buildhelper;
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 
 /**
  * Add more test resource directories to the POM.
@@ -38,6 +39,14 @@ import org.apache.maven.plugins.annotations.Mojo;
 public class AddTestResourceMojo extends AbstractAddResourceMojo {
 
     /**
+     * Skip plugin execution.
+     *
+     * @since 3.5.0
+     */
+    @Parameter(property = "buildhelper.addtestresource.skip", defaultValue = "false")
+    private boolean skipAddTestResource;
+
+    /**
      * Add the resource to the project.
      *
      * @param resource the resource to add
@@ -47,5 +56,10 @@ public class AddTestResourceMojo extends AbstractAddResourceMojo {
         if (getLog().isDebugEnabled()) {
             getLog().debug("Added test resource: " + resource.getDirectory());
         }
+    }
+
+    @Override
+    protected boolean isSkip() {
+        return skipAddTestResource;
     }
 }

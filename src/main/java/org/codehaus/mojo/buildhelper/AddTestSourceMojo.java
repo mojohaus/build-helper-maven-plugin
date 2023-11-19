@@ -54,7 +54,22 @@ public class AddTestSourceMojo extends AbstractMojo {
     @Parameter(readonly = true, defaultValue = "${project}")
     private MavenProject project;
 
+    /**
+     * Skip plugin execution.
+     *
+     * @since 3.5.0
+     */
+    @Parameter(property = "buildhelper.addtestsource.skip", defaultValue = "false")
+    private boolean skipAddTestSource;
+
     public void execute() {
+        if (skipAddTestSource) {
+            if (getLog().isInfoEnabled()) {
+                getLog().info("Skipping plugin execution!");
+            }
+            return;
+        }
+
         for (File source : sources) {
             this.project.addTestCompileSourceRoot(source.getAbsolutePath());
             if (getLog().isInfoEnabled()) {
