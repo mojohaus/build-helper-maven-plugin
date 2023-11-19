@@ -35,7 +35,11 @@ import org.apache.maven.rtinfo.RuntimeInformation;
  *
  * @author pgier
  * @since 1.3
+ * @deprecated Maven since version {@code 3.0.4} has such property build in:
+ *         <a href="https://issues.apache.org/jira/browse/MNG-4112">MNG-4112</a>.
+ *         So goal can be removed.
  */
+@Deprecated
 @Mojo(name = "maven-version", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true)
 public class MavenVersionMojo extends AbstractDefinePropertyMojo {
 

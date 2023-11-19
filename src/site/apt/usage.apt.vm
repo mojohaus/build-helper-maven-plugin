@@ -191,48 +191,6 @@ Usage
 </project>
 -------------------
 
-* Set the current version of Maven in a property
-
-  This can be used to keep track of what version of Maven was used to build a particular artifact.
-  For example, the following POM sets the property and then uses the property to save the Maven version
-  to the project JAR's manifest.
-
--------------------
-<project>
-  ...
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${project.version}</version>
-        <executions>
-          <execution>
-            <id>maven-version</id>
-            <goals>
-              <goal>maven-version</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.0.2</version>
-        <configuration>
-          <archive>
-            <manifestEntries>
-              <Maven-Version>${maven.version}</Maven-Version>
-            </manifestEntries>
-          </archive>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-  ...
-</project>
--------------------
-
 * Access the parsed components of a project version
 
   The <<<parse-version>>> goal can be used to access the component parts of a version string. For example,
