@@ -55,8 +55,6 @@ Build Helper Maven Plugin
 
   * {{{./attach-artifact-mojo.html}build-helper:attach-artifact}} Attach additional artifacts to be installed and deployed.
 
-  * {{{./maven-version-mojo.html}build-helper:maven-version}} Set a property containing the current version of maven.
-
   * {{{./regex-property-mojo.html}build-helper:regex-property}} Sets a property by applying a regex replacement rule to a supplied value.
 
   * {{{./regex-properties-mojo.html}build-helper:regex-properties}} Sets a property by applying a regex replacement rule to a supplied value.
