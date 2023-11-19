@@ -26,7 +26,7 @@
                                     <targetPath>does-not-matter</targetPath>
                                 </resource>
                             </resources>
-                            <skip>true</skip>
+                            <skipAddResource>true</skipAddResource>
                         </configuration>
                     </execution>
                 </executions>

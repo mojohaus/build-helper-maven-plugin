@@ -44,7 +44,7 @@ public class AddResourceMojo extends AbstractAddResourceMojo {
      * @since 3.5.0
      */
     @Parameter(property = "buildhelper.addresource.skip", defaultValue = "false")
-    private boolean skip;
+    private boolean skipAddResource;
 
     public void addResource(Resource resource) {
         getProject().addResource(resource);
@@ -54,6 +54,6 @@ public class AddResourceMojo extends AbstractAddResourceMojo {
     }
 
     protected boolean isSkip() {
-        return skip;
+        return skipAddResource;
     }
 }

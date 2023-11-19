@@ -44,7 +44,7 @@ public class AddTestResourceMojo extends AbstractAddResourceMojo {
      * @since 3.5.0
      */
     @Parameter(property = "buildhelper.addtestresource.skip", defaultValue = "false")
-    private boolean skip;
+    private boolean skipAddTestResource;
 
     /**
      * Add the resource to the project.
@@ -60,6 +60,6 @@ public class AddTestResourceMojo extends AbstractAddResourceMojo {
 
     @Override
     protected boolean isSkip() {
-        return skip;
+        return skipAddTestResource;
     }
 }

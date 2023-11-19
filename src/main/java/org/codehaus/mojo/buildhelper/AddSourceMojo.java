@@ -60,10 +60,10 @@ public class AddSourceMojo extends AbstractMojo {
      * @since 3.5.0
      */
     @Parameter(property = "buildhelper.addsource.skip", defaultValue = "false")
-    private boolean skip;
+    private boolean skipAddSource;
 
     public void execute() {
-        if (skip) {
+        if (skipAddSource) {
             if (getLog().isInfoEnabled()) {
                 getLog().info("Skipping plugin execution!");
             }
