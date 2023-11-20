@@ -23,7 +23,7 @@
                             <sources>
                                 <source>${project.basedir}/not-existing</source>
                             </sources>
-                            <skipIfMissing>true</skipIfMissing>
+                            <skipAddSourceIfMissing>true</skipAddSourceIfMissing>
                         </configuration>
                     </execution>
                 </executions>

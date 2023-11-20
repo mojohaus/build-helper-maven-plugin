@@ -56,20 +56,20 @@ public class AddTestSourceMojo extends AbstractMojo {
     private MavenProject project;
 
     /**
-     * If a directory does not exist, do not add it as a test source root.
-     *
-     * @since 3.5.0
-     */
-    @Parameter(property = "buildhelper.addtestsource.skipIfMissing", defaultValue = "false")
-    private boolean skipIfMissing;
-
-    /**
      * Skip plugin execution.
      *
      * @since 3.5.0
      */
     @Parameter(property = "buildhelper.addtestsource.skip", defaultValue = "false")
     private boolean skipAddTestSource;
+
+    /**
+     * If a directory does not exist, do not add it as a test source root.
+     *
+     * @since 3.5.0
+     */
+    @Parameter(property = "buildhelper.addtestsource.skipIfMissing", defaultValue = "false")
+    private boolean skipAddTestSourceIfMissing;
 
     public void execute() {
         if (skipAddTestSource) {
@@ -80,7 +80,7 @@ public class AddTestSourceMojo extends AbstractMojo {
         }
 
         for (File source : sources) {
-            if (skipIfMissing && !source.exists()) {
+            if (skipAddTestSourceIfMissing && !source.exists()) {
                 if (getLog().isDebugEnabled()) {
                     getLog().debug("Skipping directory: " + source + ", because it does not exist.");
                 }

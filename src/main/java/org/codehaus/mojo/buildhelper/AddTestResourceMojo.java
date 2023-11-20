@@ -52,7 +52,7 @@ public class AddTestResourceMojo extends AbstractAddResourceMojo {
      * @since 3.5.0
      */
     @Parameter(property = "buildhelper.addtestresource.skipIfMissing", defaultValue = "false")
-    private boolean skipIfMissing;
+    private boolean skipAddTestResourceIfMissing;
 
     /**
      * Add the resource to the project.
@@ -72,6 +72,6 @@ public class AddTestResourceMojo extends AbstractAddResourceMojo {
     }
 
     protected boolean isSkipIfMissing() {
-        return skipIfMissing;
+        return skipAddTestResourceIfMissing;
     }
 }

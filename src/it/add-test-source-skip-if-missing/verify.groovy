@@ -5,7 +5,7 @@ String text = file.getText("utf-8");
 
 
 
-assert text.contains("skipIfMissing = true");
+assert text.contains("skipAddTestSourceIfMissing = true");
 assert text.contains("Skipping directory: ");
 assert text.contains("build-helper-maven-plugin/target/it/add-test-source-skip-if-missing/not-existing, because it does not exist.");
 
