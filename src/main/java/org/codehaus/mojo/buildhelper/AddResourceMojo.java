@@ -46,11 +46,23 @@ public class AddResourceMojo extends AbstractAddResourceMojo {
     @Parameter(property = "buildhelper.addresource.skip", defaultValue = "false")
     private boolean skipAddResource;
 
+    /**
+     * If a resource directory does not exist, do not add it as a root.
+     *
+     * @since 3.5.0
+     */
+    @Parameter(property = "buildhelper.addresource.skipIfMissing", defaultValue = "false")
+    private boolean skipAddResourceIfMissing;
+
     public void addResource(Resource resource) {
         getProject().addResource(resource);
         if (getLog().isDebugEnabled()) {
             getLog().debug("Added resource: " + resource.getDirectory());
         }
+    }
+
+    protected boolean isSkipIfMissing() {
+        return skipAddResourceIfMissing;
     }
 
     protected boolean isSkip() {

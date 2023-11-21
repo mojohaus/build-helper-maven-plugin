@@ -40,6 +40,7 @@ import org.apache.maven.project.MavenProject;
  */
 @Mojo(name = "add-test-source", defaultPhase = LifecyclePhase.GENERATE_TEST_SOURCES, threadSafe = true)
 public class AddTestSourceMojo extends AbstractMojo {
+
     /**
      * Additional test source directories.
      *
@@ -62,6 +63,14 @@ public class AddTestSourceMojo extends AbstractMojo {
     @Parameter(property = "buildhelper.addtestsource.skip", defaultValue = "false")
     private boolean skipAddTestSource;
 
+    /**
+     * If a directory does not exist, do not add it as a test source root.
+     *
+     * @since 3.5.0
+     */
+    @Parameter(property = "buildhelper.addtestsource.skipIfMissing", defaultValue = "false")
+    private boolean skipAddTestSourceIfMissing;
+
     public void execute() {
         if (skipAddTestSource) {
             if (getLog().isInfoEnabled()) {
@@ -71,9 +80,15 @@ public class AddTestSourceMojo extends AbstractMojo {
         }
 
         for (File source : sources) {
-            this.project.addTestCompileSourceRoot(source.getAbsolutePath());
-            if (getLog().isInfoEnabled()) {
-                getLog().info("Test Source directory: " + source + " added.");
+            if (skipAddTestSourceIfMissing && !source.exists()) {
+                if (getLog().isDebugEnabled()) {
+                    getLog().debug("Skipping directory: " + source + ", because it does not exist.");
+                }
+            } else {
+                this.project.addTestCompileSourceRoot(source.getAbsolutePath());
+                if (getLog().isInfoEnabled()) {
+                    getLog().info("Test Source directory: " + source + " added.");
+                }
             }
         }
     }

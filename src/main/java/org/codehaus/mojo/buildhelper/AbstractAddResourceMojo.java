@@ -67,9 +67,17 @@ public abstract class AbstractAddResourceMojo extends AbstractMojo {
                 resource.setDirectory(resourceDir.getAbsolutePath());
             }
 
-            addResource(resource);
+            if (isSkipIfMissing() && !resourceDir.exists()) {
+                if (getLog().isDebugEnabled()) {
+                    getLog().debug("Skipping directory: " + resourceDir + ", because it does not exist.");
+                }
+            } else {
+                addResource(resource);
+            }
         }
     }
+
+    protected abstract boolean isSkipIfMissing();
 
     protected abstract boolean isSkip();
 

@@ -62,6 +62,14 @@ public class AddSourceMojo extends AbstractMojo {
     @Parameter(property = "buildhelper.addsource.skip", defaultValue = "false")
     private boolean skipAddSource;
 
+    /**
+     * If a directory does not exist, do not add it as a source root.
+     *
+     * @since 3.5.0
+     */
+    @Parameter(property = "buildhelper.addsource.skipIfMissing", defaultValue = "false")
+    private boolean skipAddSourceIfMissing;
+
     public void execute() {
         if (skipAddSource) {
             if (getLog().isInfoEnabled()) {
@@ -71,9 +79,15 @@ public class AddSourceMojo extends AbstractMojo {
         }
 
         for (File source : sources) {
-            this.project.addCompileSourceRoot(source.getAbsolutePath());
-            if (getLog().isInfoEnabled()) {
-                getLog().info("Source directory: " + source + " added.");
+            if (skipAddSourceIfMissing && !source.exists()) {
+                if (getLog().isDebugEnabled()) {
+                    getLog().debug("Skipping directory: " + source + ", because it does not exist.");
+                }
+            } else {
+                this.project.addCompileSourceRoot(source.getAbsolutePath());
+                if (getLog().isInfoEnabled()) {
+                    getLog().info("Source directory: " + source + " added.");
+                }
             }
         }
     }
