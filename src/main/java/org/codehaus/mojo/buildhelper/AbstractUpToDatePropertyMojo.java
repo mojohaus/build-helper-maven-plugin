@@ -22,7 +22,6 @@ package org.codehaus.mojo.buildhelper;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -63,11 +62,11 @@ abstract class AbstractUpToDatePropertyMojo extends AbstractDefinePropertyMojo {
                 // Treat a file set that yields no files as intrinsically out of date.
                 upToDate = !includedFiles.isEmpty();
 
-                for (Entry<String, String> entry : includedFiles.entrySet()) {
+                upToDate &= includedFiles.entrySet().parallelStream().allMatch(entry -> {
                     // If targetFile is out of date WRT srcFile, note the fact and stop processing.
                     File srcFile = getFile(fileSet, false, entry.getKey());
                     File targetFile = getFile(fileSet, true, entry.getValue());
-                    upToDate = isUpToDate(srcFile, targetFile);
+                    boolean isUpToDate = isUpToDate(srcFile, targetFile);
 
                     if (getLog().isDebugEnabled()) {
                         try {
@@ -76,7 +75,7 @@ abstract class AbstractUpToDatePropertyMojo extends AbstractDefinePropertyMojo {
                                 msg.append(" (nonexistent)");
                             }
                             msg.append("\n\tis ")
-                                    .append(upToDate ? "up to date" : "out of date")
+                                    .append(isUpToDate ? "up to date" : "out of date")
                                     .append(" with respect to \n\t")
                                     .append(srcFile.getCanonicalPath());
                             if (!srcFile.exists()) {
@@ -89,10 +88,8 @@ abstract class AbstractUpToDatePropertyMojo extends AbstractDefinePropertyMojo {
                         }
                     }
 
-                    if (!upToDate) {
-                        break;
-                    }
-                }
+                    return isUpToDate;
+                });
             } catch (MapperException e) {
                 throw new MojoExecutionException("", e);
             }
