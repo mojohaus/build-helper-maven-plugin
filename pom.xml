@@ -74,7 +74,6 @@
   </ciManagement>
 
   <properties>
-    <recommendedJavaBuildVersion>11</recommendedJavaBuildVersion>
     <scmpublish.content>${project.build.directory}/staging/build-helper-maven-plugin</scmpublish.content>
     <project.build.outputTimestamp>2023-11-24T19:44:40Z</project.build.outputTimestamp>
   </properties>
@@ -133,6 +132,18 @@
     </dependency>
   </dependencies>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <violationIgnore>MagicNumber</violationIgnore>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
   <profiles>
 
     <profile>
@@ -159,29 +170,6 @@
                 </goals>
               </execution>
             </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
-      <id>java11+</id>
-      <activation>
-        <jdk>[11,)</jdk>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.diffplug.spotless</groupId>
-            <artifactId>spotless-maven-plugin</artifactId>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-checkstyle-plugin</artifactId>
-            <configuration>
-              <configLocation>${checkstyle.spotless.config}</configLocation>
-              <violationIgnore>MagicNumber</violationIgnore>
-            </configuration>
           </plugin>
         </plugins>
       </build>
