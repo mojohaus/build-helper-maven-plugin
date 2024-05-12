@@ -44,7 +44,11 @@ import org.eclipse.aether.repository.LocalRepositoryManager;
  *
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @since 1.1
+ * @deprecated There is a similar goal:
+ * <a href="https://maven.apache.org/plugins/maven-dependency-plugin/purge-local-repository-mojo.html">dependency:purge-local-repository</a>
+ * By the way such goal should by not used with Maven 3/4 anymore.
  */
+@Deprecated
 @Mojo(name = "remove-project-artifact", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true)
 public class RemoveLocalArtifactMojo extends AbstractMojo {
 
