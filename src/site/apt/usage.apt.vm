@@ -314,40 +314,6 @@ releasedVersion.qualifier
   This property can become very handy if you want to provide links to download the latest version.
   If you have to do a <<<site-deploy>>> during snapshot-development, the $\{project.version\} is useless.
 
-
-* Remove a project's artifacts from local repository
-
-  Mainly used to remove previously installed large project artifacts in the local repository before the <<<install>>> phase starts.
-  The example below removes all the project's artifacts including all versions from the local repository
-  at the implicit <<<package>>> phase. To remove only the current version, set the \<<<<removeAll\>>>> configuration
-  element to <<<false>>>.
-
--------------------
-<project>
-  ...
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${project.version}</version>
-        <executions>
-          <execution>
-            <id>remove-old-installers</id>
-            <goals>
-              <goal>remove-project-artifact</goal>
-            </goals>
-            <configuration>
-              <removeAll>true</removeAll>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
-</project>
--------------------
-
 * Reserve a list of random and unused network ports
 
   Use this plugin to reserve a set of available unused network ports to be placed in a given property
