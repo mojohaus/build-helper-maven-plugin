@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * @author Karl Heinz Marbaise <a href="mailto:khmarbaise@apache.org">khmarbaise@apache.org</a>
  */
-public class VersionInformationTest {
+class VersionInformationTest {
     // @formatter:off
     private static Object[][] createVersions() {
         return new Object[][] {
@@ -71,7 +71,7 @@ public class VersionInformationTest {
 
     @ParameterizedTest
     @MethodSource("createVersions")
-    public void checkVersions(String version, int major, int minor, int patch, long buildNumber, String qualifier) {
+    void checkVersions(String version, int major, int minor, int patch, long buildNumber, String qualifier) {
         VersionInformation vi = new VersionInformation(version);
         assertEquals(vi.getMajor(), major);
         assertEquals(vi.getMinor(), minor);
@@ -81,7 +81,7 @@ public class VersionInformationTest {
     }
 
     @Test
-    public void shouldFaileWithNumberFormatException() {
+    void shouldFaileWithNumberFormatException() {
         assertThrows(NumberFormatException.class, () -> new VersionInformation("999999999999.12345678.12.beta_5"));
     }
 }

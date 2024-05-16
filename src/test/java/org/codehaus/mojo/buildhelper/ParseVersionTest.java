@@ -32,27 +32,28 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ParseVersionTest {
-    public static class TestParseVersionMojo extends ParseVersionMojo {
+class ParseVersionTest {
+    static class TestParseVersionMojo extends ParseVersionMojo {
         private final Properties properties;
 
-        public TestParseVersionMojo(Properties properties) {
+        TestParseVersionMojo(Properties properties) {
             this.properties = properties;
         }
 
+        @Override
         protected void defineProperty(String name, String value) {
             properties.put(name, value);
         }
     }
 
     @Nested
-    public class TestParseVersion {
+    class TestParseVersion {
         private Properties props;
 
         private ParseVersionMojo mojo;
 
         @BeforeEach
-        public void beforeClass() {
+        void beforeClass() {
             props = new Properties();
             mojo = new TestParseVersionMojo(props);
             mojo.setPropertyPrefix("parsed");
@@ -67,7 +68,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void checkJunkVersion() {
+        void checkJunkVersion() {
             // Test a junk version string
             mojo.parseVersion("junk");
 
@@ -80,7 +81,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void checkBasicMavenVersionString() {
+        void checkBasicMavenVersionString() {
             // Test a basic maven version string
             mojo.parseVersion("1.0.0");
 
@@ -93,7 +94,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void checkVersionStringWithQualifier() {
+        void checkVersionStringWithQualifier() {
             // Test a version string with qualifier
             mojo.parseVersion("2.3.4-beta-5");
 
@@ -106,7 +107,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void checkOSGiVersionStringWithQualifier() {
+        void checkOSGiVersionStringWithQualifier() {
             // Test an osgi version string
             mojo.parseVersion("2.3.4.beta_5");
 
@@ -119,7 +120,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void checkSnapshotVersion() {
+        void checkSnapshotVersion() {
             // Test a snapshot version string
             mojo.parseVersion("1.2.3-SNAPSHOT");
 
@@ -132,7 +133,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void checkSnapshotVersion2() {
+        void checkSnapshotVersion2() {
             // Test a snapshot version string
             mojo.parseVersion("2.0.17-SNAPSHOT");
 
@@ -145,7 +146,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void checkVersionStringWithBuildNumber() {
+        void checkVersionStringWithBuildNumber() {
             // Test a version string with a build number
             mojo.parseVersion("1.2.3-4");
 
@@ -158,7 +159,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void checkSnapshotVersionStringWithBuildNumber() {
+        void checkSnapshotVersionStringWithBuildNumber() {
             // Test a version string with a build number
             mojo.parseVersion("1.2.3-4-SNAPSHOT");
 
@@ -178,7 +179,7 @@ public class ParseVersionTest {
         private ParseVersionMojo mojo;
 
         @BeforeEach
-        public void beforeClass() {
+        void beforeClass() {
             props = new Properties();
             mojo = new TestParseVersionMojo(props);
             mojo.setPropertyPrefix("parsed");
@@ -192,7 +193,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void checkJunkVersion() {
+        void checkJunkVersion() {
             mojo.parseVersion("junk");
 
             assertEquals("1", props.getProperty("parsed.nextMajorVersion"));
@@ -202,7 +203,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void testBasicMavenVersion() {
+        void testBasicMavenVersion() {
             mojo.parseVersion("1.0.0");
 
             assertEquals("2", props.getProperty("parsed.nextMajorVersion"));
@@ -212,7 +213,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void testVersionStringWithQualifier() {
+        void testVersionStringWithQualifier() {
             mojo.parseVersion("2.3.4-beta-5");
 
             assertEquals("3", props.getProperty("parsed.nextMajorVersion"));
@@ -222,7 +223,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void testOSGiVersion() {
+        void testOSGiVersion() {
             mojo.parseVersion("2.3.4.beta_5");
 
             assertEquals("3", props.getProperty("parsed.nextMajorVersion"));
@@ -232,7 +233,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void testSnapshotVersion() {
+        void testSnapshotVersion() {
             // Test a snapshot version string
             mojo.parseVersion("1.2.3-SNAPSHOT");
 
@@ -243,7 +244,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void testSnapshotVersion2() {
+        void testSnapshotVersion2() {
             // Test a snapshot version string
             mojo.parseVersion("2.0.17-SNAPSHOT");
 
@@ -254,7 +255,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void testVersionStringWithBuildNumber() {
+        void testVersionStringWithBuildNumber() {
             mojo.parseVersion("1.2.3-4");
 
             assertEquals("2", props.getProperty("parsed.nextMajorVersion"));
@@ -271,7 +272,7 @@ public class ParseVersionTest {
         private ParseVersionMojo mojo;
 
         @BeforeEach
-        public void beforeClass() {
+        void beforeClass() {
             props = new Properties();
             mojo = new TestParseVersionMojo(props);
             mojo.setPropertyPrefix("parsed");
@@ -285,7 +286,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void testJunkVersion() {
+        void testJunkVersion() {
             mojo.parseVersion("junk");
 
             assertEquals("00", props.getProperty("formatted.majorVersion"));
@@ -300,7 +301,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void testBasicMavenVersion() {
+        void testBasicMavenVersion() {
             mojo.parseVersion("1.0.0");
 
             assertEquals("01", props.getProperty("formatted.majorVersion"));
@@ -315,7 +316,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void testVersionStringWithQualifier() {
+        void testVersionStringWithQualifier() {
             mojo.parseVersion("2.3.4-beta-5");
 
             assertEquals("02", props.getProperty("formatted.majorVersion"));
@@ -330,7 +331,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void testOSGiVersion() {
+        void testOSGiVersion() {
             mojo.parseVersion("2.3.4.beta_5");
 
             assertEquals("02", props.getProperty("formatted.majorVersion"));
@@ -345,7 +346,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void testSnapshotVersion() {
+        void testSnapshotVersion() {
             // Test a snapshot version string
             mojo.parseVersion("1.2.3-SNAPSHOT");
 
@@ -361,7 +362,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void testSnapshotVersion2() {
+        void testSnapshotVersion2() {
             // Test a snapshot version string
             mojo.parseVersion("2.0.17-SNAPSHOT");
 
@@ -377,7 +378,7 @@ public class ParseVersionTest {
         }
 
         @Test
-        public void testVersionStringWithBuildNumber() {
+        void testVersionStringWithBuildNumber() {
             mojo.parseVersion("1.2.3-4");
 
             assertEquals("01", props.getProperty("formatted.majorVersion"));
