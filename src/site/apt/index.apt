@@ -63,8 +63,6 @@ Build Helper Maven Plugin
 
   * {{{./parse-version-mojo.html}build-helper:parse-version}} Parse the version into different properties.
 
-  * {{{./remove-project-artifact-mojo.html}build-helper:remove-project-artifact}} Remove project's artifacts from local repository.
-
   * {{{./reserve-network-port-mojo.html}build-helper:reserve-network-port}} Reserve a list of random and unused network ports.
 
   * {{{./local-ip-mojo.html}build-helper:local-ip}} Retrieve current host IP address.
@@ -84,7 +82,6 @@ Build Helper Maven Plugin
 * Usage
 
   Instructions on how to use the Build Helper Maven Plugin can be found on the {{{./usage.html}usage page}}.
-
 
 * Examples
 
