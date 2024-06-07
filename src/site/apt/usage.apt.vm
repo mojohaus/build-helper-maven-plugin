@@ -127,7 +127,7 @@ Usage
             <id>add-resource</id>
             <phase>generate-resources</phase>
             <goals>
-              <goal>add-test-resource</goal>
+              <goal>add-resource</goal>
             </goals>
             <configuration>
               <resources>
