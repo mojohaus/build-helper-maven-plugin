@@ -24,10 +24,9 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.api.plugin.MojoException;
+import org.apache.maven.api.plugin.annotations.Mojo;
+import org.apache.maven.api.plugin.annotations.Parameter;
 
 /**
  * Retrieve number of CPUs with project factor, and place it under a configurable project property
@@ -35,7 +34,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @since 1.9
  */
-@Mojo(name = "cpu-count", defaultPhase = LifecyclePhase.INITIALIZE, threadSafe = true)
+@Mojo(name = "cpu-count", defaultPhase = "initialize")
 public class CpuCountMojo extends AbstractDefinePropertyMojo {
 
     /**
@@ -50,13 +49,15 @@ public class CpuCountMojo extends AbstractDefinePropertyMojo {
     @Parameter(defaultValue = "1.0")
     private float factor;
 
-    public void execute() throws MojoExecutionException {
+    public void execute() throws MojoException {
         float count = Runtime.getRuntime().availableProcessors() * factor;
         if (count < 1) {
             count = 1;
         }
 
-        defineProperty(this.cpuCount, Integer.toString((int) count));
-        this.getLog().info("CPU count: " + this.getProject().getProperties().getProperty(cpuCount));
+        defineProperty(cpuCount, Integer.toString((int) count));
+        this.getLog()
+                .info("CPU count: "
+                        + this.getProject().getModel().getProperties().get(cpuCount));
     }
 }

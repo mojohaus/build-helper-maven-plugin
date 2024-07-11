@@ -25,20 +25,18 @@ package org.codehaus.mojo.buildhelper;
  */
 
 import java.util.Objects;
+import java.util.stream.Stream;
 
-import org.apache.maven.artifact.ArtifactUtils;
-import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager;
-import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
-import org.apache.maven.plugins.annotations.Component;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
-import org.eclipse.aether.RepositorySystem;
-import org.eclipse.aether.RepositorySystemSession;
-import org.eclipse.aether.artifact.DefaultArtifact;
-import org.eclipse.aether.resolution.VersionRangeRequest;
-import org.eclipse.aether.resolution.VersionRangeResolutionException;
-import org.eclipse.aether.resolution.VersionRangeResult;
+import org.apache.maven.api.ArtifactCoordinate;
+import org.apache.maven.api.Session;
+import org.apache.maven.api.Version;
+import org.apache.maven.api.di.Inject;
+import org.apache.maven.api.plugin.annotations.Mojo;
+import org.apache.maven.api.plugin.annotations.Parameter;
+import org.apache.maven.api.services.VersionRangeResolver;
+import org.apache.maven.api.services.VersionRangeResolverException;
+import org.apache.maven.api.services.VersionRangeResolverResult;
+import org.codehaus.mojo.buildhelper.utils.ParsedVersion;
 
 /**
  * Resolve the latest released version of this project. This mojo sets the following properties:
@@ -57,20 +55,11 @@ import org.eclipse.aether.resolution.VersionRangeResult;
  * @author Robert Scholte
  * @since 1.6
  */
-@Mojo(name = "released-version", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true)
+@Mojo(name = "released-version", defaultPhase = "validate")
 public class ReleasedVersionMojo extends AbstractDefinePropertyMojo {
 
-    /**
-     * The artifact metadata source to use.
-     */
-    @Component
-    private RepositorySystem repoSystem;
-
-    @Component
-    private ArtifactHandlerManager artifactHandlerManager;
-
-    @Parameter(defaultValue = "${repositorySystemSession}", readonly = true)
-    private RepositorySystemSession repoSession;
+    @Inject
+    private Session session;
 
     /**
      * Prefix string to use for the set of version properties.
@@ -82,8 +71,8 @@ public class ReleasedVersionMojo extends AbstractDefinePropertyMojo {
         defineProperty(propertyPrefix + '.' + name, Objects.toString(value, ""));
     }
 
-    private void defineVersionProperty(String name, int value) {
-        defineVersionProperty(name, Integer.toString(value));
+    private void defineVersionProperty(String name, long value) {
+        defineVersionProperty(name, Long.toString(value));
     }
 
     @SuppressWarnings("unchecked")
@@ -99,26 +88,28 @@ public class ReleasedVersionMojo extends AbstractDefinePropertyMojo {
          */
         try {
 
-            DefaultArtifact artifact = new DefaultArtifact(
+            VersionRangeResolver resolver = session.getService(VersionRangeResolver.class);
+
+            ArtifactCoordinate artifact = session.createArtifactCoordinate(
                     getProject().getGroupId(),
                     getProject().getArtifactId(),
-                    artifactHandlerManager
-                            .getArtifactHandler(getProject().getPackaging())
-                            .getExtension(),
-                    "[0,)");
+                    "[0,)",
+                    getProject().getPackaging().type().getExtension());
 
             getLog().debug("Artifact for lookup released version: " + artifact);
-            VersionRangeRequest request =
-                    new VersionRangeRequest(artifact, getProject().getRemoteProjectRepositories(), null);
 
-            VersionRangeResult versionRangeResult = repoSystem.resolveVersionRange(repoSession, request);
+            Session s = session.withRemoteRepositories(Stream.concat(
+                            session.getRemoteRepositories().stream(),
+                            project.getModel().getRepositories().stream().map(session::createRemoteRepository))
+                    .toList());
+            VersionRangeResolverResult versionRangeResult = resolver.resolve(s, artifact);
 
             getLog().debug("Resolved versions: " + versionRangeResult.getVersions());
 
-            DefaultArtifactVersion releasedVersion = versionRangeResult.getVersions().stream()
-                    .filter(v -> !ArtifactUtils.isSnapshot(v.toString()))
-                    .map(v -> new DefaultArtifactVersion(v.toString()))
-                    .max(DefaultArtifactVersion::compareTo)
+            ParsedVersion releasedVersion = versionRangeResult.getVersions().stream()
+                    .filter(v -> !session.isVersionSnapshot(v.toString()))
+                    .max(Version::compareTo)
+                    .map(v -> new ParsedVersion(v.asString()))
                     .orElse(null);
 
             getLog().debug("Released version: " + releasedVersion);
@@ -134,16 +125,16 @@ public class ReleasedVersionMojo extends AbstractDefinePropertyMojo {
                 }
 
                 defineVersionProperty("version", releasedVersionValue);
-                defineVersionProperty("majorVersion", releasedVersion.getMajorVersion());
-                defineVersionProperty("minorVersion", releasedVersion.getMinorVersion());
-                defineVersionProperty("incrementalVersion", releasedVersion.getIncrementalVersion());
+                defineVersionProperty("majorVersion", releasedVersion.getMajor());
+                defineVersionProperty("minorVersion", releasedVersion.getMinor());
+                defineVersionProperty("incrementalVersion", releasedVersion.getPatch());
                 defineVersionProperty("buildNumber", releasedVersion.getBuildNumber());
                 defineVersionProperty("qualifier", releasedVersion.getQualifier());
             } else {
                 getLog().debug("No released version found.");
             }
 
-        } catch (VersionRangeResolutionException e) {
+        } catch (VersionRangeResolverException e) {
             if (getLog().isWarnEnabled()) {
                 getLog().warn("Failed to retrieve artifacts metadata, cannot resolve the released version");
             }

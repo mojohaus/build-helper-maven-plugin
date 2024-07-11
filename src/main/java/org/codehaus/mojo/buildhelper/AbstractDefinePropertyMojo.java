@@ -24,23 +24,28 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
+import org.apache.maven.api.Project;
+import org.apache.maven.api.Session;
+import org.apache.maven.api.di.Inject;
+import org.apache.maven.api.services.ProjectManager;
 
 public abstract class AbstractDefinePropertyMojo extends AbstractMojo {
     /**
      * The maven project
      */
-    @Parameter(readonly = true, defaultValue = "${project}")
-    protected MavenProject project;
+    @Inject
+    protected Project project;
+
+    @Inject
+    protected Session session;
 
     protected void defineProperty(String name, String value) {
         if (getLog().isDebugEnabled()) {
             getLog().debug("define property " + name + " = \"" + value + "\"");
         }
 
-        project.getProperties().put(name, value);
+        ProjectManager projectManager = session.getService(ProjectManager.class);
+        projectManager.setProperty(project, name, value);
     }
 
     /**
@@ -48,7 +53,7 @@ public abstract class AbstractDefinePropertyMojo extends AbstractMojo {
      *
      * @return the project
      */
-    public MavenProject getProject() {
+    public Project getProject() {
         return this.project;
     }
 }

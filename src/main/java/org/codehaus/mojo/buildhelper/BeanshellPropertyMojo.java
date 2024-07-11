@@ -26,12 +26,12 @@ package org.codehaus.mojo.buildhelper;
 
 import bsh.EvalError;
 import bsh.Interpreter;
-import org.apache.maven.execution.MavenSession;
-import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.settings.Settings;
+import org.apache.maven.api.Session;
+import org.apache.maven.api.di.Inject;
+import org.apache.maven.api.plugin.MojoException;
+import org.apache.maven.api.plugin.annotations.Mojo;
+import org.apache.maven.api.plugin.annotations.Parameter;
+import org.apache.maven.api.settings.Settings;
 
 /**
  * Define one or many properties as a result of a Beanshell script invocation. Like
@@ -39,15 +39,15 @@ import org.apache.maven.settings.Settings;
  * defined:
  * <ul>
  * <li><code>project</code>: the actual Maven project,</li>
- * <li><code>session</code>: the executing <code>MavenSession</code>,</li>
+ * <li><code>session</code>: the executing <code>Session</code>,</li>
  * <li><code>settings</code>: the executing <code>Settings</code>.</li>
- * <li><code>log</code>: the logger of the Mojo (see {@link org.apache.maven.plugin.AbstractMojo#getLog()}).</li>
+ * <li><code>log</code>: the logger of the Mojo (see {@link AbstractMojo#getLog()}).</li>
  * </ul>
  *
  * @author Hervé Boutemy
  * @since 1.8
  */
-@Mojo(name = "bsh-property", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true)
+@Mojo(name = "bsh-property", defaultPhase = "validate")
 public class BeanshellPropertyMojo extends AbstractDefinePropertyMojo {
     @Parameter(required = true)
     private String source;
@@ -62,31 +62,30 @@ public class BeanshellPropertyMojo extends AbstractDefinePropertyMojo {
     /**
      * The Maven Session.
      */
-    @Parameter(readonly = true, defaultValue = "${session}")
-    private MavenSession mavenSession;
+    @Inject
+    private Session session;
 
     /**
      * The Maven Settings.
      */
-    @Parameter(readonly = true, defaultValue = "${settings}")
+    @Parameter(readonly = true, defaultValue = "${session.settings}")
     private Settings settings;
 
     /**
      * Main plugin execution
      */
-    public void execute() throws MojoFailureException {
+    public void execute() throws MojoException {
         Interpreter interpreter = new Interpreter();
 
         set(interpreter, "project", getProject());
-        set(interpreter, "session", mavenSession);
+        set(interpreter, "session", session);
         set(interpreter, "settings", settings);
         set(interpreter, "log", getLog());
 
         try {
             interpreter.eval(source);
         } catch (EvalError ee) {
-            MojoFailureException mfe =
-                    new MojoFailureException("error during Beanshell script execution: " + ee.getMessage());
+            MojoException mfe = new MojoException("error during Beanshell script execution: " + ee.getMessage());
             mfe.initCause(ee);
             throw mfe;
         }
@@ -101,7 +100,7 @@ public class BeanshellPropertyMojo extends AbstractDefinePropertyMojo {
                         defineProperty(property, value.toString());
                     }
                 } catch (EvalError ee) {
-                    MojoFailureException mfe = new MojoFailureException(
+                    MojoException mfe = new MojoException(
                             "cannot get Beanshell global variable '" + property + "': " + ee.getMessage());
                     mfe.initCause(ee);
                     throw mfe;
@@ -110,12 +109,12 @@ public class BeanshellPropertyMojo extends AbstractDefinePropertyMojo {
         }
     }
 
-    private void set(Interpreter interpreter, String name, Object value) throws MojoFailureException {
+    private void set(Interpreter interpreter, String name, Object value) throws MojoException {
         try {
             interpreter.set(name, value);
         } catch (EvalError ee) {
-            MojoFailureException mfe = new MojoFailureException(
-                    "cannot define Beanshell global variable '" + name + "': " + ee.getMessage());
+            MojoException mfe =
+                    new MojoException("cannot define Beanshell global variable '" + name + "': " + ee.getMessage());
             mfe.initCause(ee);
             throw mfe;
         }
