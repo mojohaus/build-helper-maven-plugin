@@ -1,9 +1,8 @@
 package org.codehaus.mojo.buildhelper;
 
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
-import org.codehaus.mojo.buildhelper.versioning.DefaultVersioning;
+import org.apache.maven.api.plugin.annotations.Mojo;
+import org.apache.maven.api.plugin.annotations.Parameter;
+import org.codehaus.mojo.buildhelper.utils.ParsedVersion;
 
 /**
  * Parse a version string and set properties containing the component parts of the version. This mojo sets the following
@@ -89,7 +88,7 @@ import org.codehaus.mojo.buildhelper.versioning.DefaultVersioning;
  * @author pgier
  * @since 1.3
  */
-@Mojo(name = "parse-version", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true)
+@Mojo(name = "parse-version", defaultPhase = "validate")
 public class ParseVersionMojo extends AbstractDefinePropertyMojo {
 
     /**
@@ -178,7 +177,7 @@ public class ParseVersionMojo extends AbstractDefinePropertyMojo {
      * @param version the version to parse
      */
     public void parseVersion(String version) {
-        DefaultVersioning artifactVersion = new DefaultVersioning(version);
+        ParsedVersion artifactVersion = new ParsedVersion(version);
 
         getLog().debug("Parsed Version");
         getLog().debug("         major: " + artifactVersion.getMajor());

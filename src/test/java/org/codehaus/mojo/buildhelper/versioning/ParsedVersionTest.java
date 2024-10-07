@@ -19,6 +19,7 @@ package org.codehaus.mojo.buildhelper.versioning;
  * under the License.
  */
 
+import org.codehaus.mojo.buildhelper.utils.ParsedVersion;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -29,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * @author Karl Heinz Marbaise <a href="mailto:khmarbaise@apache.org">khmarbaise@apache.org</a>
  */
-class VersionInformationTest {
+class ParsedVersionTest {
     // @formatter:off
     private static Object[][] createVersions() {
         return new Object[][] {
@@ -72,7 +73,7 @@ class VersionInformationTest {
     @ParameterizedTest
     @MethodSource("createVersions")
     void checkVersions(String version, int major, int minor, int patch, long buildNumber, String qualifier) {
-        VersionInformation vi = new VersionInformation(version);
+        ParsedVersion vi = new ParsedVersion(version);
         assertEquals(vi.getMajor(), major);
         assertEquals(vi.getMinor(), minor);
         assertEquals(vi.getPatch(), patch);
@@ -82,6 +83,6 @@ class VersionInformationTest {
 
     @Test
     void shouldFaileWithNumberFormatException() {
-        assertThrows(NumberFormatException.class, () -> new VersionInformation("999999999999.12345678.12.beta_5"));
+        assertThrows(NumberFormatException.class, () -> new ParsedVersion("999999999999.12345678.12.beta_5"));
     }
 }

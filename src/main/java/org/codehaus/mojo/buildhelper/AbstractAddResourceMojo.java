@@ -24,12 +24,16 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-import org.apache.maven.model.Resource;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
+import org.apache.maven.api.Project;
+import org.apache.maven.api.ProjectScope;
+import org.apache.maven.api.Session;
+import org.apache.maven.api.di.Inject;
+import org.apache.maven.api.plugin.annotations.Parameter;
+import org.apache.maven.api.services.ProjectManager;
+import org.codehaus.mojo.buildhelper.utils.Resource;
 
 /**
  * Abstract Mojo for adding Resources
@@ -44,8 +48,11 @@ public abstract class AbstractAddResourceMojo extends AbstractMojo {
     /**
      * The maven project
      */
-    @Parameter(readonly = true, defaultValue = "${project}")
-    private MavenProject project;
+    @Inject
+    private Project project;
+
+    @Inject
+    private Session session;
 
     /**
      * Main plugin execution
@@ -61,13 +68,10 @@ public abstract class AbstractAddResourceMojo extends AbstractMojo {
         for (Resource resource : resources) {
             // Check for relative paths in the resource configuration.
             // http://maven.apache.org/plugin-developers/common-bugs.html#Resolving_Relative_Paths
-            File resourceDir = new File(resource.getDirectory());
-            if (!resourceDir.isAbsolute()) {
-                resourceDir = new File(project.getBasedir(), resource.getDirectory());
-                resource.setDirectory(resourceDir.getAbsolutePath());
-            }
+            Path resourceDir = project.getBasedir().resolve(resource.getDirectory());
+            resource.setDirectory(resourceDir.toAbsolutePath().toString());
 
-            if (isSkipIfMissing() && !resourceDir.exists()) {
+            if (isSkipIfMissing() && !Files.exists(resourceDir)) {
                 if (getLog().isDebugEnabled()) {
                     getLog().debug("Skipping directory: " + resourceDir + ", because it does not exist.");
                 }
@@ -77,23 +81,41 @@ public abstract class AbstractAddResourceMojo extends AbstractMojo {
         }
     }
 
+    public void addResource(Resource resource) {
+        getProjectManager().addResource(getProject(), getProjectScope(), newResource(resource));
+        if (getLog().isDebugEnabled()) {
+            getLog().debug((getProjectScope() == ProjectScope.MAIN ? "Added resource: " : "Added test resource: ")
+                    + resource.getDirectory());
+        }
+    }
+
+    static org.apache.maven.api.model.Resource newResource(Resource res) {
+        return org.apache.maven.api.model.Resource.newBuilder()
+                .directory(res.getDirectory())
+                .filtering(Boolean.toString(res.isFiltering()))
+                .excludes(res.getExcludes())
+                .includes(res.getIncludes())
+                .mergeId(res.getMergeId())
+                .targetPath(res.getTargetPath())
+                .build();
+    }
+
     protected abstract boolean isSkipIfMissing();
 
     protected abstract boolean isSkip();
 
-    /**
-     * Add the resource to the project.
-     *
-     * @param resource the resource to add
-     */
-    public abstract void addResource(Resource resource);
+    protected abstract ProjectScope getProjectScope();
 
     /**
      * Get the current project instance.
      *
      * @return the project
      */
-    public MavenProject getProject() {
+    public Project getProject() {
         return this.project;
+    }
+
+    public ProjectManager getProjectManager() {
+        return session.getService(ProjectManager.class);
     }
 }

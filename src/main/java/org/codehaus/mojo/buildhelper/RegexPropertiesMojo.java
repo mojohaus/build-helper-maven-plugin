@@ -27,11 +27,9 @@ package org.codehaus.mojo.buildhelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.api.plugin.MojoException;
+import org.apache.maven.api.plugin.annotations.Mojo;
+import org.apache.maven.api.plugin.annotations.Parameter;
 
 /**
  * Sets a property by applying a regex replacement rule to a supplied value. This is similar to regex-property goal with
@@ -39,7 +37,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  *
  * @since 1.9
  */
-@Mojo(name = "regex-properties", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true)
+@Mojo(name = "regex-properties", defaultPhase = "validate")
 public class RegexPropertiesMojo extends AbstractRegexPropertyMojo {
     /**
      * List of RegexPropertyConfig to apply the regex
@@ -47,8 +45,7 @@ public class RegexPropertiesMojo extends AbstractRegexPropertyMojo {
     @Parameter(required = false)
     private List<RegexPropertySetting> regexPropertySettings = new ArrayList<RegexPropertySetting>();
 
-    public void execute() throws MojoExecutionException, MojoFailureException {
-
+    public void execute() throws MojoException {
         for (RegexPropertySetting setting : regexPropertySettings) {
             this.execute(setting);
         }

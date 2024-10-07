@@ -24,13 +24,16 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
+import org.apache.maven.api.Project;
+import org.apache.maven.api.ProjectScope;
+import org.apache.maven.api.Session;
+import org.apache.maven.api.di.Inject;
+import org.apache.maven.api.plugin.annotations.Mojo;
+import org.apache.maven.api.plugin.annotations.Parameter;
+import org.apache.maven.api.services.ProjectManager;
 
 /**
  * Add more source directories to the POM.
@@ -38,21 +41,16 @@ import org.apache.maven.project.MavenProject;
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @since 1.0
  */
-@Mojo(name = "add-source", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
+@Mojo(name = "add-source", defaultPhase = "generate-sources")
 public class AddSourceMojo extends AbstractMojo {
+
     /**
      * Additional source directories.
      *
      * @since 1.0
      */
     @Parameter(property = "sources", required = true)
-    private File[] sources;
-
-    /**
-     * @since 1.0
-     */
-    @Parameter(readonly = true, defaultValue = "${project}")
-    private MavenProject project;
+    private Path[] sources;
 
     /**
      * Skip plugin execution.
@@ -70,6 +68,12 @@ public class AddSourceMojo extends AbstractMojo {
     @Parameter(property = "buildhelper.addsource.skipIfMissing", defaultValue = "false")
     private boolean skipAddSourceIfMissing;
 
+    @Inject
+    private Project project;
+
+    @Inject
+    private Session session;
+
     public void execute() {
         if (skipAddSource) {
             if (getLog().isInfoEnabled()) {
@@ -78,13 +82,14 @@ public class AddSourceMojo extends AbstractMojo {
             return;
         }
 
-        for (File source : sources) {
-            if (skipAddSourceIfMissing && !source.exists()) {
+        for (Path source : sources) {
+            if (skipAddSourceIfMissing && !Files.exists(source)) {
                 if (getLog().isDebugEnabled()) {
                     getLog().debug("Skipping directory: " + source + ", because it does not exist.");
                 }
             } else {
-                this.project.addCompileSourceRoot(source.getAbsolutePath());
+                ProjectManager projectManager = session.getService(ProjectManager.class);
+                projectManager.addCompileSourceRoot(project, ProjectScope.MAIN, source.toAbsolutePath());
                 if (getLog().isInfoEnabled()) {
                     getLog().info("Source directory: " + source + " added.");
                 }

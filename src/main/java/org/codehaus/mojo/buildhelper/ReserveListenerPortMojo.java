@@ -26,8 +26,6 @@ package org.codehaus.mojo.buildhelper;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -35,28 +33,30 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.util.IOUtil;
+import org.apache.maven.api.Project;
+import org.apache.maven.api.Session;
+import org.apache.maven.api.di.Inject;
+import org.apache.maven.api.plugin.MojoException;
+import org.apache.maven.api.plugin.annotations.Mojo;
+import org.apache.maven.api.plugin.annotations.Parameter;
+import org.apache.maven.api.services.ProjectManager;
+import org.codehaus.plexus.util.io.CachingOutputStream;
 
 /**
  * Reserve a list of random and not in use network ports and place them in a configurable project properties.
  *
- * @author <a href="dantran@gmail.com">Dan T. Tran</a>
- * @version $Id: ReserveListnerPortMojo.java 6754 2008-04-13 15:14:04Z dantran $
  * @since 1.2
  */
-@Mojo(name = "reserve-network-port", defaultPhase = LifecyclePhase.PROCESS_TEST_CLASSES, threadSafe = true)
+@Mojo(name = "reserve-network-port", defaultPhase = "process-test-classes")
 public class ReserveListenerPortMojo extends AbstractMojo {
     private static final String BUILD_HELPER_RESERVED_PORTS = "BUILD_HELPER_MIN_PORT";
 
@@ -67,13 +67,13 @@ public class ReserveListenerPortMojo extends AbstractMojo {
     private static final Object LOCK = new Object();
 
     /**
-     * A List to property names to be placed in Maven project. At least one of {@code #urls} or {@code #portNames} has
+     * A List of property names to be placed in Maven project. At least one of {@code #urls} or {@code #portNames} has
      * to be specified.
      *
      * @since 1.2
      */
     @Parameter
-    private String[] portNames = new String[0];
+    private List<String> portNames = List.of();
 
     /**
      * A List of urls to resource where list of name could be found. Can be in form of classpath:com/myproject/names.txt
@@ -82,7 +82,7 @@ public class ReserveListenerPortMojo extends AbstractMojo {
      * @since 1.11
      */
     @Parameter
-    private String[] urls = new String[0];
+    private List<String> urls = List.of();
 
     /**
      * Output file to write the generated properties to. if not given, they are written to Maven project
@@ -90,7 +90,7 @@ public class ReserveListenerPortMojo extends AbstractMojo {
      * @since 1.2
      */
     @Parameter
-    private File outputFile;
+    private Path outputFile;
 
     /**
      * Specify this if you want the port be chosen with a number higher than that one.
@@ -119,19 +119,15 @@ public class ReserveListenerPortMojo extends AbstractMojo {
     @Parameter
     private boolean randomPort;
 
-    /**
-     * @since 1.2
-     */
-    @Parameter(readonly = true, defaultValue = "${project}")
-    private MavenProject project;
+    @Inject
+    private Session session;
+
+    @Inject
+    private Project project;
 
     @Override
-    public void execute() throws MojoExecutionException {
-        Properties properties = project.getProperties();
-
-        if (outputFile != null) {
-            properties = new Properties();
-        }
+    public void execute() throws MojoException {
+        Properties properties = new Properties();
 
         loadUrls();
 
@@ -142,32 +138,24 @@ public class ReserveListenerPortMojo extends AbstractMojo {
                 try {
                     final ServerSocket socket = getServerSocket();
                     sockets.add(socket);
-
                     final String unusedPort = Integer.toString(socket.getLocalPort());
+                    ProjectManager projectManager = session.getService(ProjectManager.class);
+                    projectManager.setProperty(project, portName, unusedPort);
                     properties.put(portName, unusedPort);
                     getReservedPorts().add(socket.getLocalPort());
                     this.getLog().info("Reserved port " + unusedPort + " for " + portName);
                 } catch (IOException e) {
-                    throw new MojoExecutionException("Error getting an available port from system", e);
+                    throw new MojoException("Error getting an available port from system", e);
                 }
             }
 
             // Write the file -- still hold onto the ports
             if (outputFile != null) {
-                try {
-                    createOutputDirectoryIfNotExist(outputFile);
-                } catch (IOException e) {
-                    throw new MojoExecutionException(e.getMessage());
-                }
-
-                OutputStream os = null;
-                try {
-                    os = new FileOutputStream(outputFile);
+                createOutputDirectoryIfNotExist(outputFile);
+                try (OutputStream os = new CachingOutputStream(outputFile)) {
                     properties.store(os, null);
                 } catch (Exception e) {
-                    throw new MojoExecutionException(e.getMessage());
-                } finally {
-                    IOUtil.close(os);
+                    throw new MojoException(e);
                 }
             }
         } finally {
@@ -183,18 +171,28 @@ public class ReserveListenerPortMojo extends AbstractMojo {
         }
     }
 
-    private void createOutputDirectoryIfNotExist(File outputFile) throws IOException {
-        File parentDirectory = new File(outputFile.getCanonicalFile().getParent());
+    private void createOutputDirectoryIfNotExist(Path outputFile) {
+        Path parentDirectory = getCanonicalPath(outputFile.toAbsolutePath()).getParent();
 
-        if (!parentDirectory.exists()) {
-            getLog().debug("Trying to create directories: " + parentDirectory.getAbsolutePath());
-            if (!parentDirectory.mkdirs()) {
-                getLog().error("Failed to create folders " + parentDirectory.getAbsolutePath());
+        if (!Files.exists(parentDirectory)) {
+            getLog().debug("Trying to create directories: " + parentDirectory);
+            try {
+                Files.createDirectories(parentDirectory);
+            } catch (IOException e) {
+                getLog().error("Failed to create folders " + parentDirectory);
             }
         }
     }
 
-    private ServerSocket getServerSocket() throws IOException, MojoExecutionException {
+    private static Path getCanonicalPath(Path path) {
+        try {
+            return path.toRealPath();
+        } catch (IOException e) {
+            return getCanonicalPath(path.getParent()).resolve(path.getFileName());
+        }
+    }
+
+    private ServerSocket getServerSocket() throws IOException, MojoException {
         if (minPortNumber == null && maxPortNumber != null) {
             getLog().debug("minPortNumber unspecified: using default value " + FIRST_NON_ROOT_PORT_NUMBER);
             minPortNumber = FIRST_NON_ROOT_PORT_NUMBER;
@@ -217,7 +215,7 @@ public class ReserveListenerPortMojo extends AbstractMojo {
                         return serverSocket;
                     }
                 }
-                throw new MojoExecutionException(
+                throw new MojoException(
                         "Unable to find an available port between " + minPortNumber + " and " + maxPortNumber);
             }
         } else {
@@ -225,9 +223,7 @@ public class ReserveListenerPortMojo extends AbstractMojo {
             // threading issues (essentially possible while put/getting the plugin ctx to get the reserved ports).
             synchronized (LOCK) {
                 int min = getNextPortNumber();
-
                 for (int port = min; ; ++port) {
-
                     ServerSocket serverSocket = reservePort(port);
                     if (serverSocket != null) {
                         return serverSocket;
@@ -238,7 +234,6 @@ public class ReserveListenerPortMojo extends AbstractMojo {
     }
 
     private List<Integer> randomPortList() {
-
         int difference = maxPortNumber - minPortNumber + 1;
         List<Integer> portList = new ArrayList<Integer>(difference);
         List<Integer> reservedPorts = getReservedPorts();
@@ -252,10 +247,9 @@ public class ReserveListenerPortMojo extends AbstractMojo {
         return portList;
     }
 
-    public ServerSocket reservePort(int port) throws MojoExecutionException {
-
+    public ServerSocket reservePort(int port) throws MojoException {
         if (port > maxPortNumber) {
-            throw new MojoExecutionException(
+            throw new MojoException(
                     "Unable to find an available port between " + minPortNumber + " and " + maxPortNumber);
         }
         try {
@@ -285,11 +279,11 @@ public class ReserveListenerPortMojo extends AbstractMojo {
 
     @SuppressWarnings("unchecked")
     private List<Integer> getReservedPorts() {
-
-        List<Integer> reservedPorts = (List<Integer>) getPluginContext().get(BUILD_HELPER_RESERVED_PORTS);
+        Map<String, Object> pluginContext = session.getPluginContext(project);
+        List<Integer> reservedPorts = (List<Integer>) pluginContext.get(BUILD_HELPER_RESERVED_PORTS);
         if (reservedPorts == null) {
-            reservedPorts = new ArrayList<Integer>();
-            getPluginContext().put(BUILD_HELPER_RESERVED_PORTS, reservedPorts);
+            reservedPorts = new ArrayList<>();
+            pluginContext.put(BUILD_HELPER_RESERVED_PORTS, reservedPorts);
         }
         return reservedPorts;
     }
@@ -311,50 +305,38 @@ public class ReserveListenerPortMojo extends AbstractMojo {
         return candidate;
     }
 
-    private void loadUrls() throws MojoExecutionException {
+    private void loadUrls() throws MojoException {
+        List<String> names = new ArrayList<>(this.portNames);
         for (String url : urls) {
-            load(new UrlResource(url));
+            names.addAll(load(new UrlResource(url)));
         }
+        this.portNames = names;
     }
 
-    private void load(UrlResource resource) throws MojoExecutionException {
+    private List<String> load(UrlResource resource) throws MojoException {
         if (resource.canBeOpened()) {
-            loadPortNamesFromResource(resource);
+            return loadPortNamesFromResource(resource);
         } else {
-            throw new MojoExecutionException("Port names could not be loaded from \"" + resource + "\"");
+            throw new MojoException("Port names could not be loaded from \"" + resource + "\"");
         }
     }
 
-    private void loadPortNamesFromResource(UrlResource resource) throws MojoExecutionException {
-        try {
+    private List<String> loadPortNamesFromResource(UrlResource resource) throws MojoException {
+        if (getLog().isDebugEnabled()) {
+            getLog().debug("Loading port names from " + resource);
+        }
+        try (InputStream stream = resource.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+            List<String> names = reader.lines()
+                    .map(String::trim)
+                    .filter(line -> !line.isEmpty() && !line.startsWith("#"))
+                    .toList();
             if (getLog().isDebugEnabled()) {
-                getLog().debug("Loading port names from " + resource);
+                getLog().debug("Loaded port names " + names);
             }
-            final InputStream stream = resource.getInputStream();
-
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-                List<String> names = new ArrayList<String>();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    line = line.trim();
-                    if (!line.isEmpty() && !line.replace(" ", "").startsWith("#")) {
-                        names.add(line);
-                    }
-                }
-                if (getLog().isDebugEnabled()) {
-                    getLog().debug("Loaded port names " + names);
-                }
-                String[] tPortNames = names.toArray(new String[portNames.length + names.size()]);
-                if (portNames.length > 0) {
-                    System.arraycopy(portNames, 0, tPortNames, names.size(), portNames.length);
-                }
-                portNames = tPortNames;
-            } finally {
-                stream.close();
-            }
+            return names;
         } catch (IOException e) {
-            throw new MojoExecutionException("Error reading port names from \"" + resource + "\"", e);
+            throw new MojoException("Error reading port names from \"" + resource + "\"", e);
         }
     }
 
@@ -371,11 +353,11 @@ public class ReserveListenerPortMojo extends AbstractMojo {
 
         private InputStream stream;
 
-        UrlResource(String url) throws MojoExecutionException {
+        UrlResource(String url) throws MojoException {
             if (url.startsWith(CLASSPATH_PREFIX)) {
-                String resource = url.substring(CLASSPATH_PREFIX.length(), url.length());
+                String resource = url.substring(CLASSPATH_PREFIX.length());
                 if (resource.startsWith(SLASH_PREFIX)) {
-                    resource = resource.substring(1, resource.length());
+                    resource = resource.substring(1);
                 }
                 this.url = getClass().getClassLoader().getResource(resource);
                 if (this.url == null) {
@@ -389,7 +371,7 @@ public class ReserveListenerPortMojo extends AbstractMojo {
                 try {
                     this.url = new URL(url);
                 } catch (MalformedURLException e) {
-                    throw new MojoExecutionException("Badly formed URL " + url + " - " + e.getMessage());
+                    throw new MojoException("Badly formed URL " + url + " - " + e.getMessage());
                 }
             }
         }
