@@ -23,8 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.api.plugin.MojoException;
 import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.shared.model.fileset.mappers.MapperException;
 import org.apache.maven.shared.model.fileset.util.FileSetManager;
@@ -44,11 +43,11 @@ abstract class AbstractUpToDatePropertyMojo extends AbstractDefinePropertyMojo {
 
     protected AbstractUpToDatePropertyMojo() {}
 
-    protected void execute(UpToDatePropertySetting config) throws MojoExecutionException, MojoFailureException {
+    protected void execute(UpToDatePropertySetting config) throws MojoException {
         try {
             config.validate();
         } catch (IllegalArgumentException e) {
-            throw new MojoExecutionException("Invalid UpToDateProperty configuration", e);
+            throw new MojoException("Invalid UpToDateProperty configuration", e);
         }
 
         // Check that all target file(s) are up to date with respect to their corresponding source files.
@@ -91,7 +90,7 @@ abstract class AbstractUpToDatePropertyMojo extends AbstractDefinePropertyMojo {
                     return isUpToDate;
                 });
             } catch (MapperException e) {
-                throw new MojoExecutionException("", e);
+                throw new MojoException("", e);
             }
         }
 

@@ -24,11 +24,9 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.api.plugin.MojoException;
+import org.apache.maven.api.plugin.annotations.Mojo;
+import org.apache.maven.api.plugin.annotations.Parameter;
 
 /**
  * Sets a property by applying a regex replacement rule to a supplied value.
@@ -36,7 +34,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @author Stephen Connolly
  * @since 1.7
  */
-@Mojo(name = "regex-property", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true)
+@Mojo(name = "regex-property", defaultPhase = "validate")
 public class RegexPropertyMojo extends AbstractRegexPropertyMojo {
     /**
      * The property to set.
@@ -87,7 +85,7 @@ public class RegexPropertyMojo extends AbstractRegexPropertyMojo {
     /**
      * {@inheritDoc}
      */
-    public void execute() throws MojoExecutionException, MojoFailureException {
+    public void execute() throws MojoException {
         RegexPropertySetting config = new RegexPropertySetting();
         config.setName(name);
         config.setValue(value);

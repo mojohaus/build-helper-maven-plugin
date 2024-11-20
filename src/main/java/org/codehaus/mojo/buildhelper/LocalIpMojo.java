@@ -27,10 +27,9 @@ package org.codehaus.mojo.buildhelper;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.api.plugin.MojoException;
+import org.apache.maven.api.plugin.annotations.Mojo;
+import org.apache.maven.api.plugin.annotations.Parameter;
 
 /**
  * Retrieve current host IP address and place it under a configurable project property
@@ -38,7 +37,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @since 1.8
  */
-@Mojo(name = "local-ip", defaultPhase = LifecyclePhase.PROCESS_TEST_CLASSES, threadSafe = true)
+@Mojo(name = "local-ip", defaultPhase = "process-test-classes")
 public class LocalIpMojo extends AbstractDefinePropertyMojo {
 
     /**
@@ -47,11 +46,11 @@ public class LocalIpMojo extends AbstractDefinePropertyMojo {
     @Parameter(defaultValue = "local.ip")
     private String localIpProperty;
 
-    public void execute() throws MojoExecutionException {
+    public void execute() throws MojoException {
         try {
             defineProperty(this.localIpProperty, InetAddress.getLocalHost().getHostAddress());
         } catch (UnknownHostException e) {
-            throw new MojoExecutionException("Unable to retrieve localhost address.", e);
+            throw new MojoException("Unable to retrieve localhost address.", e);
         }
     }
 }

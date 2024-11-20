@@ -26,11 +26,9 @@ package org.codehaus.mojo.buildhelper;
 
 import java.util.List;
 
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.api.plugin.MojoException;
+import org.apache.maven.api.plugin.annotations.Mojo;
+import org.apache.maven.api.plugin.annotations.Parameter;
 
 /**
  * Sets multiple properties according to whether multiple sets of source and target resources are respectively up to
@@ -39,7 +37,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @author Adrian Price <a href="mailto:demonfiddler@virginmedia.com">demonfiddler@virginmedia.com</a>
  * @since 1.12
  */
-@Mojo(name = "uptodate-properties", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true)
+@Mojo(name = "uptodate-properties", defaultPhase = "validate")
 public class UpToDatePropertiesMojo extends AbstractUpToDatePropertyMojo {
     /**
      * List of <code>UpToDatePropertySetting</code>s to apply.
@@ -55,7 +53,7 @@ public class UpToDatePropertiesMojo extends AbstractUpToDatePropertyMojo {
 
     /** {@inheritDoc} */
     @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
+    public void execute() throws MojoException, MojoException {
         if (skip) {
             getLog().info("uptodate-properties is skipped.");
             return;

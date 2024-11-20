@@ -24,7 +24,7 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.api.plugin.annotations.Parameter;
 import org.apache.maven.shared.model.fileset.FileSet;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -93,7 +93,7 @@ public final class UpToDatePropertySetting {
         this.elseValue = elseValue;
     }
 
-    void validate() {
+    public void validate() {
         if (StringUtils.isBlank(name)) {
             throw new IllegalArgumentException("name required");
         }

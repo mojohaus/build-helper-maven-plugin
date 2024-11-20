@@ -24,8 +24,10 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
+import java.lang.reflect.Proxy;
 import java.util.Properties;
 
+import org.apache.maven.api.plugin.Log;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -38,6 +40,13 @@ class ParseVersionTest {
 
         TestParseVersionMojo(Properties properties) {
             this.properties = properties;
+            this.log = (Log)
+                    Proxy.newProxyInstance(getClass().getClassLoader(), new Class<?>[] {Log.class}, (o, m, params) -> {
+                        if (params.length == 1 && params[0] instanceof CharSequence) {
+                            System.out.println("[" + m.getName() + "] " + params[0]);
+                        }
+                        return null;
+                    });
         }
 
         @Override
