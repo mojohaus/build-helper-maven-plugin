@@ -1,4 +1,4 @@
-package org.codehaus.mojo.buildhelper.versioning;
+package org.codehaus.mojo.buildhelper.utils;
 
 /*
  * The MIT License
@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
  * @author Karl Heinz Marbaise <a href="mailto:khmarbaise@apache.org">khmarbaise@apache.org</a>
  *
  */
-public class VersionInformation {
+public class ParsedVersion {
     private static final String MAJOR_MINOR_PATCH_PATTERN = "^((\\d+)(\\.(\\d+)(\\.(\\d+))?)?)";
 
     private static final Pattern MAJOR_MINOR_PATCH = Pattern.compile(MAJOR_MINOR_PATCH_PATTERN);
@@ -41,6 +41,8 @@ public class VersionInformation {
     private static final Pattern DIGITS = Pattern.compile(MAJOR_MINOR_PATCH_PATTERN + "(.*)$");
 
     private static final Pattern BUILD_NUMBER = Pattern.compile("(((\\-)(\\d+)(.*))?)|(\\.(.*))|(\\-(.*))|(.*)$");
+
+    private String version;
 
     private int major;
 
@@ -100,7 +102,8 @@ public class VersionInformation {
         }
     }
 
-    public VersionInformation(String version) {
+    public ParsedVersion(String version) {
+        this.version = version;
         Matcher matcherDigits = DIGITS.matcher(version);
         if (matcherDigits.matches()) {
             parseMajorMinorPatchVersion(matcherDigits.group(1));
@@ -148,5 +151,32 @@ public class VersionInformation {
 
     public void setQualifier(String qualifier) {
         this.qualifier = qualifier;
+    }
+
+    public String getAsOSGiVersion() {
+        StringBuilder osgiVersion = new StringBuilder();
+        osgiVersion.append(this.getMajor());
+        osgiVersion.append("." + this.getMinor());
+        osgiVersion.append("." + this.getPatch());
+
+        if (this.getQualifier() != null || this.getBuildNumber() != 0) {
+            osgiVersion.append(".");
+
+            if (this.getBuildNumber() != 0) {
+                osgiVersion.append(this.getBuildNumber());
+            }
+            if (this.getQualifier() != null) {
+                // Do not allow having "." in it cause it's not allowed in OSGi.
+                String qualifier = this.getQualifier().replaceAll("\\.", "_");
+                osgiVersion.append(qualifier);
+            }
+        }
+
+        return osgiVersion.toString();
+    }
+
+    @Override
+    public String toString() {
+        return version;
     }
 }

@@ -32,12 +32,11 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.apache.maven.execution.MavenSession;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.api.Session;
+import org.apache.maven.api.di.Inject;
+import org.apache.maven.api.plugin.MojoException;
+import org.apache.maven.api.plugin.annotations.Mojo;
+import org.apache.maven.api.plugin.annotations.Parameter;
 
 /**
  * Sets a property based on the current date and time.
@@ -45,7 +44,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @author Stephen Connolly
  * @since 1.7
  */
-@Mojo(name = "timestamp-property", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true)
+@Mojo(name = "timestamp-property", defaultPhase = "validate")
 public class TimestampPropertyMojo extends AbstractDefinePropertyMojo {
 
     /**
@@ -111,13 +110,13 @@ public class TimestampPropertyMojo extends AbstractDefinePropertyMojo {
      *
      * @since 3.2.0
      */
-    @Parameter(readonly = true, defaultValue = "${session}")
-    private MavenSession mavenSession;
+    @Inject
+    private Session session;
 
     /**
      * {@inheritDoc}
      */
-    public void execute() throws MojoExecutionException, MojoFailureException {
+    public void execute() throws MojoException, MojoException {
         Locale locale;
         if (this.locale != null) {
             String[] bits = this.locale.split("[,_]");
@@ -128,7 +127,7 @@ public class TimestampPropertyMojo extends AbstractDefinePropertyMojo {
             } else if (bits.length == 3) {
                 locale = new Locale(bits[0].trim(), bits[1].trim(), bits[2].trim());
             } else {
-                throw new MojoExecutionException("expecting language,country,variant but got more than three parts");
+                throw new MojoException("expecting language,country,variant but got more than three parts");
             }
         } else {
             locale = Locale.getDefault();
@@ -143,7 +142,7 @@ public class TimestampPropertyMojo extends AbstractDefinePropertyMojo {
             try {
                 format = new SimpleDateFormat(pattern, locale);
             } catch (IllegalArgumentException e) {
-                throw new MojoExecutionException(e.getMessage(), e);
+                throw new MojoException(e.getMessage(), e);
             }
         }
 
@@ -182,7 +181,7 @@ public class TimestampPropertyMojo extends AbstractDefinePropertyMojo {
         format.setTimeZone(timeZone);
 
         if ("build".equals(timeSource)) {
-            defineProperty(name, format.format(mavenSession.getStartTime()));
+            defineProperty(name, format.format(new Date(session.getStartTime().toEpochMilli())));
         } else {
             defineProperty(name, format.format(calendar.getTime()));
         }

@@ -1,4 +1,4 @@
-package org.codehaus.mojo.buildhelper;
+package org.codehaus.mojo.buildhelper.utils;
 
 /*
  * The MIT License
@@ -24,7 +24,7 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import java.io.File;
+import java.nio.file.Path;
 
 /**
  * <p>
@@ -34,7 +34,7 @@ import java.io.File;
  * @author dtran
  */
 public class Artifact {
-    private File file;
+    private Path path;
 
     private String type = "jar";
 
@@ -47,8 +47,8 @@ public class Artifact {
      *
      * @param localFile a {@link java.io.File} object.
      */
-    public void setFile(File localFile) {
-        this.file = localFile;
+    public void setPath(Path localFile) {
+        this.path = localFile;
     }
 
     /**
@@ -56,10 +56,10 @@ public class Artifact {
      * Getter for the field <code>file</code>.
      * </p>
      *
-     * @return a {@link java.io.File} object.
+     * @return a {@link java.nio.file.Path} object.
      */
-    public File getFile() {
-        return this.file;
+    public Path getPath() {
+        return this.path;
     }
 
     /**

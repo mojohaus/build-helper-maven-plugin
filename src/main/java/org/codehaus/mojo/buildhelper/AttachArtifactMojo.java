@@ -27,15 +27,15 @@ package org.codehaus.mojo.buildhelper;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.Component;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
-import org.apache.maven.project.MavenProjectHelper;
+import org.apache.maven.api.Project;
+import org.apache.maven.api.Session;
+import org.apache.maven.api.di.Inject;
+import org.apache.maven.api.plugin.MojoException;
+import org.apache.maven.api.plugin.annotations.Mojo;
+import org.apache.maven.api.plugin.annotations.Parameter;
+import org.apache.maven.api.services.ArtifactFactory;
+import org.apache.maven.api.services.ProjectManager;
+import org.codehaus.mojo.buildhelper.utils.Artifact;
 
 /**
  * Attach additional artifacts to be installed and deployed.
@@ -43,7 +43,7 @@ import org.apache.maven.project.MavenProjectHelper;
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @since 1.0
  */
-@Mojo(name = "attach-artifact", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true)
+@Mojo(name = "attach-artifact", defaultPhase = "package")
 public class AttachArtifactMojo extends AbstractMojo {
     /**
      * Attach an array of artifacts to the project.
@@ -51,15 +51,15 @@ public class AttachArtifactMojo extends AbstractMojo {
     @Parameter(required = true)
     private Artifact[] artifacts;
 
-    @Parameter(readonly = true, defaultValue = "${project}")
-    private MavenProject project;
+    @Inject
+    private Project project;
+
+    @Inject
+    private Session session;
 
     /**
      * Maven ProjectHelper.
      */
-    @Component
-    private MavenProjectHelper projectHelper;
-
     /**
      * This will cause the execution to be run only at the top of a given module tree. That is, run in the project
      * contained in the same folder where the mvn execution was launched.
@@ -78,34 +78,45 @@ public class AttachArtifactMojo extends AbstractMojo {
     @Parameter(property = "buildhelper.skipAttach", defaultValue = "false")
     private boolean skipAttach;
 
-    public void execute() throws MojoExecutionException, MojoFailureException {
-
+    public void execute() throws MojoException, MojoException {
         if (skipAttach) {
             getLog().info("Skip attaching artifacts");
             return;
         }
 
         // Run only at the execution root
-        if (runOnlyAtExecutionRoot && !project.isExecutionRoot()) {
+        if (runOnlyAtExecutionRoot && !project.isRootProject()) {
             getLog().info("Skip attaching artifacts in this project because it's not the Execution Root");
         } else {
             this.validateArtifacts();
 
             for (Artifact artifact : artifacts) {
-                projectHelper.attachArtifact(
-                        this.project, artifact.getType(), artifact.getClassifier(), artifact.getFile());
+
+                ProjectManager projectManager = session.getService(ProjectManager.class);
+                projectManager.attachArtifact(
+                        project,
+                        session.getService(ArtifactFactory.class)
+                                .create(
+                                        session,
+                                        project.getGroupId(),
+                                        project.getArtifactId(),
+                                        project.getVersion(),
+                                        artifact.getClassifier(),
+                                        null,
+                                        artifact.getType()),
+                        artifact.getPath());
             }
         }
     }
 
-    private void validateArtifacts() throws MojoFailureException {
+    private void validateArtifacts() throws MojoException {
         // check unique of types and classifiers
         Set<String> extensionClassifiers = new HashSet<String>();
         for (Artifact artifact : artifacts) {
             String extensionClassifier = artifact.getType() + ":" + artifact.getClassifier();
 
             if (!extensionClassifiers.add(extensionClassifier)) {
-                throw new MojoFailureException("The artifact with same type and classifier: " + extensionClassifier
+                throw new MojoException("The artifact with same type and classifier: " + extensionClassifier
                         + " is used more than once.");
             }
         }
