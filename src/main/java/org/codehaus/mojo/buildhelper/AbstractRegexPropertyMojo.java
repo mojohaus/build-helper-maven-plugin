@@ -29,24 +29,23 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.api.plugin.MojoException;
 import org.codehaus.plexus.util.StringUtils;
 
 public abstract class AbstractRegexPropertyMojo extends AbstractDefinePropertyMojo {
 
-    protected void execute(RegexPropertySetting config) throws MojoExecutionException, MojoFailureException {
+    protected void execute(RegexPropertySetting config) throws MojoException {
         try {
             config.validate();
         } catch (IllegalArgumentException e) {
-            throw new MojoExecutionException(e.getMessage(), e);
+            throw new MojoException(e.getMessage(), e);
         }
 
         Pattern pattern;
         try {
             pattern = Pattern.compile(config.getRegex());
         } catch (PatternSyntaxException e) {
-            throw new MojoExecutionException(e.getMessage(), e);
+            throw new MojoException(e.getMessage(), e);
         }
         Matcher matcher = pattern.matcher(config.getValue());
 
@@ -58,7 +57,7 @@ public abstract class AbstractRegexPropertyMojo extends AbstractDefinePropertyMo
                             : matcher.replaceAll("")));
         } else {
             if (config.isFailIfNoMatch()) {
-                throw new MojoFailureException(
+                throw new MojoException(
                         "No match to regex '" + config.getRegex() + "' found in '" + config.getValue() + "'.");
             } else {
                 getLog().info("No match to regex '" + config.getRegex() + "' found in '" + config.getValue() + "'. "

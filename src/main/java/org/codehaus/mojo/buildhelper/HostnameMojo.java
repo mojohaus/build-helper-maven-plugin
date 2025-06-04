@@ -27,10 +27,9 @@ package org.codehaus.mojo.buildhelper;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.api.plugin.MojoException;
+import org.apache.maven.api.plugin.annotations.Mojo;
+import org.apache.maven.api.plugin.annotations.Parameter;
 
 /**
  * Retrieve current hostname and place it under a configurable project property
@@ -38,7 +37,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @author <a href="nhoj.patrick@gmail.com">John Patrick</a>
  * @since 3.0.0
  */
-@Mojo(name = "hostname", defaultPhase = LifecyclePhase.PROCESS_TEST_CLASSES, threadSafe = true)
+@Mojo(name = "hostname", defaultPhase = "process-test-classes")
 public class HostnameMojo extends AbstractDefinePropertyMojo {
 
     /**
@@ -47,11 +46,11 @@ public class HostnameMojo extends AbstractDefinePropertyMojo {
     @Parameter(defaultValue = "hostname")
     private String hostnameProperty;
 
-    public void execute() throws MojoExecutionException {
+    public void execute() throws MojoException {
         try {
             defineProperty(this.hostnameProperty, InetAddress.getLocalHost().getHostName());
         } catch (UnknownHostException e) {
-            throw new MojoExecutionException("Unable to retrieve hostname.", e);
+            throw new MojoException("Unable to retrieve hostname.", e);
         }
     }
 }
