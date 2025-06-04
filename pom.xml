@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>build-helper-maven-plugin</artifactId>
-  <version>3.6.1</version>
+  <version>3.6.2-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>Build Helper Maven Plugin</name>
@@ -68,7 +68,7 @@
   <scm>
     <connection>scm:git:https://github.com/mojohaus/build-helper-maven-plugin.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/mojohaus/build-helper-maven-plugin.git</developerConnection>
-    <tag>3.6.1</tag>
+    <tag>HEAD</tag>
     <url>https://github.com/mojohaus/build-helper-maven-plugin/tree/master</url>
   </scm>
 
@@ -84,7 +84,7 @@
 
   <properties>
     <scmpublish.content>${project.build.directory}/staging/build-helper-maven-plugin</scmpublish.content>
-    <project.build.outputTimestamp>2025-06-04T21:41:19Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2025-06-04T21:41:30Z</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
