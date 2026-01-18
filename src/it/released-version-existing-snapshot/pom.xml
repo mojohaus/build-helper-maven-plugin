@@ -3,8 +3,8 @@
 
   <!-- We use artifact which contains released and snapshot versions. -->
 
-  <groupId>org.codehaus.mojo</groupId>
-  <artifactId>versions-maven-plugin</artifactId>
+  <groupId>org.apache.maven.doxia</groupId>
+  <artifactId>doxia</artifactId>
   <version>1.0.0-SNAPHOST</version>
   <name>build-helper-maven-plugin-released-version-it</name>
 
