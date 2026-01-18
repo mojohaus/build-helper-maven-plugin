@@ -10,7 +10,7 @@
       <repositories>
           <repository>
             <id>oss-snap</id>
-            <url>https://oss.sonatype.org/content/groups/public/</url>
+            <url>https://repository.apache.org/snapshots</url>
             <releases>
               <enabled>false</enabled>
               <checksumPolicy>fail</checksumPolicy>
