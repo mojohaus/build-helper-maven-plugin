@@ -28,6 +28,7 @@ import java.io.File;
 
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
@@ -50,7 +51,7 @@ public abstract class AbstractAddResourceMojo extends AbstractMojo {
     /**
      * Main plugin execution
      */
-    public void execute() {
+    public void execute() throws MojoExecutionException {
         if (isSkip()) {
             if (getLog().isInfoEnabled()) {
                 getLog().info("Skipping plugin execution!");
@@ -61,7 +62,14 @@ public abstract class AbstractAddResourceMojo extends AbstractMojo {
         for (Resource resource : resources) {
             // Check for relative paths in the resource configuration.
             // http://maven.apache.org/plugin-developers/common-bugs.html#Resolving_Relative_Paths
-            File resourceDir = new File(resource.getDirectory());
+            String resourceDirectory = resource.getDirectory();
+            if (resourceDirectory == null) {
+                throw new MojoExecutionException(String.format(
+                        "Missing (or evaluated to empty value) configuration for resource directory. "
+                                + "Offending resource (might help to locate configuration element): %s",
+                        resource));
+            }
+            File resourceDir = new File(resourceDirectory);
             if (!resourceDir.isAbsolute()) {
                 resourceDir = new File(project.getBasedir(), resource.getDirectory());
                 resource.setDirectory(resourceDir.getAbsolutePath());
