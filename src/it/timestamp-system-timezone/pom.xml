@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>build-helper-timestamp-system-timezone-it</artifactId>
+  <version>1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>System time zone</name>
+  <description>Tests the system time zone keyword for issue #75 and existing time zone configuration.</description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>@project.groupId@</groupId>
+        <artifactId>@project.artifactId@</artifactId>
+        <version>@project.version@</version>
+        <configuration>
+          <pattern>XXX</pattern>
+          <locale>en</locale>
+          <timeSource>build</timeSource>
+        </configuration>
+        <executions>
+          <execution>
+            <id>system-current</id>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <configuration>
+              <name>system.current</name>
+              <timeSource>current</timeSource>
+              <timeZone>system</timeZone>
+            </configuration>
+          </execution>
+          <execution>
+            <id>system-build</id>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <configuration>
+              <name>system.build</name>
+              <timeZone>SyStEm</timeZone>
+            </configuration>
+          </execution>
+          <execution>
+            <id>default-timezone</id>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <configuration>
+              <name>default.timezone</name>
+            </configuration>
+          </execution>
+          <execution>
+            <id>explicit-timezone</id>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <configuration>
+              <name>explicit.timezone</name>
+              <timeZone>GMT-07:00</timeZone>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
