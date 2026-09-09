@@ -118,13 +118,6 @@
       <version>${mavenVersion}</version>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>org.apache.maven.resolver</groupId>
-      <artifactId>maven-resolver-api</artifactId>
-      <!-- the same version as in used Maven dependencies -->
-      <version>1.4.1</version>
-      <scope>provided</scope>
-    </dependency>
 
     <dependency>
       <groupId>org.apache.maven.plugin-tools</groupId>
