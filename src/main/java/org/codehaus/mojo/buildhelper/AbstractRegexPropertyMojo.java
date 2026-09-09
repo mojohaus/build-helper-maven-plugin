@@ -31,7 +31,6 @@ import java.util.regex.PatternSyntaxException;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.codehaus.plexus.util.StringUtils;
 
 public abstract class AbstractRegexPropertyMojo extends AbstractDefinePropertyMojo {
 
@@ -51,11 +50,11 @@ public abstract class AbstractRegexPropertyMojo extends AbstractDefinePropertyMo
         Matcher matcher = pattern.matcher(config.getValue());
 
         if (matcher.find()) {
-            // if the string replacement is empty, we define the value replacement to empty.
-            config.setValue(
-                    (StringUtils.isNotEmpty(config.getReplacement())
-                            ? matcher.replaceAll(config.getReplacement())
-                            : matcher.replaceAll("")));
+            String replacement = config.getReplacement() == null ? "" : config.getReplacement();
+            if (config.isReplacementLiteral()) {
+                replacement = Matcher.quoteReplacement(replacement);
+            }
+            config.setValue(matcher.replaceAll(replacement));
         } else {
             if (config.isFailIfNoMatch()) {
                 throw new MojoFailureException(

@@ -63,6 +63,15 @@ public class RegexPropertyMojo extends AbstractRegexPropertyMojo {
     private String replacement;
 
     /**
+     * Whether to treat the replacement as a literal string. If true, backslashes and dollar signs have no special meaning
+     * in the replacement.
+     *
+     * @since 3.6.2
+     */
+    @Parameter(defaultValue = "false")
+    private boolean replacementLiteral;
+
+    /**
      * Whether to fail if no match is found.
      */
     @Parameter(defaultValue = "true")
@@ -93,6 +102,7 @@ public class RegexPropertyMojo extends AbstractRegexPropertyMojo {
         config.setValue(value);
         config.setRegex(regex);
         config.setReplacement(replacement);
+        config.setReplacementLiteral(replacementLiteral);
         config.setFailIfNoMatch(failIfNoMatch);
         config.setToLowerCase(toLowerCase);
         config.setToUpperCase(toUpperCase);
