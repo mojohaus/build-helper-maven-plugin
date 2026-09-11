@@ -61,7 +61,9 @@ public class TimestampPropertyMojo extends AbstractDefinePropertyMojo {
     private String pattern;
 
     /**
-     * The timezone to use for displaying time. The values are as defined by the Java {$link TimeZone} class.
+     * The timezone to use for displaying time. The values are as defined by the Java {@link TimeZone} class.
+     * Since 3.6.2, the special value {@code system} (case insensitive) uses the current JVM default timezone returned by
+     * {@link TimeZone#getDefault()}.
      */
     @Parameter(defaultValue = "GMT")
     private String timeZone;
@@ -148,7 +150,9 @@ public class TimestampPropertyMojo extends AbstractDefinePropertyMojo {
         }
 
         TimeZone timeZone;
-        if (this.timeZone != null) {
+        if ("system".equalsIgnoreCase(this.timeZone)) {
+            timeZone = TimeZone.getDefault();
+        } else if (this.timeZone != null) {
             timeZone = TimeZone.getTimeZone(this.timeZone);
         } else {
             timeZone = TimeZone.getTimeZone("GMT");
