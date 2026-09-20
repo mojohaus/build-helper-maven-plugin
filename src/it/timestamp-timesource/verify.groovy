@@ -16,14 +16,14 @@ try
     String module2ModuleVersion = module2Props.getProperty( "module.version" );
     String module2SessionVersion = module2Props.getProperty( "session.version" );
 
-    if ( module1ModuleVersion.indexOf( "${module.build.timestamp}" ) >= 0
-         || module2ModuleVersion.indexOf( "${module.build.timestamp}" ) >= 0)
+    if ( module1ModuleVersion.indexOf( '${module.build.timestamp}' ) >= 0
+         || module2ModuleVersion.indexOf( '${module.build.timestamp}' ) >= 0)
     {
         System.err.println( "Module timestamp not set" );
         return false;
     }
-    else if ( module1SessionVersion.indexOf( "${session.build.timestamp}" ) >= 0
-              || module2SessionVersion.indexOf( "${session.build.timestamp}" ) >= 0)
+    else if ( module1SessionVersion.indexOf( '${session.build.timestamp}' ) >= 0
+              || module2SessionVersion.indexOf( '${session.build.timestamp}' ) >= 0)
     {
         System.err.println( "Session timestamp not set" );
         return false;

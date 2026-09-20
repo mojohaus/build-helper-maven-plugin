@@ -8,7 +8,7 @@ try
     p.load( new FileInputStream( file ) );
     String value = p.getProperty( "version" );
 
-    if ( value.indexOf( "${timestamp}" ) >= 0 )
+    if ( value.indexOf( '${timestamp}' ) >= 0 )
     {
         System.err.println( "Timestamp not set" );
         return false;

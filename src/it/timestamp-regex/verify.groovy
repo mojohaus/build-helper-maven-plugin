@@ -9,7 +9,7 @@ try
     p.load( new FileInputStream( file ) );
     String value = p.getProperty( "version" );
 
-    if ( value.indexOf( "${build.version}" ) >= 0 )
+    if ( value.indexOf( '${build.version}' ) >= 0 )
     {
         System.err.println( "Timestamp not set" );
         return false;
