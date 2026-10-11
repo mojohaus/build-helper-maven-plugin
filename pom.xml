@@ -84,7 +84,7 @@
 
   <properties>
     <!-- run the ITs in parallel -->
-    <invoker.parallelThreads>0.75C</invoker.parallelThreads>
+    <invoker.parallelThreads>1C</invoker.parallelThreads>
     <scmpublish.content>${project.build.directory}/staging/build-helper-maven-plugin</scmpublish.content>
     <project.build.outputTimestamp>2026-09-11T20:27:26Z</project.build.outputTimestamp>
   </properties>
