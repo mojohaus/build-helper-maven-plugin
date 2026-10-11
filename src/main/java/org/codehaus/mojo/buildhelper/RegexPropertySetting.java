@@ -53,6 +53,15 @@ public class RegexPropertySetting {
     private String replacement = "";
 
     /**
+     * Whether to treat the replacement as a literal string. If true, backslashes and dollar signs have no special meaning
+     * in the replacement.
+     *
+     * @since 3.6.2
+     */
+    @Parameter(defaultValue = "false")
+    private boolean replacementLiteral;
+
+    /**
      * Whether to fail if no match is found.
      */
     @Parameter(defaultValue = "true")
@@ -100,6 +109,14 @@ public class RegexPropertySetting {
 
     public void setReplacement(String replacement) {
         this.replacement = replacement;
+    }
+
+    public boolean isReplacementLiteral() {
+        return replacementLiteral;
+    }
+
+    public void setReplacementLiteral(boolean replacementLiteral) {
+        this.replacementLiteral = replacementLiteral;
     }
 
     public boolean isFailIfNoMatch() {
