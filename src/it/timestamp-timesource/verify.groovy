@@ -1,49 +1,18 @@
-import java.io.*;
-import java.util.*;
+Properties module1Props = new Properties()
+new File( basedir, "module-1/target/classes/test.properties" ).withInputStream { module1Props.load( it ) }
+Properties module2Props = new Properties()
+new File( basedir, "module-2/target/classes/test.properties" ).withInputStream { module2Props.load( it ) }
 
-try
-{
-    File module1File = new File( basedir, "module-1/target/classes/test.properties" );
-    File module2File = new File( basedir, "module-2/target/classes/test.properties" );
+String module1ModuleVersion = module1Props.getProperty( "module.version" )
+String module1SessionVersion = module1Props.getProperty( "session.version" )
+String module2ModuleVersion = module2Props.getProperty( "module.version" )
+String module2SessionVersion = module2Props.getProperty( "session.version" )
 
-    Properties module1Props = new Properties();
-    module1Props.load( new FileInputStream( module1File ) );
-    Properties module2Props = new Properties();
-    module2Props.load( new FileInputStream( module2File ) );
-
-    String module1ModuleVersion = module1Props.getProperty( "module.version" );
-    String module1SessionVersion = module1Props.getProperty( "session.version" );
-    String module2ModuleVersion = module2Props.getProperty( "module.version" );
-    String module2SessionVersion = module2Props.getProperty( "session.version" );
-
-    if ( module1ModuleVersion.indexOf( '${module.build.timestamp}' ) >= 0
-         || module2ModuleVersion.indexOf( '${module.build.timestamp}' ) >= 0)
-    {
-        System.err.println( "Module timestamp not set" );
-        return false;
-    }
-    else if ( module1SessionVersion.indexOf( '${session.build.timestamp}' ) >= 0
-              || module2SessionVersion.indexOf( '${session.build.timestamp}' ) >= 0)
-    {
-        System.err.println( "Session timestamp not set" );
-        return false;
-    }
-
-    if ( module1ModuleVersion.equals( module2ModuleVersion ) )
-    {
-        System.err.println( "Module timestamps should not match by design" );
-        return false;
-    }
-    else if ( !module1SessionVersion.equals( module2SessionVersion ) )
-    {
-        System.err.println( "Session timestamps should match by design" );
-        return false;
-    }
-}
-catch( Throwable t )
-{
-    t.printStackTrace();
-    return false;
-}
-
-return true;
+assert module1ModuleVersion != null && module2ModuleVersion != null : "module.version property missing"
+assert module1SessionVersion != null && module2SessionVersion != null : "session.version property missing"
+assert !module1ModuleVersion.contains( '${module.build.timestamp}' ) : "Module timestamp not set in module-1"
+assert !module2ModuleVersion.contains( '${module.build.timestamp}' ) : "Module timestamp not set in module-2"
+assert !module1SessionVersion.contains( '${session.build.timestamp}' ) : "Session timestamp not set in module-1"
+assert !module2SessionVersion.contains( '${session.build.timestamp}' ) : "Session timestamp not set in module-2"
+assert module1ModuleVersion != module2ModuleVersion : "Module timestamps should not match by design"
+assert module1SessionVersion == module2SessionVersion : "Session timestamps should match by design"
