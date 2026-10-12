@@ -10,6 +10,8 @@ add supplemental source/test folders to a Maven project or attach supplemental a
 
 More details can be found on the [goals overview page](http://www.mojohaus.org/build-helper-maven-plugin/).
 
+Contributor and agent notes are in [AGENTS.md](AGENTS.md).
+
 ## Releasing
 
 * Make sure `gpg-agent` is running.
