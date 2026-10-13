@@ -11,6 +11,26 @@
 
   <build>
     <defaultGoal>package</defaultGoal>
+    <pluginManagement>
+      <plugins>
+        <!-- pinned and preloaded through extraArtifacts: two ITs resolving them from Central in parallel collide on Windows -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>@maven-resources-plugin.version@</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>@maven-compiler-plugin.version@</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>@maven-surefire-plugin.version@</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>@project.groupId@</groupId>
