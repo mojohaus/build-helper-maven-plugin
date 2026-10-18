@@ -481,6 +481,24 @@ tomcat.http.port
   the value <<<1.0>>> if the <<<project.version>>> was <<<1.0>>> but if the project version was <<<1.0-SNAPSHOT>>>
   then it would have the value <<<1.0 pre-release development version>>>.
 
+  By default, the replacement uses Java regex replacement syntax, including group references such as <<<$1>>> and
+  backslash escapes. Since version 3.6.2, set <<<replacementLiteral>>> to <<<true>>> to preserve backslashes and dollar
+  signs literally, for example when the replacement is a Windows path. Maven property interpolation still applies.
+
+-------------------
+<configuration>
+  <name>build.path</name>
+  <value>foo</value>
+  <regex>\A.*\z</regex>
+  <replacement>\${project.build.directory}</replacement>
+  <replacementLiteral>true</replacementLiteral>
+</configuration>
+-------------------
+
+  The pattern above anchors the match to the beginning and absolute end of the input, replacing the whole value once.
+  The <<<replacementLiteral>>> option affects replacement syntax only.
+  For the <<<regex-properties>>> goal, set <<<replacementLiteral>>> on each <<<regexPropertySetting>>> that needs it.
+
   To load multiple properties in one execution, use <<<regex-properties>>> goal
 
 -------------------
