@@ -565,6 +565,20 @@ tomcat.http.port
 
   The <<<locale>>> and <<<timeZone>>> parameters can be further used to control the build-time behaviour.
 
+  The <<<timeZone>>> parameter defaults to <<<GMT>>>. Since version 3.6.2, the special value <<<system>>> (case insensitive)
+  uses the current JVM default time zone. This works with both <<<current>>> and <<<build>>> time sources. For example,
+  to record the date the build started in the JVM's time zone:
+
+-------------------
+<configuration>
+  <name>build.date</name>
+  <pattern>yyyy-MM-dd</pattern>
+  <locale>en</locale>
+  <timeSource>build</timeSource>
+  <timeZone>system</timeZone>
+</configuration>
+-------------------
+
 * Set a property based on the <<<maven.build.timestamp>>>
 
   The <<<maven.build.timestamp>>> property does not allow for timezone overrides for obvious reasons.
