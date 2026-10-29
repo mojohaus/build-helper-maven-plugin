@@ -1,5 +1,7 @@
 package org.codehaus.mojo.buildhelper;
 
+import javax.inject.Inject;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,7 +13,6 @@ import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Profile;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -32,8 +33,7 @@ public class RootLocationMojo extends AbstractDefinePropertyMojo {
     @Parameter(defaultValue = "${session}", readonly = true, required = true)
     private MavenSession session;
 
-    @Component
-    private ProjectBuilder projectBuilder;
+    private final ProjectBuilder projectBuilder;
 
     /**
      * This will cause the execution to be run only at the top of a given module tree.
@@ -46,6 +46,11 @@ public class RootLocationMojo extends AbstractDefinePropertyMojo {
      */
     @Parameter(defaultValue = "rootlocation")
     private String rootLocationProperty;
+
+    @Inject
+    public RootLocationMojo(ProjectBuilder projectBuilder) {
+        this.projectBuilder = projectBuilder;
+    }
 
     /**
      * Main plugin execution
