@@ -2,11 +2,13 @@ package org.codehaus.mojo;
 
 import java.io.File;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PassReservedPortToSureFireTest
-    extends TestCase
 {
+    @Test
     public void testCheckSystemProperties()
         throws Exception
     {
@@ -14,6 +16,7 @@ public class PassReservedPortToSureFireTest
         Integer.parseInt( port );
     }
 
+    @Test
     public void testCheckEnvironment()
         throws Exception
     {
@@ -21,6 +24,7 @@ public class PassReservedPortToSureFireTest
         Integer.parseInt( port );
     }
 
+    @Test
     public void testCheckEnvironmentUsingMavenProject()
         throws Exception
     {
