@@ -44,9 +44,11 @@ import org.eclipse.aether.repository.LocalRepositoryManager;
  *
  * @author <a href="dantran@gmail.com">Dan T. Tran</a>
  * @since 1.1
- * @deprecated There is a similar goal:
- * <a href="https://maven.apache.org/plugins/maven-dependency-plugin/purge-local-repository-mojo.html">dependency:purge-local-repository</a>
- * By the way such goal should by not used with Maven 3/4 anymore.
+ * @deprecated Removing an artifact leaves {@code maven-metadata-local.xml} listing versions that no longer exist.
+ * To remove what a build installed, give each build its own prefix in a
+ * <a href="https://maven.apache.org/resolver/local-repository.html#Split_Local_Repository">split local repository</a>
+ * ({@code -Daether.enhancedLocalRepository.split -Daether.enhancedLocalRepository.localPrefix=<build>}) and delete
+ * {@code installed/<build>} afterwards, or build with a separate {@code -Dmaven.repo.local}.
  */
 @Deprecated
 @Mojo(name = "remove-project-artifact", defaultPhase = LifecyclePhase.PACKAGE, threadSafe = true)
@@ -62,7 +64,7 @@ public class RemoveLocalArtifactMojo extends AbstractMojo {
     private boolean removeAll;
 
     /**
-     * Indicates whether the build will continue even if there are removal errors.
+     * Whether the build fails when the directory cannot be removed. When false, a warning is logged instead.
      *
      * @since 1.6
      */
