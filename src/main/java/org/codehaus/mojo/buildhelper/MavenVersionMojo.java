@@ -24,7 +24,8 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import org.apache.maven.plugins.annotations.Component;
+import javax.inject.Inject;
+
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -46,14 +47,18 @@ public class MavenVersionMojo extends AbstractDefinePropertyMojo {
     /**
      * The RuntimeInforamtion for the current instance of Maven.
      */
-    @Component
-    private RuntimeInformation runtime;
+    private final RuntimeInformation runtime;
 
     /**
      * The name of the property in which to store the version of Maven.
      */
     @Parameter(defaultValue = "maven.version")
     private String versionProperty;
+
+    @Inject
+    public MavenVersionMojo(RuntimeInformation runtime) {
+        this.runtime = runtime;
+    }
 
     /**
      * Main plugin execution

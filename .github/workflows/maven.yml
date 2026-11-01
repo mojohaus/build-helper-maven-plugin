@@ -17,9 +17,9 @@
 
 name: GitHub CI
 
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
     name: Verify
-    uses: apache/maven-gh-actions-shared/.github/workflows/maven-verify.yml@v5
+    uses: mojohaus/.github/.github/workflows/maven-verify.yml@master
