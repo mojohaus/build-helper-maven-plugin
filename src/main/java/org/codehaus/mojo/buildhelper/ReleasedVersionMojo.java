@@ -24,12 +24,13 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
+import javax.inject.Inject;
+
 import java.util.Objects;
 
 import org.apache.maven.artifact.ArtifactUtils;
 import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager;
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -63,11 +64,9 @@ public class ReleasedVersionMojo extends AbstractDefinePropertyMojo {
     /**
      * The artifact metadata source to use.
      */
-    @Component
-    private RepositorySystem repoSystem;
+    private final RepositorySystem repoSystem;
 
-    @Component
-    private ArtifactHandlerManager artifactHandlerManager;
+    private final ArtifactHandlerManager artifactHandlerManager;
 
     @Parameter(defaultValue = "${repositorySystemSession}", readonly = true)
     private RepositorySystemSession repoSession;
@@ -84,6 +83,12 @@ public class ReleasedVersionMojo extends AbstractDefinePropertyMojo {
 
     private void defineVersionProperty(String name, int value) {
         defineVersionProperty(name, Integer.toString(value));
+    }
+
+    @Inject
+    public ReleasedVersionMojo(RepositorySystem repoSystem, ArtifactHandlerManager artifactHandlerManager) {
+        this.repoSystem = repoSystem;
+        this.artifactHandlerManager = artifactHandlerManager;
     }
 
     @SuppressWarnings("unchecked")

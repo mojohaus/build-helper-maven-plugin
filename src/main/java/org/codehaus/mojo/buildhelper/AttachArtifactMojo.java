@@ -24,13 +24,14 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
+import javax.inject.Inject;
+
 import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -57,8 +58,7 @@ public class AttachArtifactMojo extends AbstractMojo {
     /**
      * Maven ProjectHelper.
      */
-    @Component
-    private MavenProjectHelper projectHelper;
+    private final MavenProjectHelper projectHelper;
 
     /**
      * This will cause the execution to be run only at the top of a given module tree. That is, run in the project
@@ -77,6 +77,11 @@ public class AttachArtifactMojo extends AbstractMojo {
      */
     @Parameter(property = "buildhelper.skipAttach", defaultValue = "false")
     private boolean skipAttach;
+
+    @Inject
+    public AttachArtifactMojo(MavenProjectHelper projectHelper) {
+        this.projectHelper = projectHelper;
+    }
 
     public void execute() throws MojoExecutionException, MojoFailureException {
 
