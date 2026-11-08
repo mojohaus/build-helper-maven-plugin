@@ -85,7 +85,7 @@ public abstract class AbstractRegexPropertyMojo extends AbstractDefinePropertyMo
         if (config.isFailIfNoMatch()) {
             throw new MojoFailureException("No match to regex '" + step.getRegex() + "' found in '" + value + "'.");
         }
-        getLog().info("No match to regex '" + step.getRegex() + "' found in '" + value + "'. " + "The initial value '"
+        getLog().debug("No match to regex '" + step.getRegex() + "' found in '" + value + "'. " + "The initial value '"
                 + value + "' is left as-is...");
         return value;
     }

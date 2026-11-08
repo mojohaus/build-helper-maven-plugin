@@ -28,6 +28,7 @@ import java.util.Arrays;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,11 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.contains;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 class RegexPropertyTest {
     private RegexPropertyMojo mojo;
@@ -118,6 +124,22 @@ class RegexPropertyTest {
 
         MojoFailureException e = assertThrows(MojoFailureException.class, () -> mojo.execute(config));
         assertEquals("No match to regex 'NOT HERE' found in '1-SNAPSHOT'.", e.getMessage());
+    }
+
+    /** A tolerated non-match is not worth a line in the build output (#152). */
+    @Test
+    void noMatchIsLoggedAtDebugLevelOnly() throws Exception {
+        Log log = mock(Log.class);
+        mojo.setLog(log);
+        config.setValue("1.0");
+        config.setRegex("-.*");
+        config.setReplacement("");
+        config.setFailIfNoMatch(false);
+
+        assertReplacement("1.0");
+
+        verify(log).debug(contains("No match to regex '-.*' found in '1.0'"));
+        verify(log, never()).info(anyString());
     }
 
     /** Was the regex-no-match-keep-original-value-mbuildhelper-54 IT. */
