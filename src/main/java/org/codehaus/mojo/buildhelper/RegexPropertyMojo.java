@@ -24,6 +24,9 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -51,9 +54,9 @@ public class RegexPropertyMojo extends AbstractRegexPropertyMojo {
     private String value;
 
     /**
-     * The regex to replace.
+     * The regex to replace. Mutually exclusive with {@code replacements}.
      */
-    @Parameter(required = true)
+    @Parameter
     private String regex;
 
     /**
@@ -61,6 +64,18 @@ public class RegexPropertyMojo extends AbstractRegexPropertyMojo {
      */
     @Parameter(defaultValue = "")
     private String replacement;
+
+    /**
+     * An ordered list of regex and replacement pairs, applied in sequence, each to the result of the previous one,
+     * for example
+     * {@code <replacements><replacement><regex>-SNAPSHOT</regex><replacement>-RC</replacement></replacement></replacements>}.
+     * Mutually exclusive with {@code regex} and {@code replacement}. {@code replacementLiteral} and
+     * {@code failIfNoMatch} apply to every pair.
+     *
+     * @since 3.8.0
+     */
+    @Parameter
+    private List<RegexReplacement> replacements = new ArrayList<>();
 
     /**
      * Whether to treat the replacement as a literal string. If true, backslashes and dollar signs have no special meaning
@@ -102,6 +117,7 @@ public class RegexPropertyMojo extends AbstractRegexPropertyMojo {
         config.setValue(value);
         config.setRegex(regex);
         config.setReplacement(replacement);
+        config.setReplacements(replacements);
         config.setReplacementLiteral(replacementLiteral);
         config.setFailIfNoMatch(failIfNoMatch);
         config.setToLowerCase(toLowerCase);

@@ -509,6 +509,31 @@ The pattern above anchors the match to the beginning and absolute end of the inp
 The `replacementLiteral` option affects replacement syntax only.
 For the `regex-properties` goal, set `replacementLiteral` on each `regexPropertySetting` that needs it.
 
+To apply several regex replacements in sequence, use an ordered `replacements` list instead of `regex` and
+`replacement`. Each entry works on the result of the previous one, so a later entry can rely on an earlier one.
+`replacementLiteral` and `failIfNoMatch` apply to every entry. Setting `replacements` together with `regex` or
+`replacement` fails the build.
+
+```xml
+<configuration>
+  <name>human.version</name>
+  <value>\${project.version}</value>
+  <replacements>
+    <replacement>
+      <regex>-SNAPSHOT</regex>
+      <replacement>-RC</replacement>
+    </replacement>
+    <replacement>
+      <regex>\.</regex>
+      <replacement>_</replacement>
+    </replacement>
+  </replacements>
+  <failIfNoMatch>false</failIfNoMatch>
+</configuration>
+```
+
+The `regex-properties` goal accepts the same `replacements` list in each `regexPropertySetting`.
+
 To load multiple properties in one execution, use `regex-properties` goal
 
 ```xml
