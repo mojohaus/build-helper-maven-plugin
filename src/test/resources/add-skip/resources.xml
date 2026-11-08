@@ -1,0 +1,17 @@
+<project>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <configuration>
+          <resources>
+            <resource>
+              <directory>${project.basedir}/not-existing</directory>
+              <targetPath>does-not-matter</targetPath>
+            </resource>
+          </resources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

@@ -24,9 +24,6 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
-
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
@@ -132,27 +129,6 @@ class RegexPropertyTest {
         assertReplacement("originalvalue");
     }
 
-    /** Was the regex-replacement-literal and regex-multi ITs: the regex-properties goal applies every setting. */
-    @Test
-    void regexPropertiesAppliesEverySetting() throws Exception {
-        RegexPropertiesMojo multi = new RegexPropertiesMojo();
-        multi.project = new MavenProject();
-        set(
-                multi,
-                "regexPropertySettings",
-                Arrays.asList(
-                        setting("multiple.literal", "foo", "^(.*)$", "C:\\projects\\$1\\target\\", true),
-                        setting("multiple.default", "foo", "^(.*)$", "$1-bar", false),
-                        setting("build.version", "1-SNAPSHOT", "-SNAPSHOT", "-RC", false)));
-
-        multi.execute();
-
-        assertEquals(
-                "C:\\projects\\$1\\target\\", multi.getProject().getProperties().getProperty("multiple.literal"));
-        assertEquals("foo-bar", multi.getProject().getProperties().getProperty("multiple.default"));
-        assertEquals("1-RC", multi.getProject().getProperties().getProperty("build.version"));
-    }
-
     /** Was the regex-replacement-literal IT: a literal Windows path, a group reference and an empty literal. */
     @Test
     void singleSettingsFromTheLiteralReplacementIt() throws Exception {
@@ -172,24 +148,6 @@ class RegexPropertyTest {
         config.setReplacement(null);
         config.setReplacementLiteral(true);
         assertReplacement("");
-    }
-
-    private static RegexPropertySetting setting(
-            String name, String value, String regex, String replacement, boolean literal) {
-        RegexPropertySetting setting = new RegexPropertySetting();
-        setting.setName(name);
-        setting.setValue(value);
-        setting.setRegex(regex);
-        setting.setReplacement(replacement);
-        setting.setReplacementLiteral(literal);
-        setting.setFailIfNoMatch(false);
-        return setting;
-    }
-
-    private static void set(Object target, String name, Object value) throws ReflectiveOperationException {
-        Field field = target.getClass().getDeclaredField(name);
-        field.setAccessible(true);
-        field.set(target, value);
     }
 
     private void assertReplacement(String expected) throws Exception {

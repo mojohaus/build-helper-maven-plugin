@@ -1,0 +1,30 @@
+<project>
+  <!-- the configuration of the former uptodate-flatten integration test -->
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <configuration>
+          <name>propname-flatten</name>
+          <value>uptodate</value>
+          <!-- Maven accepts the alias <else>; the plugin testing harness 3.5.1 only the field name -->
+          <elseValue>outofdate</elseValue>
+          <fileSet>
+            <directory>${project.basedir}/src/main/resources/source</directory>
+            <outputDirectory>${project.basedir}/src/main/resources/target</outputDirectory>
+            <includes>
+              <include>dir*/**</include>
+            </includes>
+            <excludes>
+              <exclude>**/*X*</exclude>
+              <exclude>**/*Y/**</exclude>
+            </excludes>
+            <mapper>
+              <type>flatten</type>
+            </mapper>
+          </fileSet>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

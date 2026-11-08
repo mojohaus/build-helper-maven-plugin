@@ -24,219 +24,80 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
-import java.io.File;
-import java.lang.reflect.Field;
-import java.util.Arrays;
+import javax.inject.Inject;
 
+import java.io.File;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.maven.api.plugin.testing.Basedir;
+import org.apache.maven.api.plugin.testing.InjectMojo;
+import org.apache.maven.api.plugin.testing.MojoTest;
 import org.apache.maven.project.MavenProject;
-import org.apache.maven.shared.model.fileset.FileSet;
-import org.apache.maven.shared.model.fileset.Mapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * The uptodate-property and uptodate-properties goals on the file trees in {@code src/test/resources/uptodate}, built
- * by {@link FixtureUtils} with the same relative timestamps the integration tests used.
+ * The uptodate-property and uptodate-properties goals, configured by {@code src/test/resources/uptodate/*.xml} and run
+ * on file trees that {@link FixtureUtils} builds from {@code src/test/resources/uptodate/*.properties}, with the same
+ * relative timestamps the integration tests used.
  */
+@MojoTest
 class UpToDatePropertyTest {
 
-    @TempDir
-    File tempDir;
-
+    @Inject
     private MavenProject project;
 
-    @BeforeEach
-    void setUp() {
-        project = new MavenProject();
-    }
-
-    /** Was the uptodate-flatten IT. */
     @Test
-    void flatten() throws Exception {
-        File base = fixture("uptodate-flatten");
-        UpToDatePropertySetting setting = setting(
-                "propname-flatten",
-                "uptodate",
-                "outofdate",
-                fileSet(
-                        base,
-                        "src/main/resources/source",
-                        "src/main/resources/target",
-                        new String[] {"dir*/**"},
-                        new String[] {"**/*X*", "**/*Y/**"},
-                        mapper("flatten", null, null)));
+    @Basedir("target/uptodate/uptodate-flatten")
+    @InjectMojo(goal = "uptodate-property", pom = "classpath:/uptodate/uptodate-flatten.xml")
+    void flatten(UpToDatePropertyMojo mojo) throws Exception {
+        fixture("uptodate-flatten");
 
-        UpToDatePropertyMojo mojo = new UpToDatePropertyMojo();
-        set(mojo, "project", project);
-        set(mojo, "name", setting.getName());
-        set(mojo, "value", setting.getValue());
-        set(mojo, "elseValue", setting.getElse());
-        set(mojo, "fileSet", setting.getFileSet());
         mojo.execute();
 
         assertEquals("uptodate", project.getProperties().getProperty("propname-flatten"));
     }
 
-    /** Was the uptodate-glob IT. */
     @Test
-    void glob() throws Exception {
-        File base = fixture("uptodate-glob");
-        UpToDatePropertySetting setting = setting(
-                "propname-glob",
-                "uptodate",
-                "outofdate",
-                fileSet(
-                        base,
-                        "src/main/resources/source",
-                        "src/main/resources/target",
-                        new String[] {"dir*/**"},
-                        new String[] {"**/*X*", "**/*Y/**"},
-                        mapper("glob", "*.s", "*.t")));
+    @Basedir("target/uptodate/uptodate-glob")
+    @InjectMojo(goal = "uptodate-property", pom = "classpath:/uptodate/uptodate-glob.xml")
+    void glob(UpToDatePropertyMojo mojo) throws Exception {
+        fixture("uptodate-glob");
 
-        UpToDatePropertyMojo mojo = new UpToDatePropertyMojo();
-        set(mojo, "project", project);
-        set(mojo, "name", setting.getName());
-        set(mojo, "value", setting.getValue());
-        set(mojo, "elseValue", setting.getElse());
-        set(mojo, "fileSet", setting.getFileSet());
         mojo.execute();
 
         assertEquals("uptodate", project.getProperties().getProperty("propname-glob"));
     }
 
-    /** Was the uptodate-identity IT. */
     @Test
-    void identity() throws Exception {
-        File base = fixture("uptodate-identity");
-        UpToDatePropertySetting setting = setting(
-                "propname-identity",
-                "uptodate",
-                "outofdate",
-                fileSet(
-                        base,
-                        "src/main/resources/source",
-                        "src/main/resources/target",
-                        new String[] {"dir*/**"},
-                        new String[] {"**/*X*", "**/*Y/**"},
-                        null));
+    @Basedir("target/uptodate/uptodate-identity")
+    @InjectMojo(goal = "uptodate-property", pom = "classpath:/uptodate/uptodate-identity.xml")
+    void identity(UpToDatePropertyMojo mojo) throws Exception {
+        fixture("uptodate-identity");
 
-        UpToDatePropertyMojo mojo = new UpToDatePropertyMojo();
-        set(mojo, "project", project);
-        set(mojo, "name", setting.getName());
-        set(mojo, "value", setting.getValue());
-        set(mojo, "elseValue", setting.getElse());
-        set(mojo, "fileSet", setting.getFileSet());
         mojo.execute();
 
         assertEquals("uptodate", project.getProperties().getProperty("propname-identity"));
     }
 
-    /** Was the uptodate-merge IT. */
     @Test
-    void merge() throws Exception {
-        File base = fixture("uptodate-merge");
-        UpToDatePropertySetting setting = setting(
-                "propname-merge",
-                "uptodate",
-                "outofdate",
-                fileSet(
-                        base,
-                        "src/main/resources/source",
-                        "src/main/resources/target",
-                        new String[] {"dir*/**"},
-                        new String[] {"**/*X*", "**/*Y/**"},
-                        mapper("merge", "file*.s", "todir/outfile.t")));
+    @Basedir("target/uptodate/uptodate-merge")
+    @InjectMojo(goal = "uptodate-property", pom = "classpath:/uptodate/uptodate-merge.xml")
+    void merge(UpToDatePropertyMojo mojo) throws Exception {
+        fixture("uptodate-merge");
 
-        UpToDatePropertyMojo mojo = new UpToDatePropertyMojo();
-        set(mojo, "project", project);
-        set(mojo, "name", setting.getName());
-        set(mojo, "value", setting.getValue());
-        set(mojo, "elseValue", setting.getElse());
-        set(mojo, "fileSet", setting.getFileSet());
         mojo.execute();
 
         assertEquals("uptodate", project.getProperties().getProperty("propname-merge"));
     }
 
-    /** Was the uptodate-multi IT. */
     @Test
-    void multi() throws Exception {
-        File base = fixture("uptodate-multi");
-        UpToDatePropertiesMojo mojo = new UpToDatePropertiesMojo();
-        set(mojo, "project", project);
-        set(
-                mojo,
-                "upToDatePropertySettings",
-                Arrays.asList(
-                        setting(
-                                "propname-flatten",
-                                "uptodate",
-                                "outofdate",
-                                fileSet(
-                                        base,
-                                        "src/main/resources/source",
-                                        "src/main/resources/target/flatten",
-                                        new String[] {"dir*/**"},
-                                        new String[] {"**/*X*", "**/*Y/**"},
-                                        mapper("flatten", null, null))),
-                        setting(
-                                "propname-glob",
-                                "uptodate",
-                                "outofdate",
-                                fileSet(
-                                        base,
-                                        "src/main/resources/source",
-                                        "src/main/resources/target/glob",
-                                        new String[] {"dir*/**"},
-                                        new String[] {"**/*X*", "**/*Y/**"},
-                                        mapper("glob", "*.s", "*.t"))),
-                        setting(
-                                "propname-identity",
-                                "uptodate",
-                                "outofdate",
-                                fileSet(
-                                        base,
-                                        "src/main/resources/source",
-                                        "src/main/resources/target/identity",
-                                        new String[] {"dir*/**"},
-                                        new String[] {"**/*X*", "**/*Y/**"},
-                                        null)),
-                        setting(
-                                "propname-merge",
-                                "uptodate",
-                                "outofdate",
-                                fileSet(
-                                        base,
-                                        "src/main/resources/source",
-                                        "src/main/resources/target/merge",
-                                        new String[] {"dir*/**"},
-                                        new String[] {"**/*X*", "**/*Y/**"},
-                                        mapper("merge", "file*.s", "todir/outfile.t"))),
-                        setting(
-                                "propname-package",
-                                "uptodate",
-                                "outofdate",
-                                fileSet(
-                                        base,
-                                        "src/main/resources/source",
-                                        "src/main/resources/target/package",
-                                        new String[] {"dir*/**"},
-                                        new String[] {"**/*X*", "**/*Y/**"},
-                                        mapper("package", "*.s", "*.t"))),
-                        setting(
-                                "propname-unpackage",
-                                "uptodate",
-                                "outofdate",
-                                fileSet(
-                                        base,
-                                        "src/main/resources/source/unpackage",
-                                        "src/main/resources/target/unpackage",
-                                        new String[] {"dir*.s"},
-                                        new String[] {"*X*", "*Y*"},
-                                        mapper("unpackage", "*.s", "*.t")))));
+    @Basedir("target/uptodate/uptodate-multi")
+    @InjectMojo(goal = "uptodate-properties", pom = "classpath:/uptodate/uptodate-multi.xml")
+    void multi(UpToDatePropertiesMojo mojo) throws Exception {
+        fixture("uptodate-multi");
+
         mojo.execute();
 
         assertEquals("uptodate", project.getProperties().getProperty("propname-flatten"));
@@ -247,82 +108,12 @@ class UpToDatePropertyTest {
         assertEquals("uptodate", project.getProperties().getProperty("propname-unpackage"));
     }
 
-    /** Was the uptodate-multi-negative IT. */
     @Test
-    void multiNegative() throws Exception {
-        File base = fixture("uptodate-multi-negative");
-        UpToDatePropertiesMojo mojo = new UpToDatePropertiesMojo();
-        set(mojo, "project", project);
-        set(
-                mojo,
-                "upToDatePropertySettings",
-                Arrays.asList(
-                        setting(
-                                "propname-flatten",
-                                "uptodate",
-                                "outofdate",
-                                fileSet(
-                                        base,
-                                        "src/main/resources/source",
-                                        "src/main/resources/target/flatten",
-                                        new String[] {"dir*/**"},
-                                        new String[] {"**/*X*", "**/*Y/**"},
-                                        mapper("flatten", null, null))),
-                        setting(
-                                "propname-glob",
-                                "uptodate",
-                                "outofdate",
-                                fileSet(
-                                        base,
-                                        "src/main/resources/source",
-                                        "src/main/resources/target/glob",
-                                        new String[] {"dir*/**"},
-                                        new String[] {"**/*X*", "**/*Y/**"},
-                                        mapper("glob", "*.s", "*.t"))),
-                        setting(
-                                "propname-identity",
-                                "uptodate",
-                                "outofdate",
-                                fileSet(
-                                        base,
-                                        "src/main/resources/source",
-                                        "src/main/resources/target/identity",
-                                        new String[] {"dir*/**"},
-                                        new String[] {"**/*X*", "**/*Y/**"},
-                                        null)),
-                        setting(
-                                "propname-merge",
-                                "uptodate",
-                                "outofdate",
-                                fileSet(
-                                        base,
-                                        "src/main/resources/source",
-                                        "src/main/resources/target/merge",
-                                        new String[] {"dir*/**"},
-                                        new String[] {"**/*X*", "**/*Y/**"},
-                                        mapper("merge", "file*.s", "todir/outfile.t"))),
-                        setting(
-                                "propname-package",
-                                "uptodate",
-                                "outofdate",
-                                fileSet(
-                                        base,
-                                        "src/main/resources/source",
-                                        "src/main/resources/target/package",
-                                        new String[] {"dir*/**"},
-                                        new String[] {"**/*X*", "**/*Y/**"},
-                                        mapper("package", "*.s", "*.t"))),
-                        setting(
-                                "propname-unpackage",
-                                "uptodate",
-                                "outofdate",
-                                fileSet(
-                                        base,
-                                        "src/main/resources/source/unpackage",
-                                        "src/main/resources/target/unpackage",
-                                        new String[] {"dir*.s"},
-                                        new String[] {"*X*", "*Y*"},
-                                        mapper("unpackage", "*.s", "*.t")))));
+    @Basedir("target/uptodate/uptodate-multi-negative")
+    @InjectMojo(goal = "uptodate-properties", pom = "classpath:/uptodate/uptodate-multi-negative.xml")
+    void multiNegative(UpToDatePropertiesMojo mojo) throws Exception {
+        fixture("uptodate-multi-negative");
+
         mojo.execute();
 
         assertEquals("outofdate", project.getProperties().getProperty("propname-flatten"));
@@ -333,116 +124,35 @@ class UpToDatePropertyTest {
         assertEquals("outofdate", project.getProperties().getProperty("propname-unpackage"));
     }
 
-    /** Was the uptodate-package IT. */
     @Test
-    void packageMapper() throws Exception {
-        File base = fixture("uptodate-package");
-        UpToDatePropertySetting setting = setting(
-                "propname-package",
-                "uptodate",
-                "outofdate",
-                fileSet(
-                        base,
-                        "src/main/resources/source",
-                        "src/main/resources/target",
-                        new String[] {"dir*/**"},
-                        new String[] {"**/*X*", "**/*Y/**"},
-                        mapper("package", "*.s", "*.t")));
+    @Basedir("target/uptodate/uptodate-package")
+    @InjectMojo(goal = "uptodate-property", pom = "classpath:/uptodate/uptodate-package.xml")
+    void packageMapper(UpToDatePropertyMojo mojo) throws Exception {
+        fixture("uptodate-package");
 
-        UpToDatePropertyMojo mojo = new UpToDatePropertyMojo();
-        set(mojo, "project", project);
-        set(mojo, "name", setting.getName());
-        set(mojo, "value", setting.getValue());
-        set(mojo, "elseValue", setting.getElse());
-        set(mojo, "fileSet", setting.getFileSet());
         mojo.execute();
 
         assertEquals("uptodate", project.getProperties().getProperty("propname-package"));
     }
 
-    /** Was the uptodate-unpackage IT. */
     @Test
-    void unpackage() throws Exception {
-        File base = fixture("uptodate-unpackage");
-        UpToDatePropertySetting setting = setting(
-                "propname-unpackage",
-                "uptodate",
-                "outofdate",
-                fileSet(
-                        base,
-                        "src/main/resources/source",
-                        "src/main/resources/target",
-                        new String[] {"dir*.s"},
-                        new String[] {"*X*", "*Y*"},
-                        mapper("unpackage", "*.s", "*.t")));
+    @Basedir("target/uptodate/uptodate-unpackage")
+    @InjectMojo(goal = "uptodate-property", pom = "classpath:/uptodate/uptodate-unpackage.xml")
+    void unpackage(UpToDatePropertyMojo mojo) throws Exception {
+        fixture("uptodate-unpackage");
 
-        UpToDatePropertyMojo mojo = new UpToDatePropertyMojo();
-        set(mojo, "project", project);
-        set(mojo, "name", setting.getName());
-        set(mojo, "value", setting.getValue());
-        set(mojo, "elseValue", setting.getElse());
-        set(mojo, "fileSet", setting.getFileSet());
         mojo.execute();
 
         assertEquals("uptodate", project.getProperties().getProperty("propname-unpackage"));
     }
 
-    private File fixture(String name) throws Exception {
-        File base = new File(tempDir, name);
+    private void fixture(String name) throws Exception {
+        File basedir = project.getBasedir();
+        FileUtils.deleteDirectory(basedir);
         FixtureUtils.createResources(
-                base,
+                basedir,
                 new File("src/test/resources/uptodate/" + name + ".properties"),
                 "UTF-8",
                 System.currentTimeMillis());
-        return base;
-    }
-
-    private static UpToDatePropertySetting setting(String name, String value, String elseValue, FileSet fileSet) {
-        UpToDatePropertySetting setting = new UpToDatePropertySetting();
-        setting.setName(name);
-        setting.setValue(value);
-        setting.setElse(elseValue);
-        setting.setFileSet(fileSet);
-        return setting;
-    }
-
-    private static FileSet fileSet(
-            File base, String directory, String outputDirectory, String[] includes, String[] excludes, Mapper mapper) {
-        FileSet fileSet = new FileSet();
-        fileSet.setDirectory(new File(base, directory).getPath());
-        fileSet.setOutputDirectory(new File(base, outputDirectory).getPath());
-        for (String include : includes) {
-            fileSet.addInclude(include);
-        }
-        for (String exclude : excludes) {
-            fileSet.addExclude(exclude);
-        }
-        if (mapper != null) {
-            // without one, FileSet keeps the identity mapper it starts with, as when the POM has no <mapper>
-            fileSet.setMapper(mapper);
-        }
-        return fileSet;
-    }
-
-    private static Mapper mapper(String type, String from, String to) {
-        Mapper mapper = new Mapper();
-        mapper.setType(type);
-        mapper.setFrom(from);
-        mapper.setTo(to);
-        return mapper;
-    }
-
-    private static void set(Object target, String name, Object value) throws ReflectiveOperationException {
-        for (Class<?> type = target.getClass(); type != null; type = type.getSuperclass()) {
-            try {
-                Field field = type.getDeclaredField(name);
-                field.setAccessible(true);
-                field.set(target, value);
-                return;
-            } catch (NoSuchFieldException e) {
-                // look in the superclass
-            }
-        }
-        throw new NoSuchFieldException(name);
     }
 }
