@@ -23,186 +23,141 @@ package org.codehaus.mojo.buildhelper;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+/**
+ * The {@code skip*} and {@code skip*IfMissing} parameters of the add-source and add-resource goals.
+ */
+import javax.inject.Inject;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.maven.model.Resource;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.logging.SystemStreamLog;
+import org.apache.maven.api.plugin.testing.InjectMojo;
+import org.apache.maven.api.plugin.testing.MojoParameter;
+import org.apache.maven.api.plugin.testing.MojoTest;
+import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
 
 /**
  * The {@code skip*} and {@code skip*IfMissing} parameters of the add-source and add-resource goals.
  */
+@MojoTest
 class AddSkipParametersTest {
 
-    @TempDir
-    File basedir;
+    private static final String SOURCES = "classpath:/add-skip/sources.xml";
 
+    private static final String RESOURCES = "classpath:/add-skip/resources.xml";
+
+    @Inject
     private MavenProject project;
 
-    private File missing;
+    @Inject
+    private Log log;
 
-    private final RecordingLog log = new RecordingLog();
+    private List<String> compileSourceRoots;
+
+    private List<String> testCompileSourceRoots;
+
+    private int resources;
+
+    private int testResources;
 
     @BeforeEach
     void setUp() {
-        project = new MavenProject();
-        missing = new File(basedir, "not-existing");
+        doReturn(true).when(log).isDebugEnabled();
+        compileSourceRoots = new ArrayList<>(project.getCompileSourceRoots());
+        testCompileSourceRoots = new ArrayList<>(project.getTestCompileSourceRoots());
+        resources = project.getResources().size();
+        testResources = project.getTestResources().size();
     }
 
     @Test
-    void addSourceSkip() throws Exception {
-        AddSourceMojo mojo = new AddSourceMojo();
-        configure(mojo, "sources", new File[] {missing}, "skipAddSource", true);
-
+    @InjectMojo(goal = "add-source", pom = SOURCES)
+    @MojoParameter(name = "skipAddSource", value = "true")
+    void addSourceSkip(AddSourceMojo mojo) {
         mojo.execute();
 
-        assertTrue(log.contains("Skipping plugin execution!"), log.toString());
-        assertEquals(0, project.getCompileSourceRoots().size());
+        verify(log).info("Skipping plugin execution!");
+        assertEquals(compileSourceRoots, project.getCompileSourceRoots());
     }
 
     @Test
-    void addSourceSkipIfMissing() throws Exception {
-        AddSourceMojo mojo = new AddSourceMojo();
-        configure(mojo, "sources", new File[] {missing}, "skipAddSourceIfMissing", true);
-
+    @InjectMojo(goal = "add-source", pom = SOURCES)
+    @MojoParameter(name = "skipAddSourceIfMissing", value = "true")
+    void addSourceSkipIfMissing(AddSourceMojo mojo) {
         mojo.execute();
 
-        assertTrue(log.contains("Skipping directory: " + missing + ", because it does not exist."), log.toString());
-        assertEquals(0, project.getCompileSourceRoots().size());
+        verify(log).debug("Skipping directory: " + missing() + ", because it does not exist.");
+        assertEquals(compileSourceRoots, project.getCompileSourceRoots());
     }
 
     @Test
-    void addTestSourceSkip() throws Exception {
-        AddTestSourceMojo mojo = new AddTestSourceMojo();
-        configure(mojo, "sources", new File[] {missing}, "skipAddTestSource", true);
-
+    @InjectMojo(goal = "add-test-source", pom = SOURCES)
+    @MojoParameter(name = "skipAddTestSource", value = "true")
+    void addTestSourceSkip(AddTestSourceMojo mojo) {
         mojo.execute();
 
-        assertTrue(log.contains("Skipping plugin execution!"), log.toString());
-        assertEquals(0, project.getTestCompileSourceRoots().size());
+        verify(log).info("Skipping plugin execution!");
+        assertEquals(testCompileSourceRoots, project.getTestCompileSourceRoots());
     }
 
     @Test
-    void addTestSourceSkipIfMissing() throws Exception {
-        AddTestSourceMojo mojo = new AddTestSourceMojo();
-        configure(mojo, "sources", new File[] {missing}, "skipAddTestSourceIfMissing", true);
-
+    @InjectMojo(goal = "add-test-source", pom = SOURCES)
+    @MojoParameter(name = "skipAddTestSourceIfMissing", value = "true")
+    void addTestSourceSkipIfMissing(AddTestSourceMojo mojo) {
         mojo.execute();
 
-        assertTrue(log.contains("Skipping directory: " + missing + ", because it does not exist."), log.toString());
-        assertEquals(0, project.getTestCompileSourceRoots().size());
+        verify(log).debug("Skipping directory: " + missing() + ", because it does not exist.");
+        assertEquals(testCompileSourceRoots, project.getTestCompileSourceRoots());
     }
 
     @Test
-    void addResourceSkip() throws Exception {
-        AddResourceMojo mojo = new AddResourceMojo();
-        configure(mojo, "resources", new Resource[] {missingResource()}, "skipAddResource", true);
-
+    @InjectMojo(goal = "add-resource", pom = RESOURCES)
+    @MojoParameter(name = "skipAddResource", value = "true")
+    void addResourceSkip(AddResourceMojo mojo) throws Exception {
         mojo.execute();
 
-        assertTrue(log.contains("Skipping plugin execution!"), log.toString());
-        assertEquals(0, project.getResources().size());
+        verify(log).info("Skipping plugin execution!");
+        assertEquals(resources, project.getResources().size());
     }
 
     @Test
-    void addResourceSkipIfMissing() throws Exception {
-        AddResourceMojo mojo = new AddResourceMojo();
-        configure(mojo, "resources", new Resource[] {missingResource()}, "skipAddResourceIfMissing", true);
-
+    @InjectMojo(goal = "add-resource", pom = RESOURCES)
+    @MojoParameter(name = "skipAddResourceIfMissing", value = "true")
+    void addResourceSkipIfMissing(AddResourceMojo mojo) throws Exception {
         mojo.execute();
 
-        assertTrue(log.contains("Skipping directory: " + missing + ", because it does not exist."), log.toString());
-        assertEquals(0, project.getResources().size());
+        verify(log).debug("Skipping directory: " + missing() + ", because it does not exist.");
+        assertEquals(resources, project.getResources().size());
     }
 
     @Test
-    void addTestResourceSkip() throws Exception {
-        AddTestResourceMojo mojo = new AddTestResourceMojo();
-        configure(mojo, "resources", new Resource[] {missingResource()}, "skipAddTestResource", true);
-
+    @InjectMojo(goal = "add-test-resource", pom = RESOURCES)
+    @MojoParameter(name = "skipAddTestResource", value = "true")
+    void addTestResourceSkip(AddTestResourceMojo mojo) throws Exception {
         mojo.execute();
 
-        assertTrue(log.contains("Skipping plugin execution!"), log.toString());
-        assertEquals(0, project.getTestResources().size());
+        verify(log).info("Skipping plugin execution!");
+        assertEquals(testResources, project.getTestResources().size());
     }
 
     @Test
-    void addTestResourceSkipIfMissing() throws Exception {
-        AddTestResourceMojo mojo = new AddTestResourceMojo();
-        configure(mojo, "resources", new Resource[] {missingResource()}, "skipAddTestResourceIfMissing", true);
-
+    @InjectMojo(goal = "add-test-resource", pom = RESOURCES)
+    @MojoParameter(name = "skipAddTestResourceIfMissing", value = "true")
+    void addTestResourceSkipIfMissing(AddTestResourceMojo mojo) throws Exception {
         mojo.execute();
 
-        assertTrue(log.contains("Skipping directory: " + missing + ", because it does not exist."), log.toString());
-        assertEquals(0, project.getTestResources().size());
+        verify(log).debug("Skipping directory: " + missing() + ", because it does not exist.");
+        assertEquals(testResources, project.getTestResources().size());
     }
 
-    private Resource missingResource() {
-        Resource resource = new Resource();
-        resource.setDirectory(missing.getAbsolutePath());
-        resource.setTargetPath("does-not-matter");
-        return resource;
-    }
-
-    private void configure(AbstractMojo mojo, String items, Object value, String skipField, boolean skip)
-            throws ReflectiveOperationException {
-        mojo.setLog(log);
-        set(mojo, "project", project);
-        set(mojo, items, value);
-        set(mojo, skipField, skip);
-    }
-
-    private static void set(Object target, String name, Object value) throws ReflectiveOperationException {
-        for (Class<?> type = target.getClass(); type != null; type = type.getSuperclass()) {
-            try {
-                Field field = type.getDeclaredField(name);
-                field.setAccessible(true);
-                field.set(target, value);
-                return;
-            } catch (NoSuchFieldException e) {
-                // look in the superclass
-            }
-        }
-        throw new NoSuchFieldException(name);
-    }
-
-    /** Records info and debug messages, with debug enabled as under {@code -X}. */
-    private static final class RecordingLog extends SystemStreamLog {
-        private final List<String> messages = new ArrayList<>();
-
-        @Override
-        public boolean isDebugEnabled() {
-            return true;
-        }
-
-        @Override
-        public void debug(CharSequence content) {
-            messages.add(content.toString());
-        }
-
-        @Override
-        public void info(CharSequence content) {
-            messages.add(content.toString());
-        }
-
-        boolean contains(String message) {
-            return messages.contains(message);
-        }
-
-        @Override
-        public String toString() {
-            return messages.toString();
-        }
+    private File missing() {
+        return new File(project.getBasedir(), "not-existing");
     }
 }

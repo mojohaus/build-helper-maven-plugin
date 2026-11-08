@@ -1,0 +1,34 @@
+<project>
+  <!-- the regex-properties settings of the former regex-replacement-literal and regex-multi integration tests -->
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <configuration>
+          <regexPropertySettings>
+            <regexPropertySetting>
+              <name>multiple.literal</name>
+              <value>foo</value>
+              <regex>^(.*)$</regex>
+              <replacement>C:\projects\$1\target\</replacement>
+              <replacementLiteral>true</replacementLiteral>
+            </regexPropertySetting>
+            <regexPropertySetting>
+              <name>multiple.default</name>
+              <value>foo</value>
+              <regex>^(.*)$</regex>
+              <replacement>$1-bar</replacement>
+            </regexPropertySetting>
+            <regexPropertySetting>
+              <name>build.version</name>
+              <value>1-SNAPSHOT</value>
+              <regex>-SNAPSHOT</regex>
+              <replacement>-RC</replacement>
+              <failIfNoMatch>false</failIfNoMatch>
+            </regexPropertySetting>
+          </regexPropertySettings>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
