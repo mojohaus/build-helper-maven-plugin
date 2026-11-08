@@ -24,6 +24,8 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,29 +43,16 @@ public abstract class AbstractRegexPropertyMojo extends AbstractDefinePropertyMo
             throw new MojoExecutionException(e.getMessage(), e);
         }
 
-        Pattern pattern;
-        try {
-            pattern = Pattern.compile(config.getRegex());
-        } catch (PatternSyntaxException e) {
-            throw new MojoExecutionException(e.getMessage(), e);
+        List<RegexReplacement> steps = config.getReplacements();
+        if (steps == null || steps.isEmpty()) {
+            steps = Collections.singletonList(new RegexReplacement(config.getRegex(), config.getReplacement()));
         }
-        Matcher matcher = pattern.matcher(config.getValue());
 
-        if (matcher.find()) {
-            String replacement = config.getReplacement() == null ? "" : config.getReplacement();
-            if (config.isReplacementLiteral()) {
-                replacement = Matcher.quoteReplacement(replacement);
-            }
-            config.setValue(matcher.replaceAll(replacement));
-        } else {
-            if (config.isFailIfNoMatch()) {
-                throw new MojoFailureException(
-                        "No match to regex '" + config.getRegex() + "' found in '" + config.getValue() + "'.");
-            } else {
-                getLog().info("No match to regex '" + config.getRegex() + "' found in '" + config.getValue() + "'. "
-                        + "The initial value '" + config.getValue() + "' is left as-is...");
-            }
+        String value = config.getValue();
+        for (RegexReplacement step : steps) {
+            value = applyReplacement(config, step, value);
         }
+        config.setValue(value);
 
         if (config.isToLowerCase()) {
             config.setValue(config.getValue().toLowerCase(Locale.getDefault()));
@@ -74,5 +63,30 @@ public abstract class AbstractRegexPropertyMojo extends AbstractDefinePropertyMo
         }
 
         defineProperty(config.getName(), config.getValue());
+    }
+
+    private String applyReplacement(RegexPropertySetting config, RegexReplacement step, String value)
+            throws MojoExecutionException, MojoFailureException {
+        Pattern pattern;
+        try {
+            pattern = Pattern.compile(step.getRegex());
+        } catch (PatternSyntaxException e) {
+            throw new MojoExecutionException(e.getMessage(), e);
+        }
+        Matcher matcher = pattern.matcher(value);
+
+        if (matcher.find()) {
+            String replacement = step.getReplacement() == null ? "" : step.getReplacement();
+            if (config.isReplacementLiteral()) {
+                replacement = Matcher.quoteReplacement(replacement);
+            }
+            return matcher.replaceAll(replacement);
+        }
+        if (config.isFailIfNoMatch()) {
+            throw new MojoFailureException("No match to regex '" + step.getRegex() + "' found in '" + value + "'.");
+        }
+        getLog().info("No match to regex '" + step.getRegex() + "' found in '" + value + "'. " + "The initial value '"
+                + value + "' is left as-is...");
+        return value;
     }
 }

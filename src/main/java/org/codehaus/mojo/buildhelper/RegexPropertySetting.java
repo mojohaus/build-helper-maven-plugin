@@ -24,6 +24,9 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -41,10 +44,19 @@ public class RegexPropertySetting {
     private String value;
 
     /**
-     * The regex to replace.
+     * The regex to replace. Mutually exclusive with {@code replacements}.
      */
-    @Parameter(required = true)
+    @Parameter
     private String regex;
+
+    /**
+     * An ordered list of regex and replacement pairs, applied in sequence, each to the result of the previous one.
+     * Mutually exclusive with {@code regex} and {@code replacement}.
+     *
+     * @since 3.8.0
+     */
+    @Parameter
+    private List<RegexReplacement> replacements = new ArrayList<>();
 
     /**
      * The replacement.
@@ -103,6 +115,14 @@ public class RegexPropertySetting {
         this.regex = regex;
     }
 
+    public List<RegexReplacement> getReplacements() {
+        return replacements;
+    }
+
+    public void setReplacements(List<RegexReplacement> replacements) {
+        this.replacements = replacements == null ? new ArrayList<>() : replacements;
+    }
+
     public String getReplacement() {
         return replacement;
     }
@@ -152,8 +172,18 @@ public class RegexPropertySetting {
             throw new IllegalArgumentException("value required");
         }
 
-        if (StringUtils.isBlank(regex)) {
-            throw new IllegalArgumentException("regex required");
+        if (replacements != null && !replacements.isEmpty()) {
+            if (!StringUtils.isEmpty(regex) || !StringUtils.isEmpty(replacement)) {
+                throw new IllegalArgumentException(
+                        "either replacements or regex/replacement can be set, but not both.");
+            }
+            for (RegexReplacement entry : replacements) {
+                if (entry == null || StringUtils.isBlank(entry.getRegex())) {
+                    throw new IllegalArgumentException("regex required in each of the replacements");
+                }
+            }
+        } else if (StringUtils.isBlank(regex)) {
+            throw new IllegalArgumentException("regex or replacements required");
         }
 
         if (toLowerCase && toUpperCase) {

@@ -24,6 +24,8 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
+import java.util.Arrays;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
@@ -148,6 +150,80 @@ class RegexPropertyTest {
         config.setReplacement(null);
         config.setReplacementLiteral(true);
         assertReplacement("");
+    }
+
+    @Test
+    void appliesReplacementsInOrder() throws Exception {
+        config.setValue("1.0-SNAPSHOT");
+        config.setRegex(null);
+        config.setReplacements(Arrays.asList(
+                new RegexReplacement("-SNAPSHOT", "-RC"),
+                new RegexReplacement("\\.", "_"),
+                new RegexReplacement("RC$", "$0$0")));
+
+        assertReplacement("1_0-RCRC");
+    }
+
+    @Test
+    void laterReplacementSeesTheResultOfTheEarlierOne() throws Exception {
+        config.setValue("a");
+        config.setRegex(null);
+        config.setReplacements(Arrays.asList(new RegexReplacement("a", "b"), new RegexReplacement("b", "c")));
+
+        assertReplacement("c");
+    }
+
+    @Test
+    void replacementsHonourFailIfNoMatchPerEntry() {
+        config.setValue("a");
+        config.setRegex(null);
+        config.setReplacements(Arrays.asList(new RegexReplacement("a", "b"), new RegexReplacement("zzz", "c")));
+
+        MojoFailureException e = assertThrows(MojoFailureException.class, () -> mojo.execute(config));
+        assertEquals("No match to regex 'zzz' found in 'b'.", e.getMessage());
+    }
+
+    @Test
+    void replacementsSkipNonMatchingEntryWhenAllowed() throws Exception {
+        config.setValue("a");
+        config.setRegex(null);
+        config.setFailIfNoMatch(false);
+        config.setReplacements(Arrays.asList(new RegexReplacement("zzz", "c"), new RegexReplacement("a", "b")));
+
+        assertReplacement("b");
+    }
+
+    @Test
+    void replacementsAndRegexAreMutuallyExclusive() {
+        config.setReplacements(Arrays.asList(new RegexReplacement("a", "b")));
+
+        MojoExecutionException e = assertThrows(MojoExecutionException.class, () -> mojo.execute(config));
+        assertEquals("either replacements or regex/replacement can be set, but not both.", e.getMessage());
+    }
+
+    @Test
+    void replacementsAndReplacementAreMutuallyExclusive() {
+        config.setRegex(null);
+        config.setReplacement("x");
+        config.setReplacements(Arrays.asList(new RegexReplacement("a", "b")));
+
+        assertThrows(MojoExecutionException.class, () -> mojo.execute(config));
+    }
+
+    @Test
+    void replacementEntryNeedsARegex() {
+        config.setRegex(null);
+        config.setReplacements(Arrays.asList(new RegexReplacement(" ", "b")));
+
+        assertThrows(MojoExecutionException.class, () -> mojo.execute(config));
+    }
+
+    @Test
+    void regexOrReplacementsIsRequired() {
+        config.setRegex(null);
+
+        MojoExecutionException e = assertThrows(MojoExecutionException.class, () -> mojo.execute(config));
+        assertEquals("regex or replacements required", e.getMessage());
     }
 
     private void assertReplacement(String expected) throws Exception {
