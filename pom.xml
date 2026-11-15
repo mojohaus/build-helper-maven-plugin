@@ -144,7 +144,7 @@
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
-      <version>4.1.0</version>
+      <version>4.2.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache-extras.beanshell</groupId>
@@ -183,7 +183,7 @@
       <!-- the harness reads POMs with the XML classes plexus-utils 4 moved out -->
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-xml</artifactId>
-      <version>3.1.0</version>
+      <version>3.1.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
