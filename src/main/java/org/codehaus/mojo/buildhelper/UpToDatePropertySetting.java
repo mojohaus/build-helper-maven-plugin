@@ -24,6 +24,8 @@ package org.codehaus.mojo.buildhelper;
  * SOFTWARE.
  */
 
+import java.util.Objects;
+
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.shared.model.fileset.FileSet;
 import org.codehaus.plexus.util.StringUtils;
@@ -102,7 +104,7 @@ public final class UpToDatePropertySetting {
             throw new IllegalArgumentException("value required");
         }
 
-        if (StringUtils.equals(value, elseValue)) {
+        if (Objects.equals(value, elseValue)) {
             throw new IllegalArgumentException("value and else cannot be the same");
         }
 

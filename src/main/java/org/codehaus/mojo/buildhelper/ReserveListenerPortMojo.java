@@ -47,7 +47,6 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.util.IOUtil;
 
 /**
  * Reserve a list of random and not in use network ports and place them in a configurable project properties.
@@ -160,14 +159,10 @@ public class ReserveListenerPortMojo extends AbstractMojo {
                     throw new MojoExecutionException(e.getMessage());
                 }
 
-                OutputStream os = null;
-                try {
-                    os = new FileOutputStream(outputFile);
+                try (OutputStream os = new FileOutputStream(outputFile)) {
                     properties.store(os, null);
                 } catch (Exception e) {
                     throw new MojoExecutionException(e.getMessage());
-                } finally {
-                    IOUtil.close(os);
                 }
             }
         } finally {
