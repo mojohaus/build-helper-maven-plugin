@@ -135,7 +135,7 @@ public class ReserveListenerPortMojo extends AbstractMojo {
         loadUrls();
 
         // Reserve the entire block of ports to guarantee we don't get the same port twice
-        final List<ServerSocket> sockets = new ArrayList<ServerSocket>();
+        final List<ServerSocket> sockets = new ArrayList<>();
         try {
             for (String portName : portNames) {
                 try {
@@ -235,7 +235,7 @@ public class ReserveListenerPortMojo extends AbstractMojo {
     private List<Integer> randomPortList() {
 
         int difference = maxPortNumber - minPortNumber + 1;
-        List<Integer> portList = new ArrayList<Integer>(difference);
+        List<Integer> portList = new ArrayList<>(difference);
         List<Integer> reservedPorts = getReservedPorts();
         for (int i = 0; i < difference; i++) {
             int port = minPortNumber + i;
@@ -283,7 +283,7 @@ public class ReserveListenerPortMojo extends AbstractMojo {
 
         List<Integer> reservedPorts = (List<Integer>) getPluginContext().get(BUILD_HELPER_RESERVED_PORTS);
         if (reservedPorts == null) {
-            reservedPorts = new ArrayList<Integer>();
+            reservedPorts = new ArrayList<>();
             getPluginContext().put(BUILD_HELPER_RESERVED_PORTS, reservedPorts);
         }
         return reservedPorts;
@@ -329,7 +329,7 @@ public class ReserveListenerPortMojo extends AbstractMojo {
 
             try {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-                List<String> names = new ArrayList<String>();
+                List<String> names = new ArrayList<>();
                 String line;
                 while ((line = reader.readLine()) != null) {
                     line = line.trim();
@@ -360,7 +360,7 @@ public class ReserveListenerPortMojo extends AbstractMojo {
 
         private final URL url;
 
-        private boolean isMissingClasspathResouce = false;
+        private boolean isMissingClasspathResouce;
 
         private String classpathUrl;
 
