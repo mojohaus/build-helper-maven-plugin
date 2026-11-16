@@ -173,7 +173,7 @@ public class RegexPropertySetting {
         }
 
         if (replacements != null && !replacements.isEmpty()) {
-            if (!StringUtils.isEmpty(regex) || !StringUtils.isEmpty(replacement)) {
+            if (!(regex == null || regex.isEmpty()) || !(replacement == null || replacement.isEmpty())) {
                 throw new IllegalArgumentException(
                         "either replacements or regex/replacement can be set, but not both.");
             }
