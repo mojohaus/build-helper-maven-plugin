@@ -80,6 +80,7 @@ public class RemoveLocalArtifactMojo extends AbstractMojo {
     @Parameter(readonly = true, defaultValue = "${repositorySystemSession}")
     private RepositorySystemSession repoSession;
 
+    @Override
     public void execute() throws MojoExecutionException {
         LocalRepositoryManager lrm = repoSession.getLocalRepositoryManager();
 

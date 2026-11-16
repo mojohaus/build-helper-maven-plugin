@@ -119,6 +119,7 @@ public class TimestampPropertyMojo extends AbstractDefinePropertyMojo {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         Locale locale;
         if (this.locale != null) {

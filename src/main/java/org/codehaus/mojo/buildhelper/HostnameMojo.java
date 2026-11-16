@@ -47,6 +47,7 @@ public class HostnameMojo extends AbstractDefinePropertyMojo {
     @Parameter(defaultValue = "hostname")
     private String hostnameProperty;
 
+    @Override
     public void execute() throws MojoExecutionException {
         try {
             defineProperty(this.hostnameProperty, InetAddress.getLocalHost().getHostName());

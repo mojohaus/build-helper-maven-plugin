@@ -111,6 +111,7 @@ public class RegexPropertyMojo extends AbstractRegexPropertyMojo {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         RegexPropertySetting config = new RegexPropertySetting();
         config.setName(name);

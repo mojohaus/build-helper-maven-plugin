@@ -59,6 +59,7 @@ public class AddTestResourceMojo extends AbstractAddResourceMojo {
      *
      * @param resource the resource to add
      */
+    @Override
     public void addResource(Resource resource) {
         getProject().addTestResource(resource);
         if (getLog().isDebugEnabled()) {
@@ -71,6 +72,7 @@ public class AddTestResourceMojo extends AbstractAddResourceMojo {
         return skipAddTestResource;
     }
 
+    @Override
     protected boolean isSkipIfMissing() {
         return skipAddTestResourceIfMissing;
     }
