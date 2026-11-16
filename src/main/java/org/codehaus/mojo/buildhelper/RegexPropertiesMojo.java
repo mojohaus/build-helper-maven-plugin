@@ -47,6 +47,7 @@ public class RegexPropertiesMojo extends AbstractRegexPropertyMojo {
     @Parameter(required = false)
     private List<RegexPropertySetting> regexPropertySettings = new ArrayList<>();
 
+    @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
 
         for (RegexPropertySetting setting : regexPropertySettings) {

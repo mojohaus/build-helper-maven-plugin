@@ -83,6 +83,7 @@ public class AttachArtifactMojo extends AbstractMojo {
         this.projectHelper = projectHelper;
     }
 
+    @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
 
         if (skipAttach) {

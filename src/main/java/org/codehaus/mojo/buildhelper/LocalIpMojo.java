@@ -47,6 +47,7 @@ public class LocalIpMojo extends AbstractDefinePropertyMojo {
     @Parameter(defaultValue = "local.ip")
     private String localIpProperty;
 
+    @Override
     public void execute() throws MojoExecutionException {
         try {
             defineProperty(this.localIpProperty, InetAddress.getLocalHost().getHostAddress());

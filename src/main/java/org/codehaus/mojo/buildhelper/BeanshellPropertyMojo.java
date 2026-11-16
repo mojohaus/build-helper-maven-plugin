@@ -74,6 +74,7 @@ public class BeanshellPropertyMojo extends AbstractDefinePropertyMojo {
     /**
      * Main plugin execution
      */
+    @Override
     public void execute() throws MojoFailureException {
         Interpreter interpreter = new Interpreter();
 

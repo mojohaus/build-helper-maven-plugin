@@ -51,6 +51,7 @@ public abstract class AbstractAddResourceMojo extends AbstractMojo {
     /**
      * Main plugin execution
      */
+    @Override
     public void execute() throws MojoExecutionException {
         if (isSkip()) {
             if (getLog().isInfoEnabled()) {

@@ -55,6 +55,7 @@ public class RootLocationMojo extends AbstractDefinePropertyMojo {
     /**
      * Main plugin execution
      */
+    @Override
     public void execute() throws MojoFailureException {
         if (runOnlyAtExecutionRoot && !getProject().isExecutionRoot()) {
             getLog().info("Skip getting the rootlocation in this project because it's not the Execution Root");

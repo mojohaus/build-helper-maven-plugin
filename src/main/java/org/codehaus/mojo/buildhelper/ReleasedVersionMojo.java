@@ -91,6 +91,7 @@ public class ReleasedVersionMojo extends AbstractDefinePropertyMojo {
         this.artifactHandlerManager = artifactHandlerManager;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public void execute() {
 

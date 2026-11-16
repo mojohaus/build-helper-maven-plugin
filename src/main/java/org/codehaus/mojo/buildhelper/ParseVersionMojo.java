@@ -152,6 +152,7 @@ public class ParseVersionMojo extends AbstractDefinePropertyMojo {
     /**
      * Execute the mojo. This sets the version properties on the project.
      */
+    @Override
     public void execute() {
         parseVersion(versionString);
     }

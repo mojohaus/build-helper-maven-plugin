@@ -50,6 +50,7 @@ public class CpuCountMojo extends AbstractDefinePropertyMojo {
     @Parameter(defaultValue = "1.0")
     private float factor;
 
+    @Override
     public void execute() throws MojoExecutionException {
         float count = Runtime.getRuntime().availableProcessors() * factor;
         if (count < 1) {

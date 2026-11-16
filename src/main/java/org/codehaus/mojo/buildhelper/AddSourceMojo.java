@@ -70,6 +70,7 @@ public class AddSourceMojo extends AbstractMojo {
     @Parameter(property = "buildhelper.addsource.skipIfMissing", defaultValue = "false")
     private boolean skipAddSourceIfMissing;
 
+    @Override
     public void execute() {
         if (skipAddSource) {
             if (getLog().isInfoEnabled()) {

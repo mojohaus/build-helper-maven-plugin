@@ -63,6 +63,7 @@ public class MavenVersionMojo extends AbstractDefinePropertyMojo {
     /**
      * Main plugin execution
      */
+    @Override
     public void execute() {
         defineProperty(versionProperty, runtime.getMavenVersion());
     }

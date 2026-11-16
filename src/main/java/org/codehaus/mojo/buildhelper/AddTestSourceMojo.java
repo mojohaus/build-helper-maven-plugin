@@ -71,6 +71,7 @@ public class AddTestSourceMojo extends AbstractMojo {
     @Parameter(property = "buildhelper.addtestsource.skipIfMissing", defaultValue = "false")
     private boolean skipAddTestSourceIfMissing;
 
+    @Override
     public void execute() {
         if (skipAddTestSource) {
             if (getLog().isInfoEnabled()) {
