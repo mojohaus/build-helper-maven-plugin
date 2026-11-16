@@ -83,13 +83,13 @@ public class RegexPropertySetting {
      * Change the case of the value to upper case if set to true.
      */
     @Parameter(defaultValue = "false")
-    private boolean toUpperCase = false;
+    private boolean toUpperCase;
 
     /**
      * Change the case of the value to lower case if set to true.
      */
     @Parameter(defaultValue = "false")
-    private boolean toLowerCase = false;
+    private boolean toLowerCase;
 
     public String getName() {
         return name;
