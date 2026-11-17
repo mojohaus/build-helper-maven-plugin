@@ -26,6 +26,11 @@ package org.codehaus.mojo.buildhelper;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 
 import org.apache.maven.RepositoryUtils;
 import org.apache.maven.plugin.AbstractMojo;
@@ -34,7 +39,6 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.util.FileUtils;
 import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.repository.LocalRepositoryManager;
 
@@ -95,7 +99,7 @@ public class RemoveLocalArtifactMojo extends AbstractMojo {
         }
 
         try {
-            FileUtils.deleteDirectory(localArtifactDirectory);
+            RemoveLocalArtifactMojo.deleteDirectory(localArtifactDirectory.toPath());
 
             if (getLog().isInfoEnabled()) {
                 getLog().info(localArtifactDirectory.getAbsolutePath() + " removed.");
@@ -107,6 +111,46 @@ public class RemoveLocalArtifactMojo extends AbstractMojo {
             } else {
                 getLog().warn(failureMessage);
             }
+        }
+    }
+
+    static void deleteDirectory(final Path directory) throws IOException {
+        if (!Files.exists(directory)) {
+            return;
+        }
+        final IOException[] failure = new IOException[1];
+        Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+                try {
+                    Files.delete(file);
+                } catch (IOException e) {
+                    failure[0] = e;
+                }
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult visitFileFailed(Path file, IOException exc) {
+                failure[0] = exc;
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
+                if (exc != null) {
+                    failure[0] = exc;
+                }
+                try {
+                    Files.delete(dir);
+                } catch (IOException e) {
+                    failure[0] = e;
+                }
+                return FileVisitResult.CONTINUE;
+            }
+        });
+        if (failure[0] != null) {
+            throw failure[0];
         }
     }
 }
