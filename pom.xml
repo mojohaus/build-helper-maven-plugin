@@ -182,7 +182,7 @@
       <!-- the harness reads POMs with the XML classes plexus-utils 4 moved out -->
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-xml</artifactId>
-      <version>3.1.1</version>
+      <version>4.2.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
