@@ -34,9 +34,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.settings.Settings;
 
 /**
- * Define one or many properties as a result of a Beanshell script invocation. Like
- * <a href="http://docs.codehaus.org/display/GMAVEN/Executing+Groovy+Code">gmaven-plugin</a>, some variables are
- * defined:
+ * Define one or many properties as a result of a Beanshell script invocation. The script sees these variables:
  * <ul>
  * <li><code>project</code>: the actual Maven project,</li>
  * <li><code>session</code>: the executing <code>MavenSession</code>,</li>

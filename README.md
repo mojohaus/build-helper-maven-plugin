@@ -1,14 +1,22 @@
 # MojoHaus Build Helper Maven Plugin
 
 [![The MIT License](https://img.shields.io/github/license/mojohaus/build-helper-maven-plugin.svg?label=License)](https://opensource.org/licenses/MIT)
-[![Maven Central](https://img.shields.io/maven-central/v/org.codehaus.mojo/build-helper-maven-plugin.svg?label=Maven%20Central)](https://search.maven.org/artifact/org.codehaus.mojo/build-helper-maven-plugin)
+[![Maven Central](https://img.shields.io/maven-central/v/org.codehaus.mojo/build-helper-maven-plugin.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/org.codehaus.mojo/build-helper-maven-plugin)
 [![Build Status](https://github.com/mojohaus/build-helper-maven-plugin/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/mojohaus/build-helper-maven-plugin/actions/workflows/maven.yml?query=branch%3Amaster)
 
-This is the [build-helper-maven-plugin](http://www.mojohaus.org/build-helper-maven-plugin/) contains
-several goals to support you in different kinds of task, like parsing version information,
-add supplemental source/test folders to a Maven project or attach supplemental artifacts.
+The Build Helper Maven Plugin collects small, independent goals for tasks the POM cannot express
+on its own: adding source and resource directories, attaching extra artifacts, parsing the
+project version into properties, and setting properties from regular expressions, timestamps,
+free network ports or the host environment.
 
-More details can be found on the [goals overview page](https://www.mojohaus.org/build-helper-maven-plugin/).
+It requires Maven 3.9.0 or later and Java 8 or later.
+
+```shell
+mvn build-helper:parse-version help:evaluate -Dexpression=parsedVersion.nextMinorVersion -q -DforceStdout
+```
+
+The [plugin site](https://www.mojohaus.org/build-helper-maven-plugin/) lists every goal and has
+[usage examples](https://www.mojohaus.org/build-helper-maven-plugin/usage.html).
 
 Contributor and agent notes are in [AGENTS.md](AGENTS.md).
 

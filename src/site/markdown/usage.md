@@ -1,13 +1,11 @@
----
 title: Usage
 author:
-  - Dan Tran
-  - Dennis Lundberg
-  - Robert Scholte
-  - Adrian Price
-  - Karl Heinz Marbaise
+- Dan Tran
+- Dennis Lundberg
+- Robert Scholte
+- Adrian Price
+- Karl Heinz Marbaise
 date: 2017-01-29
----
 
 <!--
 The MIT License
@@ -52,7 +50,7 @@ Use this example to add more source directories to your project, since
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${project.version}</version>
+        <version><!-- latest release --></version>
         <executions>
           <execution>
             <id>add-source</id>
@@ -88,7 +86,6 @@ directories to your project.
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${project.version}</version>
         <executions>
           <execution>
             <id>add-test-source</id>
@@ -125,7 +122,6 @@ add test resources to the project.
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${project.version}</version>
         <executions>
           <execution>
             <id>add-resource</id>
@@ -170,7 +166,6 @@ that you want to attach to the project for install and deploy.
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${project.version}</version>
         <executions>
           <execution>
             <id>attach-artifacts</id>
@@ -211,7 +206,6 @@ will parse the version of the current project and set several properties.
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${project.version}</version>
         <executions>
           <execution>
             <id>parse-version</id>
@@ -288,7 +282,6 @@ Executing the following plugin configuration makes the latest released version o
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${project.version}</version>
         <executions>
           <execution>
             <id>released-version</id>
@@ -318,7 +311,7 @@ releasedVersion.qualifier
 
 The property prefix "releasedVersion" can be configured using the `propertyPrefix` parameter.
 This property can become very handy if you want to provide links to download the latest version.
-If you have to do a `site-deploy` during snapshot-development, the `\${project.version}` is useless.
+If you have to do a `site-deploy` during snapshot-development, the `${project.version}` is useless.
 
 Reserve a list of random and unused network ports
 -------------------------------------------------
@@ -337,7 +330,6 @@ Useful for running multiple tests concurrently.
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${project.version}</version>
         <executions>
           <execution>
             <id>reserve-network-port</id>
@@ -411,7 +403,6 @@ with resource has to be defined in plugin dependencies section).
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${project.version}</version>
         <dependencies>
           <dependency>
             <artifactId>jar-with-port-names.txt</artifactId>
@@ -464,7 +455,6 @@ For example, executing the following plugin configuration to set the `human.vers
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${project.version}</version>
         <executions>
           <execution>
             <id>regex-property</id>
@@ -473,7 +463,7 @@ For example, executing the following plugin configuration to set the `human.vers
             </goals>
             <configuration>
               <name>human.version</name>
-              <value>\${project.version}</value>
+              <value>${project.version}</value>
               <regex>-SNAPSHOT</regex>
               <replacement> pre-release development version</replacement>
               <failIfNoMatch>false</failIfNoMatch>
@@ -500,7 +490,7 @@ signs literally, for example when the replacement is a Windows path. Maven prope
   <name>build.path</name>
   <value>foo</value>
   <regex>\A.*\z</regex>
-  <replacement>\${project.build.directory}</replacement>
+  <replacement>${project.build.directory}</replacement>
   <replacementLiteral>true</replacementLiteral>
 </configuration>
 ```
@@ -517,7 +507,7 @@ To apply several regex replacements in sequence, use an ordered `replacements` l
 ```xml
 <configuration>
   <name>human.version</name>
-  <value>\${project.version}</value>
+  <value>${project.version}</value>
   <replacements>
     <replacement>
       <regex>-SNAPSHOT</regex>
@@ -544,7 +534,6 @@ To load multiple properties in one execution, use `regex-properties` goal
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${project.version}</version>
         <executions>
           <execution>
             <id>regex-properties</id>
@@ -555,7 +544,7 @@ To load multiple properties in one execution, use `regex-properties` goal
               <regexPropertySettings>
                 <regexPropertySetting>
                   <name>human.version</name>
-                  <value>\${project.version}</value>
+                  <value>${project.version}</value>
                   <regex>-SNAPSHOT</regex>
                   <replacement> pre-release development version</replacement>
                   <failIfNoMatch>false</failIfNoMatch>
@@ -587,7 +576,6 @@ an optional offset applied). For example, executing the following plugin configu
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${project.version}</version>
         <executions>
           <execution>
             <id>timestamp-property</id>
@@ -653,7 +641,6 @@ The new `timeSource` parameter with value `build` now allows the usage of `maven
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${project.version}</version>
         <executions>
           <execution>
             <id>module-timestamp-property</id>
@@ -702,7 +689,6 @@ The `local-ip` goal can be used to load current host address
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${project.version}</version>
         <executions>
           <execution>
             <id>get-local-ip</id>
@@ -735,7 +721,6 @@ The `hostname` goal can be used to load current hostname
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${project.version}</version>
         <executions>
           <execution>
             <id>get-hostname</id>
@@ -768,7 +753,6 @@ The `cpu-count` goal can be used to load number of CPU
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${project.version}</version>
         <executions>
           <execution>
             <id>get-cpu-count</id>
@@ -813,7 +797,6 @@ For example, executing the following plugin configuration to set the `obj.status
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${project.version}</version>
         <executions>
           <execution>
             <id>obj-uptodate</id>
@@ -866,7 +849,6 @@ The `upToDatePropertySetting` element supports all the configuration properties 
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${project.version}</version>
         <executions>
           <execution>
             <id>lib-doc-uptodate</id>
