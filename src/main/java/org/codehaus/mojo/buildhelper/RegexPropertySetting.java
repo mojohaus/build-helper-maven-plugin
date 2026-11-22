@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.plugins.annotations.Parameter;
-import org.codehaus.plexus.util.StringUtils;
 
 public class RegexPropertySetting {
     /**
@@ -165,11 +164,11 @@ public class RegexPropertySetting {
     }
 
     public void validate() {
-        if (StringUtils.isBlank(name)) {
+        if (Strings.isBlank(name)) {
             throw new IllegalArgumentException("name required");
         }
 
-        if (StringUtils.isBlank(value)) {
+        if (Strings.isBlank(value)) {
             throw new IllegalArgumentException("value required");
         }
 
@@ -179,11 +178,11 @@ public class RegexPropertySetting {
                         "either replacements or regex/replacement can be set, but not both.");
             }
             for (RegexReplacement entry : replacements) {
-                if (entry == null || StringUtils.isBlank(entry.getRegex())) {
+                if (entry == null || Strings.isBlank(entry.getRegex())) {
                     throw new IllegalArgumentException("regex required in each of the replacements");
                 }
             }
-        } else if (StringUtils.isBlank(regex)) {
+        } else if (Strings.isBlank(regex)) {
             throw new IllegalArgumentException("regex or replacements required");
         }
 

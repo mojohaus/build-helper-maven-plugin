@@ -28,7 +28,6 @@ import java.util.Objects;
 
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.shared.model.fileset.FileSet;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Holds settings for <code>AbstractUpToDateProperty</code> subclasses.
@@ -96,11 +95,11 @@ public final class UpToDatePropertySetting {
     }
 
     void validate() {
-        if (StringUtils.isBlank(name)) {
+        if (Strings.isBlank(name)) {
             throw new IllegalArgumentException("name required");
         }
 
-        if (StringUtils.isBlank(value)) {
+        if (Strings.isBlank(value)) {
             throw new IllegalArgumentException("value required");
         }
 
@@ -112,7 +111,7 @@ public final class UpToDatePropertySetting {
             throw new IllegalArgumentException("fileSet required");
         }
 
-        if (StringUtils.isBlank(fileSet.getDirectory())) {
+        if (Strings.isBlank(fileSet.getDirectory())) {
             throw new IllegalArgumentException("directory required for " + fileSet);
         }
 
