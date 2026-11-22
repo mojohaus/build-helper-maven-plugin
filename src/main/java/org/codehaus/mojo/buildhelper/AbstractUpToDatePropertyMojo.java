@@ -28,7 +28,6 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.shared.model.fileset.mappers.MapperException;
 import org.apache.maven.shared.model.fileset.util.FileSetManager;
-import org.codehaus.plexus.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,13 +97,13 @@ abstract class AbstractUpToDatePropertyMojo extends AbstractDefinePropertyMojo {
         // Set the property to the appropriate value, depending on whether target files are up to date WRT source files.
         if (upToDate) {
             defineProperty(config.getName(), config.getValue().trim());
-        } else if (!StringUtils.isBlank(config.getElse())) {
+        } else if (!Strings.isBlank(config.getElse())) {
             defineProperty(config.getName(), config.getElse().trim());
         }
     }
 
     private File getFile(FileSet fileSet, boolean useOutputDirectory, String path) {
-        String baseDir = useOutputDirectory && !StringUtils.isBlank(fileSet.getOutputDirectory())
+        String baseDir = useOutputDirectory && !Strings.isBlank(fileSet.getOutputDirectory())
                 ? fileSet.getOutputDirectory()
                 : fileSet.getDirectory();
         return path == null ? null : new File(baseDir, path);
