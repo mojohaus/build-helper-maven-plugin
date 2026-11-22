@@ -1,0 +1,15 @@
+<project>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <configuration>
+          <urls>
+            <url>classpath:/reserve-port/names1.txt</url>
+            <url>classpath:/reserve-port/names2.txt</url>
+          </urls>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

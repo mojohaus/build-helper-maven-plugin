@@ -1,0 +1,16 @@
+<project>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <configuration>
+          <portNames>
+            <portName>port1</portName>
+            <portName>port2</portName>
+            <portName>port3</portName>
+          </portNames>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
