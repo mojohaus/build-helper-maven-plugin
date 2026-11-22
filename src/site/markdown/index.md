@@ -30,12 +30,11 @@ SOFTWARE.
 
 # Build Helper Maven Plugin
 
-- This plugin contains various small independent goals to assist with the Maven build lifecycle.
+This plugin contains various small independent goals to assist with the Maven build lifecycle.
 
 ## Notes
 
-Starting with version 3.0.0 this plugin will only support Maven 3+. If you really
-need Maven 2+ support you have to use version 1.12 or earlier.
+The plugin requires Maven 3.9.0 or later and Java 8 or later.
 
 ## Goals Overview
 
@@ -45,7 +44,8 @@ need Maven 2+ support you have to use version 1.12 or earlier.
 - [build-helper:add-test-resource](./add-test-resource-mojo.html) Add test resource directories to the POM.
 - [build-helper:attach-artifact](./attach-artifact-mojo.html) Attach additional artifacts to be installed and deployed.
 - [build-helper:regex-property](./regex-property-mojo.html) Sets a property by applying a regex replacement rule to a supplied value.
-- [build-helper:regex-properties](./regex-properties-mojo.html) Sets a property by applying a regex replacement rule to a supplied value.
+- [build-helper:regex-properties](./regex-properties-mojo.html) Sets several properties, each by applying regex replacement rules to a supplied value.
+- [build-helper:bsh-property](./bsh-property-mojo.html) Sets properties from the result of a BeanShell script.
 - [build-helper:released-version](./released-version-mojo.html) Resolve the latest released version of this project.
 - [build-helper:parse-version](./parse-version-mojo.html) Parse the version into different properties.
 - [build-helper:reserve-network-port](./reserve-network-port-mojo.html) Reserve a list of random and unused network ports.

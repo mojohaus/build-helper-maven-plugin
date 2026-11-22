@@ -55,6 +55,23 @@ what the code and the POMs do not make obvious.
   releases target Maven 4 and need an `SLF4JServiceProvider` that the Maven 3 runtime does not
   provide.
 
+## Documentation updates
+
+A change that users or contributors can notice ships with the documentation it affects, in the
+same pull request. A refactor with no visible effect needs none.
+
+- A new goal, parameter or default: the mojo Javadoc, which becomes the goal page, and the goal
+  list in `src/site/markdown/index.md`.
+- New or changed usage: an example in `src/site/markdown/usage.md`. Only the first example
+  carries a plugin version, written as `<version><!-- latest release --></version>`; the others
+  leave it out, so no example goes stale.
+- A page added, removed or renamed: the menu in `src/site/site.xml`. Never rename a published
+  page; its URL is linked from elsewhere.
+- The Maven or Java requirement, or how to build and release: `README.md`.
+- A new convention, build gate or test fixture: this file.
+
+Check the result with `mvn site` and open `target/site/index.html`.
+
 ## Pull requests
 
 - Pull requests are squash- or rebase-merged; merge commits are disabled. Release Drafter builds

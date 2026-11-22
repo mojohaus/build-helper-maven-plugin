@@ -87,7 +87,8 @@ public class RegexPropertyMojo extends AbstractRegexPropertyMojo {
     private boolean replacementLiteral;
 
     /**
-     * Whether to fail if no match is found.
+     * Whether to fail the build if the regex matches nothing. If <code>false</code>, the value is left as it is and
+     * the non-match is logged at debug level.
      */
     @Parameter(defaultValue = "true")
     private boolean failIfNoMatch;
