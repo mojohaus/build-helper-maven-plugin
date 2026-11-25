@@ -1,8 +1,8 @@
 
-File file = new File( basedir, "build.log" );
-assert file.exists();
+File file = new File(basedir, "build.log")
+assert file.exists()
 
-String text = file.getText("utf-8");
+String text = file.getText("utf-8")
 
 // versionString given on command line. see invoker.properties.
 assert text.contains("(f) versionString = 10.0.2-4545-RC1")
@@ -33,4 +33,4 @@ assert text.contains("define property parsedVersion.qualifier = \"-RC1\"")
 assert text.contains("define property parsedVersion.qualifier? = \"--RC1\"")
 assert text.contains("define property parsedVersion.osgiVersion = \"10.0.2.4545-RC1\"")
 
-return true;
+return true

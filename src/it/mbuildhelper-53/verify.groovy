@@ -1,8 +1,8 @@
-File file = new File( basedir, "build.log" );
-assert file.exists();
+File file = new File(basedir, "build.log")
+assert file.exists()
 
-String text = file.getText("utf-8");
+String text = file.getText("utf-8")
 
 assert text.contains("define property propname = \"hi \"")
 
-return true;
+return true

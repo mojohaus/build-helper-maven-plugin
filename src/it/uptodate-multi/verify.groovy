@@ -1,7 +1,7 @@
-File file = new File( basedir, "build.log" );
-assert file.exists();
+File file = new File(basedir, "build.log")
+assert file.exists()
 
-String text = file.getText("utf-8");
+String text = file.getText("utf-8")
 
 assert !text.contains('define property propname-flatten = "outofdate"') : "Erroneously defined property propname-flatten = \"outofdate\""
 assert text.contains('define property propname-flatten = "uptodate"') : "Failed to define property propname-flatten = \"uptodate\""
@@ -21,4 +21,4 @@ assert text.contains('define property propname-package = "uptodate"') : "Failed 
 assert !text.contains('define property propname-unpackage = "outofdate"') : "Erroneously defined property propname-unpackage = \"outofdate\""
 assert text.contains('define property propname-unpackage = "uptodate"') : "Failed to define property propname-unpackage = \"uptodate\""
 
-return true;
+return true

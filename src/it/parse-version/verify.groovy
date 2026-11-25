@@ -1,8 +1,8 @@
 
-File file = new File( basedir, "build.log" );
-assert file.exists();
+File file = new File(basedir, "build.log")
+assert file.exists()
 
-String text = file.getText("utf-8");
+String text = file.getText("utf-8")
 
 assert text.contains("major: 20")
 assert text.contains("minor: 4")
@@ -21,4 +21,4 @@ assert text.contains("define property parsedVersion.qualifier = \"0-SNAPSHOT\"")
 assert text.contains("define property parsedVersion.buildNumber = \"0\"")
 assert text.contains("define property parsedVersion.osgiVersion = \"20.4.0.0-SNAPSHOT\"")
 
-return true;
+return true
