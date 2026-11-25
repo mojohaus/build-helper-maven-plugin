@@ -44,7 +44,12 @@ import org.apache.maven.settings.Settings;
  *
  * @author Hervé Boutemy
  * @since 1.8
+ * @deprecated BeanShell is no longer maintained and this goal will be removed in a future major version. To compute a
+ *             property with a script, use the <code>execute</code> goal of the GMavenPlus plugin and set it with
+ *             <code>project.properties.setProperty(name, value)</code>; for simple cases, use
+ *             <code>build-helper:regex-property</code> or <code>build-helper:regex-properties</code>.
  */
+@Deprecated
 @Mojo(name = "bsh-property", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true)
 public class BeanshellPropertyMojo extends AbstractDefinePropertyMojo {
     @Parameter(required = true)
@@ -74,6 +79,10 @@ public class BeanshellPropertyMojo extends AbstractDefinePropertyMojo {
      */
     @Override
     public void execute() throws MojoFailureException {
+        getLog().warn("The bsh-property goal is deprecated and will be removed in a future major version, as BeanShell"
+                + " is no longer maintained: use the GMavenPlus execute goal, or build-helper:regex-property"
+                + " and build-helper:regex-properties for simple cases.");
+
         Interpreter interpreter = new Interpreter();
 
         set(interpreter, "project", getProject());

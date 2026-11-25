@@ -45,7 +45,7 @@ The plugin requires Maven 3.9.0 or later and Java 8 or later.
 - [build-helper:attach-artifact](./attach-artifact-mojo.html) Attach additional artifacts to be installed and deployed.
 - [build-helper:regex-property](./regex-property-mojo.html) Sets a property by applying a regex replacement rule to a supplied value.
 - [build-helper:regex-properties](./regex-properties-mojo.html) Sets several properties, each by applying regex replacement rules to a supplied value.
-- [build-helper:bsh-property](./bsh-property-mojo.html) Sets properties from the result of a BeanShell script.
+- [build-helper:bsh-property](./bsh-property-mojo.html) Sets properties from the result of a BeanShell script. **Deprecated**: BeanShell is no longer maintained and this goal will be removed in a future major version. Use the GMavenPlus `execute` goal to set a property from a script, or `regex-property`/`regex-properties` for simple cases.
 - [build-helper:released-version](./released-version-mojo.html) Resolve the latest released version of this project.
 - [build-helper:parse-version](./parse-version-mojo.html) Parse the version into different properties.
 - [build-helper:reserve-network-port](./reserve-network-port-mojo.html) Reserve a list of random and unused network ports.
