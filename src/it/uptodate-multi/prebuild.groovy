@@ -1,1 +1,1 @@
-org.codehaus.mojo.buildhelper.FixtureUtils.createResources( "target/it/uptodate-multi" )
+org.codehaus.mojo.buildhelper.FixtureUtils.createResources("target/it/uptodate-multi")
